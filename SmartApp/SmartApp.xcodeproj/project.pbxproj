@@ -49,11 +49,11 @@
 		0BF8D9FED09D034EFE9E648C /* ModelDto+GetWeatherRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD0572EF3D1FBE422429CA9 /* ModelDto+GetWeatherRequest.swift */; };
 		0CB1E4E94F374F5533AB0054 /* CoreRepositoriesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73D35072B4FB202B55EF9B2 /* CoreRepositoriesTests.swift */; };
 		0D17599B186B3CB9B31EC76E /* V.WeatherScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCEBF8318326EBA8466FFFE /* V.WeatherScreen.swift */; };
-		0E631307F67F3510B0B0BB08 /* SmartApp.app in Frameworks */ = {isa = PBXBuildFile; fileRef = 2799BBAA57DA4E5F3A8AEA82 /* SmartApp.app */; };
+		0E631307F67F3510B0B0BB08 /* Smart.Dev.app in Frameworks */ = {isa = PBXBuildFile; fileRef = 2799BBAA57DA4E5F3A8AEA82 /* Smart.Dev.app */; };
 		0E8DF7E9DA56CAF66C3358B5 /* KeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6CD3B2E5DA06F0BE05ADA0 /* KeyPath.swift */; };
 		0EFE8DA4178B6132FCB90886 /* UUID+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B0F2047C5F4DA87B9C84EF /* UUID+Extensions.swift */; };
 		0F26BF993F6A78291397208C /* DevTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4FA46294AA76564590851E /* DevTools.framework */; };
-		0FAE766250ED4869B9257182 /* SmartApp.app in Frameworks */ = {isa = PBXBuildFile; fileRef = 2799BBAA57DA4E5F3A8AEA82 /* SmartApp.app */; };
+		0FAE766250ED4869B9257182 /* Smart.Dev.app in Frameworks */ = {isa = PBXBuildFile; fileRef = 2799BBAA57DA4E5F3A8AEA82 /* Smart.Dev.app */; };
 		121CD0D9450EA0968492A3B2 /* LoggerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC149EA84681453EE007F8C /* LoggerManager.swift */; };
 		123B2C943D285B957A8E5BB4 /* UILayoutPriority+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EA27AC96BDA56BD32FCB60 /* UILayoutPriority+Extensions.swift */; };
 		1272564510C0AA8383E4DE1D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E5E2ED174C3CD713D54A74 /* XCTest.framework */; };
@@ -245,7 +245,6 @@
 		9BB2685B1DED644C44FBA22C /* 3.SimpleNetworkAgentSampleAPI+Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF96C370F16BB6D37AC46400 /* 3.SimpleNetworkAgentSampleAPI+Requests.swift */; };
 		9E6AC142FFAD2F89EE74FC19 /* NSPredicate+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BB087E9F54FFA151EA8371 /* NSPredicate+Extensions.swift */; };
 		9F7658CD6899F32C2C59F156 /* VM.EditUserDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059275F40B633FA11FEAA364 /* VM.EditUserDetailsViewModel.swift */; };
-		A0B7D5B8DBEA41B9369BA034 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0483728CE05056112AD3A293 /* Info.plist */; };
 		A103F1F7B764FB56CE966087 /* VM.WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DA62A9340EFE0E8315686F /* VM.WeatherViewModel.swift */; };
 		A1170E2638ABAC8CA2D83198 /* CommonCoreDataNameSpace+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E1C0C05E82055E6724A33 /* CommonCoreDataNameSpace+Utils.swift */; };
 		A12015A6889F802D0F50A392 /* SmartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE9C69438C3A48D62EA7E6B /* SmartApp.swift */; };
@@ -583,7 +582,7 @@
 		25FAE6F8946B2E531CBC6F92 /* UISearchTextField+CombineCompatible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchTextField+CombineCompatible.swift"; sourceTree = "<group>"; };
 		261FF597911DEC988909202F /* XCTest+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTest+Extensions.swift"; sourceTree = "<group>"; };
 		26F5983C6823875B3E1FCEA4 /* UIView+Shadows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shadows.swift"; sourceTree = "<group>"; };
-		2799BBAA57DA4E5F3A8AEA82 /* SmartApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; name = SmartApp.app; path = Smart.Dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2799BBAA57DA4E5F3A8AEA82 /* Smart.Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Smart.Dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		279B76239CB42DF131B51430 /* ProjectedOnChange<T>.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProjectedOnChange<T>.swift"; sourceTree = "<group>"; };
 		280FFC6053DCE5261397DB36 /* ColorSchemePreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemePreferenceKey.swift; sourceTree = "<group>"; };
 		2C285D0A3790B14FFCE84D7F /* ThreadSafe<T>.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThreadSafe<T>.swift"; sourceTree = "<group>"; };
@@ -881,7 +880,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1272564510C0AA8383E4DE1D /* XCTest.framework in Frameworks */,
-				0FAE766250ED4869B9257182 /* SmartApp.app in Frameworks */,
+				0FAE766250ED4869B9257182 /* Smart.Dev.app in Frameworks */,
 				CFF46A92243D386CAABB45A2 /* Nimble in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -909,7 +908,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				91B161188A256CEF7C969FD4 /* XCTest.framework in Frameworks */,
-				0E631307F67F3510B0B0BB08 /* SmartApp.app in Frameworks */,
+				0E631307F67F3510B0B0BB08 /* Smart.Dev.app in Frameworks */,
 				75D05F94F2E94C17AAAA8185 /* Nimble in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1543,7 +1542,7 @@
 				BD172972752F67B3F3BBB2C8 /* Core.framework */,
 				BC7D36654F44D16A89F89E8B /* DesignSystem.framework */,
 				EE4FA46294AA76564590851E /* DevTools.framework */,
-				2799BBAA57DA4E5F3A8AEA82 /* SmartApp.app */,
+				2799BBAA57DA4E5F3A8AEA82 /* Smart.Dev.app */,
 				1D491B8DF3A6299EE6ACD7D6 /* SmartAppUITests.xctest */,
 				CF9D6C93CE5A73F4A17612DC /* SmartAppUnitTests.xctest */,
 			);
@@ -2389,7 +2388,7 @@
 				9663D32F56CD258A64E62FB0 /* FirebaseAppCheck */,
 			);
 			productName = SmartApp;
-			productReference = 2799BBAA57DA4E5F3A8AEA82 /* SmartApp.app */;
+			productReference = 2799BBAA57DA4E5F3A8AEA82 /* Smart.Dev.app */;
 			productType = "com.apple.product-type.application";
 		};
 		DA0D2184433DF9DBE66547AE /* DesignSystem */ = {
@@ -2420,9 +2419,6 @@
 				TargetAttributes = {
 					5AAC81C2F85D7CDB5793F1A7 = {
 						TestTargetID = CD8F2FFD550D622D2C2B8BA9;
-					};
-					CD8F2FFD550D622D2C2B8BA9 = {
-						DevelopmentTeam = EP8XQ3ZY9V;
 					};
 				};
 			};
@@ -2475,7 +2471,6 @@
 				1313F0181AA3F6BC74799970 /* GoogleService-Info-dev.com.ricardo.app.id.plist in Resources */,
 				9504059F1AFF82ACF6263AA9 /* GoogleService-Info-mock.com.ricardo.app.id.plist in Resources */,
 				146BE8D033F402E29908F912 /* GoogleService-Info-qa.com.ricardo.app.id.plist in Resources */,
-				A0B7D5B8DBEA41B9369BA034 /* Info.plist in Resources */,
 				B6AD47FE5684B591BEE8099A /* Localizable.strings in Resources */,
 				8FCD72DE72FE44BD17FCD136 /* NotoSans-Bold.ttf in Resources */,
 				BA7E80F6978C4CC273C25B1F /* NotoSans-Medium.ttf in Resources */,
@@ -3206,11 +3201,18 @@
 			baseConfigurationReference = C1A45E1FACD4D5C6C49829B1 /* dev-release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = EP8XQ3ZY9V;
 				INFOPLIST_FILE = Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev.com.ricardo.app.id_ProvisioningProfile;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
