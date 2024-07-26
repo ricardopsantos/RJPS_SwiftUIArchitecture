@@ -1,0 +1,309 @@
+name: SmartApp
+
+#
+# https://github.com/yonaskolb/XcodeGen/blob/master/Docs/ProjectSpec.md
+#
+
+options:
+  bundleIdPrefix: com.ricardo.app.id
+  xcodeVersion: '15.0.1'
+  deploymentTarget: '16.0'
+  groupSortPosition: top
+  generateEmptyDirectories: true
+  findCarthageFrameworks: false
+  minimumXcodeGenVersion: '2.18.0'
+  #preGenCommand            : ./pregencommand.sh
+  #postGenCommand           : pod install
+
+####################### PACKAGES #######################
+
+packages:
+  
+  #Common:
+  #  path: ../Common
+    
+  Firebase:
+    url: https://github.com/firebase/firebase-ios-sdk.git
+    revision: "888f0b6026e2441a69e3ee2ad5293c7a92031e62"
+    #revision: "065a5bbc7408d42f28c590a02352c03d9c654e27"
+    
+  Reachability:
+    url: https://github.com/ashleymills/Reachability.swift
+    revision: "7b7018a69c84ea94ac2a38dff626e16ea81d1db9"
+    #revision: "c01bbdf2d633cf049ae1ed1a68a2020a8bda32e2"
+
+ # Use Nimble to express the expected outcomes of Swift or Objective-C expressions
+  Nimble:
+    url: https://github.com/Quick/Nimble
+    branch: main
+    
+####################### Documents #######################
+####################### Documents #######################
+####################### Documents #######################
+
+fileGroups:
+  - ../_Documents
+  - ../Configuration
+  - ../XcodeGen
+     
+####################### CONFIGS #######################
+####################### CONFIGS #######################
+####################### CONFIGS #######################
+
+configs:
+  QA Debug: debug
+  Dev Debug: debug
+  Production Debug: debug
+  QA Release: release
+  Dev Release: release
+  Production Release: release
+
+####################### INCLUDE #######################
+####################### INCLUDE #######################
+####################### INCLUDE #######################
+ 
+include:
+  - _FrameworkTemplate.yml
+  - _UnitTestTemplate.yml
+  - _UITestTemplate.yml
+  - _AggregateTargets.yml
+
+####################### SETTINGS BASE #######################
+####################### SETTINGS BASE #######################
+####################### SETTINGS BASE #######################
+# Setting base are shared for all targets, but can be overriden on 
+# each target settings. Example: All target will follow the IPHONEOS_DEPLOYMENT_TARGET key,
+# but target can redefine that value and so overriden it
+settings:
+
+  base:
+    IPHONEOS_DEPLOYMENT_TARGET: 16.0
+    MARKETING_VERSION: 1.0
+    #ENABLE_BITCODE: YES
+    SWIFT_VERSION: 5.3
+    CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED: YES
+    SWIFT_OBJC_BRIDGING_HEADER: "Application/SmartApp-Bridging-Header.h"
+
+####################### MAIN TARGET #######################
+####################### MAIN TARGET #######################
+####################### MAIN TARGET #######################
+
+targets:
+        
+  SmartApp:
+    type: application
+    platform: iOS
+    
+    # settings ########################
+    settings:
+      base:
+        SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
+        SUPPORTS_MACCATALYST: NO
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: NO
+        TARGETED_DEVICE_FAMILY: 1
+        #OTHER_SWIFT_FLAGS: "-DSMART_SDK_ENABLED"
+        
+    # configFiles ########################
+          
+    configFiles:
+      Production Debug: ../Configuration/production-debug.xcconfig
+      Production Release: ../Configuration/production-release.xcconfig
+      QA Debug: ../Configuration/qa-debug.xcconfig
+      QA Release: ../Configuration/qa-release.xcconfig
+      Dev Debug: ../Configuration/dev-debug.xcconfig
+      Dev Release: ../Configuration/dev-release.xcconfig
+              
+    # scheme ########################
+ 
+    scheme:
+      testTargets:
+        - SmartAppUnitTests
+        - SmartAppUITests
+      configVariants:
+        - Production
+        - QA
+        - Dev
+        
+      #commandLineArguments:
+      #  "-MyEnabledArg": true
+      #  "-MyDisabledArg": false
+      #environmentVariables:
+      #  MY_ENV_VAR: VALUE
+        
+    # sources: ########################        
+    
+    sources:
+       - path: ../Application
+         type: group
+         excludes:
+           - "*.md"
+           - "*.png"
+    
+#    postCompileScripts:
+#       - script: |
+#                 ${SRCROOT}/Scripts/killSimulator.sh
+#         name: "killSimulator"
+#         shell: /bin/bash
+
+    postCompileScripts:
+      - script: |
+                PATH_TO_CONFIG=$SRCROOT/Application/GoogleService-Info-$PRODUCT_BUNDLE_IDENTIFIER.plist
+                FILENAME_IN_BUNDLE=GoogleService-Info.plist
+                BUILD_APP_DIR=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app
+                cp $PATH_TO_CONFIG "$BUILD_APP_DIR/$FILENAME_IN_BUNDLE"
+        name: FirebasePlistFile
+        
+    postBuildScripts:
+      - script: |
+                "${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run"
+        inputFiles:
+          - "${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}"
+          - "$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)"
+          
+    # dependencies: ########################
+    
+    dependencies:
+      - target: Core
+      - target: DesignSystem
+      - target: Common
+      - target: DevTools
+
+      #- package: Common
+      #  product: Common
+      #  link: true
+      - package: Reachability
+        product: Reachability
+        link: false
+      - package: Firebase
+        product: FirebaseMessaging
+        link: true
+      - package: Firebase
+        product: FirebaseCrashlytics
+        link: true
+      - package: Firebase
+        product: FirebaseRemoteConfig
+        link: true
+      - package: Firebase
+        product: FirebaseAnalytics
+        link: true
+      - package: Firebase
+        product: FirebaseAuth
+        link: true
+      - package: Firebase
+        product: FirebaseDatabase
+        link: true
+      - package: Firebase
+        product: FirebaseAppCheck
+        link: true
+  
+# CORE
+# CORE
+# CORE
+
+  DevTools:
+    templates:
+    - Framework
+    settings:
+      base:
+        MARKETING_VERSION: 1.0
+    sources:
+      - path: ../DevTools
+        excludes: [Info.plist]
+    dependencies:
+      - target: Common
+      
+# CORE
+# CORE
+# CORE 
+
+  Core:
+    templates:
+    - Framework
+    settings:
+      base:
+        MARKETING_VERSION: 1.0
+    sources:
+      - path: ../Core
+        excludes: [Info.plist]
+    dependencies:
+      - target: Common
+      #- package: Common
+      #  product: Common
+      #  link: true
+          
+# DESIGN_SYSTEM 
+# DESIGN_SYSTEM 
+# DESIGN_SYSTEM 
+
+  DesignSystem:
+    templates:
+    - Framework
+    settings:
+      base:
+        MARKETING_VERSION: 1.0
+        ##SWIFT_OBJC_BRIDGING_HEADER: "Common/Common-Bridging-Header.h"
+        ##ENABLE_BITCODE: YES
+    sources:
+      - path: ../DesignSystem
+        excludes: [Info.plist]
+    dependencies:
+      - target: Common
+      - target: DevTools
+      #- package: Common
+      #  product: Common
+      #  link: true
+      
+# COMMON (Cant have app dependencies)
+# COMMON (Cant have app dependencies)
+# COMMON (Cant have app dependencies)
+
+  Common:
+    templates:
+    - Framework
+    settings:
+      base:
+        MARKETING_VERSION: 1.0
+        SWIFT_OBJC_BRIDGING_HEADER: "Common/Sources/Common-Bridging-Header.h"
+        ##ENABLE_BITCODE: YES
+    sources:
+      - path: ../Common
+        excludes: [Tests,Sources/Info.plist,.gitignore,.swiftpm,Package.swift,Package.resolved]
+
+## TESTING
+## TESTING
+## TESTING
+
+  SmartAppUnitTests:
+    templates:
+      - UnitTest
+    sources:
+      - path: ../SmartAppUnitTests
+        excludes: [Info.plist]
+    dependencies:
+      - sdk: XCTest.framework
+      - target: SmartApp
+        link: true
+      - target: Common
+        link: false
+      - target: Core
+        link: false
+      - package: Nimble
+        product: Nimble
+        link: true
+           
+  SmartAppUITests:
+    templates:
+      - UITest
+    sources:
+      - path: ../SmartAppUITests
+        excludes: [Info.plist]
+    dependencies:
+      - sdk: XCTest.framework
+      - target: SmartApp
+        link: true
+      - target: Common
+        link: false
+              
+      - package: Nimble
+        product: Nimble
+        link: true

@@ -1,0 +1,51 @@
+# Xcode
+#
+# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+
+#
+# Other folders
+#
+
+_Documents/GitIgnored/*
+
+#
+# Build generated
+#
+
+build/
+DerivedData/
+
+#
+# Other
+#
+
+*.moved-aside
+*.xcuserstate
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+.DS_Store
+
+#
+# Various settings
+#
+
+xcuserdata/
+*.xcuserstate
+
+#
+# Package Managers
+#
+
+Packages/
+.build/
+#Pods/*
+Carthage/*
+
+#
+# CI
+#
+
+fastlane/report.xml
+

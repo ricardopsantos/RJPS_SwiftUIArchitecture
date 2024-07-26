@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  SmartApp
+
+  Created by Ricardo Santos on 15/04/2024.
+*/
+
+//MARK: - AuthorizationScreen
+"Login" = "Iniciar sesión";
+"Password" = "Contraseña";
+
+//MARK: - AcceptTermsAndConditionsScreen
+"Terms&Conditions" = "Términos y Condiciones";
+"ReadAndAcceptTerms&Conditions" = "Leer y aceptar los Términos y Condiciones";
+"DummyTermsAndConditions" = "Estoy ingresando en una plantilla de aplicación iOS.\nMejoraré mi aplicación según mis necesidades.\n...";
+

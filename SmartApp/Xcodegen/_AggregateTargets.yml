@@ -1,0 +1,13 @@
+aggregateTargets:
+  SwiftFormat:
+    buildScripts:
+       - script: |
+                 ${SRCROOT}/Scripts/executeSwiftFormat.sh
+         name: "SwiftFormat"
+         shell: /bin/bash
+  SwiftLint:
+    buildScripts:
+       - script: |
+                 ${SRCROOT}/Scripts/executeSwiftLint.sh
+         name: "SwiftLint"
+         shell: /bin/bash

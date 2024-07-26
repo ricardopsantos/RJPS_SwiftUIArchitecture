@@ -1,0 +1,11 @@
+//
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+//
+
+#include "./production-base.xcconfig"
+
+DEVELOPMENT_TEAM = EP8XQ3ZY9V
+PROVISIONING_PROFILE_SPECIFIER = EP8XQ3ZY9V/com.ricardo.app.id_ProvisioningProfile
+CODE_SIGN_IDENTITY = Apple Development
+CODE_SIGN_ENTITLEMENTS = SmartAppProduction Release.entitlements

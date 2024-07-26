@@ -1,0 +1,11 @@
+//
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+//
+
+#include "./qa-base.xcconfig"
+
+DEVELOPMENT_TEAM = EP8XQ3ZY9V
+PROVISIONING_PROFILE_SPECIFIER = EP8XQ3ZY9V/Ricardo Santos
+CODE_SIGN_IDENTITY = iPhone Distribution
+CODE_SIGN_ENTITLEMENTS = SmartAppQA Release.entitlements

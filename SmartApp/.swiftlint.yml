@@ -1,0 +1,281 @@
+#
+# https://medium.com/flawless-app-stories/swiftlint-in-use-279f44b3182e
+# https://regex101.com/
+#
+
+excluded:
+    - Carthage
+
+custom_rules:
+
+# All project
+
+    tca_explicit_generics_reducer:
+        included: ".*\\.swift"
+        name: "Explicit Generics for Reducer"
+        regex: 'Reduce\s+\{'
+        message: "Use explicit generics in ReducerBuilder (Reduce<State, Action>) for successful autocompletion."
+        severity: error
+
+    tca_scope_unused_closure_parameter:
+        name: "TCA Scope Unused Closure Parameter"
+        regex: '\.scope\(\s*state\s*:\s*\{\s*\_'
+        message: "Explicitly use closure parameter when scoping store (ensures the right state is being mutated)"
+        severity: error
+
+    xctassertnodifference_preferred:
+        name: "XCTAssertNoDifference Preferred"
+        regex: 'XCTAssertEqual\('
+        message: "Use PointFree's XCTAssertNoDifference from CustomDump library when possible"
+        severity: warning
+    
+    #no_letUnderscore:
+    #    included: ".*\\.swift"
+    #    name: ""
+    #    regex: 'let[ ][_][ ][=]'
+    #    message: "Don't use let _ = xxx , use xxx != nil"
+    #    severity: error
+
+    naming_Singletons:
+        included: ".*\\.swift"
+        name: ""
+        regex: "static (var|let)[ ](instance|sharedInstance)[ ]*[:]"
+        message: "Use shared"
+        severity: error
+
+    no_hardCodedTimeZones:
+        included: ".*\\.swift"
+        name: ""
+        regex: "\"UTC\"|\"GMT\""
+        message: "Use AppConstants.TimeZones..."
+        severity: error
+
+    no_AppStateShared:
+        included: ".*\\.swift"
+        name: ""
+        regex: "AppState.shared"
+        message: "Use @EnvironmentObject"
+        severity: error
+        
+    no_TODO:
+        included: ".*\\.swift"
+        name: ""
+        regex: "TODO|TO DO|FIX"
+        message: "Use #warning"
+        severity: error
+
+    no_hardCodedDateFormats:
+        included: ".*\\.swift"
+        name: ""
+        regex: '= "yyyy|DateFormatter(withFormat'
+        message: "Use a DateFormats on AppContants.Date or DateFormatterTypes"
+        severity: error
+
+    logs_rule_1:
+        included: ".*\\.swift"
+        name: "Fordiden print"
+        regex: "print[(]|Common_Logs[.]"
+        message: "Use DevTools.Log..."
+        severity: error
+        
+#    no_hardCodedImages:
+#        included: ".*\\.swift"
+#        name: ""
+#        regex: "UIImage[(]named:|Image[(]systemName[:]\\s\""
+#        message: "Don't use hardCoded images"
+#        severity: error
+        
+    random_rule_1:
+        included: ".*\\.swift"
+        name: ""
+        regex: "[.]withAlphaComponent[(]"
+        message: "Use .alpha("
+        severity: error
+           
+    random_rule_2:
+        included: ".*\\.swift"
+        name: ""
+        regex: "[.]font ="
+        message: "Use .layoutStyle = "
+        severity: warning
+        
+# On SmartApp target only
+
+    no_missingLokalizables:
+        included: ".*\\.swift"
+        name: ""
+        regex: "[.]localizedMissing"
+        message: "Fix this...."
+        severity: warning
+        
+    no_UIKitAdhocConstruction:
+        included: "_SmartApp/.*\\.swift"
+        name: ""
+        regex: "UIImageView[(][)]|UILabel[(][)]|UIButton[(][)]|UIView[(][)]"
+        message: "Use UIKitViewFactory or Designables"
+        severity: error
+           
+    #mvvmRule_1:
+    #    included: "_SmartApp/.*\\.swift"
+    #    name: ""
+    #    regex: "output[.]value[.]send"
+    #    message: "func fwdStateToViewController(_ state: ViewOutput)"
+    #    severity: error
+        
+    mvvmRule_2:
+        included: "_SmartApp/.*\\.swift"
+        name: ""
+        regex: "viewState[.]state[.]send"
+        message: "func fwdViewStateToView(_ state: MVVMViewState<ViewData>)"
+        severity: error
+        
+    mvvmRule_3:
+        included: "_SmartApp/.*\\.swift"
+        name: ""
+        regex: "coordinatorActions[.]value[.]send"
+        message: "func fwdViewStateToCoordinator(_ state: CoordinatorTargets)"
+        severity: error
+      
+ #   mvvmRule_4:
+ #       included: "_SmartApp/.*\\.swift"
+ #       name: ""
+ #       regex: "dismiss[(]animated"
+ #       message: "func dismiss(viewController:from:on:animated:)"
+ #       severity: warning
+
+#    mvvmRule_5:
+#        included: "_SmartApp/.*\\.swift"
+#        name: ""
+#        regex: "[.]pushViewController[(]"
+#        message: "func push(viewController:from:on:animated:)"
+#        severity: warning
+        
+#    mvvmRule_6:
+#        included: "_SmartApp/.*\\.swift"
+#        name: ""
+#        regex: "[.]present[(]"
+#        message: "func push(viewController:from:on:animated:)"
+#        severity: warning
+                        
+file_length:
+    - 1000 # warning
+    - 1250 # error
+
+type_body_length:
+    - 500  # warning
+    - 1000 # error
+
+large_tuple:
+    - 4  # warning
+    - 5  # error
+
+empty_enum_arguments:
+    warning
+
+force_try:
+    warning
+
+force_cast:
+    warning
+
+line_length:
+    warning: 200
+    error: 300
+
+nesting:
+    type_level:
+        warning: 5
+
+type_name:
+    max_length: 70
+    allowed_symbols: "_"
+    excluded:
+        - Eg
+        - VM
+        - VC
+        - MD
+        - Id
+        - R
+        - V
+        - P
+        - I
+        - E
+        - M
+        - A
+        - T
+        - AS
+        - DI
+
+identifier_name:
+    max_length: 60
+    excluded:
+        - iPhone
+        - id
+
+function_parameter_count: 10
+
+disabled_rules:
+    - discouraged_direct_init
+    - large_tuple
+    - mark
+    - cyclomatic_complexity
+    - comment_spacing
+    - function_body_length
+    - trailing_whitespace
+    - for_where
+    - orphaned_doc_comment
+    - identifier_name
+    - multiple_closures_with_trailing_closure
+
+#
+# THE RULES BELOW ARE NOT TO BE DELETED
+#  All warnings of this type were fixed @ 31-03-2020, please don't do more...
+#
+
+duplicate_imports:
+    severity: error
+
+operator_whitespace:
+    severity: error
+
+redundant_string_enum_value:
+    severity: error
+
+trailing_newline:
+    severity: error
+
+statement_position:
+    severity: error
+
+unused_closure_parameter:
+    severity: error
+
+vertical_whitespace:
+    severity: error
+
+implicit_getter:
+    severity: warning
+
+colon:
+    severity: error
+
+shorthand_operator:
+    severity: error
+
+trailing_comma:
+    severity: error
+
+comma:
+    severity: error
+
+redundant_void_return:
+    severity: error
+
+return_arrow_whitespace:
+    severity: error
+
+opening_brace:
+    severity: error
+
+no_space_in_method_call:
+    severity: error

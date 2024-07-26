@@ -1,0 +1,17 @@
+//
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+//
+
+#include "./dev-base.xcconfig"
+
+DEVELOPMENT_TEAM = EP8XQ3ZY9V
+PROVISIONING_PROFILE_SPECIFIER = EP8XQ3ZY9V/dev.com.ricardo.app.id_ProvisioningProfileAppStore
+CODE_SIGN_IDENTITY = iPhone Distribution
+CODE_SIGN_ENTITLEMENTS = SmartAppDev Release.entitlements
+
+//PROVISIONING_PROFILE[sdk=*]=161538159429335808109692414422077930422
+//CODE_SIGN_IDENTITY[sdk=*]=iPhone Distribution
+//CODE_SIGN_IDENTITY[sdk=*]=iPhone Developer
+//NOTIFICATION_SERVICE_PROVISIONING_PROFILE_SPECIFIER=XXXXXXXX/Dev - xx.yy.xx.prod.notificationservice
+//PROVISIONING_PROFILE[sdk=*]=D96971CA-FA3D-4A2D-89DB-B0F296893131

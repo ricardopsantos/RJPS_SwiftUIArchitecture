@@ -1,0 +1,7 @@
+aggregateTargets:
+  CopyFrameworks:
+    buildScripts:
+       - script: |
+                 ${SRCROOT}/Scripts/copyFrameworks.sh
+         name: "CopyFrameworks"
+         shell: /bin/bash
