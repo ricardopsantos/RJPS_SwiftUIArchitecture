@@ -48,7 +48,7 @@ final class ApplicationViewModelsTests: XCTestCase {
             editUserDetails = await EditUserDetailsViewModel(dependencies: .init(
                 model: .init(),
                 userRepository: userRepository,
-                onUserSaved: { }
+                onUserSaved: {}
             ))
         }
 
@@ -119,4 +119,3 @@ extension ApplicationViewModelsTests {
         expect(emittedEvent).toEventually(beTrue(), timeout: .seconds(timeout))
     }
 }
-

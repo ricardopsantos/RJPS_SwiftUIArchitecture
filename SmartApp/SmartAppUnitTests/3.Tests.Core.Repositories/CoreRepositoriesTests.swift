@@ -34,7 +34,7 @@ extension CoreRepositoriesTests {
     // Test to verify that an event is emitted when a non-secure app preference property changes
     func test_nonSecureAppPreferences_emitEventOnChangedProperty() {
         var emittedEvent = false
-        
+
         // Subscribe to output events for the .changedKey event with key .isAuthenticated
         nonSecureAppPreferences?.output([.changedKey(key: .isAuthenticated)])
             .sink { _ in

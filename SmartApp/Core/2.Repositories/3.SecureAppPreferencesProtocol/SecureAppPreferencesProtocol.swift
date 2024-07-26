@@ -9,7 +9,6 @@ import Combine
 import Foundation
 
 public protocol SecureAppPreferencesProtocol {
-    
     // MARK: - Properties
 
     /// The authentication token used for secure operations.

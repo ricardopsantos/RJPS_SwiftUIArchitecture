@@ -95,7 +95,7 @@ final class SmartAppUITests: XCTestCase {
             "shouldDisableAnimations",
             "isAuthenticated"
         ])
- //       test_login()
+        //       test_login()
         tap(
             button: "AccessibilityIdentifier.toolBarBtn1WithMeaningfulName.value",
             on: app

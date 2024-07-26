@@ -10,11 +10,7 @@ import Combine
 //
 import Common
 
-import Combine
-import Foundation
-
 public protocol NonSecureAppPreferencesProtocol {
-
     // MARK: - Properties
 
     /// The `UserDefaults` instance used for storing non-secure preferences.

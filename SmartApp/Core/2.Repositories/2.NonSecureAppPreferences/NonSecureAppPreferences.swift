@@ -35,7 +35,7 @@ public class NonSecureAppPreferences {
     public static let shared = NonSecureAppPreferences()
 
     fileprivate var output = PassthroughSubject<NonSecureAppPreferencesOutputActions, Never>()
-    
+
     fileprivate var cachedBundleIdentifier: String?
     fileprivate var targetEnv: String {
         guard let value = (Bundle.main.infoDictionary?["TARGET_ENVIRONMENT"] as? String)?
@@ -59,12 +59,12 @@ public class NonSecureAppPreferences {
             }
         }
     }
-    
+
     fileprivate func setBool(_ key: NonSecureAppPreferences.Key, _ value: Bool?) {
         defaults.setValue(value, forKey: key.rawValue)
         output.send(.changedKey(key: key))
     }
-    
+
     fileprivate func setString(_ key: NonSecureAppPreferences.Key, _ value: String?) {
         defaults.setValue(value, forKey: key.rawValue)
         output.send(.changedKey(key: key))
@@ -72,19 +72,18 @@ public class NonSecureAppPreferences {
 }
 
 extension NonSecureAppPreferences: NonSecureAppPreferencesProtocol {
-    
     public func output(_ filter: [NonSecureAppPreferencesOutputActions] = []) -> AnyPublisher<NonSecureAppPreferencesOutputActions, Never> {
         if filter.isEmpty {
             return output.eraseToAnyPublisher()
         } else {
             return output
-                  .filter { action in
-                      filter.contains { $0 == action }
-                  }
-                  .eraseToAnyPublisher()
+                .filter { action in
+                    filter.contains { $0 == action }
+                }
+                .eraseToAnyPublisher()
         }
     }
-    
+
     public var nonSecureUserDefaults: UserDefaults {
         defaults
     }

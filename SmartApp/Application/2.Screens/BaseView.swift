@@ -12,8 +12,6 @@ import Common
 import DesignSystem
 import Core
 
-// swiftlint:disable no_UIKitAdhocConstruction
-
 //
 // MARK: - SwiftUIFactory
 //
@@ -168,9 +166,9 @@ extension BaseView {
         let extraH: CGFloat = SizeNames.defaultMargin * 3
         public var body: some View {
             if Common_Utils.true {
-                // swiftlint:disable no_letUnderscore redundant_discardable_let
+                // swiftlint:disable redundant_discardable_let
                 let _ = Self._printChanges()
-                // swiftlint:enable no_letUnderscore redundant_discardable_let
+                // swiftlint:enable redundant_discardable_let
             }
             Group {
                 if model != nil {
