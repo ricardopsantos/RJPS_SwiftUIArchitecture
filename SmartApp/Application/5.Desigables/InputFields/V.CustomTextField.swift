@@ -26,8 +26,12 @@ struct CustomTextField: View {
             Group {
                 if isSecured {
                     SecureField("", text: $inputText)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
                 } else {
                     TextField("", text: $inputText)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
                 }
             }
             .padding(.horizontal, SizeNames.defaultMarginSmall)

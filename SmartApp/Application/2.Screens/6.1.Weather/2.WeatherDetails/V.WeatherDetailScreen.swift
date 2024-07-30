@@ -65,9 +65,9 @@ struct WeatherDetailsView: View, ViewProtocol {
     // MARK: - Body & View
     var body: some View {
         if Common_Utils.true {
-            // swiftlint:disable no_letUnderscore redundant_discardable_let
+            // swiftlint:disable redundant_discardable_let
             let _ = Self._printChanges()
-            // swiftlint:enable no_letUnderscore redundant_discardable_let
+            // swiftlint:enable redundant_discardable_let
         }
         BaseView.with(
             sender: "\(Self.self)",
