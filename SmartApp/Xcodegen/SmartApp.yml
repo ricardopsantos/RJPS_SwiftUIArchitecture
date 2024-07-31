@@ -211,6 +211,7 @@ targets:
         excludes: [Info.plist]
     dependencies:
       - target: Common
+      - target: DevTools
       
 # CORE
 # CORE
