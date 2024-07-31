@@ -66,6 +66,7 @@ class BackgroundServicesManager: NSObject {
 
     override private init() {
         super.init()
+        self.enableAppBackgroundServices()
     }
 }
 
