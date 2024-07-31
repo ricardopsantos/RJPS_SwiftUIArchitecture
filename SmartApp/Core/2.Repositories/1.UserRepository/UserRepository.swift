@@ -35,10 +35,10 @@ extension UserRepository: UserRepositoryProtocol {
             return output.eraseToAnyPublisher()
         } else {
             return output
-                  .filter { action in
-                      filter.contains { $0 == action }
-                  }
-                  .eraseToAnyPublisher()
+                .filter { action in
+                    filter.contains { $0 == action }
+                }
+                .eraseToAnyPublisher()
         }
     }
 

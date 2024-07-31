@@ -102,21 +102,33 @@ extension NSPredicate {
 
     // Create a predicate that checks if a field is equal to a specific value
     static func isEqual(_ keyPath: String, value: Any) -> NSPredicate {
-        NSPredicate(format: "%K == %@", keyPath, value as! CVarArg)
+        guard let arg = value as? CVarArg else {
+            return NSPredicate()
+        }
+        return NSPredicate(format: "%K == %@", keyPath, arg)
     }
 
     // Create a predicate that checks if a field is greater than a specific value
     static func isGreaterThan(_ keyPath: String, value: Any) -> NSPredicate {
-        NSPredicate(format: "%K > %@", keyPath, value as! CVarArg)
+        guard let arg = value as? CVarArg else {
+            return NSPredicate()
+        }
+        return NSPredicate(format: "%K > %@", keyPath, arg)
     }
 
     // Create a predicate that checks if a field is less than a specific value
     static func isLessThan(_ keyPath: String, value: Any) -> NSPredicate {
-        NSPredicate(format: "%K < %@", keyPath, value as! CVarArg)
+        guard let arg = value as? CVarArg else {
+            return NSPredicate()
+        }
+        return NSPredicate(format: "%K < %@", keyPath, arg)
     }
 
     // Create a predicate that checks if a field is between two specific values
     static func isBetween(_ keyPath: String, minValue: Any, maxValue: Any) -> NSPredicate {
-        NSPredicate(format: "%K >= %@ AND %K <= %@", keyPath, minValue as! CVarArg, keyPath, maxValue as! CVarArg)
+        guard let arg1 = minValue as? CVarArg, let arg2 = maxValue as? CVarArg else {
+            return NSPredicate()
+        }
+        return NSPredicate(format: "%K >= %@ AND %K <= %@", keyPath, arg1, keyPath, arg2)
     }
 }

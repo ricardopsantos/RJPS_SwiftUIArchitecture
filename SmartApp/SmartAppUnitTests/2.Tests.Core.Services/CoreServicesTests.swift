@@ -38,7 +38,7 @@ extension CoreServicesTests {
             XCTAssert(true) // Test is enabled, so we can return true and skip the test
             return
         }
-        
+
         do {
             // Define the coordinates for the test
             let latitude = "38.736946" // Latitude for the test location
@@ -58,4 +58,3 @@ extension CoreServicesTests {
         }
     }
 }
-

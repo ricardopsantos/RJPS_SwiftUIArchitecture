@@ -14,7 +14,7 @@ public extension View {
     }
 }
 
-public enum FontsName {
+public enum FontsName: CaseIterable {
     case regular
     case medium
     case semibold
@@ -25,6 +25,17 @@ public enum FontsName {
         case .bold: "NotoSans-Bold"
         case .medium: "NotoSans-Medium"
         case .semibold: "NotoSans-SemiBold"
+        }
+    }
+
+    var registerFileName: String {
+        name + ".ttf"
+    }
+
+    public static func setup() {
+        let bundleIdentifier = Bundle(for: BundleFinder.self).bundleIdentifier!
+        FontsName.allCases.forEach { font in
+            UIFont.registerFontWithFilenameString(font.registerFileName, bundleIdentifier)
         }
     }
 }
@@ -104,15 +115,13 @@ public enum FontSemantic: CaseIterable {
 }
 
 #Preview {
-    HStack {
-        VStack(spacing: 1) {
-            ForEach(FontSemantic.allCases, id: \.self) { font in
-                Text("\(font)")
-                    .fontSemantic(font)
-                    .foregroundStyle(.black)
-                    .frame(maxWidth: .infinity)
-                SwiftUIUtils.FixedVerticalSpacer(height: 5)
-            }
+    VStack(spacing: 0) {
+        ForEach(FontSemantic.allCases, id: \.self) { font in
+            Text("\(font)")
+                .fontSemantic(font)
+                .foregroundStyle(.black)
+                .frame(maxWidth: .infinity)
+            SwiftUIUtils.FixedVerticalSpacer(height: 5)
         }
     }
 }

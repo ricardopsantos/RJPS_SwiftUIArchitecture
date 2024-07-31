@@ -23,8 +23,7 @@ struct CountryView: View {
                     "SelectCountryPlaceHolder".localizedMissing,
                     selection: $selectedCountry
                 ) {
-                    ForEach(AppConstants.countriesOptions, id: \.self) {
-                        country in
+                    ForEach(AppConstants.countriesOptions, id: \.self) { country in
                         Text(country.localized)
                     }
                 }

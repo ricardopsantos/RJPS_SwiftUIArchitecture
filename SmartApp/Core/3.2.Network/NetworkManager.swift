@@ -29,7 +29,7 @@ extension NetworkManager {
     func request<T: Decodable>(_ api: APIEndpoints, type: T.Type) async throws -> T {
         switch api {
         case .updateUser(user: let user):
-            DevTools.assert(false, message: "Not implemented")
+            DevTools.assert(false, message: "Not implemented \(user)")
             fatalError()
         default:
             let request = CommonNetworking.NetworkAgentRequest(

@@ -48,7 +48,7 @@ final class ApplicationViewModelsTests: XCTestCase {
             editUserDetails = await EditUserDetailsViewModel(dependencies: .init(
                 model: .init(),
                 userRepository: userRepository,
-                onUserSaved: { }
+                onUserSaved: {}
             ))
         }
 
@@ -73,10 +73,17 @@ extension ApplicationViewModelsTests {
 
     // Test to verify the increment action in the template view model
     @MainActor func test_templateTest_incrementAction() {
-        expect(self.templateViewModel?.counter == 0).toEventually(beTrue(), timeout: .seconds(timeout)) // Assert initial counter value is 0
-        templateViewModel?.send(.increment) // Send increment action
-        expect(self.templateViewModel?.counter == 1).toEventually(beTrue(), timeout: .seconds(timeout)) // Assert counter value is incremented to 1
-        expect(self.templateViewModel?.message == "Counter: 1").toEventually(beTrue(), timeout: .seconds(timeout)) // Assert message reflects the incremented counter value
+        // Assert initial counter value is 0
+        expect(self.templateViewModel?.counter == 0).toEventually(beTrue(), timeout: .seconds(timeout))
+
+        // Send increment action
+        templateViewModel?.send(.increment)
+
+        // Assert counter value is incremented to 1
+        expect(self.templateViewModel?.counter == 1).toEventually(beTrue(), timeout: .seconds(timeout))
+
+        // Assert message reflects the incremented counter value
+        expect(self.templateViewModel?.message == "Counter: 1").toEventually(beTrue(), timeout: .seconds(timeout))
     }
 }
 
@@ -119,4 +126,3 @@ extension ApplicationViewModelsTests {
         expect(emittedEvent).toEventually(beTrue(), timeout: .seconds(timeout))
     }
 }
-

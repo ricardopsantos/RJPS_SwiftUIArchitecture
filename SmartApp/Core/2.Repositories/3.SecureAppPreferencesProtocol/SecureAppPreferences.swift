@@ -50,21 +50,20 @@ public class SecureAppPreferences {
 }
 
 extension SecureAppPreferences: SecureAppPreferencesProtocol {
-    
     public func output(_ filter: [SecureAppPreferencesOutputActions] = []) -> AnyPublisher<SecureAppPreferencesOutputActions, Never> {
         if filter.isEmpty {
             return output.eraseToAnyPublisher()
         } else {
             return output
-                  .filter { action in
-                      filter.contains { $0 == action }
-                  }
-                  .eraseToAnyPublisher()
+                .filter { action in
+                    filter.contains { $0 == action }
+                }
+                .eraseToAnyPublisher()
         }
     }
-    
+
     public var authToken: String {
-        get {  get(for: .authToken) ?? "" }
+        get { get(for: .authToken) ?? "" }
         set { set(newValue, for: .authToken) }
     }
 

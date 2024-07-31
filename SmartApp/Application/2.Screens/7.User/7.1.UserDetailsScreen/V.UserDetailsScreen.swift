@@ -107,14 +107,16 @@ struct UserDetailsView: View {
             CustomTitleAndCustomTextField(
                 label: "Name".localizedMissing,
                 placeholder: "NamePlaceHolder".localizedMissing,
-                inputText: $name
+                inputText: $name, 
+                accessibility: .txtName
             )
             .padding(.vertical, SizeNames.defaultMargin)
             GenderView(selectedGender: $selectedGender)
             CustomTitleAndCustomTextField(
                 label: "DateOfBirth".localizedMissing,
                 placeholder: "DateOfBirthPlaceHolder".localizedMissing,
-                inputText: .constant(dateOfBirth.dateStyleShort)
+                inputText: .constant(dateOfBirth.dateStyleShort),
+                accessibility: .undefined
             )
             .onTapGesture {
                 showingDatePicker = true
@@ -150,7 +152,8 @@ struct UserDetailsView: View {
                     ))
                     onCompletion(#function)
                 }
-            }, text: "Continue".localizedMissing)
+            }, text: "Continue".localizedMissing,
+                       accessibility: .fwdButton)
         }
         .padding(SizeNames.defaultMargin)
     }

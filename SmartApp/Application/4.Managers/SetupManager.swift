@@ -11,6 +11,7 @@ import Firebase
 import Common
 import Core
 import DevTools
+import DesignSystem
 
 public class SetupManager {
     private init() {}
@@ -22,6 +23,7 @@ public class SetupManager {
         DevTools.Log.setup()
         FirebaseApp.configure()
         UITestingManager.setupForForTestingIfNeeded()
+        FontsName.setup()
         InterfaceStyle.setupUserInterfaceStyle(nonSecureAppPreferences: nonSecureAppPreferences)
         if Common_Utils.onDebug {
             UserDefaults.standard.set(true, forKey: "com.apple.CoreData.ConcurrencyDebug")

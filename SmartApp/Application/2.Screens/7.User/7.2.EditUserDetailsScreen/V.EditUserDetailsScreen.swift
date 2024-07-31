@@ -105,14 +105,16 @@ struct EditUserDetailsView: View {
                 CustomTitleAndCustomTextField(
                     label: "Name".localizedMissing,
                     placeholder: "NamePlaceHolder".localizedMissing,
-                    inputText: $viewModel.name
+                    inputText: $viewModel.name,
+                    accessibility: .txtUserName
                 )
                 .padding(.vertical, SizeNames.defaultMargin)
 
                 CustomTitleAndCustomTextField(
                     label: "Email".localizedMissing,
                     placeholder: "EmailPlaceHolder".localizedMissing,
-                    inputText: $viewModel.email
+                    inputText: $viewModel.email,
+                    accessibility: .txtEmail
                 )
 
                 GenderView(selectedGender: $viewModel.selectedGender)
@@ -121,7 +123,8 @@ struct EditUserDetailsView: View {
                 CustomTitleAndCustomTextField(
                     label: "DateOfBirth".localizedMissing,
                     placeholder: "DateOfBirthPlaceHolder".localizedMissing,
-                    inputText: .constant(viewModel.dateOfBirth.dateStyleShort)
+                    inputText: .constant(viewModel.dateOfBirth.dateStyleShort),
+                    accessibility: .undefined
                 )
                 .onTapGesture {
                     showingDatePicker = true
@@ -156,7 +159,7 @@ struct EditUserDetailsView: View {
                         )
                         showConfirmation = true
                     }
-                }, text: "Update".localizedMissing)
+                }, text: "Save".localizedMissing, accessibility: .saveButton)
             }.padding(SizeNames.defaultMargin)
 
             Spacer()

@@ -190,6 +190,12 @@ public extension String {
 // MARK: - Bools
 //
 
+extension String? {
+    var nullOrEmpty: Bool {
+        !(self == nil || self!.isEmpty)
+    }
+}
+
 public extension String {
     // Found at https://medium.com/@darthpelo/email-validation-in-swift-3-0-acfebe4d879a
     var isValidEmail: Bool {

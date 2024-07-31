@@ -53,7 +53,9 @@ class RootViewModel: ObservableObject {
     @Published private(set) var isUserDetailsFilled: Bool = false
     @Published private(set) var isTermsAndConditionsAccepted: Bool = false
     @Published private(set) var isOnboardingCompleted: Bool = false
+    @Published private(set) var preferencesChanged: Date = .now
 
+    private var cancelBag = CancelBag()
     private var nonSecureAppPreferences: NonSecureAppPreferencesProtocol?
     public init(dependencies: Dependencies) {
         self.nonSecureAppPreferences = dependencies.nonSecureAppPreferences
@@ -61,6 +63,9 @@ class RootViewModel: ObservableObject {
         self.isUserDetailsFilled = dependencies.model.isUserDetailsFilled
         self.isTermsAndConditionsAccepted = dependencies.model.isTermsAndConditionsAccepted
         self.isOnboardingCompleted = dependencies.model.isOnboardingCompleted
+        dependencies.nonSecureAppPreferences.output([]).sinkToReceiveValue { [weak self]_ in
+            self?.preferencesChanged = .now
+        }.store(in: cancelBag)
     }
 
     // MARK: - Functions

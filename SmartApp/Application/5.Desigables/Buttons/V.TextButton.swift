@@ -15,11 +15,27 @@ struct TextButton: View {
     }
 
     // MARK: - Attributes
-    var onClick: () -> Void
+    let onClick: () -> Void
     var text: String
     var style: Style = .primary
     var background: Color = .primaryColor
     var enabled: Bool = true
+    let accessibility: AppConstants.Accessibility
+    
+    public init(onClick: @escaping () -> Void,
+                text: String,
+                style: Style = .primary,
+                background: Color = .primaryColor,
+                enabled: Bool = true,
+                accessibility: AppConstants.Accessibility) {
+        self.onClick = onClick
+        self.text = text
+        self.style = style
+        self.background = background
+        self.enabled = enabled
+        self.accessibility = accessibility
+    }
+    
     // MARK: - Views
     var body: some View {
         Button(action: onClick) {
@@ -45,6 +61,7 @@ struct TextButton: View {
                 .contentShape(Rectangle())
                 .userInteractionEnabled(enabled)
         }
+        .accessibilityIdentifier(accessibility.identifier)
         .buttonStyle(.plain)
         .shadow(radius: SizeNames.defaultMarginSmall)
     }
@@ -73,14 +90,16 @@ extension TextButton {
                     text: "\(style)",
                     style: style,
                     background: .primaryColor,
-                    enabled: true
+                    enabled: true,
+                    accessibility: .undefined
                 )
                 TextButton(
                     onClick: {},
                     text: "\(style)",
                     style: style,
                     background: .primaryColor,
-                    enabled: false
+                    enabled: false,
+                    accessibility: .undefined
                 )
             }
         }

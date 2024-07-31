@@ -17,7 +17,7 @@ public extension Common {
         }()
 
         private init() {}
-        private var masterLock = NSLock()
+        private var mainLock = NSLock()
         @PWThreadSafe private var lockDictionary: [String: NSLock] = [:]
         @PWThreadSafe private var lockInfoDictionary: [String: LockInfo] = [:]
         public var activeLocksInfo: String {
@@ -47,8 +47,8 @@ public extension Common {
 
         @discardableResult
         public func lock(key: String, autoUnlockTimeInSeconds: TimeInterval = 1000) -> String? {
-            masterLock.lock()
-            defer { masterLock.unlock() }
+            mainLock.lock()
+            defer { mainLock.unlock() }
             let lock = getLock(for: key)
             lock.lock()
             let referenceCount = (lockInfoDictionary[key]?.referenceCount ?? 0) + 1
@@ -79,8 +79,8 @@ public extension Common {
 
         @discardableResult
         public func unlock(key: String) -> String? {
-            masterLock.lock()
-            defer { masterLock.unlock() }
+            mainLock.lock()
+            defer { mainLock.unlock() }
             let lock = getLock(for: key)
             lock.unlock()
             let referenceCount = (lockInfoDictionary[key]?.referenceCount ?? 0) - 1

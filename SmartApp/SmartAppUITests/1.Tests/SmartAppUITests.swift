@@ -18,7 +18,7 @@ final class SmartAppUITests: XCTestCase {
     }()
 
     func appLaunch(launchArguments: [String]) {
-        app.launchArguments = launchArguments
+        app.launchArguments = launchArguments + ["shouldDisableAnimations"]
         app.launch()
     }
 
@@ -37,78 +37,106 @@ final class SmartAppUITests: XCTestCase {
 
     override func tearDownWithError() throws {}
 
-    func auxiliar_performLogin() {
-        appLaunch(launchArguments: [
-            "shouldDisableAnimations",
-            "shouldResetAllPreferences",
-            "onUITesting"
-        ])
-        exists(staticText: "Welcome", on: app)
-        tap(
-            textFieldIndex: 0,
-            andType: "www.meumail@gmail.com",
-            dismissKeyboard: false,
-            on: app,
-            delayBeforeTap: 1,
-            delayBeforeType: 1
-        )
-        tap(
-            textFieldIndex: 1,
-            andType: "123",
-            dismissKeyboard: false,
-            on: app,
-            delayBeforeTap: 1,
-            delayBeforeType: 1
-        )
-    }
-
+    
     //
-    // MARK: - Login/Logout
+    // MARK: - testAxxx : Splash Screen
     //
 
-    func test_firstScreen() {
+    func testA1_welcomeScreen() {
         guard enabled else {
             XCTAssert(true)
             return
         }
         appLaunch(launchArguments: [
-            "shouldDisableAnimations",
             "shouldResetAllPreferences"
         ])
         waitFor(staticText: "Welcome", on: app)
     }
 
-    func test_login() {
-        guard enabled else {
-            XCTAssert(true)
-            return
-        }
-        auxiliar_performLogin()
-    }
-
-    func test_logoutWithConfirm() {
+    //
+    // MARK: - testBxxx :Login
+    //
+    
+    func testB1_login() {
         guard enabled else {
             XCTAssert(true)
             return
         }
         appLaunch(launchArguments: [
-            "shouldDisableAnimations",
-            "isAuthenticated"
+            "shouldResetAllPreferences"
         ])
- //       test_login()
+        auxiliar_performLogin()
+    }
+
+    func testB2_onBoarding() {
+        guard enabled else {
+            XCTAssert(true)
+            return
+        }
+        appLaunch(launchArguments: [
+            "shouldResetAllPreferences"
+        ])
+        //auxiliar_performLogin()
+        auxiliar_performOnBoarding()
+    }
+    
+}
+
+//
+// MARK: - Utils flows
+//
+extension SmartAppUITests {
+    
+    // Will fill user email and password.
+    // User needs to be unauthenticated
+    func auxiliar_performLogin() {
+        exists(staticText: "Welcome", on: app)
         tap(
-            button: "AccessibilityIdentifier.toolBarBtn1WithMeaningfulName.value",
-            on: app
+            textField: "txtEmail",
+            andType: "mail@gmail.com",
+            dismissKeyboard: false,
+            on: app,
+            delayBeforeTap: 0.3,
+            delayBeforeType: 0.3
         )
         tap(
-            button: "Logout",
-            on: app
+            secureTextField: "txtPassword",
+            andType: "123",
+            dismissKeyboard: false,
+            on: app,
+            delayBeforeTap: 0.3,
+            delayBeforeType: 0.3
         )
+        tap(button: "loginButton", andWaitForStaticText: "UserDetails", on: app)
+    }
+
+    // Will perform the onboarding flow.
+    // User needs to authenticated, and on the correct flow
+    func auxiliar_performOnBoarding() {
+        //
+        // User details screen
+        //
+        exists(staticText: "UserDetails", on: app)
         tap(
-            alert: "Welcome",
-            option: "Yes",
-            andWaitForStaticText: "loginScreenMessage",
-            on: app
+            textField: "txtName",
+            andType: "Testing Joe",
+            dismissKeyboard: false,
+            on: app,
+            delayBeforeTap: 0.3,
+            delayBeforeType: 0.3
         )
+        tap(button: "fwdButton", andWaitForStaticText: "Terms & Conditions", on: app)
+        //
+        // Terms and Conditions screen
+        //
+        tap(button: "readTermsAndConditions", on: app)
+        tap(button: "fwdButton", andWaitForStaticText: "Onboarding", on: app)
+
+        //
+        // Onboarding screen
+        //
+        tap(button: "fwdButton", on: app) // Second
+        tap(button: "fwdButton", andWaitForStaticText: "Europe/Lisbon", on: app) // Third
+        
     }
 }

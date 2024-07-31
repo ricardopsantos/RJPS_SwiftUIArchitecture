@@ -14,8 +14,23 @@ struct CustomTextField: View {
     var placeholder: String
     var cornerRadius: CGFloat
     var borderColor: Color
-    var isSecured: Bool = false
+    let isSecured: Bool
+    let accessibility: AppConstants.Accessibility
 
+    public init(inputText: Binding<String>,
+                placeholder: String,
+                cornerRadius: CGFloat,
+                borderColor: Color,
+                isSecured: Bool = false,
+                accessibility: AppConstants.Accessibility) {
+        self._inputText = inputText
+        self.isSecured = isSecured
+        self.placeholder = placeholder
+        self.cornerRadius = cornerRadius
+        self.borderColor = borderColor
+        self.accessibility = accessibility
+    }
+    
     var body: some View {
         ZStack(alignment: .leading) {
             if inputText.isEmpty {
@@ -26,8 +41,14 @@ struct CustomTextField: View {
             Group {
                 if isSecured {
                     SecureField("", text: $inputText)
+                        .accessibilityIdentifier(accessibility.identifier)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
                 } else {
                     TextField("", text: $inputText)
+                        .accessibilityIdentifier(accessibility.identifier)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
                 }
             }
             .padding(.horizontal, SizeNames.defaultMarginSmall)
@@ -47,14 +68,16 @@ struct CustomTextField: View {
             placeholder: "placeholder",
             cornerRadius: SizeNames.cornerRadius,
             borderColor: Color.primary,
-            isSecured: false
+            isSecured: false, 
+            accessibility: .undefined
         )
         CustomTextField(
             inputText: .constant("inputText"),
             placeholder: "placeholder",
             cornerRadius: SizeNames.cornerRadius,
             borderColor: Color.primary,
-            isSecured: true
+            isSecured: true, 
+            accessibility: .undefined
         )
     }
 }

@@ -220,14 +220,16 @@ public extension XCTestCase {
         andType text: String,
         dismissKeyboard: Bool,
         on app: XCUIApplication,
+        delayBeforeTap: Double = 0.0,
         delayBeforeType: Double = 0.0
     ) {
-        describe(app: app)
+        wait(delay: delayBeforeTap)
         let secureTextField = app.secureTextFields[secureTextField]
         secureTextField.tap()
         if let textFieldValue = secureTextField.value as? String, !textFieldValue.isEmpty {
             secureTextField.tap()
             let deleteString = String(repeating: XCUIKeyboardKey.delete.rawValue, count: textFieldValue.count)
+            wait(delay: delayBeforeType)
             secureTextField.typeText(deleteString + text)
         } else {
             secureTextField.typeText(text)
@@ -293,8 +295,10 @@ public extension XCTestCase {
         andType text: String,
         dismissKeyboard: Bool,
         on app: XCUIApplication,
+        delayBeforeTap: Double = 0.0,
         delayBeforeType: Double = 0.0
     ) {
+        wait(delay: delayBeforeTap)
         let textField = app.textFields[textField]
         tap(
             textFieldXCUIElement: textField,
@@ -325,7 +329,6 @@ public extension XCTestCase {
 
     func tap(
         alert title: String,
-
         option: String,
         andWaitForStaticText nextStaticText: String = "",
         on app: XCUIApplication,

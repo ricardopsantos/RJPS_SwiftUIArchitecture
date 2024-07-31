@@ -89,11 +89,12 @@ struct RootView: View, ViewProtocol {
     @ViewBuilder
     var content: some View {
         if Common_Utils.true {
-            // swiftlint:disable no_letUnderscore redundant_discardable_let
+            // swiftlint:disable redundant_discardable_let
             let _ = Self._printChanges()
-            // swiftlint:enable no_letUnderscore redundant_discardable_let
+            // swiftlint:enable redundant_discardable_let
         }
         buildScreen(root)
+            .onChange(of: viewModel.preferencesChanged) { _ in updateRoot() }
             .onChange(of: viewModel.isAppStartCompleted) { _ in updateRoot() }
             .onChange(of: viewModel.isUserDetailsFilled) { _ in updateRoot() }
             .onChange(of: viewModel.isTermsAndConditionsAccepted) { _ in updateRoot() }
