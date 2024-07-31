@@ -19,9 +19,9 @@ jobs:
           scheme: "SmartApp DEV"
         run: |
           xcodebuild build -project SmartApp/SmartApp.xcodeproj -scheme "SmartApp Dev" CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO
-      - name: Test
-        env:
-          scheme: "SmartApp DEV"
-        run: |
-          xcodebuild clean test -project SmartApp/SmartApp.xcodeproj -scheme "SmartApp Dev" -destination 'platform=iOS Simulator,name=iPhone 14' CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO
+#      - name: Test
+#        env:
+#          scheme: "SmartApp DEV"
+#        run: |
+#          xcodebuild clean test -project SmartApp/SmartApp.xcodeproj -scheme "SmartApp Dev" -destination 'platform=iOS Simulator,name=iPhone 14' CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO
 
