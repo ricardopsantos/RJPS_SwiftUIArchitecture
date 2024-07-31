@@ -2983,7 +2983,7 @@
 		};
 		A73D42C0C5D54E64950B9DE6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = "TEMP_A723BD67-B389-40D5-9C31-4B662C557AD3" /* Reachability */;
+			productRef = "TEMP_36101953-DA9F-4D60-ACB2-E209E32E5402" /* Reachability */;
 		};
 		B53BB133F15F04685D6B2D0E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4620,7 +4620,7 @@
 			package = B534D94EBDEC0AF4838E6834 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
 		};
-		"TEMP_A723BD67-B389-40D5-9C31-4B662C557AD3" /* Reachability */ = {
+		"TEMP_36101953-DA9F-4D60-ACB2-E209E32E5402" /* Reachability */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 64F28F54E21D66478C2F3452 /* XCRemoteSwiftPackageReference "Reachability" */;
 			productName = Reachability;

@@ -62,7 +62,7 @@ struct OnboardingScreen: View {
 
                 pageView
 
-                TextButton(onClick: onNextButtonPressed, text: buttonText)
+                TextButton(onClick: onNextButtonPressed, text: buttonText, accessibility: .fwdButton)
             }
             .padding()
         }

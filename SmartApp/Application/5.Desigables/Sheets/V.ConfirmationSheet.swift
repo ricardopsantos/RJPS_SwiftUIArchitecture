@@ -103,7 +103,8 @@ struct ConfirmationSheetV1: View {
                     },
                     text: leftText,
                     style: .secondary,
-                    background: .primaryColor
+                    background: .primaryColor, 
+                    accessibility: .confirmButton
                 )
                 TextButton(
                     onClick: {
@@ -112,7 +113,8 @@ struct ConfirmationSheetV1: View {
                     },
                     text: rightText,
                     style: .primary,
-                    background: .primaryColor
+                    background: .primaryColor,
+                    accessibility: .cancelButton
                 )
             }
         }.padding(SizeNames.defaultMargin)

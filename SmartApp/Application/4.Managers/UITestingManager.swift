@@ -9,18 +9,29 @@ import UIKit
 import Common
 import Core
 
-enum UITestingManager {
-    static func setupForForTestingIfNeeded() {
-        if CommandLine.arguments.contains("shouldDisableAnimations") {
+public enum UITestingManager {
+    
+    public enum Options: String {
+        case shouldDisableAnimations
+        case shouldResetAllPreferences
+        case isAuthenticated
+        
+        public var rawValue: String {
+            return "\(self)"
+        }
+    }
+    
+    public static func setupForForTestingIfNeeded() {
+        if CommandLine.arguments.contains(UITestingManager.Options.shouldDisableAnimations.rawValue) {
             // clear your app state before running UI tests here.
             UIView.setAnimationsEnabled(false)
         }
-        if CommandLine.arguments.contains("shouldResetAllPreferences") {
+        if CommandLine.arguments.contains(UITestingManager.Options.shouldResetAllPreferences.rawValue) {
             DependenciesManager.Repository.nonSecureAppPreferences.deleteAll()
             DependenciesManager.Repository.secureAppPreferences.deleteAll()
             UserDefaults.resetStandardUserDefaults()
         }
-        if CommandLine.arguments.contains("isAuthenticated") {
+        if CommandLine.arguments.contains(UITestingManager.Options.isAuthenticated.rawValue) {
             NonSecureAppPreferences.shared.isAuthenticated = true
             NonSecureAppPreferences.shared.isOnboardingCompleted = true
             NonSecureAppPreferences.shared.isProfileComplete = true

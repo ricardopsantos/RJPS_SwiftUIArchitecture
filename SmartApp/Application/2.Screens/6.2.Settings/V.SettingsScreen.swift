@@ -127,7 +127,8 @@ fileprivate extension SettingsScreen {
                 sender: "\(Self.self)"
             )
             router.coverLink = .editUserDetails
-        }, text: "Update".localizedMissing)
+        }, text: "Update".localizedMissing, 
+                   accessibility: .saveButton)
     }
 
     var bottomButtons: some View {
@@ -144,7 +145,8 @@ fileprivate extension SettingsScreen {
                         viewModel.confirmationSheetType = .logout
                     },
                     text: "Logout".localizedMissing,
-                    style: .secondary
+                    style: .secondary,
+                    accessibility: .logoutButton
                 )
                 SwiftUIUtils.FixedHorizontalSpacer(width: SizeNames.defaultMarginSmall)
                 TextButton(
@@ -158,7 +160,8 @@ fileprivate extension SettingsScreen {
                     },
                     text: "DeleteAccount".localizedMissing,
                     style: .secondary,
-                    background: .dangerColor
+                    background: .dangerColor,
+                    accessibility: .deleteButton
                 )
             }
         }

@@ -49,7 +49,8 @@ struct TermsAndConditionsScreen: View {
                 TextButton(
                     onClick: { onNextPressed() },
                     text: "Next".localizedMissing,
-                    background: canGoNext() ? .primaryColor : .gray
+                    background: canGoNext() ? .primaryColor : .gray, 
+                    accessibility: .fwdButton
                 )
             }
         }
@@ -77,6 +78,7 @@ fileprivate extension TermsAndConditionsScreen {
                     .foregroundColor(.primaryColor)
             }
         }
+        .accessibilityIdentifier(AppConstants.Accessibility.readTermsAndConditions.identifier)
         .padding(.top, SizeNames.defaultMarginBig)
         .frame(maxWidth: .infinity, alignment: .leading)
     }

@@ -222,7 +222,6 @@ public extension XCTestCase {
         on app: XCUIApplication,
         delayBeforeType: Double = 0.0
     ) {
-        describe(app: app)
         let secureTextField = app.secureTextFields[secureTextField]
         secureTextField.tap()
         if let textFieldValue = secureTextField.value as? String, !textFieldValue.isEmpty {
@@ -293,8 +292,10 @@ public extension XCTestCase {
         andType text: String,
         dismissKeyboard: Bool,
         on app: XCUIApplication,
+        delayBeforeTap: Double = 0.0,
         delayBeforeType: Double = 0.0
     ) {
+        wait(delay: delayBeforeTap)
         let textField = app.textFields[textField]
         tap(
             textFieldXCUIElement: textField,
@@ -325,7 +326,6 @@ public extension XCTestCase {
 
     func tap(
         alert title: String,
-
         option: String,
         andWaitForStaticText nextStaticText: String = "",
         on app: XCUIApplication,

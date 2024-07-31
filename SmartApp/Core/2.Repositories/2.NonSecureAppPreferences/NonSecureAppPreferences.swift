@@ -62,11 +62,13 @@ public class NonSecureAppPreferences {
 
     fileprivate func setBool(_ key: NonSecureAppPreferences.Key, _ value: Bool?) {
         defaults.setValue(value, forKey: key.rawValue)
+        defaults.synchronize()
         output.send(.changedKey(key: key))
     }
 
     fileprivate func setString(_ key: NonSecureAppPreferences.Key, _ value: String?) {
         defaults.setValue(value, forKey: key.rawValue)
+        defaults.synchronize()
         output.send(.changedKey(key: key))
     }
 }
@@ -94,6 +96,7 @@ extension NonSecureAppPreferences: NonSecureAppPreferencesProtocol {
             output.send(.changedKey(key: key))
         }
         output.send(.deletedAll)
+        defaults.synchronize()
     }
 
     public var isAuthenticated: Bool {

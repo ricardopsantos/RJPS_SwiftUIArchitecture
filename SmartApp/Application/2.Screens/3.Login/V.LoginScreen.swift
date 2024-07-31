@@ -100,7 +100,8 @@ struct LoginView: View {
                     viewModel.send(action: .doLogin(email: email, password: password))
                 },
                 text: "Login".localized,
-                enabled: canLogin
+                enabled: canLogin,
+                accessibility: .loginButton
             )
             SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
         }
@@ -117,7 +118,8 @@ fileprivate extension LoginView {
             label: "Email".localized,
             placeholder: "EmailPlaceHolder".localized,
             isSecured: false,
-            inputText: $email
+            inputText: $email, 
+            accessibility: .txtEmail
         )
     }
 
@@ -125,8 +127,9 @@ fileprivate extension LoginView {
         CustomTitleAndCustomTextField(
             label: "Password".localized,
             placeholder: "Password".localized,
-            isSecured: false,
-            inputText: $password
+            isSecured: true,
+            inputText: $password,
+            accessibility: .txtPassword
         )
     }
 }

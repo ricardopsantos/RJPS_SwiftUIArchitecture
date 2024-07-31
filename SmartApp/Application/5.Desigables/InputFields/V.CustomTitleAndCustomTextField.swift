@@ -13,6 +13,7 @@ struct CustomTitleAndCustomTextField: View {
     var placeholder: String
     var isSecured: Bool = false
     @Binding var inputText: String
+    let accessibility: AppConstants.Accessibility
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -24,7 +25,8 @@ struct CustomTitleAndCustomTextField: View {
                 placeholder: placeholder,
                 cornerRadius: SizeNames.cornerRadius,
                 borderColor: .primaryColor,
-                isSecured: isSecured
+                isSecured: isSecured,
+                accessibility: accessibility
             )
         }
     }
@@ -34,6 +36,7 @@ struct CustomTitleAndCustomTextField: View {
     CustomTitleAndCustomTextField(
         label: "Title",
         placeholder: "placeholder",
-        inputText: .constant("inputText")
+        inputText: .constant("inputText"),
+        accessibility: .undefined
     )
 }
