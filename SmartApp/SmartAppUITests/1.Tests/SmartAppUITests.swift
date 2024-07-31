@@ -39,10 +39,10 @@ final class SmartAppUITests: XCTestCase {
 
     
     //
-    // MARK: - Login/Logout
+    // MARK: - testAxxx : Splash Screen
     //
 
-    func test_welcomeScreen() {
+    func testA1_welcomeScreen() {
         guard enabled else {
             XCTAssert(true)
             return
@@ -53,7 +53,11 @@ final class SmartAppUITests: XCTestCase {
         waitFor(staticText: "Welcome", on: app)
     }
 
-    func test_login() {
+    //
+    // MARK: - testBxxx :Login
+    //
+    
+    func testB1_login() {
         guard enabled else {
             XCTAssert(true)
             return
@@ -64,7 +68,7 @@ final class SmartAppUITests: XCTestCase {
         auxiliar_performLogin()
     }
 
-    func test_onBoarding() {
+    func testB2_onBoarding() {
         guard enabled else {
             XCTAssert(true)
             return
@@ -72,33 +76,10 @@ final class SmartAppUITests: XCTestCase {
         appLaunch(launchArguments: [
             "shouldResetAllPreferences"
         ])
-        auxiliar_performLogin()
+        //auxiliar_performLogin()
         auxiliar_performOnBoarding()
     }
-    /*
-    func test_logoutWithConfirm() {
-        guard enabled else {
-            XCTAssert(true)
-            return
-        }
-        appLaunch(launchArguments: [
-            "isAuthenticated"
-        ])
-        tap(
-            button: "AccessibilityIdentifier.toolBarBtn1WithMeaningfulName.value",
-            on: app
-        )
-        tap(
-            button: "Logout",
-            on: app
-        )
-        tap(
-            alert: "Welcome",
-            option: "Yes",
-            andWaitForStaticText: "loginScreenMessage",
-            on: app
-        )
-    }*/
+    
 }
 
 //
@@ -115,16 +96,18 @@ extension SmartAppUITests {
             andType: "mail@gmail.com",
             dismissKeyboard: false,
             on: app,
-            delayBeforeTap: 0,
-            delayBeforeType: 0
+            delayBeforeTap: 0.3,
+            delayBeforeType: 0.3
         )
         tap(
             secureTextField: "txtPassword",
             andType: "123",
             dismissKeyboard: false,
-            on: app
+            on: app,
+            delayBeforeTap: 0.3,
+            delayBeforeType: 0.3
         )
-        tap(button: "loginButton", on: app)
+        tap(button: "loginButton", andWaitForStaticText: "UserDetails", on: app)
     }
 
     // Will perform the onboarding flow.
@@ -133,30 +116,27 @@ extension SmartAppUITests {
         //
         // User details screen
         //
-        //exists(staticText: "UserDetails", on: app)
+        exists(staticText: "UserDetails", on: app)
         tap(
             textField: "txtName",
             andType: "Testing Joe",
             dismissKeyboard: false,
             on: app,
-            delayBeforeTap: 1,
-            delayBeforeType: 0
+            delayBeforeTap: 0.3,
+            delayBeforeType: 0.3
         )
-        tap(button: "fwdButton", on: app)
+        tap(button: "fwdButton", andWaitForStaticText: "Terms & Conditions", on: app)
         //
         // Terms and Conditions screen
         //
-        exists(staticText: "Terms & Conditions", on: app)
         tap(button: "readTermsAndConditions", on: app)
-        tap(button: "fwdButton", on: app)
+        tap(button: "fwdButton", andWaitForStaticText: "Onboarding", on: app)
 
         //
         // Onboarding screen
         //
-        exists(staticText: "Onboarding", on: app) // First
         tap(button: "fwdButton", on: app) // Second
-        tap(button: "fwdButton", on: app) // Third
-        waitFor(staticText: "Europe/Lisbon", on: app) // App main screen
+        tap(button: "fwdButton", andWaitForStaticText: "Europe/Lisbon", on: app) // Third
         
     }
 }

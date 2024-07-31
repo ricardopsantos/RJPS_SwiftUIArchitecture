@@ -94,6 +94,7 @@ struct RootView: View, ViewProtocol {
             // swiftlint:enable redundant_discardable_let
         }
         buildScreen(root)
+            .onChange(of: viewModel.preferencesChanged) { _ in updateRoot() }
             .onChange(of: viewModel.isAppStartCompleted) { _ in updateRoot() }
             .onChange(of: viewModel.isUserDetailsFilled) { _ in updateRoot() }
             .onChange(of: viewModel.isTermsAndConditionsAccepted) { _ in updateRoot() }
