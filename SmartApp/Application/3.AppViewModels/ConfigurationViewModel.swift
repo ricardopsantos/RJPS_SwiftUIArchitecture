@@ -26,6 +26,9 @@ class ConfigurationViewModel: ObservableObject {
     // ViewModels
     let authenticationViewModel: AuthenticationViewModel
 
+    // MARK: - Auxiliar Attributes
+    // private var cancelBag: CancelBag = .init()
+
     // MARK: - Usage Attributes
 
     // MARK: - Constructor

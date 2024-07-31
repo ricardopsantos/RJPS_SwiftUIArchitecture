@@ -149,17 +149,17 @@ fileprivate extension RootView {
             root = .splash
         } else if !authenticationViewModel.isAuthenticated {
             root = .login
-            viewModel.send(action: .markInitialScreenAsVisited)
-        } else if !viewModel.isUserDetailsFilled {
-            root = .userDetails
-        } else if !viewModel.isTermsAndConditionsAccepted {
-            root = .termsAndConditions
-        } else if !viewModel.isOnboardingCompleted {
-            root = .onboarding
-        } else {
-            root = .mainApp
+        } else if authenticationViewModel.isAuthenticated {
+            if !viewModel.isUserDetailsFilled {
+                root = .userDetails
+            } else if !viewModel.isTermsAndConditionsAccepted {
+                root = .termsAndConditions
+            } else if !viewModel.isOnboardingCompleted {
+                root = .onboarding
+            } else {
+                root = .mainApp
+            }
         }
-        //  router.coverLink = root
     }
 }
 

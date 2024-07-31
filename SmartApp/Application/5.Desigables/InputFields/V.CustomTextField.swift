@@ -17,12 +17,14 @@ struct CustomTextField: View {
     let isSecured: Bool
     let accessibility: AppConstants.Accessibility
 
-    public init(inputText: Binding<String>,
-                placeholder: String,
-                cornerRadius: CGFloat,
-                borderColor: Color,
-                isSecured: Bool = false,
-                accessibility: AppConstants.Accessibility) {
+    public init(
+        inputText: Binding<String>,
+        placeholder: String,
+        cornerRadius: CGFloat,
+        borderColor: Color,
+        isSecured: Bool = false,
+        accessibility: AppConstants.Accessibility
+    ) {
         self._inputText = inputText
         self.isSecured = isSecured
         self.placeholder = placeholder
@@ -30,7 +32,7 @@ struct CustomTextField: View {
         self.borderColor = borderColor
         self.accessibility = accessibility
     }
-    
+
     var body: some View {
         ZStack(alignment: .leading) {
             if inputText.isEmpty {
@@ -68,7 +70,7 @@ struct CustomTextField: View {
             placeholder: "placeholder",
             cornerRadius: SizeNames.cornerRadius,
             borderColor: Color.primary,
-            isSecured: false, 
+            isSecured: false,
             accessibility: .undefined
         )
         CustomTextField(
@@ -76,7 +78,7 @@ struct CustomTextField: View {
             placeholder: "placeholder",
             cornerRadius: SizeNames.cornerRadius,
             borderColor: Color.primary,
-            isSecured: true, 
+            isSecured: true,
             accessibility: .undefined
         )
     }

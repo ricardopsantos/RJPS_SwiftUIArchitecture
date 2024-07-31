@@ -17,14 +17,12 @@ class AuthenticationViewModel: ObservableObject {
     private var userRepository: UserRepositoryProtocol
 
     // MARK: - Usage Attributes
-    @Published var isAuthenticated = false {
-        didSet {
-            nonSecureAppPreferences.isAuthenticated = isAuthenticated
-        }
-    }
+    @Published var isAuthenticated = false
+
+    // MARK: - Auxiliar Attributes
+    private var cancelBag: CancelBag = .init()
 
     // MARK: - Constructor
-
     init(
         secureAppPreferences: SecureAppPreferencesProtocol,
         nonSecureAppPreferences: NonSecureAppPreferencesProtocol,
@@ -34,6 +32,11 @@ class AuthenticationViewModel: ObservableObject {
         self.nonSecureAppPreferences = nonSecureAppPreferences
         self.userRepository = userRepository
         self.isAuthenticated = nonSecureAppPreferences.isAuthenticated
+
+        nonSecureAppPreferences.output([.changedKey(key: .isAuthenticated)])
+            .sinkToReceiveValue { [weak self] _ in
+                self?.isAuthenticated = nonSecureAppPreferences.isAuthenticated
+            }.store(in: cancelBag)
     }
 
     public enum AuthenticationError: Swift.Error {
@@ -49,17 +52,19 @@ class AuthenticationViewModel: ObservableObject {
         }
         userRepository.saveUser(user: Model.User(email: user.email, password: user.password))
         secureAppPreferences.password = user.password
-        isAuthenticated = true
+        nonSecureAppPreferences.isAuthenticated = true
+        // isAuthenticated = true
         AnalyticsManager.shared.handleCustomEvent(eventType: .login, properties: ["email": user.email])
     }
 
     func logout() async throws {
-        // UserPreferences.shared.isAuthenticated = false
-        isAuthenticated = false
+        nonSecureAppPreferences.isAuthenticated = false
+        // isAuthenticated = false
     }
 
     func deleteAccount() async throws {
-        isAuthenticated = false
+        nonSecureAppPreferences.isAuthenticated = false
+        // isAuthenticated = false
         nonSecureAppPreferences.deleteAll()
         secureAppPreferences.deleteAll()
     }

@@ -18,6 +18,9 @@ public final class AppStateViewModel: ObservableObject {
     @AppStorage(NonSecureAppPreferences.Key.userPIN.rawValue) public var userPIN: String = "22222"
     @PWUserDefaults(value: "", key: NonSecureAppPreferences.Key.userName.rawValue) var userName: String
 
+    // MARK: - Auxiliar Attributes
+    private var cancelBag: CancelBag = .init()
+
     // MARK: - Constructor
     init() {}
 

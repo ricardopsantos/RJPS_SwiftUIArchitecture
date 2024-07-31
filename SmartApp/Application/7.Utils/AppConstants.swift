@@ -11,14 +11,14 @@ public enum AppConstants {
     static let countriesOptions = ["Portugal", "Spain", "Other"]
 }
 
-extension AppConstants {
-    public enum Accessibility: String, CaseIterable {
+public extension AppConstants {
+    enum Accessibility: String, CaseIterable {
         // Text Fields
         case txtName
         case txtUserName
         case txtEmail
         case txtPassword
-        
+
         // Buttons
         case loginButton
         case logoutButton
@@ -28,15 +28,15 @@ extension AppConstants {
         case backButton
         case confirmButton
         case cancelButton
-        
+
         // CheckBox
         case readTermsAndConditions
-        
+
         // Not applied
         case undefined
 
-        public var identifier: String{
-            self.rawValue
+        public var identifier: String {
+            rawValue
         }
     }
 }

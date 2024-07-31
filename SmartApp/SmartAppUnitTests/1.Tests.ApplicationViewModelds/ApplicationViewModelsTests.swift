@@ -65,6 +65,7 @@ final class ApplicationViewModelsTests: XCTestCase {
 
 extension ApplicationViewModelsTests {
     // Test to check if the template view model loads successfully
+
     func test_templateViewModel_testLoad() async throws {
         _ = await MainActor.run {
             expect(self.templateViewModel).notTo(beNil()) // Assert that the template view model is not nil

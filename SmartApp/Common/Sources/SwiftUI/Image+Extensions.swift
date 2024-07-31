@@ -29,7 +29,6 @@ public extension Image {
 // MARK: - systemName
 //
 
-// swiftlint:disable no_hardCodedImages
 public extension Image {
     static var systemHeart: Image {
         Image(systemName: "heart")
@@ -39,5 +38,3 @@ public extension Image {
         Image(systemName: "globe.asia.australia.fill")
     }
 }
-
-// swiftlint:enable no_hardCodedImages

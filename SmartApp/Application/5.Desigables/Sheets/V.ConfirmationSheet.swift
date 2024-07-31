@@ -103,7 +103,7 @@ struct ConfirmationSheetV1: View {
                     },
                     text: leftText,
                     style: .secondary,
-                    background: .primaryColor, 
+                    background: .primaryColor,
                     accessibility: .confirmButton
                 )
                 TextButton(

@@ -98,6 +98,7 @@ public enum FontSemantic: CaseIterable {
             }
         }
 
+        // swiftlint:disable switch_case_alignment
         let bodyFontSize: CGFloat = 15
         return switch self {
         case .largeTitle: Font.custom(FontsName.regular.name, size: bodyFontSize * 2.5)
@@ -111,6 +112,7 @@ public enum FontSemantic: CaseIterable {
         case .footnote: Font.custom(FontsName.regular.name, size: bodyFontSize * 0.7)
         case .caption: Font.custom(FontsName.regular.name, size: bodyFontSize * 0.6)
         }
+        // swiftlint:enable switch_case_alignment
     }
 }
 

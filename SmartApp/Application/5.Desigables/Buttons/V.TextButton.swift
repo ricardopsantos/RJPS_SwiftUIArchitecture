@@ -21,13 +21,15 @@ struct TextButton: View {
     var background: Color = .primaryColor
     var enabled: Bool = true
     let accessibility: AppConstants.Accessibility
-    
-    public init(onClick: @escaping () -> Void,
-                text: String,
-                style: Style = .primary,
-                background: Color = .primaryColor,
-                enabled: Bool = true,
-                accessibility: AppConstants.Accessibility) {
+
+    public init(
+        onClick: @escaping () -> Void,
+        text: String,
+        style: Style = .primary,
+        background: Color = .primaryColor,
+        enabled: Bool = true,
+        accessibility: AppConstants.Accessibility
+    ) {
         self.onClick = onClick
         self.text = text
         self.style = style
@@ -35,7 +37,7 @@ struct TextButton: View {
         self.enabled = enabled
         self.accessibility = accessibility
     }
-    
+
     // MARK: - Views
     var body: some View {
         Button(action: onClick) {

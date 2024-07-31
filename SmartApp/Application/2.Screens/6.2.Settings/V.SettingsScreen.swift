@@ -120,15 +120,19 @@ fileprivate extension SettingsScreen {
     }
 
     var updateButtonView: some View {
-        TextButton(onClick: {
-            AnalyticsManager.shared.handleButtonClickEvent(
-                buttonType: .primary,
-                label: "Update",
-                sender: "\(Self.self)"
-            )
-            router.coverLink = .editUserDetails
-        }, text: "Update".localizedMissing, 
-                   accessibility: .saveButton)
+        TextButton(
+            onClick: {
+                AnalyticsManager.shared.handleButtonClickEvent(
+                    buttonType: .primary,
+                    label: "Update",
+                    sender: "\(Self.self)"
+                )
+                router.coverLink = .editUserDetails
+            },
+            text: "Update".localizedMissing,
+
+            accessibility: .saveButton
+        )
     }
 
     var bottomButtons: some View {
