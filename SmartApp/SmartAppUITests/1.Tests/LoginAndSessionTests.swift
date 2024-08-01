@@ -3,6 +3,10 @@
 //  Copyright © 2024 - 2019 Ricardo Santos. All rights reserved.
 //
 
+/*
+ https://medium.com/@jpmtech/level-up-your-career-by-adding-ui-tests-to-your-swiftui-app-37cbffeba459
+ */
+
 @testable import Smart_Dev
 
 import XCTest
@@ -11,18 +15,7 @@ import Nimble
 //
 import Common
 
-final class SmartAppUITests: XCTestCase {
-    var enabled: Bool = true
-    lazy var app: XCUIApplication = {
-        let app = XCUIApplication()
-        return app
-    }()
-
-    func appLaunch(launchArguments: [String]) {
-        app.launchArguments = launchArguments + ["shouldDisableAnimations"]
-        app.launch()
-    }
-
+final class LoginAndSessionTests: BaseUITests {
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         false
     }
@@ -43,10 +36,6 @@ final class SmartAppUITests: XCTestCase {
     //
 
     func testA1_welcomeScreen() {
-        guard enabled else {
-            XCTAssert(true)
-            return
-        }
         appLaunch(launchArguments: [
             "shouldResetAllPreferences"
         ])
@@ -58,10 +47,6 @@ final class SmartAppUITests: XCTestCase {
     //
 
     func testB1_login() {
-        guard enabled else {
-            XCTAssert(true)
-            return
-        }
         appLaunch(launchArguments: [
             "shouldResetAllPreferences"
         ])
@@ -69,10 +54,6 @@ final class SmartAppUITests: XCTestCase {
     }
 
     func testB2_onBoarding() {
-        guard enabled else {
-            XCTAssert(true)
-            return
-        }
         appLaunch(launchArguments: [
             "shouldResetAllPreferences"
         ])
@@ -82,9 +63,9 @@ final class SmartAppUITests: XCTestCase {
 }
 
 //
-// MARK: - Utils flows
+// MARK: - Utils
 //
-extension SmartAppUITests {
+extension LoginAndSessionTests {
     // Will fill user email and password.
     // User needs to be unauthenticated
     func auxiliar_performLogin() {

@@ -15,15 +15,7 @@ import Common
 import Domain
 import Core
 
-final class ApplicationViewModelsTests: XCTestCase {
-    lazy var sampleService: SampleServiceProtocol = { SampleService.shared }()
-    lazy var secureAppPreferences: SecureAppPreferencesProtocol = { SecureAppPreferences.shared }()
-    lazy var nonSecureAppPreferences: NonSecureAppPreferencesProtocol = { NonSecureAppPreferences.shared }()
-    lazy var userRepository: UserRepositoryProtocol = { UserRepository(
-        secureAppPreferences: secureAppPreferences,
-        nonSecureAppPreferences: nonSecureAppPreferences
-    ) }()
-
+final class EditUserDetailsViewModelTests: BaseViewModelsTests {
     let user1: Model.User = .init(
         name: "Ricardo",
         email: "mail@gmail.com",
@@ -34,7 +26,6 @@ final class ApplicationViewModelsTests: XCTestCase {
     )
 
     private var editUserDetails: EditUserDetailsViewModel?
-    private var templateViewModel: ___Template___ViewModel?
 
     override func tearDown() {
         super.tearDown()
@@ -52,40 +43,6 @@ final class ApplicationViewModelsTests: XCTestCase {
                 onUserSaved: {}
             ))
         }
-
-        if templateViewModel == nil {
-            templateViewModel = await ___Template___ViewModel(dependencies: .init(model: .init(), onCompletion: { _ in
-            }, sampleService: sampleService))
-        }
-    }
-}
-
-//
-// MARK: - Template View Model
-//
-
-extension ApplicationViewModelsTests {
-    // Test to check if the template view model loads successfully
-
-    func test_templateViewModel_testLoad() async throws {
-        _ = await MainActor.run {
-            expect(self.templateViewModel).notTo(beNil()) // Assert that the template view model is not nil
-        }
-    }
-
-    // Test to verify the increment action in the template view model
-    @MainActor func test_templateTest_incrementAction() {
-        // Assert initial counter value is 0
-        expect(self.templateViewModel?.counter == 0).toEventually(beTrue(), timeout: .seconds(timeout))
-
-        // Send increment action
-        templateViewModel?.send(.increment)
-
-        // Assert counter value is incremented to 1
-        expect(self.templateViewModel?.counter == 1).toEventually(beTrue(), timeout: .seconds(timeout))
-
-        // Assert message reflects the incremented counter value
-        expect(self.templateViewModel?.message == "Counter: 1").toEventually(beTrue(), timeout: .seconds(timeout))
     }
 }
 
@@ -93,16 +50,16 @@ extension ApplicationViewModelsTests {
 // MARK: - Edit User Details
 //
 
-extension ApplicationViewModelsTests {
+extension EditUserDetailsViewModelTests {
     // Test to check if the EditUserDetails view model loads successfully
-    func test_editUserDetailsViewModel_testLoad() async throws {
+    func testA1_testLoad() async throws {
         _ = await MainActor.run {
             expect(self.editUserDetails).notTo(beNil()) // Assert that the EditUserDetails view model is not nil
         }
     }
 
     // Test to verify user changes in the EditUserDetails view model
-    @MainActor func test_editUserDetailsViewModel_testLoadUserChanged() {
+    @MainActor func testA2_userChanged() {
         var emittedEvent = false
         let randomName = String.randomWithSpaces(10) // Generate a random name
 

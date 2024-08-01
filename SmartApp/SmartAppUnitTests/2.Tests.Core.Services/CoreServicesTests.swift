@@ -32,7 +32,7 @@ final class CoreServicesTests: XCTestCase {
 
 extension CoreServicesTests {
     // Test to verify that weather information can be fetched by coordinates
-    func test_weatherService_getWeather() async {
+    func testA1_weatherService_getWeather() async {
         // Check if the test is enabled before proceeding
         guard enabled else {
             XCTAssert(true) // Test is enabled, so we can return true and skip the test
