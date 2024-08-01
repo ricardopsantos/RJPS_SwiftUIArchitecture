@@ -25,4 +25,59 @@ class BaseUITests: XCTestCase {
         app.launchArguments = launchArguments + ["shouldDisableAnimations"]
         app.launch()
     }
+    
+}
+
+extension BaseUITests {
+    // Will fill user email and password.
+    // User needs to be unauthenticated
+    func auxiliar_performLogin() {
+        exists(staticText: "Welcome", on: app)
+        tap(
+            textField: "txtEmail",
+            andType: "mail@gmail.com",
+            dismissKeyboard: false,
+            on: app,
+            delayBeforeTap: 0,
+            delayBeforeType: 0
+        )
+        tap(
+            secureTextField: "txtPassword",
+            andType: "123",
+            dismissKeyboard: false,
+            on: app,
+            delayBeforeTap: 0,
+            delayBeforeType: 0
+        )
+        tap(button: "loginButton", on: app)
+    }
+
+    // Will perform the onboarding flow.
+    // User needs to authenticated, and on the correct flow
+    func auxiliar_performOnBoarding() {
+        //
+        // User details screen
+        //
+        exists(staticText: "UserDetails", on: app)
+        tap(
+            textField: "txtName",
+            andType: "Testing Joe",
+            dismissKeyboard: false,
+            on: app,
+            delayBeforeTap: 0,
+            delayBeforeType: 0
+        )
+        tap(button: "fwdButton", andWaitForStaticText: "Terms & Conditions", on: app)
+        //
+        // Terms and Conditions screen
+        //
+        tap(button: "readTermsAndConditions", on: app)
+        tap(button: "fwdButton", andWaitForStaticText: "Onboarding", on: app)
+
+        //
+        // Onboarding screen
+        //
+        tap(button: "fwdButton", on: app) // Second
+        tap(button: "fwdButton", andWaitForStaticText: "Europe/Lisbon", on: app) // Third
+    }
 }
