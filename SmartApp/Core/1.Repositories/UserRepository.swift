@@ -8,12 +8,10 @@
 import Foundation
 import Combine
 //
+import Domain
 import Common
 import DevTools
 
-public enum UserRepositoryOutputActions: Equatable {
-    case userChanged
-}
 
 public class UserRepository {
     fileprivate let secureAppPreferences: SecureAppPreferencesProtocol
@@ -43,7 +41,7 @@ extension UserRepository: UserRepositoryProtocol {
     }
 
     public var user: Model.User? {
-        let key = NonSecureAppPreferences.Key.user
+        let key: NonSecureAppPreferencesKey = .user
         guard let savedUser = nonSecureAppPreferences.nonSecureUserDefaults.data(forKey: key.rawValue) else { return nil }
         let decoder = JSONDecoder()
         do {
@@ -76,7 +74,7 @@ extension UserRepository: UserRepositoryProtocol {
     }
 
     public func saveUser(user: Model.User) {
-        let key = NonSecureAppPreferences.Key.user
+        let key = NonSecureAppPreferencesKey.user
         var user = user
         if let dateOfBirth = user.dateOfBirth {
             user.dateOfBirth = dateOfBirth.beginningOfDay

@@ -8,6 +8,16 @@
 import Combine
 import Foundation
 
+public enum SecureAppPreferencesKey: String, CaseIterable {
+    case authToken
+    case password
+}
+
+public enum SecureAppPreferencesOutputActions: Equatable {
+    case deletedAll
+    case changedKey(key: SecureAppPreferencesKey)
+}
+
 public protocol SecureAppPreferencesProtocol {
     // MARK: - Properties
 

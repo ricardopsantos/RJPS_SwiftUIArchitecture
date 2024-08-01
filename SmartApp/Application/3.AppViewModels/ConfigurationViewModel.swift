@@ -6,6 +6,8 @@
 //
 
 import Foundation
+//
+import Domain
 import Core
 
 // ConfigurationViewModel is `ObservableObject` so that we can inject it on the view hierarchy

@@ -6,6 +6,8 @@
 //
 
 import Foundation
+//
+import Domain
 import Common
 
 public class UserService {

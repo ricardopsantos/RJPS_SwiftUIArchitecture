@@ -4,21 +4,11 @@
 //
 //  Created by Ricardo Santos on 15/04/2024.
 //
+
 import Combine
 //
 import Common
-
-public enum SecureAppPreferencesOutputActions: Equatable {
-    case deletedAll
-    case changedKey(key: SecureAppPreferences.Key)
-}
-
-public extension SecureAppPreferences {
-    enum Key: String, CaseIterable {
-        case authToken
-        case password
-    }
-}
+import Domain
 
 public class SecureAppPreferences {
     public static let shared = SecureAppPreferences()
@@ -28,19 +18,19 @@ public class SecureAppPreferences {
     fileprivate var output = PassthroughSubject<SecureAppPreferencesOutputActions, Never>()
 
     private var keychain: Keychain { Keychain(service: Bundle.main.bundleIdentifier ?? "SmartApp") }
-    private func forKey(_ key: SecureAppPreferences.Key) -> String {
+    private func forKey(_ key: SecureAppPreferencesKey) -> String {
         "\(SecureAppPreferences.self).\(key.rawValue)"
     }
 
     @discardableResult
-    private func set(_ value: String?, for key: SecureAppPreferences.Key) -> Bool {
+    private func set(_ value: String?, for key: SecureAppPreferencesKey) -> Bool {
         let k = forKey(key)
         keychain[k] = value
         output.send(.changedKey(key: key))
         return get(for: key) == value
     }
 
-    private func get(for key: SecureAppPreferences.Key) -> String? {
+    private func get(for key: SecureAppPreferencesKey) -> String? {
         let k = forKey(key)
         if let value = keychain[k] {
             return value
@@ -73,7 +63,7 @@ extension SecureAppPreferences: SecureAppPreferencesProtocol {
     }
 
     public func deleteAll() {
-        Key.allCases.forEach { key in
+        SecureAppPreferencesKey.allCases.forEach { key in
             set(nil, for: key)
         }
         output.send(.deletedAll)

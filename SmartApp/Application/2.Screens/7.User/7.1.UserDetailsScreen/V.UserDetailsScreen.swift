@@ -8,6 +8,7 @@
 import SwiftUI
 import Foundation
 //
+import Domain
 import DesignSystem
 import Core
 import DevTools

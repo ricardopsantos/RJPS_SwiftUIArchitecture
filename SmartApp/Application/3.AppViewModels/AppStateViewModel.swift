@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 //
+import Domain
 import Core
 import Common
 
@@ -15,8 +16,8 @@ public final class AppStateViewModel: ObservableObject {
     // MARK: - Dependency Attributes
 
     // MARK: - Usage Attributes
-    @AppStorage(NonSecureAppPreferences.Key.userPIN.rawValue) public var userPIN: String = "22222"
-    @PWUserDefaults(value: "", key: NonSecureAppPreferences.Key.userName.rawValue) var userName: String
+    @AppStorage(NonSecureAppPreferencesKey.userPIN.rawValue) public var userPIN: String = "22222"
+    @PWUserDefaults(value: "", key: NonSecureAppPreferencesKey.userName.rawValue) var userName: String
 
     // MARK: - Auxiliar Attributes
     private var cancelBag: CancelBag = .init()

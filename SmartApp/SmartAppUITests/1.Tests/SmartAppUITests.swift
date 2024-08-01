@@ -3,12 +3,13 @@
 //  Copyright © 2024 - 2019 Ricardo Santos. All rights reserved.
 //
 
+@testable import Smart_Dev
+
 import XCTest
+import Combine
 import Nimble
 //
 import Common
-
-@testable import Smart_Dev
 
 final class SmartAppUITests: XCTestCase {
     var enabled: Bool = true

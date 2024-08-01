@@ -10,6 +10,22 @@ import Combine
 //
 import Common
 
+public enum NonSecureAppPreferencesOutputActions: Equatable {
+    case deletedAll
+    case changedKey(key: NonSecureAppPreferencesKey)
+}
+
+public enum NonSecureAppPreferencesKey: String, CaseIterable, Equatable {
+    case user
+    case userName
+    case userPIN
+    case isAuthenticated
+    case isProfileComplete
+    case isPrivacyPolicyAccepted
+    case isOnboardingCompleted
+    case selectedAppearance
+}
+
 public protocol NonSecureAppPreferencesProtocol {
     // MARK: - Properties
 

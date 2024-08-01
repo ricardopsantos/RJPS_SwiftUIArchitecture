@@ -3,12 +3,7 @@
 //  Copyright © 2024 - 2019 Ricardo Santos. All rights reserved.
 //
 
-@testable import Smart_Dev
 
-import XCTest
-import Combine
-import Nimble
-//
 import Common
 
 let cancelBag = CancelBag()

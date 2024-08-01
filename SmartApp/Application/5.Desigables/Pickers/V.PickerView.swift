@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+//
+import Domain
 import DesignSystem
 import Core
 

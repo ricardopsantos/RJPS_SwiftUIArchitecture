@@ -10,7 +10,7 @@ import Combine
 //
 import Common
 
-protocol EmployeeServiceProtocol {
+public protocol EmployeeServiceProtocol {
     func requestEmployeesAsync(_ request: ModelDto.EmployeeRequest) async throws -> ModelDto.EmployeeResponse
 
     typealias ResponseEmployeesWithCacheMaybe = AnyPublisher<ModelDto.EmployeeResponse, AppErrors>

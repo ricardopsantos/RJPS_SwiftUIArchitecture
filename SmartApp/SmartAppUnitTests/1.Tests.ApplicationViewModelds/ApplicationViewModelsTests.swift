@@ -5,14 +5,15 @@
 
 /// @testable import comes from the ´PRODUCT_NAME´ on __.xcconfig__ file
 
-//
+@testable import Smart_Dev
+
 import XCTest
 import Combine
 import Nimble
 //
-@testable import Smart_Dev
-import Core
 import Common
+import Domain
+import Core
 
 final class ApplicationViewModelsTests: XCTestCase {
     lazy var sampleService: SampleServiceProtocol = { SampleService.shared }()

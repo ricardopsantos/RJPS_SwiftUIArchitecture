@@ -8,6 +8,8 @@ import UIKit
 import Combine
 //
 import Firebase
+//
+import Domain
 import Common
 import Core
 import DevTools
