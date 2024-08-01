@@ -12,7 +12,6 @@ import Domain
 import Common
 import DevTools
 
-
 public class UserRepository {
     fileprivate let secureAppPreferences: SecureAppPreferencesProtocol
     fileprivate let nonSecureAppPreferences: NonSecureAppPreferencesProtocol
