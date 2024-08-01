@@ -63,6 +63,9 @@ struct ___Template___View: View, ViewProtocol {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
     }
 
+    // MARK: - Auxiliar Attributes
+    private var cancelBag: CancelBag = .init()
+
     // MARK: - Usage Attributes
     @EnvironmentObject var appState: AppStateViewModel
     @Environment(\.dismiss) var dismiss

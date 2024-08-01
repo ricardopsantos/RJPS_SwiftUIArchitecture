@@ -5,14 +5,15 @@
 
 /// @testable import comes from the ´PRODUCT_NAME´ on __.xcconfig__ file
 
-//
+@testable import Smart_Dev
+
 import XCTest
 import Combine
 import Nimble
 //
-@testable import Smart_Dev
-import Core
 import Common
+import Domain
+import Core
 
 final class ApplicationViewModelsTests: XCTestCase {
     lazy var sampleService: SampleServiceProtocol = { SampleService.shared }()
@@ -65,6 +66,7 @@ final class ApplicationViewModelsTests: XCTestCase {
 
 extension ApplicationViewModelsTests {
     // Test to check if the template view model loads successfully
+
     func test_templateViewModel_testLoad() async throws {
         _ = await MainActor.run {
             expect(self.templateViewModel).notTo(beNil()) // Assert that the template view model is not nil

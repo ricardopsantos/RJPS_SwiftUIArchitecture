@@ -118,7 +118,7 @@ fileprivate extension LoginView {
             label: "Email".localized,
             placeholder: "EmailPlaceHolder".localized,
             isSecured: false,
-            inputText: $email, 
+            inputText: $email,
             accessibility: .txtEmail
         )
     }

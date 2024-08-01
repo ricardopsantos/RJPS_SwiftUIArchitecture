@@ -163,14 +163,12 @@ targets:
     # dependencies: ########################
     
     dependencies:
-      - target: Core
-      - target: DesignSystem
       - target: Common
       - target: DevTools
+      - target: Domain
+      - target: Core
+      - target: DesignSystem
 
-      #- package: Common
-      #  product: Common
-      #  link: true
       - package: Reachability
         product: Reachability
         link: false
@@ -196,18 +194,18 @@ targets:
         product: FirebaseAppCheck
         link: true
   
-# CORE
-# CORE
-# CORE
+# DOMAIN
+# DOMAIN
+# DOMAIN
 
-  DevTools:
+  Domain:
     templates:
     - Framework
     settings:
       base:
         MARKETING_VERSION: 1.0
     sources:
-      - path: ../DevTools
+      - path: ../Domain
         excludes: [Info.plist]
     dependencies:
       - target: Common
@@ -227,11 +225,10 @@ targets:
       - path: ../Core
         excludes: [Info.plist]
     dependencies:
+      - target: Domain
+      - target: DevTools
       - target: Common
-      #- package: Common
-      #  product: Common
-      #  link: true
-          
+    
 # DESIGN_SYSTEM 
 # DESIGN_SYSTEM 
 # DESIGN_SYSTEM 
@@ -242,17 +239,29 @@ targets:
     settings:
       base:
         MARKETING_VERSION: 1.0
-        ##SWIFT_OBJC_BRIDGING_HEADER: "Common/Common-Bridging-Header.h"
-        ##ENABLE_BITCODE: YES
     sources:
       - path: ../DesignSystem
         excludes: [Info.plist]
     dependencies:
       - target: Common
+      - target: Domain
       - target: DevTools
-      #- package: Common
-      #  product: Common
-      #  link: true
+      
+# DEVTOOLS
+# DEVTOOLS
+# DEVTOOLS
+
+  DevTools:
+    templates:
+    - Framework
+    settings:
+      base:
+        MARKETING_VERSION: 1.0
+    sources:
+      - path: ../DevTools
+        excludes: [Info.plist]
+    dependencies:
+      - target: Common
       
 # COMMON (Cant have app dependencies)
 # COMMON (Cant have app dependencies)
@@ -265,7 +274,6 @@ targets:
       base:
         MARKETING_VERSION: 1.0
         SWIFT_OBJC_BRIDGING_HEADER: "Common/Sources/Common-Bridging-Header.h"
-        ##ENABLE_BITCODE: YES
     sources:
       - path: ../Common
         excludes: [Tests,Sources/Info.plist,.gitignore,.swiftpm,Package.swift,Package.resolved]
@@ -285,6 +293,8 @@ targets:
       - target: SmartApp
         link: true
       - target: Common
+        link: false
+      - target: Domain
         link: false
       - target: Core
         link: false

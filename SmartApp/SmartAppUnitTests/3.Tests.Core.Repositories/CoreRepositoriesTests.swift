@@ -7,11 +7,11 @@
 
 @testable import Smart_Dev
 
-//
 import XCTest
 import Combine
 import Nimble
 //
+import Domain
 import Core
 
 final class CoreRepositoriesTests: XCTestCase {

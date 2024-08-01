@@ -6,6 +6,8 @@
 //
 
 import Foundation
+//
+import Domain
 import Core
 
 // ConfigurationViewModel is `ObservableObject` so that we can inject it on the view hierarchy
@@ -25,6 +27,9 @@ class ConfigurationViewModel: ObservableObject {
 
     // ViewModels
     let authenticationViewModel: AuthenticationViewModel
+
+    // MARK: - Auxiliar Attributes
+    // private var cancelBag: CancelBag = .init()
 
     // MARK: - Usage Attributes
 

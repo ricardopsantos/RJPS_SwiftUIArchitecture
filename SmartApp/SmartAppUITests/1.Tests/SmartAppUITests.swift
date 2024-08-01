@@ -3,12 +3,13 @@
 //  Copyright © 2024 - 2019 Ricardo Santos. All rights reserved.
 //
 
+@testable import Smart_Dev
+
 import XCTest
+import Combine
 import Nimble
 //
 import Common
-
-@testable import Smart_Dev
 
 final class SmartAppUITests: XCTestCase {
     var enabled: Bool = true
@@ -37,7 +38,6 @@ final class SmartAppUITests: XCTestCase {
 
     override func tearDownWithError() throws {}
 
-    
     //
     // MARK: - testAxxx : Splash Screen
     //
@@ -56,7 +56,7 @@ final class SmartAppUITests: XCTestCase {
     //
     // MARK: - testBxxx :Login
     //
-    
+
     func testB1_login() {
         guard enabled else {
             XCTAssert(true)
@@ -76,17 +76,15 @@ final class SmartAppUITests: XCTestCase {
         appLaunch(launchArguments: [
             "shouldResetAllPreferences"
         ])
-        //auxiliar_performLogin()
+        auxiliar_performLogin()
         auxiliar_performOnBoarding()
     }
-    
 }
 
 //
 // MARK: - Utils flows
 //
 extension SmartAppUITests {
-    
     // Will fill user email and password.
     // User needs to be unauthenticated
     func auxiliar_performLogin() {
@@ -96,16 +94,16 @@ extension SmartAppUITests {
             andType: "mail@gmail.com",
             dismissKeyboard: false,
             on: app,
-            delayBeforeTap: 0.3,
-            delayBeforeType: 0.3
+            delayBeforeTap: 0,
+            delayBeforeType: 0
         )
         tap(
             secureTextField: "txtPassword",
             andType: "123",
             dismissKeyboard: false,
             on: app,
-            delayBeforeTap: 0.3,
-            delayBeforeType: 0.3
+            delayBeforeTap: 0,
+            delayBeforeType: 0
         )
         tap(button: "loginButton", andWaitForStaticText: "UserDetails", on: app)
     }
@@ -122,8 +120,8 @@ extension SmartAppUITests {
             andType: "Testing Joe",
             dismissKeyboard: false,
             on: app,
-            delayBeforeTap: 0.3,
-            delayBeforeType: 0.3
+            delayBeforeTap: 0,
+            delayBeforeType: 0
         )
         tap(button: "fwdButton", andWaitForStaticText: "Terms & Conditions", on: app)
         //
@@ -137,6 +135,5 @@ extension SmartAppUITests {
         //
         tap(button: "fwdButton", on: app) // Second
         tap(button: "fwdButton", andWaitForStaticText: "Europe/Lisbon", on: app) // Third
-        
     }
 }

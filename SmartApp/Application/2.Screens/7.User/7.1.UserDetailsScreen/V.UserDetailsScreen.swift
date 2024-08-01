@@ -8,6 +8,7 @@
 import SwiftUI
 import Foundation
 //
+import Domain
 import DesignSystem
 import Core
 import DevTools
@@ -107,7 +108,7 @@ struct UserDetailsView: View {
             CustomTitleAndCustomTextField(
                 label: "Name".localizedMissing,
                 placeholder: "NamePlaceHolder".localizedMissing,
-                inputText: $name, 
+                inputText: $name,
                 accessibility: .txtName
             )
             .padding(.vertical, SizeNames.defaultMargin)
@@ -137,23 +138,26 @@ struct UserDetailsView: View {
             CountryView(selectedCountry: $selectedCountry)
                 .padding(.vertical, SizeNames.defaultMargin)
             Spacer()
-            TextButton(onClick: {
-                if hasEnteredAllDetails() {
-                    AnalyticsManager.shared.handleButtonClickEvent(
-                        buttonType: .primary,
-                        label: "Continue",
-                        sender: "\(Self.self)"
-                    )
-                    viewModel.send(action: .save(
-                        name: name,
-                        dateOfBirth: dateOfBirth,
-                        gender: selectedGender,
-                        country: selectedCountry
-                    ))
-                    onCompletion(#function)
-                }
-            }, text: "Continue".localizedMissing,
-                       accessibility: .fwdButton)
+            TextButton(
+                onClick: {
+                    if hasEnteredAllDetails() {
+                        AnalyticsManager.shared.handleButtonClickEvent(
+                            buttonType: .primary,
+                            label: "Continue",
+                            sender: "\(Self.self)"
+                        )
+                        viewModel.send(action: .save(
+                            name: name,
+                            dateOfBirth: dateOfBirth,
+                            gender: selectedGender,
+                            country: selectedCountry
+                        ))
+                        onCompletion(#function)
+                    }
+                },
+                text: "Continue".localizedMissing,
+                accessibility: .fwdButton
+            )
         }
         .padding(SizeNames.defaultMargin)
     }

@@ -8,27 +8,8 @@
 import Foundation
 import Combine
 //
-import DevTools
+import Domain
 import Common
-
-public enum NonSecureAppPreferencesOutputActions: Equatable {
-    case deletedAll
-    case changedKey(key: NonSecureAppPreferences.Key)
-}
-
-// MARK: - NonSecureAppPreferences.Keys
-public extension NonSecureAppPreferences {
-    enum Key: String, CaseIterable, Equatable {
-        case user
-        case userName
-        case userPIN
-        case isAuthenticated
-        case isProfileComplete
-        case isPrivacyPolicyAccepted
-        case isOnboardingCompleted
-        case selectedAppearance
-    }
-}
 
 // MARK: - NonSecureAppPreferences
 public class NonSecureAppPreferences {
@@ -60,13 +41,13 @@ public class NonSecureAppPreferences {
         }
     }
 
-    fileprivate func setBool(_ key: NonSecureAppPreferences.Key, _ value: Bool?) {
+    fileprivate func setBool(_ key: NonSecureAppPreferencesKey, _ value: Bool?) {
         defaults.setValue(value, forKey: key.rawValue)
         defaults.synchronize()
         output.send(.changedKey(key: key))
     }
 
-    fileprivate func setString(_ key: NonSecureAppPreferences.Key, _ value: String?) {
+    fileprivate func setString(_ key: NonSecureAppPreferencesKey, _ value: String?) {
         defaults.setValue(value, forKey: key.rawValue)
         defaults.synchronize()
         output.send(.changedKey(key: key))
@@ -91,7 +72,7 @@ extension NonSecureAppPreferences: NonSecureAppPreferencesProtocol {
     }
 
     public func deleteAll() {
-        Key.allCases.forEach { key in
+        NonSecureAppPreferencesKey.allCases.forEach { key in
             defaults.removeObject(forKey: key.rawValue)
             output.send(.changedKey(key: key))
         }
@@ -100,27 +81,27 @@ extension NonSecureAppPreferences: NonSecureAppPreferencesProtocol {
     }
 
     public var isAuthenticated: Bool {
-        get { defaults.bool(forKey: Key.isAuthenticated.rawValue) }
+        get { defaults.bool(forKey: NonSecureAppPreferencesKey.isAuthenticated.rawValue) }
         set { setBool(.isAuthenticated, newValue) }
     }
 
     public var isProfileComplete: Bool {
-        get { defaults.bool(forKey: Key.isProfileComplete.rawValue) }
+        get { defaults.bool(forKey: NonSecureAppPreferencesKey.isProfileComplete.rawValue) }
         set { setBool(.isProfileComplete, newValue) }
     }
 
     public var isPrivacyPolicyAccepted: Bool {
-        get { defaults.bool(forKey: Key.isPrivacyPolicyAccepted.rawValue) }
+        get { defaults.bool(forKey: NonSecureAppPreferencesKey.isPrivacyPolicyAccepted.rawValue) }
         set { setBool(.isPrivacyPolicyAccepted, newValue) }
     }
 
     public var isOnboardingCompleted: Bool {
-        get { defaults.bool(forKey: Key.isOnboardingCompleted.rawValue) }
+        get { defaults.bool(forKey: NonSecureAppPreferencesKey.isOnboardingCompleted.rawValue) }
         set { setBool(.isOnboardingCompleted, newValue) }
     }
 
     public var selectedAppearance: String? {
-        get { defaults.string(forKey: Key.selectedAppearance.rawValue) }
+        get { defaults.string(forKey: NonSecureAppPreferencesKey.selectedAppearance.rawValue) }
         set {
             if let newValue = newValue, Common.InterfaceStyle(rawValue: newValue) == nil {
                 fatalError("Invalid value: \(newValue)")

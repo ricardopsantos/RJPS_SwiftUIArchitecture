@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 //
+import Domain
 import Common
 import Core
 
@@ -93,7 +94,7 @@ public class EditUserDetailsViewModel: ObservableObject {
             gender: let gender,
             country: let country
         ):
-            print("tem bug ao nao conseguir mostrar 2 alertas")
+            print("Bug ao nao conseguir mostrar 2 alertas")
             guard email.isValidEmail else {
                 alertModel = .init(type: .error, message: "Invalid email".localizedMissing)
                 return

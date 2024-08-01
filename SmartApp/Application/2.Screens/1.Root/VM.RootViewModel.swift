@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 //
+import Domain
 import Common
 import Core
 
@@ -33,7 +34,7 @@ struct RootModel: Equatable, Hashable {
 extension RootViewModel {
     enum Actions {
         case start
-        case markInitialScreenAsVisited
+        // case markInitialScreenAsVisited
         case markUserDetailsCompleted
         case termsAndConditionsAccepted
         case termsAndConditionsNotAccepted
@@ -63,7 +64,7 @@ class RootViewModel: ObservableObject {
         self.isUserDetailsFilled = dependencies.model.isUserDetailsFilled
         self.isTermsAndConditionsAccepted = dependencies.model.isTermsAndConditionsAccepted
         self.isOnboardingCompleted = dependencies.model.isOnboardingCompleted
-        dependencies.nonSecureAppPreferences.output([]).sinkToReceiveValue { [weak self]_ in
+        dependencies.nonSecureAppPreferences.output([]).sinkToReceiveValue { [weak self] _ in
             self?.preferencesChanged = .now
         }.store(in: cancelBag)
     }
@@ -79,10 +80,10 @@ class RootViewModel: ObservableObject {
             Common_Utils.delay(2) { [weak self] in
                 self?.isAppStartCompleted = true
             }
-        case .markInitialScreenAsVisited:
-            isUserDetailsFilled = nonSecureAppPreferences?.isProfileComplete ?? false
-            isTermsAndConditionsAccepted = nonSecureAppPreferences?.isPrivacyPolicyAccepted ?? false
-            isOnboardingCompleted = nonSecureAppPreferences?.isOnboardingCompleted ?? false
+        /* case .markInitialScreenAsVisited:
+         isUserDetailsFilled = nonSecureAppPreferences?.isProfileComplete ?? false
+         isTermsAndConditionsAccepted = nonSecureAppPreferences?.isPrivacyPolicyAccepted ?? false
+         isOnboardingCompleted = nonSecureAppPreferences?.isOnboardingCompleted ?? false */
         case .markUserDetailsCompleted:
             guard !isUserDetailsFilled else { return }
             nonSecureAppPreferences?.isProfileComplete = true

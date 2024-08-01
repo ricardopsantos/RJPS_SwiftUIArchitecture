@@ -10,17 +10,16 @@ import Common
 import Core
 
 public enum UITestingManager {
-    
     public enum Options: String {
         case shouldDisableAnimations
         case shouldResetAllPreferences
         case isAuthenticated
-        
+
         public var rawValue: String {
-            return "\(self)"
+            "\(self)"
         }
     }
-    
+
     public static func setupForForTestingIfNeeded() {
         if CommandLine.arguments.contains(UITestingManager.Options.shouldDisableAnimations.rawValue) {
             // clear your app state before running UI tests here.

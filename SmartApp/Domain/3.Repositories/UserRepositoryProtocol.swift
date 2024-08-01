@@ -10,6 +10,10 @@ import Combine
 //
 import Common
 
+public enum UserRepositoryOutputActions: Equatable {
+    case userChanged
+}
+
 public protocol UserRepositoryProtocol {
     // MARK: - Utilities
 
