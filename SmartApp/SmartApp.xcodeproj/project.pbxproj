@@ -331,6 +331,8 @@
 		D77A251F685328CA88F7231E /* UIView+AnimationsBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6344864F30EC39BE520CCB /* UIView+AnimationsBase.swift */; };
 		D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */; };
 		D7F33EE52C5CEED30029AE41 /* V.DefaultSegmentedPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EE42C5CEED30029AE41 /* V.DefaultSegmentedPickerView.swift */; };
+		D7F33EE92C5D07070029AE41 /* Model+StateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EE82C5D07070029AE41 /* Model+StateResponse.swift */; };
+		D7F33EEB2C5D08290029AE41 /* Model+NationsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EEA2C5D08290029AE41 /* Model+NationsResponse.swift */; };
 		D863FD483BEB16AB0BB36A01 /* V.EditUserDetailsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0A33D883B21CEA4F012100 /* V.EditUserDetailsScreen.swift */; };
 		D8FC857887AF7D20A3D14826 /* ModelDtoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */; };
 		D9F004ECD5CB0FD2E87BD627 /* ModelDto+UpdateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7ADEDCA2B161252C22CB97 /* ModelDto+UpdateUserResponse.swift */; };
@@ -902,6 +904,8 @@
 		D73F950216792C50E6323F9C /* UIImageView+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Transform.swift"; sourceTree = "<group>"; };
 		D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDtoProtocol.swift; sourceTree = "<group>"; };
 		D7F33EE42C5CEED30029AE41 /* V.DefaultSegmentedPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.DefaultSegmentedPickerView.swift; sourceTree = "<group>"; };
+		D7F33EE82C5D07070029AE41 /* Model+StateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model+StateResponse.swift"; sourceTree = "<group>"; };
+		D7F33EEA2C5D08290029AE41 /* Model+NationsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model+NationsResponse.swift"; sourceTree = "<group>"; };
 		D9AE59B81096776D491A6ABE /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		DB898961FEA3638351E6407C /* SampleServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleServiceProtocol.swift; sourceTree = "<group>"; };
 		DF96C370F16BB6D37AC46400 /* 3.SimpleNetworkAgentSampleAPI+Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "3.SimpleNetworkAgentSampleAPI+Requests.swift"; sourceTree = "<group>"; };
@@ -1680,6 +1684,7 @@
 		836BFCB190C4BA02BE9043BC /* 4.Services */ = {
 			isa = PBXGroup;
 			children = (
+				D7F33EE62C5D06D70029AE41 /* DataUSA */,
 				3331FBD161D58639E2260B48 /* 1.Sample */,
 				1859D63A2574F8768700404E /* 2.Employee */,
 				855661708415281E36ABEC30 /* 3.User */,
@@ -2151,6 +2156,23 @@
 				9F92B9057D7CD1E9AA391B23 /* RouterViewModel.swift */,
 			);
 			path = 3.AppViewModels;
+			sourceTree = "<group>";
+		};
+		D7F33EE62C5D06D70029AE41 /* DataUSA */ = {
+			isa = PBXGroup;
+			children = (
+				D7F33EE72C5D06FD0029AE41 /* Models */,
+			);
+			path = DataUSA;
+			sourceTree = "<group>";
+		};
+		D7F33EE72C5D06FD0029AE41 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D7F33EE82C5D07070029AE41 /* Model+StateResponse.swift */,
+				D7F33EEA2C5D08290029AE41 /* Model+NationsResponse.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		D7F45A3E0523BE258F0C1742 /* Frameworks */ = {
@@ -2743,11 +2765,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7F33EEB2C5D08290029AE41 /* Model+NationsResponse.swift in Sources */,
 				70EC8DFEC754A55612FC70A2 /* E.AppErrors.swift in Sources */,
 				CCCF1093B8D17DC81347F3EA /* E.Gender.swift in Sources */,
 				94F901D4AED0937C1B93AFE2 /* E.Tab.swift in Sources */,
 				AA293FCC6CCD95445ED23AE8 /* EmployeeServiceProtocol.swift in Sources */,
 				42F025FA152DAC897A64BED1 /* Model+AlertModel.swift in Sources */,
+				D7F33EE92C5D07070029AE41 /* Model+StateResponse.swift in Sources */,
 				1B656780B775B925042D8DB6 /* Model+LoadingModel.swift in Sources */,
 				014828FBD853C47D25ED455E /* Model+User.swift in Sources */,
 				7BDCBC30ADB9864AF011AA4D /* ModelDto+EmployeeRequest.swift in Sources */,
