@@ -76,11 +76,18 @@ class PopulationStateViewModel: ObservableObject {
             ()
         case .getPopulationData:
             Task { @MainActor in
-                loadingModel = .loading(message: "Loading".localizedMissing)
+                loadingModel = .loading(message: "Loading".localized)
                 model = []
                 do {
-                    let modelDto = try await dataUSAService.requestPopulationStateData(.init(year: year))
+                    let cachePolicy: DataUSAServiceCachePolicy = .cacheElseLoad
+                    let modelDto = try await dataUSAService.requestPopulationStateData(
+                        .init(year: year),
+                        cachePolicy: cachePolicy
+                    )
                     model = modelDto.data.map { .init(populationStateDataResponse: $0) }
+                    if model.isEmpty {
+                        alertModel = .init(type: .warning, message: "No data. Please try again latter".localizedMissing)
+                    }
                     if year == ModelDto.PopulationStateDataRequest.Constants.lastYear {
                         title = String(format: "PopulationStateViewWithRecords".localized, "LastYear".localized)
                     } else {

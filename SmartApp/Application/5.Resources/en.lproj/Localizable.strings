@@ -13,3 +13,6 @@
 "LastYear" = "last year";
 "PleaseTryAgainLatter" = "Please try again latter";
 "NotInternetPleaseTryAgainLatter" = "No network connection. Please try again latter";
+"Loading" = "Loading";
+"Success" = "Success";
+"NoDataTryAgainLatter" = "No data. Please try again latter";

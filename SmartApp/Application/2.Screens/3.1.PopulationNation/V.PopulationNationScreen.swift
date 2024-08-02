@@ -43,7 +43,7 @@ struct PopulationNationViewCoordinator: View, ViewCoordinatorProtocol {
             let dependencies: PopulationStateViewModel.Dependencies = .init(
                 model: .init(),
                 year: year,
-                onRouteBack: { 
+                onRouteBack: {
                     router.navigateBack()
                 }, dataUSAService: configuration.dataUSAService
             )
@@ -77,13 +77,14 @@ struct PopulationNationView: View {
             let _ = Self._printChanges()
             // swiftlint:enable redundant_discardable_let
         }
-        BaseView.with(
+        BaseView.withLoading(
             sender: "\(Self.self)",
             appScreen: .populationNation,
             navigationViewEmbed: false,
             scrollViewEmbed: false,
             ignoresSafeArea: true,
-            background: .gradient,
+            background: .linear,
+            loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel
         ) {
             content
@@ -102,7 +103,6 @@ struct PopulationNationView: View {
             }.padding()
         }
         .frame(maxWidth: .infinity)
-
     }
 }
 

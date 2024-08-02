@@ -11,6 +11,7 @@ import SwiftUI
 import Domain
 import Common
 import Core
+import DevTools
 
 //
 // MARK: - Model
@@ -75,13 +76,20 @@ class PopulationNationViewModel: ObservableObject {
             ()
         case .getPopulationData:
             Task { @MainActor in
-                loadingModel = .loading(message: "Loading".localizedMissing)
+                loadingModel = .loading(message: "Loading".localized)
                 model = []
                 do {
-                    let modelDto = try await dataUSAService.requestPopulationNationData(.init())
+                    let cachePolicy: DataUSAServiceCachePolicy = .cacheElseLoad
+                    let modelDto = try await dataUSAService.requestPopulationNationData(
+                        .init(),
+                        cachePolicy: cachePolicy
+                    )
                     model = modelDto.data.map { .init(populationNationDataResponse: $0) }
                     title = String(format: "PopulationNationViewTitleWithRecords".localized, model.count)
                     loadingModel = .notLoading
+                    if model.isEmpty {
+                        alertModel = .init(type: .warning, message: "NoDataTryAgainLatter".localized)
+                    }
                 } catch {
                     ErrorsManager.handleError(message: "\(Self.self).\(action)", error: error)
                     if let appError = error as? AppErrors, !appError.localizedForUser.isEmpty {

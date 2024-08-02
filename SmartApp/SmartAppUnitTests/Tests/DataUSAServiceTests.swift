@@ -39,7 +39,7 @@ extension DataUSAServiceTests {
     func test_requestPopulationStateData() async {
         do {
             // Attempt to fetch PopulationNationData
-            loadedAny = try await dataUSAService.requestPopulationStateData(.init())
+            loadedAny = try await dataUSAService.requestPopulationStateData(.init(), cachePolicy: .load)
 
             // Verify that PopulationStateData was successfully loaded
             XCTAssertTrue(loadedAny != nil, "data should be loaded successfully.")
@@ -58,7 +58,7 @@ extension DataUSAServiceTests {
     func test_requestPopulationNationData() async {
         do {
             // Attempt to fetch PopulationNationData
-            loadedAny = try await dataUSAService.requestPopulationNationData(.init())
+            loadedAny = try await dataUSAService.requestPopulationNationData(.init(), cachePolicy: .load)
 
             // Verify that PopulationNationData was successfully loaded
             XCTAssertTrue(loadedAny != nil, "PopulationNationData data should be loaded successfully.")

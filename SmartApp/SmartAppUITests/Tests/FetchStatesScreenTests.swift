@@ -39,7 +39,7 @@ final class FetchStatesScreenTests: BaseUITests {
         tap(staticText: "Year: 2022", on: app) // Tapped list item
         waitFor(staticText: "USA States Population for 2022", on: app) // Should appear the next screen navigation title
     }
-    
+
     func testA2_appStartsAndRouteToStatesAndRouteBack() {
         testA1_appStartsAndRouteToStates() // Re-use testA1
         // After tap back button, should appear previous screen navigation title

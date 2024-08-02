@@ -76,13 +76,14 @@ struct PopulationStateView: View {
             let _ = Self._printChanges()
             // swiftlint:enable redundant_discardable_let
         }
-        BaseView.with(
+        BaseView.withLoading(
             sender: "\(Self.self)",
             appScreen: .populationStates(year: "", model: []),
             navigationViewEmbed: false,
             scrollViewEmbed: true,
             ignoresSafeArea: false,
-            background: .gradient,
+            background: .linear,
+            loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel
         ) {
             content
@@ -112,7 +113,7 @@ fileprivate extension PopulationStateView {
                 ListItemView(
                     title: item.title,
                     subTitle: item.subTitle,
-                    systemNameImage: "", 
+                    systemNameImage: "",
                     backgroundColor: ColorSemantic.backgroundTertiary.color,
                     onTapGesture: nil
                 )

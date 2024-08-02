@@ -60,7 +60,6 @@ public extension ModelDto {
 }
 
 public extension ModelDto.PopulationStateDataResponse {
-    // swiftlint:disable line_length
     static var mock: Self? {
         let jsonString = """
         {
@@ -504,6 +503,5 @@ public extension ModelDto.PopulationStateDataResponse {
         """
         let jsonData = jsonString.data(using: .utf8)!
         return try? JSONDecoder().decode(Self.self, from: jsonData)
-        // swiftlint:enable line_length
     }
 }

@@ -34,15 +34,15 @@ public extension Model {
         }
 
         public static var success: AlertModel {
-            AlertModel(type: .success, message: "Success" /* .localizedMissing */, onDismiss: {})
+            AlertModel(type: .success, message: "Success", onDismiss: {})
         }
 
         public static var tryAgainLatter: AlertModel {
-            AlertModel(type: .error, message: "Please try again latter" /* .localizedMissing */, onDismiss: {})
+            AlertModel(type: .error, message: "Please try again latter", onDismiss: {})
         }
 
         public static var noInternet: AlertModel {
-            AlertModel(type: .error, message: "No internet" /* .localizedMissing */, onDismiss: {})
+            AlertModel(type: .error, message: "No internet", onDismiss: {})
         }
     }
 }

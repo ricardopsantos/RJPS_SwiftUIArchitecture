@@ -12,3 +12,6 @@
 "LastYear" = "ultimo ano";
 "PleaseTryAgainLatter" = "Por favor tente mais tarde";
 "NotInternetPleaseTryAgainLatter" = "Sem internet. Por favor tente mais tarde";
+"Loading" = "A carregar";
+"Success" = "Successo";
+"NoDataTryAgainLatter" = "Sem dados. Por favor tente mais tarde";

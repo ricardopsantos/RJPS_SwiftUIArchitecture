@@ -11,7 +11,6 @@ import SwiftUI
 //
 
 public extension View {
-
     @inlinable func easeInOutAnimation() -> some View {
         animation(
             .easeInOut(duration: Common.Constants.defaultAnimationsTime)

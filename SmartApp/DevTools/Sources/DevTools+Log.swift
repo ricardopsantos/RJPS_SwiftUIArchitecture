@@ -81,12 +81,14 @@ public extension DevTools {
                 return false
             }
             // Log by log type
+            // swiftlint:disable switch_case_alignment
             return switch tag {
             case .generic: !DevTools.onTargetProduction
             case .view: !DevTools.onTargetProduction
             case .business: !DevTools.onTargetProduction
             case .appDelegate: !DevTools.onTargetProduction
             }
+            // swiftlint:enable switch_case_alignment
         }
 
         public static func deleteLogs() { Common.LogsManager.StorageUtils.deleteAllLogs() }
