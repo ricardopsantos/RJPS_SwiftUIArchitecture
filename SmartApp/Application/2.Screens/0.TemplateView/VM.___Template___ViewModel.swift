@@ -38,6 +38,7 @@ extension ___Template___ViewModel {
         case increment
         case dismissAll
         case routeToSceneX
+        case displayRandomError
     }
 
     struct Dependencies {
@@ -52,10 +53,11 @@ extension ___Template___ViewModel {
 //
 @MainActor
 class ___Template___ViewModel: ObservableObject {
-    // MARK: - View Usage Attributes
+    // MARK: - Usage Attributes
     @Published private(set) var message: String = ""
     @Published var counter: Int = 0
     @Published private(set) var alertModel: Model.AlertModel?
+    
     // MARK: - Auxiliar Attributes
     private let sampleService: SampleServiceProtocol?
     public init(dependencies: Dependencies) {
@@ -71,6 +73,8 @@ class ___Template___ViewModel: ObservableObject {
         case .increment: ()
             counter += 1
             message = "Counter: \(counter)"
+        case .displayRandomError:
+            alertModel = .init(type: .error, message: String.randomWithSpaces(10))
         case .routeToSceneX: ()
         case .dismissThis: ()
         case .dismissAll: ()
@@ -92,4 +96,5 @@ fileprivate extension ___Template___ViewModel {}
     ___Template___ViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
+        .environmentObject(AuthenticationViewModel.defaultForPreviews)
 }

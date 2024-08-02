@@ -70,6 +70,7 @@ public class EditUserDetailsViewModel: ObservableObject {
     @Published var selectedGender: Gender = .male
     @Published var dateOfBirth = Date()
     @Published var selectedCountry: String = ""
+    
     // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
     private let userRepository: UserRepositoryProtocol

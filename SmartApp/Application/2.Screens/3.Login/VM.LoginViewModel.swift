@@ -42,13 +42,13 @@ extension LoginViewModel {
 
 @MainActor
 class LoginViewModel: ObservableObject {
-    // MARK: - View Usage Attributes
-
+    // MARK: - Usage Attributes
     @Published var alertModel: Model.AlertModel?
     @Published var errorMessage: String = ""
     @Published var password: String = ""
     @Published var email: String = ""
     @Published var canLogin: Bool = false
+    
     // MARK: - Auxiliar Attributes
     private let authenticationViewModel: AuthenticationViewModel
     private var cancelBag = CancelBag()

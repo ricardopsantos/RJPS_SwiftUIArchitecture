@@ -48,7 +48,6 @@ extension SettingsViewModel {
 @MainActor
 class SettingsViewModel: ObservableObject {
     // MARK: - View Usage Attributes
-
     @Published private(set) var alertModel: Model.AlertModel?
     @Published private(set) var userName: String = ""
     @Published private(set) var userEmail: String = ""
@@ -66,7 +65,6 @@ class SettingsViewModel: ObservableObject {
     }
 
     // MARK: - Auxiliar Attributes
-
     private var cancelBag = CancelBag()
     private let authenticationViewModel: AuthenticationViewModel?
     private let nonSecureAppPreferences: NonSecureAppPreferencesProtocol?

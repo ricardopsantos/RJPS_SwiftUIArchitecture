@@ -49,6 +49,7 @@ class WeatherDetailsViewModel: ObservableObject {
     // MARK: - View Usage Attributes
     @Published var alertModel: Model.AlertModel?
     @Published var model: WeatherDetailsModel
+    
     // MARK: - Auxiliar Attributes
     private let weatherService: WeatherServiceProtocol?
     public init(dependencies: Dependencies) {

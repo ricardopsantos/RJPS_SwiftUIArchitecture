@@ -37,7 +37,6 @@ struct DatePickerPopover: View {
 #Preview {
     DatePickerPopover(
         isPresented: .constant(true),
-
         dateSelection: .constant(Date()),
         title: "Title",
         doneButtonLabel: "Done"

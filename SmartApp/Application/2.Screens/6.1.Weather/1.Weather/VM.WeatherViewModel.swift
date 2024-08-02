@@ -50,8 +50,8 @@ class WeatherViewModel: ObservableObject {
     @Published var alertModel: Model.AlertModel?
     @Published var loadingModel: Model.LoadingModel?
     @Published var weatherData: [ModelDto.GetWeatherResponse] = []
+    
     // MARK: - Auxiliar Attributes
-
     private let weatherService: WeatherServiceProtocol
     public init(dependencies: Dependencies) {
         self.weatherService = dependencies.weatherService

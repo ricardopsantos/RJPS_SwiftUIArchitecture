@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+//
+import Common
 import DesignSystem
 
 struct Header: View {
@@ -38,11 +40,31 @@ struct Header: View {
 }
 
 #Preview {
-    Header(
-        text: "Heading",
-
-        hasBackButton: false,
-        hasCloseButton: false,
-        onBackOrCloseClick: {}
-    )
+    VStack {
+        Header(
+            text: "Header",
+            hasBackButton: false,
+            hasCloseButton: false,
+            onBackOrCloseClick: {}
+        )
+        SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
+            .backgroundColorSemantic(.allCool)
+        Header(
+            text: "Header hasBackButton",
+            hasBackButton: true,
+            hasCloseButton: false,
+            onBackOrCloseClick: {}
+        )
+        SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
+            .backgroundColorSemantic(.allCool)
+        Header(
+            text: "Header hasCloseButton",
+            hasBackButton: false,
+            hasCloseButton: true,
+            onBackOrCloseClick: {}
+        )
+        Spacer()
+    }
+    .padding()
+    .background(ColorSemantic.backgroundPrimary.color)
 }

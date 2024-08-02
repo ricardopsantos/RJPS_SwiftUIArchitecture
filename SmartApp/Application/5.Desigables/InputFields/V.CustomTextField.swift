@@ -69,7 +69,7 @@ struct CustomTextField: View {
             inputText: .constant("inputText"),
             placeholder: "placeholder",
             cornerRadius: SizeNames.cornerRadius,
-            borderColor: Color.primary,
+            borderColor: ColorSemantic.allCool.color,
             isSecured: false,
             accessibility: .undefined
         )

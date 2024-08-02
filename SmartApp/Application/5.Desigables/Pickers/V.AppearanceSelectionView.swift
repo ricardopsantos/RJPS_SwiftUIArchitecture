@@ -30,3 +30,7 @@ struct AppearanceSelectionView: View {
         .foregroundColor(.labelPrimary)
     }
 }
+
+#Preview {
+    AppearanceSelectionView(selectedMode: .constant(.dark))
+}
