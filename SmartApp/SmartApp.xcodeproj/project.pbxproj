@@ -336,6 +336,7 @@
 		D7F33EED2C5D09890029AE41 /* DataUSAServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EEC2C5D09890029AE41 /* DataUSAServiceProtocol.swift */; };
 		D7F33EEF2C5D09CC0029AE41 /* Model+StateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EEE2C5D09CC0029AE41 /* Model+StateRequest.swift */; };
 		D7F33EF12C5D0AA10029AE41 /* Model+NationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EF02C5D0AA10029AE41 /* Model+NationRequest.swift */; };
+		D7F33EF32C5D0B7F0029AE41 /* DataUSAService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EF22C5D0B7F0029AE41 /* DataUSAService.swift */; };
 		D863FD483BEB16AB0BB36A01 /* V.EditUserDetailsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0A33D883B21CEA4F012100 /* V.EditUserDetailsScreen.swift */; };
 		D8FC857887AF7D20A3D14826 /* ModelDtoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */; };
 		D9F004ECD5CB0FD2E87BD627 /* ModelDto+UpdateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7ADEDCA2B161252C22CB97 /* ModelDto+UpdateUserResponse.swift */; };
@@ -912,6 +913,7 @@
 		D7F33EEC2C5D09890029AE41 /* DataUSAServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUSAServiceProtocol.swift; sourceTree = "<group>"; };
 		D7F33EEE2C5D09CC0029AE41 /* Model+StateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model+StateRequest.swift"; sourceTree = "<group>"; };
 		D7F33EF02C5D0AA10029AE41 /* Model+NationRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Model+NationRequest.swift"; sourceTree = "<group>"; };
+		D7F33EF22C5D0B7F0029AE41 /* DataUSAService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUSAService.swift; sourceTree = "<group>"; };
 		D9AE59B81096776D491A6ABE /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		DB898961FEA3638351E6407C /* SampleServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleServiceProtocol.swift; sourceTree = "<group>"; };
 		DF96C370F16BB6D37AC46400 /* 3.SimpleNetworkAgentSampleAPI+Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "3.SimpleNetworkAgentSampleAPI+Requests.swift"; sourceTree = "<group>"; };
@@ -1555,6 +1557,7 @@
 				6CB862054C27ACD7FA5AC19B /* SampleService.swift */,
 				20FDBDD0F773E24835087973 /* UserService.swift */,
 				A0DE1FD37692D94DCBF684DA /* WeatherService.swift */,
+				D7F33EF22C5D0B7F0029AE41 /* DataUSAService.swift */,
 			);
 			path = 2.Services;
 			sourceTree = "<group>";
@@ -2822,6 +2825,7 @@
 				DF611F75B2680BEFAB0045F7 /* NetworkManager.swift in Sources */,
 				0A9570491747E812D7A934CB /* NonSecureAppPreferences.swift in Sources */,
 				5F8E9FC406927862E1558B2A /* SampleService.swift in Sources */,
+				D7F33EF32C5D0B7F0029AE41 /* DataUSAService.swift in Sources */,
 				FAA30AD43F56A337F8CE6ED9 /* SecureAppPreferences.swift in Sources */,
 				207614B9B79D304BACC577E8 /* UserRepository.swift in Sources */,
 				ADD74218AFA779AF34637275 /* UserService.swift in Sources */,

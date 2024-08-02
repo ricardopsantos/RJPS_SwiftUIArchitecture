@@ -14,7 +14,7 @@ public extension ModelDto {
     struct StateResponse: ModelProtocol {
         public let data: [Datum]
         public let source: [Source]
-        
+
         // MARK: - Datum
         public struct Datum: ModelProtocol {
             public let idState, state: String
@@ -38,7 +38,7 @@ public extension ModelDto {
             public let measures: [String]
             public let annotations: Annotations
             public let name: String
-            //let substitutions: [JSONAny]
+            // let substitutions: [JSONAny]
         }
 
         // MARK: - Annotations

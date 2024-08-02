@@ -13,7 +13,7 @@ public extension ModelDto {
     struct StateRequest: ModelDtoProtocol {
         public let drilldowns: String
         public let measures: String
-        public init(drilldowns: String =  "Nation", measures: String = "Population") {
+        public init(drilldowns: String = "Nation", measures: String = "Population") {
             self.drilldowns = drilldowns
             self.measures = measures
         }

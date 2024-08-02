@@ -14,7 +14,7 @@ public extension ModelDto {
         public let drilldowns: String
         public let measures: String
         public let year: String
-        public init(drilldowns: String =  "State", measures: String = "Population", year: String = "latest") {
+        public init(drilldowns: String = "State", measures: String = "Population", year: String = "latest") {
             self.drilldowns = drilldowns
             self.measures = measures
             self.year = year

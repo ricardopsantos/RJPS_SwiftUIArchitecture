@@ -11,7 +11,6 @@ import Common
 
 public protocol DataUSAServiceProtocol {
     func requestStateData(_ request: ModelDto.StateRequest) async throws -> ModelDto.StateResponse
-    
-    func requestNationData(_ request: ModelDto.NationRequest) async throws -> ModelDto.NationResponse
 
+    func requestNationData(_ request: ModelDto.NationRequest) async throws -> ModelDto.NationResponse
 }

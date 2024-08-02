@@ -9,12 +9,12 @@ import Foundation
 //
 import Common
 
-extension ModelDto {
+public extension ModelDto {
     // MARK: - NationResponse
-    public struct NationResponse: ModelProtocol {
+    struct NationResponse: ModelProtocol {
         public let data: [Datum]
         public let source: [Source]
-        
+
         // MARK: - Datum
         public struct Datum: ModelProtocol {
             public let idNation: IDNation
@@ -51,7 +51,7 @@ extension ModelDto {
             public let measures: [String]
             public let annotations: Annotations
             public let name: String
-            //let substitutions: [JSONAny]
+            // let substitutions: [JSONAny]
         }
 
         // MARK: - Annotations
@@ -59,7 +59,7 @@ extension ModelDto {
             public let sourceName, sourceDescription, datasetName: String
             public let datasetLink: String
             public let tableID, topic, subtopic: String
-            
+
             enum CodingKeys: String, CodingKey {
                 case sourceName
                 case sourceDescription
@@ -72,7 +72,6 @@ extension ModelDto {
     }
 }
 
-
 public extension ModelDto.NationResponse {
     // swiftlint:disable line_length
     static var mock: Self? {
@@ -84,4 +83,3 @@ public extension ModelDto.NationResponse {
         // swiftlint:enable line_length
     }
 }
-
