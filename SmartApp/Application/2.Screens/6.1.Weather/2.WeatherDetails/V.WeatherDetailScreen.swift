@@ -10,6 +10,7 @@ import SwiftUI
 import Common
 import Core
 import DevTools
+import DesignSystem
 
 //
 // MARK: - Coordinator

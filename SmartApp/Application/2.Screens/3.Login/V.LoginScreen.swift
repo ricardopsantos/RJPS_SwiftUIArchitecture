@@ -136,8 +136,8 @@ fileprivate extension LoginView {
         CustomTitleAndCustomTextField(
             label: "Email".localized,
             placeholder: "EmailPlaceHolder".localized,
-            isSecured: false,
             inputText: $viewModel.email,
+            isSecured: false,
             accessibility: .txtEmail
         )
     }
@@ -146,8 +146,8 @@ fileprivate extension LoginView {
         CustomTitleAndCustomTextField(
             label: "Password".localized,
             placeholder: "Password".localized,
-            isSecured: true,
             inputText: $viewModel.password,
+            isSecured: true,
             accessibility: .txtPassword
         )
     }

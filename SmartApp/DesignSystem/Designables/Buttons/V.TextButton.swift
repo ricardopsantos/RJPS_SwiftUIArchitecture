@@ -5,22 +5,21 @@
 //
 
 import SwiftUI
-import DesignSystem
 
-struct TextButton: View {
+public struct TextButton: View {
     @Environment(\.colorScheme) var colorScheme
 
-    enum Style: CaseIterable {
+    public enum Style: CaseIterable {
         case primary, secondary, textOnly
     }
 
     // MARK: - Attributes
-    let onClick: () -> Void
-    var text: String
-    var style: Style = .primary
-    var background: Color = .primaryColor
-    var enabled: Bool = true
-    let accessibility: AppConstants.Accessibility
+    private let onClick: () -> Void
+    private let text: String
+    private let style: Style
+    private let background: Color
+    private let enabled: Bool
+    private let accessibility: Accessibility
 
     public init(
         onClick: @escaping () -> Void,
@@ -28,7 +27,7 @@ struct TextButton: View {
         style: Style = .primary,
         background: Color = .primaryColor,
         enabled: Bool = true,
-        accessibility: AppConstants.Accessibility
+        accessibility: Accessibility
     ) {
         self.onClick = onClick
         self.text = text
@@ -39,7 +38,7 @@ struct TextButton: View {
     }
 
     // MARK: - Views
-    var body: some View {
+    public var body: some View {
         Button(action: onClick) {
             Text(text)
                 .fontSemantic(.body)
