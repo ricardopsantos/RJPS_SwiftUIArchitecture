@@ -5,8 +5,10 @@
   Created by Ricardo Santos on 15/04/2024.
 */
 
-"PopulationNationViewTitle" = "Nação";
-"PopulationNationViewTitleWithRecords" = "Nação %d";
-"PopulationStateView" = "Estado";
-"PopulationStateViewWithRecords" = "Estado %d";
+"PopulationNationViewTitle" = "População EUA";
+"PopulationNationViewTitleWithRecords" = "População EUA: Ultimos %d years";
+"PopulationStateView" = "População Estados EUA";
+"PopulationStateViewWithRecords" = "População Estados EUA para %@";
 "LastYear" = "ultimo ano";
+"PleaseTryAgainLatter" = "Por favor tente mais tarde";
+"NotInternetPleaseTryAgainLatter" = "Sem internet. Por favor tente mais tarde";

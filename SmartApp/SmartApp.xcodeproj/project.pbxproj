@@ -288,6 +288,7 @@
 		D5D5FAC3229B645CC7ED06A4 /* ASyncCoreDataManagerSavePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16429CFBAB85FB1C727FDC62 /* ASyncCoreDataManagerSavePublisher.swift */; };
 		D65371F0E54A26BDF2583215 /* V.PopulationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB508C4A248DE719A7438D5 /* V.PopulationStateView.swift */; };
 		D7508F1E2C5D772D002ED443 /* FetchStatesScreenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7508F1D2C5D772D002ED443 /* FetchStatesScreenTests.swift */; };
+		D7508F212C5D8529002ED443 /* AppErrors+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7508F1F2C5D836D002ED443 /* AppErrors+Extensions.swift */; };
 		D77A251F685328CA88F7231E /* UIView+AnimationsBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6344864F30EC39BE520CCB /* UIView+AnimationsBase.swift */; };
 		D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */; };
 		D80049960B1AE3D3E7435716 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F60BB703CB65DEE35C93C0E /* NetworkManager.swift */; };
@@ -800,6 +801,7 @@
 		D73F950216792C50E6323F9C /* UIImageView+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Transform.swift"; sourceTree = "<group>"; };
 		D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDtoProtocol.swift; sourceTree = "<group>"; };
 		D7508F1D2C5D772D002ED443 /* FetchStatesScreenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchStatesScreenTests.swift; sourceTree = "<group>"; };
+		D7508F1F2C5D836D002ED443 /* AppErrors+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppErrors+Extensions.swift"; sourceTree = "<group>"; };
 		D9AE59B81096776D491A6ABE /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		DAAB8BDF8482137D405F9FFB /* DataUSAServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUSAServiceMock.swift; sourceTree = "<group>"; };
 		DF96C370F16BB6D37AC46400 /* 3.SimpleNetworkAgentSampleAPI+Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "3.SimpleNetworkAgentSampleAPI+Requests.swift"; sourceTree = "<group>"; };
@@ -1874,6 +1876,7 @@
 			children = (
 				27194ED6AD7751C09A24CD09 /* String+Extensions.swift */,
 				8D222938AC70B22BF18BAC71 /* View+Extensions.swift */,
+				D7508F1F2C5D836D002ED443 /* AppErrors+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2424,6 +2427,7 @@
 				CD7ADA5082C6BF5B72E0F375 /* ConfigurationViewModel.swift in Sources */,
 				3CD95E6A41DDA9B1DA768618 /* DepedenciesManager.swift in Sources */,
 				AE97533A7F42367EEC65E310 /* ErrorsManager.swift in Sources */,
+				D7508F212C5D8529002ED443 /* AppErrors+Extensions.swift in Sources */,
 				DDD84EA3E8D46BC6592A10FA /* RouterViewModel.swift in Sources */,
 				E2122D243A669076E7DA6188 /* ScreenProtocols.swift in Sources */,
 				CCC30B559AB8DAAA9F6542E8 /* SetupManager.swift in Sources */,

@@ -84,7 +84,11 @@ class PopulationNationViewModel: ObservableObject {
                     loadingModel = .notLoading
                 } catch {
                     ErrorsManager.handleError(message: "\(Self.self).\(action)", error: error)
-                    alertModel = .tryAgainLatter
+                    if let appError = error as? AppErrors, !appError.localizedForUser.isEmpty {
+                        alertModel = .init(type: .error, message: appError.localizedForUser)
+                    } else {
+                        alertModel = .init(type: .error, message: error.localizedDescription)
+                    }
                 }
             }
         }

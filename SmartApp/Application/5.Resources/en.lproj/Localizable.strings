@@ -11,3 +11,5 @@
 "PopulationStateView" = "USA States Population";
 "PopulationStateViewWithRecords" = "USA States Population for %@";
 "LastYear" = "last year";
+"PleaseTryAgainLatter" = "Please try again latter";
+"NotInternetPleaseTryAgainLatter" = "No network connection. Please try again latter";
