@@ -26,9 +26,6 @@ class ConfigurationViewModel: ObservableObject {
     let secureAppPreferences: SecureAppPreferencesProtocol
     let userRepository: UserRepositoryProtocol
 
-    // ViewModels
-    let authenticationViewModel: AuthenticationViewModel
-
     // MARK: - Auxiliar Attributes
     // private var cancelBag: CancelBag = .init()
 
@@ -51,11 +48,6 @@ class ConfigurationViewModel: ObservableObject {
         self.userRepository = userRepository
         self.nonSecureAppPreferences = nonSecureAppPreferences
         self.secureAppPreferences = secureAppPreferences
-        self.authenticationViewModel = AuthenticationViewModel(
-            secureAppPreferences: secureAppPreferences,
-            nonSecureAppPreferences: nonSecureAppPreferences,
-            userRepository: userRepository
-        )
     }
 
     // MARK: - Functions

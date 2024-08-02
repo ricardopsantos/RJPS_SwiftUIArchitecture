@@ -78,8 +78,8 @@ class RootViewModel: ObservableObject {
         case .start:
             guard !isAppStartCompleted else { return }
             // All starting set up will be done here
-            // testing load time 2 seconds
-            Common_Utils.delay(2) { [weak self] in
+            // testing load time 0.3 seconds
+            Common_Utils.delay(Common.Constants.defaultAnimationsTime) { [weak self] in
                 self?.isAppStartCompleted = true
             }
         case .markUserDetailsCompleted:

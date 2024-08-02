@@ -1,5 +1,5 @@
 //
-//  PopulationStateView.swift
+//  PopulationNationView.swift
 //  SmartApp
 //
 //  Created by Ricardo Santos on 02/08/2024.
@@ -14,7 +14,7 @@ import DesignSystem
 //
 // MARK: - Coordinator
 //
-struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
+struct PopulationNationViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var router = RouterViewModel()
@@ -23,7 +23,7 @@ struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - Body & View
     var body: some View {
         NavigationStack(path: $router.navPath) {
-            buildScreen(.populationStates)
+            buildScreen(.populationNation)
                 .navigationDestination(for: AppScreen.self, destination: buildScreen)
                 .sheet(item: $router.sheetLink, content: buildScreen)
                 .fullScreenCover(item: $router.coverLink, content: buildScreen)
@@ -34,6 +34,13 @@ struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
     @ViewBuilder
     func buildScreen(_ screen: AppScreen) -> some View {
         switch screen {
+        case .populationNation:
+            let dependencies: PopulationNationViewModel.Dependencies = .init(
+                model: .init(), didSelected: { some in
+                    DevTools.Log.debug("\(some)", .generic)
+                }, dataUSAService: configuration.dataUSAService
+            )
+            PopulationNationView(dependencies: dependencies)
         case .populationStates:
             let dependencies: PopulationStateViewModel.Dependencies = .init(
                 model: .init(), didSelected: { some in
@@ -56,28 +63,28 @@ struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
 // MARK: - View
 //
 
-struct PopulationStateView: View {
+struct PopulationNationView: View {
     // MARK: - ViewProtocol
 
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var router: RouterViewModel
-    @StateObject var viewModel: PopulationStateViewModel
+    @StateObject var viewModel: PopulationNationViewModel
     let didSelected: (ModelDto.PopulationStateDataResponse) -> Void
-    public init(dependencies: PopulationStateViewModel.Dependencies) {
+    public init(dependencies: PopulationNationViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.didSelected = dependencies.didSelected
     }
 
     // MARK: - Body & View
     var body: some View {
-        if Common_Utils.true {
+        if Common_Utils.onSimulator {
             // swiftlint:disable redundant_discardable_let
             let _ = Self._printChanges()
             // swiftlint:enable redundant_discardable_let
         }
         BaseView.with(
             sender: "\(Self.self)",
-            appScreen: .weather,
+            appScreen: .populationNation,
             navigationViewEmbed: false,
             scrollViewEmbed: false,
             ignoresSafeArea: true,
@@ -103,7 +110,7 @@ struct PopulationStateView: View {
                             backgroundColor: ColorSemantic.backgroundTertiary.color
                         )
                         .onTapGesture {
-                            router.coverLink = .populationState(model: .init())
+                            router.coverLink = .populationStates
                         }
                     }
                 }
@@ -118,10 +125,9 @@ struct PopulationStateView: View {
 //
 // MARK: - Auxiliar Views
 //
-fileprivate extension PopulationStateView {}
+fileprivate extension PopulationNationView {}
 
 #Preview {
-    PopulationStateViewCoordinator()
-        .environmentObject(AppStateViewModel.defaultForPreviews)
+    PopulationNationViewCoordinator()
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

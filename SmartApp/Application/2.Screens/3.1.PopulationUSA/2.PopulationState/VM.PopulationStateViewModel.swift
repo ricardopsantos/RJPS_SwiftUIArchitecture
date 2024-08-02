@@ -88,6 +88,5 @@ class PopulationStateViewModel: ObservableObject {
 
 #Preview {
     PopulationStateViewCoordinator()
-        .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

@@ -17,8 +17,6 @@ extension AnalyticsManager {
     }
 
     enum EventType {
-        case login
-        case updateUser
         case buttonClick(type: ButtonType, label: String)
 
         enum ButtonType: String {
@@ -30,8 +28,8 @@ extension AnalyticsManager {
         }
 
         var rawValue: String {
+            print("colocar estes eventos no analitics")
             switch self {
-            case .login, .updateUser: return "\(self)"
             case .buttonClick(type: let type, label: let label): return "buttonClick_\(type)_\(label)"
             }
         }

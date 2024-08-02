@@ -14,7 +14,7 @@ import Nimble
 import Common
 import Domain
 import Core
-
+/*
 final class ___Template___ViewModelTests: BaseViewModelsTests {
     private var viewModel: ___Template___ViewModel?
 
@@ -63,3 +63,4 @@ extension ___Template___ViewModelTests {
         expect(self.viewModel?.message == "Counter: 1").toEventually(beTrue(), timeout: .seconds(timeout))
     }
 }
+*/

@@ -12,7 +12,6 @@ import Common
 struct SmartApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     let configuration: ConfigurationViewModel
-    let appState: AppStateViewModel
     init() {
         let config: ConfigurationViewModel = .init(
             userService: DependenciesManager.Services.userService,
@@ -25,13 +24,11 @@ struct SmartApp: App {
         )
         SetupManager.shared.setup(nonSecureAppPreferences: config.nonSecureAppPreferences)
         self.configuration = config
-        self.appState = .init()
     }
 
     var body: some Scene {
         WindowGroup {
             RootViewCoordinator()
-                .environmentObject(appState)
                 .environmentObject(configuration)
         }
     }

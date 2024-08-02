@@ -28,7 +28,6 @@ struct RootViewCoordinator: View, ViewCoordinatorProtocol {
                 .fullScreenCover(item: $router.coverLink, content: buildScreen)
         }
         .environmentObject(router)
-        .environmentObject(configuration.authenticationViewModel)
     }
 
     /// Navigation Links
@@ -79,8 +78,6 @@ struct RootView: View, ViewProtocol {
         }
     }
 
-    @EnvironmentObject private var authenticationViewModel: AuthenticationViewModel
-
     // MARK: - Body & View
     var body: some View {
         content
@@ -88,7 +85,7 @@ struct RootView: View, ViewProtocol {
 
     @ViewBuilder
     var content: some View {
-        if Common_Utils.true {
+        if Common_Utils.onSimulator {
             // swiftlint:disable redundant_discardable_let
             let _ = Self._printChanges()
             // swiftlint:enable redundant_discardable_let
@@ -99,7 +96,6 @@ struct RootView: View, ViewProtocol {
             .onChange(of: viewModel.isUserDetailsFilled) { _ in updateRoot() }
             .onChange(of: viewModel.isTermsAndConditionsAccepted) { _ in updateRoot() }
             .onChange(of: viewModel.isOnboardingCompleted) { _ in updateRoot() }
-            .onChange(of: authenticationViewModel.isAuthenticated) { _ in updateRoot() }
     }
 
     /// Navigation Links
@@ -110,25 +106,8 @@ struct RootView: View, ViewProtocol {
                 .onAppear {
                     viewModel.send(action: .start)
                 }
-        case .mainApp:
-            MainTabViewCoordinator()
-        case .login:
-            LoginViewCoordinator()
-        case .userDetails:
-            UserDetailsViewCoordinator(
-                onCompletion: { _ in
-                    viewModel.send(action: .markUserDetailsCompleted)
-                }
-            )
-        case .termsAndConditions:
-            TermsAndConditionsScreen(onCompletion: { _ in viewModel.send(action: .termsAndConditionsAccepted) })
-        case .onboarding:
-            OnboardingScreen(
-                onCompletion: { _ in viewModel.send(action: .onboardingCompleted) },
-                onBackPressed: {
-                    viewModel.send(action: .termsAndConditionsNotAccepted)
-                }
-            )
+        case .populationNation:
+            PopulationNationViewCoordinator()
         default:
             Text("Not predicted \(root)")
         }
@@ -147,18 +126,8 @@ fileprivate extension RootView {
     func updateRoot() {
         if !viewModel.isAppStartCompleted {
             root = .splash
-        } else if !authenticationViewModel.isAuthenticated {
-            root = .login
-        } else if authenticationViewModel.isAuthenticated {
-            if !viewModel.isUserDetailsFilled {
-                root = .userDetails
-            } else if !viewModel.isTermsAndConditionsAccepted {
-                root = .termsAndConditions
-            } else if !viewModel.isOnboardingCompleted {
-                root = .onboarding
-            } else {
-                root = .mainApp
-            }
+        } else  {
+            root = .populationNation
         }
     }
 }

@@ -89,6 +89,5 @@ class PopulationNationViewModel: ObservableObject {
 
 #Preview {
     PopulationNationViewCoordinator()
-        .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
