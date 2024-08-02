@@ -14,6 +14,7 @@ import DesignSystem
 //
 // MARK: - Coordinator
 //
+
 struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
@@ -37,8 +38,9 @@ struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
         switch screen {
         case .populationStates(year: let year, model: let model):
             let dependencies: PopulationStateViewModel.Dependencies = .init(
-                model: model, year: year, didSelected: { some in
-                    DevTools.Log.debug("\(some)", .generic)
+                model: model, year: year,
+                onRouteBack: {
+                    router.navigateBack()
                 }, dataUSAService: configuration.dataUSAService
             )
             PopulationStateView(dependencies: dependencies)
@@ -57,14 +59,14 @@ struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
 
 struct PopulationStateView: View {
     // MARK: - ViewProtocol
-
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: PopulationStateViewModel
-    let didSelected: (ModelDto.PopulationStateDataResponse) -> Void
+    // MARK: - Usage Attributes
+    private let onRouteBack: () -> Void
     public init(dependencies: PopulationStateViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-        self.didSelected = dependencies.didSelected
+        self.onRouteBack = dependencies.onRouteBack
     }
 
     // MARK: - Body & View
@@ -78,13 +80,17 @@ struct PopulationStateView: View {
             sender: "\(Self.self)",
             appScreen: .populationStates(year: "", model: []),
             navigationViewEmbed: false,
-            scrollViewEmbed: false,
-            ignoresSafeArea: true,
+            scrollViewEmbed: true,
+            ignoresSafeArea: false,
             background: .gradient,
             alertModel: viewModel.alertModel
         ) {
             content
-        }.onAppear {
+        }
+        .customBackButton(action: {
+            onRouteBack()
+        }, title: viewModel.title)
+        .onAppear {
             viewModel.send(action: .didAppear)
         }.onDisappear {
             viewModel.send(action: .didDisappear)
@@ -92,15 +98,7 @@ struct PopulationStateView: View {
     }
 
     var content: some View {
-        VStack(spacing: 0) {
-            Header(text: viewModel.title)
-                .padding(.horizontal, SizeNames.defaultMargin)
-                .offset(.init(width: 0, height: -SizeNames.defaultMargin))
-            ScrollView(showsIndicators: false) {
-                listView
-            }
-        }
-        .frame(maxWidth: .infinity)
+        listView
     }
 }
 
@@ -109,11 +107,12 @@ struct PopulationStateView: View {
 //
 fileprivate extension PopulationStateView {
     var listView: some View {
-        VStack(spacing: SizeNames.defaultMargin) {
+        VStack(spacing: SizeNames.defaultMarginSmall) {
             ForEach(Array(viewModel.model.enumerated()), id: \.element) { _, item in
                 ListItemView(
                     title: item.title,
                     subTitle: item.subTitle,
+                    systemNameImage: "", 
                     backgroundColor: ColorSemantic.backgroundTertiary.color,
                     onTapGesture: nil
                 )

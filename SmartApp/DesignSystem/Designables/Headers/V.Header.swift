@@ -36,9 +36,9 @@ public struct Header: View {
                 }
             }
             Text(text)
+                .lineLimit(2)
                 .multilineTextAlignment(.center)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .font(FontSemantic.title2.font)
+                .fontSemantic(.headline)
                 .foregroundColor(.primaryColor)
             if hasCloseButton {
                 Button(action: onBackOrCloseClick) {

@@ -26,8 +26,8 @@ struct PopulationStateModel: Equatable, Hashable {
 
     init(populationStateDataResponse modelDto: ModelDto.PopulationStateDataResponse.Datum) {
         self.init(
-            title: "\(modelDto.state) \(modelDto.year)",
-            subTitle: "Population \(modelDto.population.localeString)"
+            title: "\(modelDto.state): \(modelDto.population.localeString)",
+            subTitle: ""
         )
     }
 }
@@ -46,7 +46,7 @@ extension PopulationStateViewModel {
     struct Dependencies {
         let model: [PopulationStateModel]
         let year: String
-        let didSelected: (ModelDto.PopulationStateDataResponse) -> Void
+        let onRouteBack: () -> Void
         let dataUSAService: DataUSAServiceProtocol
     }
 }

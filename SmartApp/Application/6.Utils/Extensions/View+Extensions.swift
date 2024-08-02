@@ -17,9 +17,12 @@ public extension View {
                     Button {
                         action()
                     } label: {
-                        Image(systemName: "chevron.left")
-                            .tint(Color.blue) // Replace with ColorSemantic.primary.color
-                    }
+                        Image(.back)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: SizeNames.defaultMargin * 1.5)
+                            .tint(ColorSemantic.primary.color)
+                    }.accessibilityIdentifier(Accessibility.backButton.identifier)
                 }
                 if !title.isEmpty {
                     ToolbarItem(placement: .principal) {

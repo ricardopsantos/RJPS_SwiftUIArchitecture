@@ -104,7 +104,7 @@ public enum FontSemantic: CaseIterable {
         case .largeTitle: Font.custom(FontsName.regular.name, size: bodyFontSize * 2.5)
         case .title1: Font.custom(FontsName.bold.name, size: bodyFontSize * 2)
         case .title2: Font.custom(FontsName.regular.name, size: bodyFontSize * 1.6)
-        case .headline: Font.custom(FontsName.regular.name, size: bodyFontSize * 1.2)
+        case .headline: Font.custom(FontsName.regular.name, size: bodyFontSize * 1.3)
         case .body: Font.custom(FontsName.regular.name, size: bodyFontSize)
         case .bodyBold: Font.custom(FontsName.bold.name, size: bodyFontSize)
         case .callout: Font.custom(FontsName.regular.name, size: bodyFontSize * 0.9)

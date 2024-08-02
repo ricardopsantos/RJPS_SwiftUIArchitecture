@@ -36,24 +36,18 @@ struct PopulationNationViewCoordinator: View, ViewCoordinatorProtocol {
         switch screen {
         case .populationNation:
             let dependencies: PopulationNationViewModel.Dependencies = .init(
-                model: .init(), didSelected: { some in
-                    DevTools.Log.debug("\(some)", .generic)
-                }, dataUSAService: configuration.dataUSAService
+                model: .init(), dataUSAService: configuration.dataUSAService
             )
             PopulationNationView(dependencies: dependencies)
-        case .populationStates(year: let year, model: let model):
+        case .populationStates(year: let year, _):
             let dependencies: PopulationStateViewModel.Dependencies = .init(
-                model: model,
+                model: .init(),
                 year: year,
-                didSelected: { some in
-                    DevTools.Log.debug("\(some)", .generic)
+                onRouteBack: { 
+                    router.navigateBack()
                 }, dataUSAService: configuration.dataUSAService
             )
             PopulationStateView(dependencies: dependencies)
-                .customBackButton(action: {
-                    router.navigateBack()
-                })
-
         default:
             EmptyView().onAppear(perform: {
                 DevTools.assert(false, message: "Not predicted \(screen)")
@@ -72,10 +66,8 @@ struct PopulationNationView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: PopulationNationViewModel
-    let didSelected: (ModelDto.PopulationStateDataResponse) -> Void
     public init(dependencies: PopulationNationViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-        self.didSelected = dependencies.didSelected
     }
 
     // MARK: - Body & View
@@ -119,7 +111,7 @@ struct PopulationNationView: View {
 //
 fileprivate extension PopulationNationView {
     var listView: some View {
-        VStack(spacing: SizeNames.defaultMargin) {
+        VStack(spacing: SizeNames.defaultMarginSmall) {
             ForEach(Array(viewModel.model.enumerated()), id: \.element) { index, item in
                 ListItemView(
                     title: item.title,
@@ -128,7 +120,6 @@ fileprivate extension PopulationNationView {
                     onTapGesture: {
                         let label = "Taped index \(index): Year \(item.year)"
                         AnalyticsManager.shared.handleListItemTapEvent(label: label, sender: "\(Self.self)")
-                       //router.coverLink = .populationStates(year: item.year, model: [])
                         router.navigate(to: AppScreen.populationStates(year: item.year, model: []))
                     }
                 )
