@@ -14,12 +14,12 @@ public extension ModelDto {
     struct PopulationNationDataResponse: ModelProtocol {
         public let data: [Datum]
         public let source: [Source]
-        
+
         public init(data: [Datum] = [], source: [Source] = []) {
             self.data = data
             self.source = source
         }
-        
+
         // MARK: - Datum
         public struct Datum: ModelProtocol {
             public let idNation: IDNation
@@ -56,7 +56,7 @@ public extension ModelDto {
             public let measures: [String]
             public let annotations: Annotations
             public let name: String
-            //let substitutions: [JSONAny]
+            // let substitutions: [JSONAny]
         }
 
         // MARK: - Annotations
@@ -75,7 +75,6 @@ public extension ModelDto {
             }
         }
     }
-
 }
 
 public extension ModelDto.PopulationNationDataResponse {

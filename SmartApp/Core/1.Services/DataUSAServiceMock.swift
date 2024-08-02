@@ -10,23 +10,17 @@ import Foundation
 import Domain
 import Common
 
-public class DataUSAService {
+public class DataUSAServiceMock {
     private init() {}
-    public static let shared = DataUSAService()
+    public static let shared = DataUSAServiceMock()
 }
 
-extension DataUSAService: DataUSAServiceProtocol {
+extension DataUSAServiceMock: DataUSAServiceProtocol {
     public func requestPopulationStateData(_ request: ModelDto.PopulationStateDataRequest) async throws -> ModelDto.PopulationStateDataResponse {
-        try await NetworkManager.shared.request(
-            .getPopulationStateData(request),
-            type: ModelDto.PopulationStateDataResponse.self
-        )
+        return ModelDto.PopulationStateDataResponse.mock!
     }
 
     public func requestPopulationNationData(_ request: ModelDto.PopulationNationDataRequest) async throws -> ModelDto.PopulationNationDataResponse {
-        try await NetworkManager.shared.request(
-            .getPopulationNationData(request),
-            type: ModelDto.PopulationNationDataResponse.self
-        )
+        return ModelDto.PopulationNationDataResponse.mock!
     }
 }

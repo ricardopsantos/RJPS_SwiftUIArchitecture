@@ -15,7 +15,7 @@ import Nimble
 //
 import Common
 
-final class PerformanceTests: BaseUITests {
+final class FetchNationScreenTests: BaseUITests {
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         false
     }
@@ -31,14 +31,20 @@ final class PerformanceTests: BaseUITests {
 
     override func tearDownWithError() throws {}
 
-    //
-    // MARK: - testAxxx : Splash Screen
-    //
-
-    func testA1_launch() {
-        // Duration (AppLaunch): 1.093 s
-        measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
-        }
+    func testA1_appStartsAndUpdatesTitle() {
+        appLaunch(launchArguments: [
+            "shouldResetAllPreferences"
+        ])
+        waitFor(staticText: "Nation 10", on: app)
     }
+
+    func testA1_appStartsAndDisplayRecords() {
+        appLaunch(launchArguments: [
+            "shouldResetAllPreferences"
+        ])
+        waitFor(staticText: "United States 2022", on: app)
+        waitFor(staticText: "United States 2021", on: app)
+        waitFor(staticText: "United States 2020", on: app)
+    }
+
 }

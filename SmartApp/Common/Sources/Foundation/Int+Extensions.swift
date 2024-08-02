@@ -9,7 +9,7 @@ public extension Int {
     var boolValue: Bool {
         self != 0
     }
-    
+
     var localeString: String {
         let formatter = NumberFormatter()
         formatter.locale = .current

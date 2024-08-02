@@ -17,7 +17,9 @@ extension AnalyticsManager {
     }
 
     enum EventType {
+        case appLifeCycleEvent(label: String)
         case buttonClick(type: ButtonType, label: String)
+        case listItemTap(label: String)
 
         enum ButtonType: String {
             case primary = "Primary"
@@ -28,9 +30,10 @@ extension AnalyticsManager {
         }
 
         var rawValue: String {
-            print("colocar estes eventos no analitics")
             switch self {
             case .buttonClick(type: let type, label: let label): return "buttonClick_\(type)_\(label)"
+            case .listItemTap(label: let label): return "listItemTap_\(label)"
+            case .appLifeCycleEvent(label: let label): return "appLifeCycleEvent_\(label)"
             }
         }
     }
@@ -47,12 +50,33 @@ class AnalyticsManager {
         ]
         Analytics.logEvent(AnalyticsEventScreenView, parameters: parameters)
     }
-
-    func handleCustomEvent(eventType: EventType, properties: [String: Any] = [:]) {
-        let baseEvent = BaseEvent(eventType: eventType, eventProperties: properties)
+    
+    func handleAppLifeCycleEvent(
+        label: String,
+        sender: String,
+        properties: [String: Any] = [:]
+    ) {
+        DevTools.assert(!label.isEmpty, message: "Empty label")
+        DevTools.assert(!sender.isEmpty, message: "Empty sender")
+        var newProperties = properties
+        newProperties["sender"] = sender
+        let baseEvent = BaseEvent(eventType: EventType.appLifeCycleEvent(label: label), eventProperties: properties)
         handle(baseEvent: baseEvent)
     }
-
+    
+    func handleListItemTapEvent(
+        label: String,
+        sender: String,
+        properties: [String: Any] = [:]
+    ) {
+        DevTools.assert(!label.isEmpty, message: "Empty label")
+        DevTools.assert(!sender.isEmpty, message: "Empty sender")
+        var newProperties = properties
+        newProperties["sender"] = sender
+        let baseEvent = BaseEvent(eventType: EventType.listItemTap(label: label), eventProperties: properties)
+        handle(baseEvent: baseEvent)
+    }
+    
     func handleButtonClickEvent(
         buttonType: AnalyticsManager.EventType.ButtonType = .primary,
         label: String,

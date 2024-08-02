@@ -9,23 +9,15 @@ import Foundation
 import SwiftUI
 
 public final class RouterViewModel: ObservableObject {
-    // MARK: - Dependency Attributes
-
     // MARK: - Usage Attributes
-
     @Published var navPath = NavigationPath()
     @Published var sheetLink: AppScreen?
     @Published var coverLink: AppScreen?
 
-    // MARK: - Auxiliar Attributes
-    // private var cancelBag: CancelBag = .init()
-
     // MARK: - Constructor
-
     public init() {}
 
     // MARK: - Functions
-
     public func navigate(to destination: any Hashable) {
         navPath.append(destination)
     }

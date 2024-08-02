@@ -26,12 +26,5 @@ public class SetupManager {
         FirebaseApp.configure()
         UITestingManager.setupForForTestingIfNeeded()
         FontsName.setup()
-        if Common_Utils.onDebug {
-            UserDefaults.standard.set(true, forKey: "com.apple.CoreData.ConcurrencyDebug")
-            UserDefaults.standard.set(1, forKey: "com.apple.CoreData.SQLDebug")
-        } else {
-            UserDefaults.standard.set(false, forKey: "com.apple.CoreData.ConcurrencyDebug")
-            UserDefaults.standard.set(0, forKey: "com.apple.CoreData.SQLDebug")
-        }
     }
 }

@@ -16,7 +16,7 @@ import Core
 import Common
 
 final class DataUSAServiceTests: XCTestCase {
-    private var service: DataUSAServiceProtocol? = DataUSAService.shared
+    lazy var dataUSAService: DataUSAServiceProtocol = { DependenciesManager.Services.dataUSAService }()
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
@@ -30,36 +30,35 @@ final class DataUSAServiceTests: XCTestCase {
 //
 
 extension DataUSAServiceTests {
-    
     // Test to verify that PopulationStateDataResponse mock
     func test_mockPopulationStateData() async {
-        XCTAssertTrue(ModelDto.PopulationStateDataResponse.mock != nil, "PopulationStateDataResponse.mock data should be loaded successfully.")
+        XCTAssertTrue(ModelDto.PopulationStateDataResponse.mock != nil, "mock data should be loaded successfully.")
     }
-    
+
     // Test to verify that PopulationStateData information can be fetched
     func test_requestPopulationStateData() async {
         do {
             // Attempt to fetch PopulationNationData
-            loadedAny = try await service?.requestPopulationStateData(.init())
+            loadedAny = try await dataUSAService.requestPopulationStateData(.init())
 
             // Verify that PopulationStateData was successfully loaded
-            XCTAssertTrue(loadedAny != nil, "PopulationStateData data should be loaded successfully.")
+            XCTAssertTrue(loadedAny != nil, "data should be loaded successfully.")
         } catch {
             // In case of an error, fail the test
-            XCTAssertTrue(false, "Failed to fetch PopulationStateData with error: \(error)")
+            XCTAssertTrue(false, "Failed to fetch with error: \(error)")
         }
     }
-    
+
     // Test to verify that PopulationNationDataResponse mock
     func test_mockPopulationNationDataResponse() async {
         XCTAssertTrue(ModelDto.PopulationNationDataResponse.mock != nil, "PopulationNationDataResponse.mock data should be loaded successfully.")
     }
-    
+
     // Test to verify that PopulationNationDat information can be fetched
     func test_requestPopulationNationData() async {
         do {
             // Attempt to fetch PopulationNationData
-            loadedAny = try await service?.requestPopulationNationData(.init())
+            loadedAny = try await dataUSAService.requestPopulationNationData(.init())
 
             // Verify that PopulationNationData was successfully loaded
             XCTAssertTrue(loadedAny != nil, "PopulationNationData data should be loaded successfully.")

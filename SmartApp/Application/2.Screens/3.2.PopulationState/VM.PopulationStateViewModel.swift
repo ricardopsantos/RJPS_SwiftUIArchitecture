@@ -23,10 +23,12 @@ struct PopulationStateModel: Equatable, Hashable {
         self.title = title
         self.subTitle = subTitle
     }
-    
+
     init(populationStateDataResponse modelDto: ModelDto.PopulationStateDataResponse.Datum) {
-        self.init(title: "\(modelDto.state) \(modelDto.year)", 
-                  subTitle: "Population \(modelDto.population.localeString)")
+        self.init(
+            title: "\(modelDto.state) \(modelDto.year)",
+            subTitle: "Population \(modelDto.population.localeString)"
+        )
     }
 }
 
@@ -54,7 +56,7 @@ class PopulationStateViewModel: ObservableObject {
     @Published var alertModel: Model.AlertModel?
     @Published var loadingModel: Model.LoadingModel?
     @Published var model: [PopulationStateModel] = []
-
+    @Published var title = "PopulationStateViewTitle".localized
     // MARK: - Auxiliar Attributes
     private let dataUSAService: DataUSAServiceProtocol
     public init(dependencies: Dependencies) {
@@ -75,7 +77,8 @@ class PopulationStateViewModel: ObservableObject {
                 model = []
                 do {
                     let modelDto = try await dataUSAService.requestPopulationStateData(.init())
-                    model = modelDto.data.map({ .init(populationStateDataResponse: $0) })
+                    model = modelDto.data.map { .init(populationStateDataResponse: $0) }
+                    title = String(format: "PopulationStateViewWithRecords".localized, model.count)
                     loadingModel = .notLoading
                 } catch {
                     ErrorsManager.handleError(message: "\(Self.self).\(action)", error: error)

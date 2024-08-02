@@ -13,11 +13,10 @@ struct SmartApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     let configuration: ConfigurationViewModel
     init() {
-        let config: ConfigurationViewModel = .init(
+        SetupManager.shared.setup()
+        self.configuration = .init(
             dataUSAService: DependenciesManager.Services.dataUSAService
         )
-        SetupManager.shared.setup()
-        self.configuration = config
     }
 
     var body: some Scene {

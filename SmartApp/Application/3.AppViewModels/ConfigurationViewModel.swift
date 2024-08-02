@@ -16,16 +16,10 @@ class ConfigurationViewModel: ObservableObject {
     // MARK: - Dependency Attributes
     let dataUSAService: DataUSAServiceProtocol
 
-    // MARK: - Auxiliar Attributes
-
-    // MARK: - Usage Attributes
-
     // MARK: - Constructor
     init(dataUSAService: DataUSAServiceProtocol) {
         self.dataUSAService = dataUSAService
     }
-
-    // MARK: - Functions
 }
 
 // MARK: - Previews
@@ -33,7 +27,7 @@ class ConfigurationViewModel: ObservableObject {
 extension ConfigurationViewModel {
     static var defaultForPreviews: ConfigurationViewModel {
         ConfigurationViewModel(
-            dataUSAService: DependenciesManager.Services.dataUSAService
+            dataUSAService: DependenciesManager.Services.dataUSAServiceMock
         )
     }
 }

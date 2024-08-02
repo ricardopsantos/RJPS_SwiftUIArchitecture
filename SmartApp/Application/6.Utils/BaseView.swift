@@ -26,7 +26,7 @@ enum BaseView {
         ignoresSafeArea: Bool,
         dismissKeyboardOnTap: Bool = true,
         background: BackgroundView.Background,
-        displayRenderedView: Bool = true,
+        displayRenderedView: Bool = DevTools.onSimulator,
         alertModel: Model.AlertModel? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
@@ -73,14 +73,10 @@ enum BaseView {
         })
         .onAppear {
             DevTools.Log.debug(DevTools.Log.LogTemplate.screenIn(sender), .view)
-            BackgroundServicesManager.shared.handleEvent(
-                .viewLifeCycle(.viewDidAppear(appScreen: appScreen)), nil
-            )
+            AnalyticsManager.shared.handleScreenIn(appScreen: appScreen)
+
         }.onDisappear {
             DevTools.Log.debug(DevTools.Log.LogTemplate.screenOut(sender), .view)
-            BackgroundServicesManager.shared.handleEvent(
-                .viewLifeCycle(.viewDidDisappear(appScreen: appScreen)), nil
-            )
         }
     }
 
@@ -294,8 +290,9 @@ extension BaseView {
         ignoresSafeArea: true,
         background: .gradient,
         loadingModel: .notLoading,
-//        loadingModel: .loading(message: "Loading".localizedMissing, id: UUID().uuidString),
-        alertModel: .noInternet,
+     //   loadingModel: .loading(message: "Loading".localizedMissing, id: UUID().uuidString),
+      //  alertModel: .noInternet,
+        alertModel: nil,
         content: {
             Text("Content")
         }

@@ -39,16 +39,6 @@ struct SplashView: View {
     }
 }
 
-//
-// MARK: - Auxiliar Views
-//
-fileprivate extension SplashView {}
-
-//
-// MARK: - Private
-//
-fileprivate extension SplashView {}
-
 #Preview {
     SplashView()
 }

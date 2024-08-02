@@ -19,15 +19,17 @@ import Core
 struct PopulationNationModel: Equatable, Hashable {
     let title: String
     let subTitle: String
-    
+
     init(title: String = "", subTitle: String) {
         self.title = title
         self.subTitle = subTitle
     }
-    
+
     init(populationNationDataResponse modelDto: ModelDto.PopulationNationDataResponse.Datum) {
-        self.init(title: "\(modelDto.nation.rawValue)  \(modelDto.year)",
-                  subTitle: "Population: \(modelDto.population.localeString)")
+        self.init(
+            title: "\(modelDto.nation.rawValue) \(modelDto.year)",
+            subTitle: "Population: \(modelDto.population.localeString)"
+        )
     }
 }
 
@@ -55,7 +57,7 @@ class PopulationNationViewModel: ObservableObject {
     @Published var alertModel: Model.AlertModel?
     @Published var loadingModel: Model.LoadingModel?
     @Published var model: [PopulationNationModel] = []
-
+    @Published var title: String = "PopulationNationViewTitle".localized
     // MARK: - Auxiliar Attributes
     private let dataUSAService: DataUSAServiceProtocol
     public init(dependencies: Dependencies) {
@@ -76,7 +78,8 @@ class PopulationNationViewModel: ObservableObject {
                 model = []
                 do {
                     let modelDto = try await dataUSAService.requestPopulationNationData(.init())
-                    model = modelDto.data.map({ .init(populationNationDataResponse: $0) })
+                    model = modelDto.data.map { .init(populationNationDataResponse: $0) }
+                    title = String(format: "PopulationNationViewTitleWithRecords".localized, model.count)
                     loadingModel = .notLoading
                 } catch {
                     ErrorsManager.handleError(message: "\(Self.self).\(action)", error: error)

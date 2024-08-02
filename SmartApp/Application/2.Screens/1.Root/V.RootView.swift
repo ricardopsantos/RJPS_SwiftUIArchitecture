@@ -17,7 +17,6 @@ struct RootViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var router = RouterViewModel()
-    // MARK: - Usage Attributes
 
     // MARK: - Body & View
     var body: some View {
@@ -34,11 +33,7 @@ struct RootViewCoordinator: View, ViewCoordinatorProtocol {
     @ViewBuilder func buildScreen(_ screen: AppScreen) -> some View {
         switch screen {
         case .root:
-            RootView(dependencies: .init(
-                model: .init(
-                    isAppStartCompleted: false
-                )
-            ))
+            RootView(dependencies: .init(model: .init(appLoaded: false)))
         default:
             EmptyView().opacity(0).onAppear(perform: {
                 DevTools.assert(false, message: "Not predicted \(screen)")
@@ -86,11 +81,7 @@ struct RootView: View, ViewProtocol {
             // swiftlint:enable redundant_discardable_let
         }
         buildScreen(root)
-            .onChange(of: viewModel.preferencesChanged) { _ in updateRoot() }
-            .onChange(of: viewModel.isAppStartCompleted) { _ in updateRoot() }
-            .onChange(of: viewModel.isUserDetailsFilled) { _ in updateRoot() }
-            .onChange(of: viewModel.isTermsAndConditionsAccepted) { _ in updateRoot() }
-            .onChange(of: viewModel.isOnboardingCompleted) { _ in updateRoot() }
+            .onChange(of: viewModel.appLoaded) { _ in updateRoot() }
     }
 
     /// Navigation Links
@@ -119,10 +110,10 @@ fileprivate extension RootView {}
 //
 fileprivate extension RootView {
     func updateRoot() {
-        if !viewModel.isAppStartCompleted {
-            root = .splash
-        } else  {
+        if viewModel.appLoaded {
             root = .populationNation
+        } else {
+            root = .splash
         }
     }
 }

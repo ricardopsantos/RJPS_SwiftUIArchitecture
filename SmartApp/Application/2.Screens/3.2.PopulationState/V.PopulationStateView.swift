@@ -43,7 +43,7 @@ struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
             PopulationStateView(dependencies: dependencies)
         case .populationState(model: let model):
             EmptyView()
-            
+
         default:
             EmptyView().onAppear(perform: {
                 DevTools.assert(false, message: "Not predicted \(screen)")
@@ -93,22 +93,10 @@ struct PopulationStateView: View {
     }
 
     var content: some View {
-        VStack {
+        VStack(spacing: 0) {
+            Header(text: viewModel.title)
             ScrollView(showsIndicators: false) {
-                VStack(spacing: SizeNames.defaultMargin) {
-                    ForEach(viewModel.model, id: \.self) { item in
-                        ListItemView(
-                            title: item.title,
-                            subTitle: item.subTitle,
-                            backgroundColor: ColorSemantic.backgroundTertiary.color
-                        )
-                        .onTapGesture {
-                            router.coverLink = .populationState(model: .init())
-                        }
-                    }
-                }
-                .padding(.top, SizeNames.defaultMargin)
-                .padding(.horizontal, SizeNames.defaultMargin)
+                listView
             }
         }
         .frame(maxWidth: .infinity)
@@ -118,7 +106,26 @@ struct PopulationStateView: View {
 //
 // MARK: - Auxiliar Views
 //
-fileprivate extension PopulationStateView {}
+fileprivate extension PopulationStateView {
+    var listView: some View {
+        VStack(spacing: SizeNames.defaultMargin) {
+            ForEach(Array(viewModel.model.enumerated()), id: \.element) { index, item in
+                ListItemView(
+                    title: item.title,
+                    subTitle: item.subTitle,
+                    backgroundColor: ColorSemantic.backgroundTertiary.color
+                )
+                .onTapGesture {
+                    let label = "Taped index \(index): \(item.title)"
+                    AnalyticsManager.shared.handleListItemTapEvent(label: label, sender: "\(Self.self)")
+                    router.coverLink = .populationState(model: .init())
+                }
+            }
+        }
+        .padding(.top, SizeNames.defaultMargin)
+        .padding(.horizontal, SizeNames.defaultMargin)
+    }
+}
 
 #Preview {
     PopulationStateViewCoordinator()
