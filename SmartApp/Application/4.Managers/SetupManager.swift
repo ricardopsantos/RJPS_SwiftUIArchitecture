@@ -20,9 +20,6 @@ public class SetupManager {
     static let shared = SetupManager()
 
     func setup() {
-        CPPWrapper.disable_gdb() // Security: Detach debugger for real device
-        CPPWrapper.crash_if_debugged() // Security: Crash app if debugger Detach failed
-        DevTools.Log.setup()
         FirebaseApp.configure()
         UITestingManager.setupForForTestingIfNeeded()
         FontsName.setup()

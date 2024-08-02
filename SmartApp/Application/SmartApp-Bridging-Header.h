@@ -5,6 +5,4 @@
 #ifndef BridgingHeader
 #define BridgingHeader
 
-#import "CPPWrapper.h"
-
 #endif /* BridgingHeader */

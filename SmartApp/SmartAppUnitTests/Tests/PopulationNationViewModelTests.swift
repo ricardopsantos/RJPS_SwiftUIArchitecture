@@ -30,8 +30,7 @@ final class PopulationNationViewModelTests: XCTestCase {
         cancelBag.cancel()
         if viewModel == nil {
             let dependencies: PopulationNationViewModel.Dependencies = .init(
-                model: .init(), didSelected: { _ in
-                }, dataUSAService: dataUSAServiceMock
+                model: .init(), dataUSAService: dataUSAServiceMock
             )
             viewModel = await PopulationNationViewModel(dependencies: dependencies)
         }

@@ -15,7 +15,7 @@ import Nimble
 //
 import Common
 
-final class FetchNationScreenTests: BaseUITests {
+final class FetchStatesScreenTests: BaseUITests {
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         false
     }
@@ -31,17 +31,18 @@ final class FetchNationScreenTests: BaseUITests {
 
     override func tearDownWithError() throws {}
 
-    func testA1_appStartsAndUpdatesNavigationBarTitle() {
+    func testA1_appStartsAndRouteToStates() {
         appLaunch(launchArguments: [
             "shouldResetAllPreferences"
         ])
-        waitFor(staticText: "USA Population: Last 10 years", on: app) // Navigation bar text should update
+        waitFor(staticText: "Year: 2022", on: app) // List loaded
+        tap(staticText: "Year: 2022", on: app) // Tapped list item
+        waitFor(staticText: "USA States Population for 2022", on: app) // Should appear the next screen navigation title
     }
-
-    func testA2_appStartsAndDisplayRecords() {
-        testA1_appStartsAndUpdatesNavigationBarTitle() // Re-use test A1
-        waitFor(staticText: "Year: 2022", on: app)
-        waitFor(staticText: "Year: 2021", on: app)
-        waitFor(staticText: "Year: 2020", on: app)
+    
+    func testA2_appStartsAndRouteToStatesAndRouteBack() {
+        testA1_appStartsAndRouteToStates() // Re-use testA1
+        // After tap back button, should appear previous screen navigation title
+        tap(button: "backButton", andWaitForStaticText: "Year: 2022", on: app)
     }
 }

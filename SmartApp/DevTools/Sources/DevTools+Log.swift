@@ -23,8 +23,6 @@ public extension DevTools {
             case appDelegate // For AppDelegate services
         }
 
-        public static func setup() {}
-
         public enum LogTemplate {
             case log(_ any: Any)
             case appLifeCycle(_ message: Any)
