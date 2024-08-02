@@ -17,6 +17,7 @@ public class DependenciesManager {
         public static var userService: UserServiceProtocol { UserService.shared }
         public static var weatherService: WeatherServiceProtocol { WeatherService.shared }
         public static var sampleService: SampleServiceProtocol { SampleService.shared }
+        public static var dataUSAService: DataUSAServiceProtocol { DataUSAService.shared }
     }
 
     public enum Repository {

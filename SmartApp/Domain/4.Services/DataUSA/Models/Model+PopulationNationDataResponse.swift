@@ -1,5 +1,5 @@
 //
-//  NationResponse.swift
+//  PopulationNationDataResponse.swift
 //  Domain
 //
 //  Created by Ricardo Santos on 02/08/2024.
@@ -12,40 +12,58 @@ import Common
 public extension ModelDto {
     // MARK: - PopulationNationDataResponse
     struct PopulationNationDataResponse: ModelProtocol {
-        let data: [Datum]
-        let source: [Source]
+        public let data: [Datum]
+        public let source: [Source]
+        
+        public init(data: [Datum] = [], source: [Source] = []) {
+            self.data = data
+            self.source = source
+        }
         
         // MARK: - Datum
-        struct Datum: ModelProtocol {
-            let idState, state: String
-            let idYear: Int
-            let year: String
-            let population: Int
-            let slugState: String
+        public struct Datum: ModelProtocol {
+            public let idNation: IDNation
+            public let nation: Nation
+            public let idYear: Int
+            public let year: String
+            public let population: Int
+            public let slugNation: SlugNation
 
             enum CodingKeys: String, CodingKey {
-                case idState = "ID State"
-                case state = "State"
+                case idNation = "ID Nation"
+                case nation = "Nation"
                 case idYear = "ID Year"
                 case year = "Year"
                 case population = "Population"
-                case slugState = "Slug State"
+                case slugNation = "Slug Nation"
             }
         }
 
+        public enum IDNation: String, ModelProtocol {
+            case the01000Us = "01000US"
+        }
+
+        public enum Nation: String, ModelProtocol {
+            case unitedStates = "United States"
+        }
+
+        public enum SlugNation: String, ModelProtocol {
+            case unitedStates = "united-states"
+        }
+
         // MARK: - Source
-        struct Source: ModelProtocol {
-            let measures: [String]
-            let annotations: Annotations
-            let name: String
+        public struct Source: ModelProtocol {
+            public let measures: [String]
+            public let annotations: Annotations
+            public let name: String
             //let substitutions: [JSONAny]
         }
 
         // MARK: - Annotations
-        struct Annotations: ModelProtocol {
-            let sourceName, sourceDescription, datasetName: String
-            let datasetLink: String
-            let tableID, topic, subtopic: String
+        public struct Annotations: ModelProtocol {
+            public let sourceName, sourceDescription, datasetName: String
+            public let datasetLink: String
+            public let tableID, topic, subtopic: String
 
             enum CodingKeys: String, CodingKey {
                 case sourceName = "source_name"
@@ -58,7 +76,6 @@ public extension ModelDto {
         }
     }
 
-   
 }
 
 public extension ModelDto.PopulationNationDataResponse {
@@ -68,420 +85,84 @@ public extension ModelDto.PopulationNationDataResponse {
         {
             "data": [
                 {
-                    "ID State": "04000US01",
-                    "State": "Alabama",
+                    "ID Nation": "01000US",
+                    "Nation": "United States",
                     "ID Year": 2022,
                     "Year": "2022",
-                    "Population": 5028092,
-                    "Slug State": "alabama"
+                    "Population": 331097593,
+                    "Slug Nation": "united-states"
                 },
                 {
-                    "ID State": "04000US02",
-                    "State": "Alaska",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 734821,
-                    "Slug State": "alaska"
+                    "ID Nation": "01000US",
+                    "Nation": "United States",
+                    "ID Year": 2021,
+                    "Year": "2021",
+                    "Population": 329725481,
+                    "Slug Nation": "united-states"
                 },
                 {
-                    "ID State": "04000US04",
-                    "State": "Arizona",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 7172282,
-                    "Slug State": "arizona"
+                    "ID Nation": "01000US",
+                    "Nation": "United States",
+                    "ID Year": 2020,
+                    "Year": "2020",
+                    "Population": 326569308,
+                    "Slug Nation": "united-states"
                 },
                 {
-                    "ID State": "04000US05",
-                    "State": "Arkansas",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 3018669,
-                    "Slug State": "arkansas"
+                    "ID Nation": "01000US",
+                    "Nation": "United States",
+                    "ID Year": 2019,
+                    "Year": "2019",
+                    "Population": 324697795,
+                    "Slug Nation": "united-states"
                 },
                 {
-                    "ID State": "04000US06",
-                    "State": "California",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 39356104,
-                    "Slug State": "california"
+                    "ID Nation": "01000US",
+                    "Nation": "United States",
+                    "ID Year": 2018,
+                    "Year": "2018",
+                    "Population": 322903030,
+                    "Slug Nation": "united-states"
                 },
                 {
-                    "ID State": "04000US08",
-                    "State": "Colorado",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 5770790,
-                    "Slug State": "colorado"
+                    "ID Nation": "01000US",
+                    "Nation": "United States",
+                    "ID Year": 2017,
+                    "Year": "2017",
+                    "Population": 321004407,
+                    "Slug Nation": "united-states"
                 },
                 {
-                    "ID State": "04000US09",
-                    "State": "Connecticut",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 3611317,
-                    "Slug State": "connecticut"
+                    "ID Nation": "01000US",
+                    "Nation": "United States",
+                    "ID Year": 2016,
+                    "Year": "2016",
+                    "Population": 318558162,
+                    "Slug Nation": "united-states"
                 },
                 {
-                    "ID State": "04000US10",
-                    "State": "Delaware",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 993635,
-                    "Slug State": "delaware"
+                    "ID Nation": "01000US",
+                    "Nation": "United States",
+                    "ID Year": 2015,
+                    "Year": "2015",
+                    "Population": 316515021,
+                    "Slug Nation": "united-states"
                 },
                 {
-                    "ID State": "04000US11",
-                    "State": "District of Columbia",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 670587,
-                    "Slug State": "district-of-columbia"
+                    "ID Nation": "01000US",
+                    "Nation": "United States",
+                    "ID Year": 2014,
+                    "Year": "2014",
+                    "Population": 314107084,
+                    "Slug Nation": "united-states"
                 },
                 {
-                    "ID State": "04000US12",
-                    "State": "Florida",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 21634529,
-                    "Slug State": "florida"
-                },
-                {
-                    "ID State": "04000US13",
-                    "State": "Georgia",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 10722325,
-                    "Slug State": "georgia"
-                },
-                {
-                    "ID State": "04000US15",
-                    "State": "Hawaii",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 1450589,
-                    "Slug State": "hawaii"
-                },
-                {
-                    "ID State": "04000US16",
-                    "State": "Idaho",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 1854109,
-                    "Slug State": "idaho"
-                },
-                {
-                    "ID State": "04000US17",
-                    "State": "Illinois",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 12757634,
-                    "Slug State": "illinois"
-                },
-                {
-                    "ID State": "04000US18",
-                    "State": "Indiana",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 6784403,
-                    "Slug State": "indiana"
-                },
-                {
-                    "ID State": "04000US19",
-                    "State": "Iowa",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 3188836,
-                    "Slug State": "iowa"
-                },
-                {
-                    "ID State": "04000US20",
-                    "State": "Kansas",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 2935922,
-                    "Slug State": "kansas"
-                },
-                {
-                    "ID State": "04000US21",
-                    "State": "Kentucky",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 4502935,
-                    "Slug State": "kentucky"
-                },
-                {
-                    "ID State": "04000US22",
-                    "State": "Louisiana",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 4640546,
-                    "Slug State": "louisiana"
-                },
-                {
-                    "ID State": "04000US23",
-                    "State": "Maine",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 1366949,
-                    "Slug State": "maine"
-                },
-                {
-                    "ID State": "04000US24",
-                    "State": "Maryland",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 6161707,
-                    "Slug State": "maryland"
-                },
-                {
-                    "ID State": "04000US25",
-                    "State": "Massachusetts",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 6984205,
-                    "Slug State": "massachusetts"
-                },
-                {
-                    "ID State": "04000US26",
-                    "State": "Michigan",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 10057921,
-                    "Slug State": "michigan"
-                },
-                {
-                    "ID State": "04000US27",
-                    "State": "Minnesota",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 5695292,
-                    "Slug State": "minnesota"
-                },
-                {
-                    "ID State": "04000US28",
-                    "State": "Mississippi",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 2958846,
-                    "Slug State": "mississippi"
-                },
-                {
-                    "ID State": "04000US29",
-                    "State": "Missouri",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 6154422,
-                    "Slug State": "missouri"
-                },
-                {
-                    "ID State": "04000US30",
-                    "State": "Montana",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 1091840,
-                    "Slug State": "montana"
-                },
-                {
-                    "ID State": "04000US31",
-                    "State": "Nebraska",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 1958939,
-                    "Slug State": "nebraska"
-                },
-                {
-                    "ID State": "04000US32",
-                    "State": "Nevada",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 3104817,
-                    "Slug State": "nevada"
-                },
-                {
-                    "ID State": "04000US33",
-                    "State": "New Hampshire",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 1379610,
-                    "Slug State": "new-hampshire"
-                },
-                {
-                    "ID State": "04000US34",
-                    "State": "New Jersey",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 9249063,
-                    "Slug State": "new-jersey"
-                },
-                {
-                    "ID State": "04000US35",
-                    "State": "New Mexico",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 2112463,
-                    "Slug State": "new-mexico"
-                },
-                {
-                    "ID State": "04000US36",
-                    "State": "New York",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 19994379,
-                    "Slug State": "new-york"
-                },
-                {
-                    "ID State": "04000US37",
-                    "State": "North Carolina",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 10470214,
-                    "Slug State": "north-carolina"
-                },
-                {
-                    "ID State": "04000US38",
-                    "State": "North Dakota",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 776874,
-                    "Slug State": "north-dakota"
-                },
-                {
-                    "ID State": "04000US39",
-                    "State": "Ohio",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 11774683,
-                    "Slug State": "ohio"
-                },
-                {
-                    "ID State": "04000US40",
-                    "State": "Oklahoma",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 3970497,
-                    "Slug State": "oklahoma"
-                },
-                {
-                    "ID State": "04000US41",
-                    "State": "Oregon",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 4229374,
-                    "Slug State": "oregon"
-                },
-                {
-                    "ID State": "04000US42",
-                    "State": "Pennsylvania",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 12989208,
-                    "Slug State": "pennsylvania"
-                },
-                {
-                    "ID State": "04000US44",
-                    "State": "Rhode Island",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 1094250,
-                    "Slug State": "rhode-island"
-                },
-                {
-                    "ID State": "04000US45",
-                    "State": "South Carolina",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 5142750,
-                    "Slug State": "south-carolina"
-                },
-                {
-                    "ID State": "04000US46",
-                    "State": "South Dakota",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 890342,
-                    "Slug State": "south-dakota"
-                },
-                {
-                    "ID State": "04000US47",
-                    "State": "Tennessee",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 6923772,
-                    "Slug State": "tennessee"
-                },
-                {
-                    "ID State": "04000US48",
-                    "State": "Texas",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 29243342,
-                    "Slug State": "texas"
-                },
-                {
-                    "ID State": "04000US49",
-                    "State": "Utah",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 3283809,
-                    "Slug State": "utah"
-                },
-                {
-                    "ID State": "04000US50",
-                    "State": "Vermont",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 643816,
-                    "Slug State": "vermont"
-                },
-                {
-                    "ID State": "04000US51",
-                    "State": "Virginia",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 8624511,
-                    "Slug State": "virginia"
-                },
-                {
-                    "ID State": "04000US53",
-                    "State": "Washington",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 7688549,
-                    "Slug State": "washington"
-                },
-                {
-                    "ID State": "04000US54",
-                    "State": "West Virginia",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 1792967,
-                    "Slug State": "west-virginia"
-                },
-                {
-                    "ID State": "04000US55",
-                    "State": "Wisconsin",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 5882128,
-                    "Slug State": "wisconsin"
-                },
-                {
-                    "ID State": "04000US56",
-                    "State": "Wyoming",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 577929,
-                    "Slug State": "wyoming"
-                },
-                {
-                    "ID State": "04000US72",
-                    "State": "Puerto Rico",
-                    "ID Year": 2022,
-                    "Year": "2022",
-                    "Population": 3272382,
-                    "Slug State": "puerto-rico"
+                    "ID Nation": "01000US",
+                    "Nation": "United States",
+                    "ID Year": 2013,
+                    "Year": "2013",
+                    "Population": 311536594,
+                    "Slug Nation": "united-states"
                 }
             ],
             "source": [

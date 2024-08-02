@@ -331,13 +331,16 @@
 		D77A251F685328CA88F7231E /* UIView+AnimationsBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6344864F30EC39BE520CCB /* UIView+AnimationsBase.swift */; };
 		D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */; };
 		D7F33EE52C5CEED30029AE41 /* V.DefaultSegmentedPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EE42C5CEED30029AE41 /* V.DefaultSegmentedPickerView.swift */; };
-		D7F33EE92C5D07070029AE41 /* Model+PopulationStateDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EE82C5D07070029AE41 /* Model+PopulationStateDataResponse.swift */; };
-		D7F33EEB2C5D08290029AE41 /* Model+PopulationNationDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EEA2C5D08290029AE41 /* Model+PopulationNationDataResponse.swift */; };
+		D7F33EE92C5D07070029AE41 /* Model+PopulationNationDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EE82C5D07070029AE41 /* Model+PopulationNationDataResponse.swift */; };
+		D7F33EEB2C5D08290029AE41 /* Model+PopulationStateDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EEA2C5D08290029AE41 /* Model+PopulationStateDataResponse.swift */; };
 		D7F33EED2C5D09890029AE41 /* DataUSAServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EEC2C5D09890029AE41 /* DataUSAServiceProtocol.swift */; };
 		D7F33EEF2C5D09CC0029AE41 /* Model+PopulationStateDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EEE2C5D09CC0029AE41 /* Model+PopulationStateDataRequest.swift */; };
 		D7F33EF12C5D0AA10029AE41 /* Model+PopulationNationDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EF02C5D0AA10029AE41 /* Model+PopulationNationDataRequest.swift */; };
 		D7F33EF32C5D0B7F0029AE41 /* DataUSAService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EF22C5D0B7F0029AE41 /* DataUSAService.swift */; };
 		D7F33EF52C5D10320029AE41 /* DataUSAServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EF42C5D10320029AE41 /* DataUSAServiceTests.swift */; };
+		D7F33EFD2C5D18630029AE41 /* V.PopulationNationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EF62C5D18630029AE41 /* V.PopulationNationScreen.swift */; };
+		D7F33EFE2C5D18630029AE41 /* VM.PopulationNationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EF72C5D18630029AE41 /* VM.PopulationNationViewModel.swift */; };
+		D7F33F032C5D21AA0029AE41 /* VM.PopulationStateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33F022C5D21AA0029AE41 /* VM.PopulationStateViewModel.swift */; };
 		D863FD483BEB16AB0BB36A01 /* V.EditUserDetailsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0A33D883B21CEA4F012100 /* V.EditUserDetailsScreen.swift */; };
 		D8FC857887AF7D20A3D14826 /* ModelDtoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */; };
 		D9F004ECD5CB0FD2E87BD627 /* ModelDto+UpdateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7ADEDCA2B161252C22CB97 /* ModelDto+UpdateUserResponse.swift */; };
@@ -909,13 +912,16 @@
 		D73F950216792C50E6323F9C /* UIImageView+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Transform.swift"; sourceTree = "<group>"; };
 		D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDtoProtocol.swift; sourceTree = "<group>"; };
 		D7F33EE42C5CEED30029AE41 /* V.DefaultSegmentedPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.DefaultSegmentedPickerView.swift; sourceTree = "<group>"; };
-		D7F33EE82C5D07070029AE41 /* Model+PopulationStateDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model+PopulationStateDataResponse.swift"; sourceTree = "<group>"; };
-		D7F33EEA2C5D08290029AE41 /* Model+PopulationNationDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model+PopulationNationDataResponse.swift"; sourceTree = "<group>"; };
+		D7F33EE82C5D07070029AE41 /* Model+PopulationNationDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model+PopulationNationDataResponse.swift"; sourceTree = "<group>"; };
+		D7F33EEA2C5D08290029AE41 /* Model+PopulationStateDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model+PopulationStateDataResponse.swift"; sourceTree = "<group>"; };
 		D7F33EEC2C5D09890029AE41 /* DataUSAServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUSAServiceProtocol.swift; sourceTree = "<group>"; };
 		D7F33EEE2C5D09CC0029AE41 /* Model+PopulationStateDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model+PopulationStateDataRequest.swift"; sourceTree = "<group>"; };
 		D7F33EF02C5D0AA10029AE41 /* Model+PopulationNationDataRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Model+PopulationNationDataRequest.swift"; sourceTree = "<group>"; };
 		D7F33EF22C5D0B7F0029AE41 /* DataUSAService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUSAService.swift; sourceTree = "<group>"; };
 		D7F33EF42C5D10320029AE41 /* DataUSAServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataUSAServiceTests.swift; sourceTree = "<group>"; };
+		D7F33EF62C5D18630029AE41 /* V.PopulationNationScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V.PopulationNationScreen.swift; sourceTree = "<group>"; };
+		D7F33EF72C5D18630029AE41 /* VM.PopulationNationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VM.PopulationNationViewModel.swift; sourceTree = "<group>"; };
+		D7F33F022C5D21AA0029AE41 /* VM.PopulationStateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VM.PopulationStateViewModel.swift; sourceTree = "<group>"; };
 		D9AE59B81096776D491A6ABE /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		DB898961FEA3638351E6407C /* SampleServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleServiceProtocol.swift; sourceTree = "<group>"; };
 		DF96C370F16BB6D37AC46400 /* 3.SimpleNetworkAgentSampleAPI+Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "3.SimpleNetworkAgentSampleAPI+Requests.swift"; sourceTree = "<group>"; };
@@ -2182,12 +2188,38 @@
 		D7F33EE72C5D06FD0029AE41 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				D7F33EE82C5D07070029AE41 /* Model+PopulationStateDataResponse.swift */,
-				D7F33EEA2C5D08290029AE41 /* Model+PopulationNationDataResponse.swift */,
+				D7F33EE82C5D07070029AE41 /* Model+PopulationNationDataResponse.swift */,
+				D7F33EEA2C5D08290029AE41 /* Model+PopulationStateDataResponse.swift */,
 				D7F33EEE2C5D09CC0029AE41 /* Model+PopulationStateDataRequest.swift */,
 				D7F33EF02C5D0AA10029AE41 /* Model+PopulationNationDataRequest.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		D7F33EF82C5D18630029AE41 /* 1.PopulationNation */ = {
+			isa = PBXGroup;
+			children = (
+				D7F33EF62C5D18630029AE41 /* V.PopulationNationScreen.swift */,
+				D7F33EF72C5D18630029AE41 /* VM.PopulationNationViewModel.swift */,
+			);
+			path = 1.PopulationNation;
+			sourceTree = "<group>";
+		};
+		D7F33EFC2C5D18630029AE41 /* 6.1.PopulationUSA */ = {
+			isa = PBXGroup;
+			children = (
+				D7F33F012C5D21940029AE41 /* 2.PopulationState */,
+				D7F33EF82C5D18630029AE41 /* 1.PopulationNation */,
+			);
+			path = 6.1.PopulationUSA;
+			sourceTree = "<group>";
+		};
+		D7F33F012C5D21940029AE41 /* 2.PopulationState */ = {
+			isa = PBXGroup;
+			children = (
+				D7F33F022C5D21AA0029AE41 /* VM.PopulationStateViewModel.swift */,
+			);
+			path = 2.PopulationState;
 			sourceTree = "<group>";
 		};
 		D7F45A3E0523BE258F0C1742 /* Frameworks */ = {
@@ -2217,6 +2249,7 @@
 				56D195F2507B9F9DB3052489 /* 3.Login */,
 				8861D2E0283D0ECBC7D8E708 /* 4.Onboarding */,
 				2A6D5DCA47AB8091836ECA70 /* 5.MainTab */,
+				D7F33EFC2C5D18630029AE41 /* 6.1.PopulationUSA */,
 				F19DAE7BC14FB9262C07FE80 /* 6.1.Weather */,
 				1A27FB4A09D305E41AE0809F /* 6.2.Settings */,
 				9DE5EACA09443C0700A5B283 /* 7.User */,
@@ -2781,14 +2814,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7F33EEB2C5D08290029AE41 /* Model+PopulationNationDataResponse.swift in Sources */,
+				D7F33EEB2C5D08290029AE41 /* Model+PopulationStateDataResponse.swift in Sources */,
 				70EC8DFEC754A55612FC70A2 /* E.AppErrors.swift in Sources */,
 				CCCF1093B8D17DC81347F3EA /* E.Gender.swift in Sources */,
 				94F901D4AED0937C1B93AFE2 /* E.Tab.swift in Sources */,
 				AA293FCC6CCD95445ED23AE8 /* EmployeeServiceProtocol.swift in Sources */,
 				42F025FA152DAC897A64BED1 /* Model+AlertModel.swift in Sources */,
 				D7F33EEF2C5D09CC0029AE41 /* Model+PopulationStateDataRequest.swift in Sources */,
-				D7F33EE92C5D07070029AE41 /* Model+PopulationStateDataResponse.swift in Sources */,
+				D7F33EE92C5D07070029AE41 /* Model+PopulationNationDataResponse.swift in Sources */,
 				1B656780B775B925042D8DB6 /* Model+LoadingModel.swift in Sources */,
 				014828FBD853C47D25ED455E /* Model+User.swift in Sources */,
 				D7F33EED2C5D09890029AE41 /* DataUSAServiceProtocol.swift in Sources */,
@@ -2842,6 +2875,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */,
+				D7F33EFE2C5D18630029AE41 /* VM.PopulationNationViewModel.swift in Sources */,
 				D57806EC90116D0571EB721A /* AppConstants.swift in Sources */,
 				326293D346405A2029F9D378 /* AppDelegate.swift in Sources */,
 				AF1D7546AD4B9410E2FEB515 /* AppStateViewModel.swift in Sources */,
@@ -2877,12 +2911,14 @@
 				F3383C66F8787199A2E8569B /* V.___Template___View.swift in Sources */,
 				9F7658CD6899F32C2C59F156 /* VM.EditUserDetailsViewModel.swift in Sources */,
 				CD7A675B6F11939194AED8D0 /* VM.LoginViewModel.swift in Sources */,
+				D7F33F032C5D21AA0029AE41 /* VM.PopulationStateViewModel.swift in Sources */,
 				80E07B0985937A3ADCFA3E46 /* VM.MainTabViewModel.swift in Sources */,
 				552566E38F8F0C36EFDC5EB7 /* VM.OnBoardingViewModel.swift in Sources */,
 				03AE3A0ECBC8C751E7049998 /* VM.RootViewModel.swift in Sources */,
 				9A7EB1F6291D306993D29AFE /* VM.SettingsViewModel.swift in Sources */,
 				DEA40A678EC4BC9C63879CD9 /* VM.TermsAndConditionsViewModel.swift in Sources */,
 				8580CABB5918FEE5F8CA5E11 /* VM.UserDetailsViewModel.swift in Sources */,
+				D7F33EFD2C5D18630029AE41 /* V.PopulationNationScreen.swift in Sources */,
 				851B9E79E151518CAE41D738 /* VM.WeatherDetailsViewModel.swift in Sources */,
 				A103F1F7B764FB56CE966087 /* VM.WeatherViewModel.swift in Sources */,
 				4BB88BE91C2B2CA5C726B2AA /* VM.___Template___ViewModel.swift in Sources */,

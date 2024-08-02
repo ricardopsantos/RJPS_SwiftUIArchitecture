@@ -28,13 +28,13 @@ extension APIEndpoints {
         case .getPopulationNationData(let request):
             return [
                 "drilldowns": request.drilldowns,
-                "measures": request.measures,
-                "year": request.year
+                "measures": request.measures
             ]
         case .getPopulationStateData(let request):
             return [
                 "drilldowns": request.drilldowns,
-                "measures": request.measures
+                "measures": request.measures,
+                "year": request.year
             ]
         default:
             return [:]

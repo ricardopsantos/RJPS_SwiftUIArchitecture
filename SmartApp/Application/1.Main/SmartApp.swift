@@ -18,7 +18,8 @@ struct SmartApp: App {
             userService: DependenciesManager.Services.userService,
             weatherService: DependenciesManager.Services.weatherService,
             sampleService: DependenciesManager.Services.sampleService,
-            userRepository: DependenciesManager.Repository.userRepository,
+            userRepository: DependenciesManager.Repository.userRepository, 
+            dataUSAService: DependenciesManager.Services.dataUSAService,
             nonSecureAppPreferences: DependenciesManager.Repository.nonSecureAppPreferences,
             secureAppPreferences: DependenciesManager.Repository.secureAppPreferences
         )

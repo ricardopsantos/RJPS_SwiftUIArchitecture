@@ -60,7 +60,7 @@ struct MainTabView: View, ViewProtocol {
 
     var content: some View {
         TabView(selection: $viewModel.selectedTab, content: {
-            WeatherViewCoordinator()
+            PopulationNationViewCoordinator()
                 .tabItem { TabItemView(title: "Tab1", icon: "1.circle.fill") }
                 .tag(Tab.tab1)
             ___Template___ViewCoordinator()

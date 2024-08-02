@@ -13,9 +13,13 @@ public extension ModelDto {
     struct PopulationStateDataRequest: ModelDtoProtocol {
         public let drilldowns: String
         public let measures: String
-        public init(drilldowns: String = "Nation", measures: String = "Population") {
+        public let year: String
+        public init(drilldowns: String = "State",
+                    measures: String = "Population",
+                    year: String = "latest") {
             self.drilldowns = drilldowns
             self.measures = measures
+            self.year = year
         }
     }
 }
