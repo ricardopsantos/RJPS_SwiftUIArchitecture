@@ -16,24 +16,18 @@ public class DataUSAService {
 }
 
 extension DataUSAService: DataUSAServiceProtocol {
-    public func requestStateData(_ request: ModelDto.StateRequest) async throws -> ModelDto.StateResponse {
+    public func requestPopulationStateData(_ request: ModelDto.PopulationStateDataRequest) async throws -> ModelDto.PopulationStateDataResponse {
         try await NetworkManager.shared.request(
-            .getStateData(request),
-            type: ModelDto.StateResponse.self
+            .getPopulationStateData(request),
+            type: ModelDto.PopulationStateDataResponse.self
         )
     }
 
-    public func requestNationData(_ request: ModelDto.NationRequest) async throws -> ModelDto.NationResponse {
+    public func requestPopulationNationData(_ request: ModelDto.PopulationNationDataRequest) async throws -> ModelDto.PopulationNationDataResponse {
         try await NetworkManager.shared.request(
-            .getNationData(request),
-            type: ModelDto.NationResponse.self
+            .getPopulationNationData(request),
+            type: ModelDto.PopulationNationDataResponse.self
         )
     }
 
-    public func getWeather(_ request: ModelDto.GetWeatherRequest) async throws -> ModelDto.GetWeatherResponse {
-        try await NetworkManager.shared.request(
-            .getWeather(request),
-            type: ModelDto.GetWeatherResponse.self
-        )
-    }
 }

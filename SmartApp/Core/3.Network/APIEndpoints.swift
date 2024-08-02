@@ -8,8 +8,8 @@
 import Common
 
 enum APIEndpoints {
-    case getNationData(_ request: ModelDto.NationRequest)
-    case getStateData(_ request: ModelDto.StateRequest)
+    case getPopulationNationData(_ request: ModelDto.PopulationNationDataRequest)
+    case getPopulationStateData(_ request: ModelDto.PopulationStateDataRequest)
     case getWeather(_ request: ModelDto.GetWeatherRequest)
     case updateUser(_ request: ModelDto.UpdateUserRequest)
     case requestEmployees(_ request: ModelDto.EmployeeRequest)
@@ -25,13 +25,13 @@ extension APIEndpoints {
                 "daily": "temperature_2m_max,temperature_2m_min",
                 "timezone": TimeZone.autoupdatingCurrent.identifier
             ]
-        case .getNationData(let request):
+        case .getPopulationNationData(let request):
             return [
                 "drilldowns": request.drilldowns,
                 "measures": request.measures,
                 "year": request.year
             ]
-        case .getStateData(let request):
+        case .getPopulationStateData(let request):
             return [
                 "drilldowns": request.drilldowns,
                 "measures": request.measures
@@ -73,12 +73,12 @@ extension APIEndpoints {
                 "https://gist.githubusercontent.com/ricardopsantos/10a31da1c6981acd216a93cb040524b9",
                 "/raw/8f0f03e6bdfe0dd522ff494022f3aa7a676e882f/\(request.json)"
             )
-        case .getNationData: (
+        case .getPopulationNationData: (
                 .get,
                 "https://datausa.io/api",
                 "data"
             )
-        case .getStateData: (
+        case .getPopulationStateData: (
                 .get,
                 "https://datausa.io/api",
                 "data"

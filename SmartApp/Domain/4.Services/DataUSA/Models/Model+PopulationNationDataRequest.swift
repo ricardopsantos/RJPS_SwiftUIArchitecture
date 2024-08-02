@@ -1,5 +1,5 @@
 //
-//  StateRequest.swift
+//  PopulationNationDataRequest.swift
 //  Domain
 //
 //  Created by Ricardo Santos on 02/08/2024.
@@ -10,7 +10,7 @@ import Foundation
 import Common
 
 public extension ModelDto {
-    struct NationRequest: ModelDtoProtocol {
+    struct PopulationNationDataRequest: ModelDtoProtocol {
         public let drilldowns: String
         public let measures: String
         public let year: String

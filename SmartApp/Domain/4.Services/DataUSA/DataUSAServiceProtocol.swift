@@ -10,7 +10,7 @@ import Foundation
 import Common
 
 public protocol DataUSAServiceProtocol {
-    func requestStateData(_ request: ModelDto.StateRequest) async throws -> ModelDto.StateResponse
+    func requestPopulationStateData(_ request: ModelDto.PopulationStateDataRequest) async throws -> ModelDto.PopulationStateDataResponse
 
-    func requestNationData(_ request: ModelDto.NationRequest) async throws -> ModelDto.NationResponse
+    func requestPopulationNationData(_ request: ModelDto.PopulationNationDataRequest) async throws -> ModelDto.PopulationNationDataResponse
 }
