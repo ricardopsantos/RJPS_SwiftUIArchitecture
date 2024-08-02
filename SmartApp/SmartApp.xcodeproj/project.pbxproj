@@ -66,7 +66,6 @@
 		1ABF99C09D90D44585DE08F3 /* DataUSAServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9736920EAD4F147EFEB2D974 /* DataUSAServiceProtocol.swift */; };
 		1B656780B775B925042D8DB6 /* Model+LoadingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134B36F44B7F980A6B5DACA8 /* Model+LoadingModel.swift */; };
 		1C096F8C4D1EFFBF442F3C3E /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E237663C47BB81482983EC /* Common.framework */; };
-		1C104001782DDDA9D15D0772 /* V.TitleAndValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D28D96E585A1FF8D9A5BAE6 /* V.TitleAndValue.swift */; };
 		1D343860E2EBFB326BA7DDCC /* UIImageView+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73F950216792C50E6323F9C /* UIImageView+Transform.swift */; };
 		1D5E95916BE014FA5D54823D /* ExecutionControlManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD3CCCF803FFE9EDD5450E4 /* ExecutionControlManager.swift */; };
 		1E7AB7F40B962004401634A1 /* Common.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18E237663C47BB81482983EC /* Common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -672,7 +671,6 @@
 		6AA7172783919D95BB358799 /* CoreLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreLocationManager.swift; sourceTree = "<group>"; };
 		6ACBDE4A24CA142B823A51FD /* _UITestTemplate.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = _UITestTemplate.yml; sourceTree = "<group>"; };
 		6D277FABEDBD935BDA4F345C /* tests.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tests.png; sourceTree = "<group>"; };
-		6D28D96E585A1FF8D9A5BAE6 /* V.TitleAndValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.TitleAndValue.swift; sourceTree = "<group>"; };
 		6DF6A6F954DFCBF9ECC56B6F /* ErrorsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorsManager.swift; sourceTree = "<group>"; };
 		6F6C2A4AB0A29E99F7005077 /* base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = base.xcconfig; sourceTree = "<group>"; };
 		70A468928AD8BFA9D8F0D2C3 /* UIViewController+Getters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Getters.swift"; sourceTree = "<group>"; };
@@ -1226,14 +1224,6 @@
 			path = images;
 			sourceTree = "<group>";
 		};
-		4BB271F1B374FD662B7797F3 /* TitleAndValue */ = {
-			isa = PBXGroup;
-			children = (
-				6D28D96E585A1FF8D9A5BAE6 /* V.TitleAndValue.swift */,
-			);
-			path = TitleAndValue;
-			sourceTree = "<group>";
-		};
 		5122359C84D40EECD0FDEFDB /* 1.Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -1565,13 +1555,6 @@
 			path = PreferenceKey;
 			sourceTree = "<group>";
 		};
-		A7EA4AD77ADD6A0DC4EB51B9 /* InputFields */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = InputFields;
-			sourceTree = "<group>";
-		};
 		AB04F87DF11DD564A7F7AA93 /* DataUSA */ = {
 			isa = PBXGroup;
 			children = (
@@ -1613,10 +1596,8 @@
 			children = (
 				0530C80F452EC56C91597F3A /* Buttons */,
 				D269AB353BAABD2E8FE76ED5 /* Headers */,
-				A7EA4AD77ADD6A0DC4EB51B9 /* InputFields */,
 				B00F5F80B9DCCDDD3248DD63 /* Lists */,
 				97D1D1AF9E51B4CAE3D0F433 /* LoadingIndicators */,
-				4BB271F1B374FD662B7797F3 /* TitleAndValue */,
 			);
 			path = Designables;
 			sourceTree = "<group>";
@@ -2460,7 +2441,6 @@
 				024442BB708BFBB6CC863390 /* V.LoaderView.swift in Sources */,
 				676C52303F9A0C2F945A5BAB /* V.LoadingIndicator.swift in Sources */,
 				B9906D53A98D3D4F6FA5055C /* V.TextButton.swift in Sources */,
-				1C104001782DDDA9D15D0772 /* V.TitleAndValue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
