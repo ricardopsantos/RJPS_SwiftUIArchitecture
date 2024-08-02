@@ -19,16 +19,18 @@ import Core
 struct PopulationNationModel: Equatable, Hashable {
     let title: String
     let subTitle: String
-
-    init(title: String = "", subTitle: String) {
+    let year: String
+    init(title: String = "", subTitle: String, year: String) {
         self.title = title
         self.subTitle = subTitle
+        self.year = year
     }
 
     init(populationNationDataResponse modelDto: ModelDto.PopulationNationDataResponse.Datum) {
         self.init(
             title: "\(modelDto.nation.rawValue) \(modelDto.year)",
-            subTitle: "Population: \(modelDto.population.localeString)"
+            subTitle: "Population: \(modelDto.population.localeString)", 
+            year: modelDto.year
         )
     }
 }

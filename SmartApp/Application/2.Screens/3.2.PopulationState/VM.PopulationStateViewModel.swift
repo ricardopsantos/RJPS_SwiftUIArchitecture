@@ -45,6 +45,7 @@ extension PopulationStateViewModel {
 
     struct Dependencies {
         let model: [PopulationStateModel]
+        let year: String
         let didSelected: (ModelDto.PopulationStateDataResponse) -> Void
         let dataUSAService: DataUSAServiceProtocol
     }
@@ -56,11 +57,13 @@ class PopulationStateViewModel: ObservableObject {
     @Published var alertModel: Model.AlertModel?
     @Published var loadingModel: Model.LoadingModel?
     @Published var model: [PopulationStateModel] = []
-    @Published var title = "PopulationStateViewTitle".localized
+    @Published var title = "PopulationStateView".localized
     // MARK: - Auxiliar Attributes
+    private let year: String
     private let dataUSAService: DataUSAServiceProtocol
     public init(dependencies: Dependencies) {
         self.model = dependencies.model
+        self.year = dependencies.year
         self.dataUSAService = dependencies.dataUSAService
         send(action: .getPopulationData)
     }
@@ -76,9 +79,13 @@ class PopulationStateViewModel: ObservableObject {
                 loadingModel = .loading(message: "Loading".localizedMissing)
                 model = []
                 do {
-                    let modelDto = try await dataUSAService.requestPopulationStateData(.init())
+                    let modelDto = try await dataUSAService.requestPopulationStateData(.init(year: year))
                     model = modelDto.data.map { .init(populationStateDataResponse: $0) }
-                    title = String(format: "PopulationStateViewWithRecords".localized, model.count)
+                    if year == ModelDto.PopulationStateDataRequest.Constants.lastYear {
+                        title = String(format: "PopulationStateViewWithRecords".localized, "LastYear".localized)
+                    } else {
+                        title = String(format: "PopulationStateViewWithRecords".localized, year)
+                    }
                     loadingModel = .notLoading
                 } catch {
                     ErrorsManager.handleError(message: "\(Self.self).\(action)", error: error)
@@ -90,6 +97,6 @@ class PopulationStateViewModel: ObservableObject {
 }
 
 #Preview {
-    PopulationStateViewCoordinator()
+    PopulationStateViewCoordinator(year: ModelDto.PopulationStateDataRequest.Constants.lastYear)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

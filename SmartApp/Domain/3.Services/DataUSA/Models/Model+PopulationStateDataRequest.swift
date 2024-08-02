@@ -9,6 +9,12 @@ import Foundation
 //
 import Common
 
+public extension ModelDto.PopulationStateDataRequest {
+    struct Constants {
+        public static let lastYear = "latest"
+    }
+}
+
 public extension ModelDto {
     struct PopulationStateDataRequest: ModelDtoProtocol {
         public let drilldowns: String
@@ -17,11 +23,11 @@ public extension ModelDto {
         public init(
             drilldowns: String = "State",
             measures: String = "Population",
-            year: String = "latest"
+            year: String = ModelDto.PopulationStateDataRequest.Constants.lastYear
         ) {
             self.drilldowns = drilldowns
             self.measures = measures
-            self.year = year
+            self.year = year.intValue ?? 0 > 0 ? year : ModelDto.PopulationStateDataRequest.Constants.lastYear
         }
     }
 }

@@ -6,7 +6,8 @@
 
  */
 
-"PopulationNationViewTitle" = "Nation";
-"PopulationNationViewTitleWithRecords" = "Nation %d";
-"PopulationStateView" = "State";
-"PopulationStateViewWithRecords" = "State %d";
+"PopulationNationViewTitle" = "USA Population";
+"PopulationNationViewTitleWithRecords" = "USA Population: Last %d years";
+"PopulationStateView" = "USA States Population";
+"PopulationStateViewWithRecords" = "USA States Population for %@";
+"LastYear" = "last year";

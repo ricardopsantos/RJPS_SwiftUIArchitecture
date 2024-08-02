@@ -17,7 +17,6 @@ public struct Header: View {
     private let onBackOrCloseClick: () -> Void
     public init(
         text: String,
-
         hasBackButton: Bool = false,
         hasCloseButton: Bool = false,
         onBackOrCloseClick: @escaping () -> Void = {}
@@ -37,6 +36,7 @@ public struct Header: View {
                 }
             }
             Text(text)
+                .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .font(FontSemantic.title2.font)
                 .foregroundColor(.primaryColor)

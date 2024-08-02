@@ -13,8 +13,7 @@ enum AppScreen: Hashable, Identifiable {
     case splash
     case root
     case populationNation
-    case populationStates
-    case populationState(model: PopulationStateModel)
+    case populationStates(year: String, model: [PopulationStateModel])
     // case mainApp
     var id: String {
         String(describing: self)

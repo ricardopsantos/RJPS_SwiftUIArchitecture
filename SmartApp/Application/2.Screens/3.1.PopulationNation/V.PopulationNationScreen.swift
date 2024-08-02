@@ -41,15 +41,15 @@ struct PopulationNationViewCoordinator: View, ViewCoordinatorProtocol {
                 }, dataUSAService: configuration.dataUSAService
             )
             PopulationNationView(dependencies: dependencies)
-        case .populationStates:
+        case .populationStates(year: let year, model: let model):
             let dependencies: PopulationStateViewModel.Dependencies = .init(
-                model: .init(), didSelected: { some in
+                model: model,
+                year: year,
+                didSelected: { some in
                     DevTools.Log.debug("\(some)", .generic)
                 }, dataUSAService: configuration.dataUSAService
             )
             PopulationStateView(dependencies: dependencies)
-        case .populationState(model: let model):
-            EmptyView()
 
         default:
             EmptyView().onAppear(perform: {
@@ -101,10 +101,10 @@ struct PopulationNationView: View {
 
     var content: some View {
         VStack(spacing: 0) {
-            Header(text: viewModel.title)
+            Header(text: viewModel.title).padding(.horizontal, SizeNames.defaultMargin)
             ScrollView(showsIndicators: false) {
                 listView
-            }
+            }.padding()
         }
         .frame(maxWidth: .infinity)
     }
@@ -123,9 +123,9 @@ fileprivate extension PopulationNationView {
                     backgroundColor: ColorSemantic.backgroundTertiary.color
                 )
                 .onTapGesture {
-                    let label = "Taped index \(index): \(item.title)"
+                    let label = "Taped index \(index): Year \(item.year)"
                     AnalyticsManager.shared.handleListItemTapEvent(label: label, sender: "\(Self.self)")
-                    router.coverLink = .populationStates
+                    router.sheetLink = .populationStates(year: item.year, model: [])
                 }
             }
         }

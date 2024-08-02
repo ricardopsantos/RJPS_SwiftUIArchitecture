@@ -19,11 +19,12 @@ struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var router = RouterViewModel()
     // MARK: - Usage Attributes
+    let year: String
 
     // MARK: - Body & View
     var body: some View {
         NavigationStack(path: $router.navPath) {
-            buildScreen(.populationStates)
+            buildScreen(.populationStates(year: year, model: []))
                 .navigationDestination(for: AppScreen.self, destination: buildScreen)
                 .sheet(item: $router.sheetLink, content: buildScreen)
                 .fullScreenCover(item: $router.coverLink, content: buildScreen)
@@ -34,15 +35,13 @@ struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
     @ViewBuilder
     func buildScreen(_ screen: AppScreen) -> some View {
         switch screen {
-        case .populationStates:
+        case .populationStates(year: let year, model: let model):
             let dependencies: PopulationStateViewModel.Dependencies = .init(
-                model: .init(), didSelected: { some in
+                model: model, year: year, didSelected: { some in
                     DevTools.Log.debug("\(some)", .generic)
                 }, dataUSAService: configuration.dataUSAService
             )
             PopulationStateView(dependencies: dependencies)
-        case .populationState(model: let model):
-            EmptyView()
 
         default:
             EmptyView().onAppear(perform: {
@@ -77,7 +76,7 @@ struct PopulationStateView: View {
         }
         BaseView.with(
             sender: "\(Self.self)",
-            appScreen: .populationStates,
+            appScreen: .populationStates(year: "", model: []),
             navigationViewEmbed: false,
             scrollViewEmbed: false,
             ignoresSafeArea: true,
@@ -94,7 +93,7 @@ struct PopulationStateView: View {
 
     var content: some View {
         VStack(spacing: 0) {
-            Header(text: viewModel.title)
+            Header(text: viewModel.title).padding(.horizontal, SizeNames.defaultMargin)
             ScrollView(showsIndicators: false) {
                 listView
             }
@@ -115,11 +114,6 @@ fileprivate extension PopulationStateView {
                     subTitle: item.subTitle,
                     backgroundColor: ColorSemantic.backgroundTertiary.color
                 )
-                .onTapGesture {
-                    let label = "Taped index \(index): \(item.title)"
-                    AnalyticsManager.shared.handleListItemTapEvent(label: label, sender: "\(Self.self)")
-                    router.coverLink = .populationState(model: .init())
-                }
             }
         }
         .padding(.top, SizeNames.defaultMargin)
@@ -128,6 +122,6 @@ fileprivate extension PopulationStateView {
 }
 
 #Preview {
-    PopulationStateViewCoordinator()
+    PopulationStateViewCoordinator(year: "2022")
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
