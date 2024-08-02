@@ -1,7 +1,9 @@
-// This file was generated from JSON Schema using quicktype, do not modify it directly.
-// To parse the JSON, add this file to your project and do:
 //
-//   let nationResponse = try? JSONDecoder().decode(NationResponse.self, from: jsonData)
+//  NationResponse.swift
+//  Domain
+//
+//  Created by Ricardo Santos on 02/08/2024.
+//
 
 import Foundation
 //
