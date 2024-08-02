@@ -8,14 +8,13 @@
 import SwiftUI
 //
 import Domain
-import DesignSystem
 import Core
 
 struct CountryView: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var selectedCountry: String
 
-    var body: some View {
+    public var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 Text("SelectCountry".localizedMissing)
@@ -41,7 +40,7 @@ struct GenderView: View {
     @Binding var selectedGender: Gender
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Gender".localizedMissing)
+            Text("Gender")
                 .fontSemantic(.body)
                 .foregroundColor(.labelPrimary)
             Picker("GenderPlaceHolder".localizedMissing, selection: $selectedGender) {

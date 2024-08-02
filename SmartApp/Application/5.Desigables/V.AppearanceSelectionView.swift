@@ -7,13 +7,18 @@
 
 import Foundation
 import SwiftUI
+//
 import Common
 
-struct AppearanceSelectionView: View {
+public struct AppearanceSelectionView: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var selectedMode: Common.InterfaceStyle?
 
-    var body: some View {
+    public init(selectedMode: Binding<Common.InterfaceStyle?>) {
+        self._selectedMode = selectedMode
+    }
+    
+    public var body: some View {
         HStack {
             Text("Appearance".localizedMissing)
             Spacer()

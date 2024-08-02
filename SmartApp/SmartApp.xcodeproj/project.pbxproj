@@ -69,7 +69,6 @@
 		1A5D8C37182E35ECFE8F07A6 /* UIViewController+Getters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A468928AD8BFA9D8F0D2C3 /* UIViewController+Getters.swift */; };
 		1A8EE7F48E0A24F602140601 /* ASyncCoreDataManagerPublisherAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3421DBDB39869A6E8D5FE1E4 /* ASyncCoreDataManagerPublisherAction.swift */; };
 		1B656780B775B925042D8DB6 /* Model+LoadingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134B36F44B7F980A6B5DACA8 /* Model+LoadingModel.swift */; };
-		1BB3D17DE20830B0FE201480 /* V.PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13C1AE23B9B3BE6E83E5062 /* V.PickerView.swift */; };
 		1C096F8C4D1EFFBF442F3C3E /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E237663C47BB81482983EC /* Common.framework */; };
 		1D343860E2EBFB326BA7DDCC /* UIImageView+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73F950216792C50E6323F9C /* UIImageView+Transform.swift */; };
 		1D5E95916BE014FA5D54823D /* ExecutionControlManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD3CCCF803FFE9EDD5450E4 /* ExecutionControlManager.swift */; };
@@ -92,7 +91,6 @@
 		2F67BE40CCBB5135123398B5 /* UIColor+ExtensionsBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077CC16C6156F3EECDB55D04 /* UIColor+ExtensionsBase.swift */; };
 		2FC902940A541AF36C810935 /* URLRequest+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE1CCE831B3B366CC4D4460 /* URLRequest+Extensions.swift */; };
 		30500A829BE57E8E48FD1306 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BD172972752F67B3F3BBB2C8 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		30D56ECEC50F9165E6904D56 /* V.DatePickerPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8678CEDA303562545E0999CD /* V.DatePickerPopover.swift */; };
 		316E4A486FC5FF08B5DE4CEE /* SyncCoreDataManagerCRUDProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D12AF388FCDA6851FE698 /* SyncCoreDataManagerCRUDProtocol.swift */; };
 		31EBF97EA24119CAED1A7954 /* ModelDto+EmployeeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6EDDAA6193A12960393E73 /* ModelDto+EmployeeResponse.swift */; };
 		322523D4DA04EF88FE6AE17B /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA870CD5DCC17A756C3E81C /* Common.swift */; };
@@ -115,7 +113,6 @@
 		3D245E6D97F91E1128F12256 /* UISwitch+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C33840C45343EC2B86D7C6F /* UISwitch+Extensions.swift */; };
 		3D94F4D9B22B0789EB6C3DDD /* ModelDto+GetWeatherResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DC7F8F5CB9829B2F56958B /* ModelDto+GetWeatherResponse.swift */; };
 		3E52ACA692EAE1F9D2A172EA /* ExpiringCodableObjectWithKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F422C858BD33FA69879FCF /* ExpiringCodableObjectWithKey.swift */; };
-		3ED352AAD70A22216F880B71 /* V.AppearanceSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4112B222FBD6F0A8746DB7C /* V.AppearanceSelectionView.swift */; };
 		3F096AF4B33C70A0F6FB1CE6 /* XCTest+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261FF597911DEC988909202F /* XCTest+Extensions.swift */; };
 		4040852C1FEBEA773753D8B2 /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3226E017A308D75C6D1E0DAF /* UIApplication+Extensions.swift */; };
 		41B2EB9A2216F0663DDAF65C /* E.APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF4B34714CD51BF8724080E /* E.APIError.swift */; };
@@ -332,6 +329,9 @@
 		D7A4E8EF2C5CDC5600F31ED7 /* V.ListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20648532D498881DF0088A4 /* V.ListItemView.swift */; };
 		D7A4E8F02C5CDD7800F31ED7 /* V.ConfirmationSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE1E69F2B0B3C0E639E5C73 /* V.ConfirmationSheet.swift */; };
 		D7A4E8F12C5CDDA400F31ED7 /* V.LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8A989783A23A5C60D4E8CC /* V.LoaderView.swift */; };
+		D7A4E8F22C5CDEE700F31ED7 /* V.DatePickerPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8678CEDA303562545E0999CD /* V.DatePickerPopover.swift */; };
+		D7A4E8F52C5CDF2400F31ED7 /* V.PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13C1AE23B9B3BE6E83E5062 /* V.PickerView.swift */; };
+		D7A4E8F62C5CE9E600F31ED7 /* V.AppearanceSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4112B222FBD6F0A8746DB7C /* V.AppearanceSelectionView.swift */; };
 		D863FD483BEB16AB0BB36A01 /* V.EditUserDetailsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0A33D883B21CEA4F012100 /* V.EditUserDetailsScreen.swift */; };
 		D8FC857887AF7D20A3D14826 /* ModelDtoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */; };
 		D9F004ECD5CB0FD2E87BD627 /* ModelDto+UpdateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7ADEDCA2B161252C22CB97 /* ModelDto+UpdateUserResponse.swift */; };
@@ -1629,9 +1629,7 @@
 		756E19748530860DFABC0207 /* Pickers */ = {
 			isa = PBXGroup;
 			children = (
-				A4112B222FBD6F0A8746DB7C /* V.AppearanceSelectionView.swift */,
 				8678CEDA303562545E0999CD /* V.DatePickerPopover.swift */,
-				A13C1AE23B9B3BE6E83E5062 /* V.PickerView.swift */,
 			);
 			path = Pickers;
 			sourceTree = "<group>";
@@ -1651,7 +1649,8 @@
 		7814F7E54222BA8956C1562B /* 5.Desigables */ = {
 			isa = PBXGroup;
 			children = (
-				756E19748530860DFABC0207 /* Pickers */,
+				A13C1AE23B9B3BE6E83E5062 /* V.PickerView.swift */,
+				A4112B222FBD6F0A8746DB7C /* V.AppearanceSelectionView.swift */,
 			);
 			path = 5.Desigables;
 			sourceTree = "<group>";
@@ -1940,6 +1939,7 @@
 		ACA3E5C18046399693615F85 /* Designables */ = {
 			isa = PBXGroup;
 			children = (
+				756E19748530860DFABC0207 /* Pickers */,
 				E02CD5ABE2C25ED0FB250330 /* LoadingIndicators */,
 				04D65C69089F3D3F9273AA54 /* Sheets */,
 				67CA976E56884236EEB15FBA /* Lists */,
@@ -2812,19 +2812,18 @@
 				A12015A6889F802D0F50A392 /* SmartApp.swift in Sources */,
 				5191CC7D0A597904F60A8AE6 /* String+Extensions.swift in Sources */,
 				14EFA1CF13CD527620FFAA7E /* UITestingManager.swift in Sources */,
-				3ED352AAD70A22216F880B71 /* V.AppearanceSelectionView.swift in Sources */,
-				30D56ECEC50F9165E6904D56 /* V.DatePickerPopover.swift in Sources */,
 				D863FD483BEB16AB0BB36A01 /* V.EditUserDetailsScreen.swift in Sources */,
 				CFC014974131AC4A34162409 /* V.LoadingIndicator.swift in Sources */,
 				2B2EE18553F19723C27FA936 /* V.LoginScreen.swift in Sources */,
+				D7A4E8F52C5CDF2400F31ED7 /* V.PickerView.swift in Sources */,
 				3CC3853A022ABF2F47B1505D /* V.MainTabView.swift in Sources */,
 				FF4BE01D7E3B2A5A014891D2 /* V.OnboardingScreen.swift in Sources */,
-				1BB3D17DE20830B0FE201480 /* V.PickerView.swift in Sources */,
 				9B6003DDB8592514CE75742B /* V.RootView.swift in Sources */,
 				13BFBF1FEE3105CCE1FBC4AF /* V.SettingsScreen.swift in Sources */,
 				7794E695BF399BD3F47E4F22 /* V.SplashScreen.swift in Sources */,
 				B9BF13073F11317437854167 /* V.TabItem.swift in Sources */,
 				4C47E21064865026CA06E2E4 /* V.TermsAndConditionsScreen.swift in Sources */,
+				D7A4E8F62C5CE9E600F31ED7 /* V.AppearanceSelectionView.swift in Sources */,
 				5078F392698C7CCD414E72EE /* V.UserDetailsScreen.swift in Sources */,
 				993A8DF310B9EA7A6BA82DEC /* V.WeatherDetailScreen.swift in Sources */,
 				0D17599B186B3CB9B31EC76E /* V.WeatherScreen.swift in Sources */,
@@ -2848,6 +2847,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7A4E8F22C5CDEE700F31ED7 /* V.DatePickerPopover.swift in Sources */,
 				D7A4E8ED2C5CDABB00F31ED7 /* V.CustomTextField.swift in Sources */,
 				D7A4E8EF2C5CDC5600F31ED7 /* V.ListItemView.swift in Sources */,
 				D7A4E8E92C5CD88000F31ED7 /* V.Header.swift in Sources */,

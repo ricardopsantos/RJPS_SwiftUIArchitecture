@@ -128,10 +128,10 @@ struct UserDetailsView: View {
                 arrowEdge: .bottom
             ) {
                 DatePickerPopover(
-                    isPresented: $showingDatePicker,
-                    dateSelection: $dateOfBirth,
                     title: "DateOfBirthPlaceHolder".localizedMissing,
-                    doneButtonLabel: "Done".localizedMissing
+                    doneButtonLabel: "Done".localizedMissing,
+                    isPresented: $showingDatePicker,
+                    dateSelection: $dateOfBirth
                 )
             }
             .padding(.vertical, SizeNames.defaultMargin)

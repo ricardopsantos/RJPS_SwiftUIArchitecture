@@ -132,10 +132,10 @@ struct EditUserDetailsView: View {
                 }
                 .popover(isPresented: $showingDatePicker, attachmentAnchor: .point(.bottom), arrowEdge: .bottom) {
                     DatePickerPopover(
-                        isPresented: $showingDatePicker,
-                        dateSelection: $viewModel.dateOfBirth,
                         title: "DateOfBirthPlaceHolder".localizedMissing,
-                        doneButtonLabel: "Done".localizedMissing
+                        doneButtonLabel: "Done".localizedMissing,
+                        isPresented: $showingDatePicker,
+                        dateSelection: $viewModel.dateOfBirth
                     )
                 }
 
