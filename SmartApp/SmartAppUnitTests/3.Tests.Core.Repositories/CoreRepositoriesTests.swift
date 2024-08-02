@@ -27,7 +27,7 @@ final class CoreRepositoriesTests: XCTestCase {
 }
 
 //
-// MARK: - Weather
+// MARK: - Tests
 //
 
 extension CoreRepositoriesTests {

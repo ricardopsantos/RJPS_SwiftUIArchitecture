@@ -48,9 +48,8 @@ struct LoginViewCoordinator: View, ViewCoordinatorProtocol {
     }
 }
 
-struct LoginView: View {
+struct LoginView: View, ViewProtocol {
     // MARK: - ViewProtocol
-
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: LoginViewModel
@@ -59,8 +58,7 @@ struct LoginView: View {
     }
 
     // MARK: - Usage Attributes
-    @State private var password: String = ""
-    @State private var email: String = ""
+    // @State private var password: String = ""
 
     // MARK: - Body & View
     var body: some View {
@@ -89,20 +87,9 @@ struct LoginView: View {
             SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
             passwordField
             SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
+            messageView
             Spacer()
-            TextButton(
-                onClick: {
-                    AnalyticsManager.shared.handleButtonClickEvent(
-                        buttonType: .primary,
-                        label: "Login",
-                        sender: "\(Self.self)"
-                    )
-                    viewModel.send(action: .doLogin(email: email, password: password))
-                },
-                text: "Login".localized,
-                enabled: canLogin,
-                accessibility: .loginButton
-            )
+            loginButton
             SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
         }
         .padding(.horizontal, SizeNames.defaultMargin)
@@ -113,12 +100,44 @@ struct LoginView: View {
 // MARK: - Auxiliar Views
 //
 fileprivate extension LoginView {
+    var loginButton: some View {
+        TextButton(
+            onClick: {
+                AnalyticsManager.shared.handleButtonClickEvent(
+                    buttonType: .primary,
+                    label: "Login",
+                    sender: "\(Self.self)"
+                )
+                viewModel.send(action: .doLogin(
+                    email: viewModel.email,
+                    password: viewModel.password
+                ))
+            },
+            text: "Login".localized,
+            enabled: viewModel.canLogin,
+            accessibility: .loginButton
+        )
+    }
+
+    var messageView: some View {
+        Group {
+            if !viewModel.errorMessage.isEmpty {
+                Text(viewModel.errorMessage)
+                    .fontSemantic(.callout)
+                    .foregroundColorSemantic(.danger)
+                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
+            } else {
+                EmptyView()
+            }
+        }
+    }
+
     var emailField: some View {
         CustomTitleAndCustomTextField(
             label: "Email".localized,
             placeholder: "EmailPlaceHolder".localized,
             isSecured: false,
-            inputText: $email,
+            inputText: $viewModel.email,
             accessibility: .txtEmail
         )
     }
@@ -128,7 +147,7 @@ fileprivate extension LoginView {
             label: "Password".localized,
             placeholder: "Password".localized,
             isSecured: true,
-            inputText: $password,
+            inputText: $viewModel.password,
             accessibility: .txtPassword
         )
     }
@@ -138,11 +157,7 @@ fileprivate extension LoginView {
 // MARK: - Private
 //
 
-fileprivate extension LoginView {
-    var canLogin: Bool {
-        !email.isEmpty && !password.isEmpty
-    }
-}
+fileprivate extension LoginView {}
 
 #Preview {
     LoginViewCoordinator()

@@ -49,12 +49,14 @@ extension RootViewModel {
 
 @MainActor
 class RootViewModel: ObservableObject {
+    // MARK: - View Usage Attributes
     @Published private(set) var alertModel: Model.AlertModel?
     @Published private(set) var isAppStartCompleted: Bool = false
     @Published private(set) var isUserDetailsFilled: Bool = false
     @Published private(set) var isTermsAndConditionsAccepted: Bool = false
     @Published private(set) var isOnboardingCompleted: Bool = false
     @Published private(set) var preferencesChanged: Date = .now
+    // MARK: - Auxiliar Attributes
 
     private var cancelBag = CancelBag()
     private var nonSecureAppPreferences: NonSecureAppPreferencesProtocol?

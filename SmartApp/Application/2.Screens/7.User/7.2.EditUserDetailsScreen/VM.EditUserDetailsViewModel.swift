@@ -63,12 +63,14 @@ public class EditUserDetailsViewModel2 {
 
 @MainActor
 public class EditUserDetailsViewModel: ObservableObject {
+    // MARK: - View Usage Attributes
     @Published var alertModel: Model.AlertModel?
     @Published var name: String = ""
     @Published var email: String = ""
     @Published var selectedGender: Gender = .male
     @Published var dateOfBirth = Date()
     @Published var selectedCountry: String = ""
+    // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
     private let userRepository: UserRepositoryProtocol
     public init(dependencies: Dependencies) {

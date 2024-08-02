@@ -25,7 +25,7 @@ final class EditUserDetailsViewModelTests: BaseViewModelsTests {
         country: "PT"
     )
 
-    private var editUserDetails: EditUserDetailsViewModel?
+    private var viewModel: EditUserDetailsViewModel?
 
     override func tearDown() {
         super.tearDown()
@@ -36,8 +36,8 @@ final class EditUserDetailsViewModelTests: BaseViewModelsTests {
         continueAfterFailure = false
         loadedAny = nil
         cancelBag.cancel()
-        if editUserDetails == nil {
-            editUserDetails = await EditUserDetailsViewModel(dependencies: .init(
+        if viewModel == nil {
+            viewModel = await EditUserDetailsViewModel(dependencies: .init(
                 model: .init(),
                 userRepository: userRepository,
                 onUserSaved: {}
@@ -47,14 +47,14 @@ final class EditUserDetailsViewModelTests: BaseViewModelsTests {
 }
 
 //
-// MARK: - Edit User Details
+// MARK: - Tests
 //
 
 extension EditUserDetailsViewModelTests {
     // Test to check if the EditUserDetails view model loads successfully
     func testA1_testLoad() async throws {
         _ = await MainActor.run {
-            expect(self.editUserDetails).notTo(beNil()) // Assert that the EditUserDetails view model is not nil
+            expect(self.viewModel).notTo(beNil()) // Assert that the EditUserDetails view model is not nil
         }
     }
 
@@ -67,13 +67,13 @@ extension EditUserDetailsViewModelTests {
         userRepository.output([.userChanged])
             .sink { _ in
                 emittedEvent = true
-                self.editUserDetails?.send(action: .loadUserInfo) // Load user info after receiving the event
+                self.viewModel?.send(action: .loadUserInfo) // Load user info after receiving the event
                 // Test if the name matches the randomly generated name
-                expect(self.editUserDetails?.name == randomName).toEventually(beTrue(), timeout: .seconds(timeout))
+                expect(self.viewModel?.name == randomName).toEventually(beTrue(), timeout: .seconds(timeout))
             }.store(in: cancelBag)
 
         // Send saveUser action to update the user details
-        editUserDetails?.send(action: .saveUser(
+        viewModel?.send(action: .saveUser(
             name: randomName,
             email: user1.email,
             dateOfBirth: user1.dateOfBirth ?? .now,

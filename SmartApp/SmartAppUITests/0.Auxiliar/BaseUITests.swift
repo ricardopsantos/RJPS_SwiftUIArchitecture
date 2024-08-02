@@ -25,7 +25,6 @@ class BaseUITests: XCTestCase {
         app.launchArguments = launchArguments + ["shouldDisableAnimations"]
         app.launch()
     }
-    
 }
 
 extension BaseUITests {

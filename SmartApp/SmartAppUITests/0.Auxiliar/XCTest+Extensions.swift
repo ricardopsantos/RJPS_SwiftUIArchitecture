@@ -193,7 +193,6 @@ public extension XCTestCase {
 //
 
 public extension XCTestCase {
-    
     func tap(
         tabBarIndex: Int,
         andWaitForStaticText nextStaticText: String = "",
@@ -212,7 +211,7 @@ public extension XCTestCase {
             waitFor(staticText: nextStaticText, on: app, timeout: timeout)
         }
     }
-    
+
     func tap(
         tabBarText: String,
         andWaitForStaticText nextStaticText: String = "",
@@ -231,7 +230,7 @@ public extension XCTestCase {
             waitFor(staticText: nextStaticText, on: app, timeout: timeout)
         }
     }
-    
+
     func tap(
         button: String,
         andWaitForStaticText nextStaticText: String = "",

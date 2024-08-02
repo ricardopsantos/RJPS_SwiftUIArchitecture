@@ -52,9 +52,11 @@ extension ___Template___ViewModel {
 //
 @MainActor
 class ___Template___ViewModel: ObservableObject {
+    // MARK: - View Usage Attributes
     @Published private(set) var message: String = ""
     @Published var counter: Int = 0
     @Published private(set) var alertModel: Model.AlertModel?
+    // MARK: - Auxiliar Attributes
     private let sampleService: SampleServiceProtocol?
     public init(dependencies: Dependencies) {
         self.sampleService = dependencies.sampleService

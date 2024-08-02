@@ -27,7 +27,7 @@ final class CoreServicesTests: XCTestCase {
 }
 
 //
-// MARK: - Weather Service Tests
+// MARK: - Tests
 //
 
 extension CoreServicesTests {

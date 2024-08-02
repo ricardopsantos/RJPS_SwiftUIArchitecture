@@ -328,6 +328,7 @@
 		D776361C2C5BC85A00589791 /* EditUserDetailsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D776361B2C5BC85A00589791 /* EditUserDetailsViewModelTests.swift */; };
 		D77A251F685328CA88F7231E /* UIView+AnimationsBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6344864F30EC39BE520CCB /* UIView+AnimationsBase.swift */; };
 		D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */; };
+		D7A4E8E72C5C347F00F31ED7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A4E8E62C5C347F00F31ED7 /* LoginViewModel.swift */; };
 		D863FD483BEB16AB0BB36A01 /* V.EditUserDetailsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0A33D883B21CEA4F012100 /* V.EditUserDetailsScreen.swift */; };
 		D8FC857887AF7D20A3D14826 /* ModelDtoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */; };
 		D9F004ECD5CB0FD2E87BD627 /* ModelDto+UpdateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7ADEDCA2B161252C22CB97 /* ModelDto+UpdateUserResponse.swift */; };
@@ -894,6 +895,7 @@
 		D77636172C5BC59600589791 /* BaseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseUITests.swift; sourceTree = "<group>"; };
 		D77636192C5BC7FE00589791 /* BaseViewModelsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModelsTests.swift; sourceTree = "<group>"; };
 		D776361B2C5BC85A00589791 /* EditUserDetailsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserDetailsViewModelTests.swift; sourceTree = "<group>"; };
+		D7A4E8E62C5C347F00F31ED7 /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		D9AE59B81096776D491A6ABE /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		DB898961FEA3638351E6407C /* SampleServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleServiceProtocol.swift; sourceTree = "<group>"; };
 		DB8A989783A23A5C60D4E8CC /* V.LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.LoaderView.swift; sourceTree = "<group>"; };
@@ -1255,6 +1257,7 @@
 			children = (
 				099FF2991C887AC3CD69D55F /* ___Template___ViewModelTests.swift */,
 				D776361B2C5BC85A00589791 /* EditUserDetailsViewModelTests.swift */,
+				D7A4E8E62C5C347F00F31ED7 /* LoginViewModel.swift */,
 			);
 			path = 1.Tests.ApplicationViewModelds;
 			sourceTree = "<group>";
@@ -2722,6 +2725,7 @@
 				D776361A2C5BC7FE00589791 /* BaseViewModelsTests.swift in Sources */,
 				02D576AB03ADD82E95EC440A /* AuxiliarVars.swift in Sources */,
 				0CB1E4E94F374F5533AB0054 /* CoreRepositoriesTests.swift in Sources */,
+				D7A4E8E72C5C347F00F31ED7 /* LoginViewModel.swift in Sources */,
 				D776361C2C5BC85A00589791 /* EditUserDetailsViewModelTests.swift in Sources */,
 				01BFF4BAEA5774EDBF28E2D5 /* CoreServicesTests.swift in Sources */,
 			);
