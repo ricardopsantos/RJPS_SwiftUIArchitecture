@@ -120,13 +120,18 @@ fileprivate extension PopulationNationView {
                 ListItemView(
                     title: item.title,
                     subTitle: item.subTitle,
-                    backgroundColor: ColorSemantic.backgroundTertiary.color
+                    backgroundColor: ColorSemantic.backgroundTertiary.color,
+                    infoAction: {
+                        let label = "Taped index \(index): Year \(item.year)"
+                        AnalyticsManager.shared.handleListItemTapEvent(label: label, sender: "\(Self.self)")
+                        router.sheetLink = .populationStates(year: item.year, model: [])
+                    }
                 )
-                .onTapGesture {
+                /*.onTapGesture {
                     let label = "Taped index \(index): Year \(item.year)"
                     AnalyticsManager.shared.handleListItemTapEvent(label: label, sender: "\(Self.self)")
                     router.sheetLink = .populationStates(year: item.year, model: [])
-                }
+                }*/
             }
         }
     }

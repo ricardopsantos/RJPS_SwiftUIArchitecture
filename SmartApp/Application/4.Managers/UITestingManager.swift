@@ -13,7 +13,6 @@ public enum UITestingManager {
     public enum Options: String {
         case shouldDisableAnimations
         case shouldResetAllPreferences
-        case isAuthenticated
 
         public var rawValue: String {
             "\(self)"
