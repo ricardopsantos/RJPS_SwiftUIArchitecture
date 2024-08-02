@@ -26,15 +26,7 @@ public enum UITestingManager {
             UIView.setAnimationsEnabled(false)
         }
         if CommandLine.arguments.contains(UITestingManager.Options.shouldResetAllPreferences.rawValue) {
-            DependenciesManager.Repository.nonSecureAppPreferences.deleteAll()
-            DependenciesManager.Repository.secureAppPreferences.deleteAll()
             UserDefaults.resetStandardUserDefaults()
-        }
-        if CommandLine.arguments.contains(UITestingManager.Options.isAuthenticated.rawValue) {
-            NonSecureAppPreferences.shared.isAuthenticated = true
-            NonSecureAppPreferences.shared.isProfileComplete = true
-            NonSecureAppPreferences.shared.isPrivacyPolicyAccepted = true
-            NonSecureAppPreferences.shared.isOnboardingCompleted = true
         }
     }
 }

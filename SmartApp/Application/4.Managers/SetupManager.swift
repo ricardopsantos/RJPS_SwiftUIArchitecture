@@ -19,14 +19,13 @@ public class SetupManager {
     private init() {}
     static let shared = SetupManager()
 
-    func setup(nonSecureAppPreferences: NonSecureAppPreferencesProtocol) {
+    func setup() {
         CPPWrapper.disable_gdb() // Security: Detach debugger for real device
         CPPWrapper.crash_if_debugged() // Security: Crash app if debugger Detach failed
         DevTools.Log.setup()
         FirebaseApp.configure()
         UITestingManager.setupForForTestingIfNeeded()
         FontsName.setup()
-        InterfaceStyle.setupUserInterfaceStyle(nonSecureAppPreferences: nonSecureAppPreferences)
         if Common_Utils.onDebug {
             UserDefaults.standard.set(true, forKey: "com.apple.CoreData.ConcurrencyDebug")
             UserDefaults.standard.set(1, forKey: "com.apple.CoreData.SQLDebug")

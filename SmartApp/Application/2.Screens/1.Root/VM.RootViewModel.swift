@@ -14,36 +14,19 @@ import Core
 
 struct RootModel: Equatable, Hashable {
     let isAppStartCompleted: Bool
-    let isUserDetailsFilled: Bool
-    let isTermsAndConditionsAccepted: Bool
-    let isOnboardingCompleted: Bool
-
-    init(
-        isAppStartCompleted: Bool = false,
-        isUserDetailsFilled: Bool = false,
-        isTermsAndConditionsAccepted: Bool = false,
-        isOnboardingCompleted: Bool = false
-    ) {
+    init(isAppStartCompleted: Bool = false) {
         self.isAppStartCompleted = isAppStartCompleted
-        self.isUserDetailsFilled = isUserDetailsFilled
-        self.isTermsAndConditionsAccepted = isTermsAndConditionsAccepted
-        self.isOnboardingCompleted = isOnboardingCompleted
     }
 }
 
 extension RootViewModel {
     enum Actions {
         case start
-        // case markInitialScreenAsVisited
-        case markUserDetailsCompleted
-        case termsAndConditionsAccepted
-        case termsAndConditionsNotAccepted
-        case onboardingCompleted
     }
 
     struct Dependencies {
         let model: RootModel
-        let nonSecureAppPreferences: NonSecureAppPreferencesProtocol
+        //let nonSecureAppPreferences: NonSecureAppPreferencesProtocol
     }
 }
 
@@ -59,16 +42,8 @@ class RootViewModel: ObservableObject {
 
     // MARK: - Auxiliar Attributes
     private var cancelBag = CancelBag()
-    private var nonSecureAppPreferences: NonSecureAppPreferencesProtocol?
     public init(dependencies: Dependencies) {
-        self.nonSecureAppPreferences = dependencies.nonSecureAppPreferences
         self.isAppStartCompleted = dependencies.model.isAppStartCompleted
-        self.isUserDetailsFilled = dependencies.model.isUserDetailsFilled
-        self.isTermsAndConditionsAccepted = dependencies.model.isTermsAndConditionsAccepted
-        self.isOnboardingCompleted = dependencies.model.isOnboardingCompleted
-        dependencies.nonSecureAppPreferences.output([]).sinkToReceiveValue { [weak self] _ in
-            self?.preferencesChanged = .now
-        }.store(in: cancelBag)
     }
 
     // MARK: - Functions
@@ -82,22 +57,6 @@ class RootViewModel: ObservableObject {
             Common_Utils.delay(Common.Constants.defaultAnimationsTime) { [weak self] in
                 self?.isAppStartCompleted = true
             }
-        case .markUserDetailsCompleted:
-            guard !isUserDetailsFilled else { return }
-            nonSecureAppPreferences?.isProfileComplete = true
-            isUserDetailsFilled = true
-        case .termsAndConditionsAccepted:
-            guard !isTermsAndConditionsAccepted else { return }
-            nonSecureAppPreferences?.isPrivacyPolicyAccepted = true
-            isTermsAndConditionsAccepted = true
-        case .termsAndConditionsNotAccepted:
-            guard isTermsAndConditionsAccepted else { return }
-            isTermsAndConditionsAccepted = false
-
-        case .onboardingCompleted:
-            guard !isOnboardingCompleted else { return }
-            nonSecureAppPreferences?.isOnboardingCompleted = true
-            isOnboardingCompleted = true
         }
     }
 }

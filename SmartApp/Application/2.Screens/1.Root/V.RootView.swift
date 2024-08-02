@@ -34,15 +34,10 @@ struct RootViewCoordinator: View, ViewCoordinatorProtocol {
     @ViewBuilder func buildScreen(_ screen: AppScreen) -> some View {
         switch screen {
         case .root:
-            let nonSecureAppPreferences = configuration.nonSecureAppPreferences
             RootView(dependencies: .init(
                 model: .init(
-                    isAppStartCompleted: false,
-                    isUserDetailsFilled: nonSecureAppPreferences.isProfileComplete,
-                    isTermsAndConditionsAccepted: nonSecureAppPreferences.isPrivacyPolicyAccepted,
-                    isOnboardingCompleted: nonSecureAppPreferences.isOnboardingCompleted
-                ),
-                nonSecureAppPreferences: configuration.nonSecureAppPreferences
+                    isAppStartCompleted: false
+                )
             ))
         default:
             EmptyView().opacity(0).onAppear(perform: {
