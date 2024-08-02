@@ -18,12 +18,14 @@ public struct DatePickerPopover: View {
         title: String,
         doneButtonLabel: String,
         isPresented: Binding<Bool>,
-                dateSelection: Binding<Date>) {
+        dateSelection: Binding<Date>
+    ) {
         self._isPresented = isPresented
         self._dateSelection = dateSelection
         self.title = title
         self.doneButtonLabel = doneButtonLabel
     }
+
     public var body: some View {
         VStack {
             DatePicker(

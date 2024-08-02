@@ -112,7 +112,6 @@ struct ___Template___View: View, ViewProtocol {
 }
 
 fileprivate extension ___Template___View {
-    
     @ViewBuilder
     var routingView: some View {
         Button("Push") {
@@ -145,6 +144,7 @@ fileprivate extension ___Template___View {
         }.padding()
     }
 }
+
 //
 // MARK: - View (Auxiliar)
 //

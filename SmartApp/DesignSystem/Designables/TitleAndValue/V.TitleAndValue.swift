@@ -24,6 +24,7 @@ public struct TitleAndValueView: View {
         self.value = value
         self.style = style
     }
+
     public var body: some View {
         Group {
             switch style {

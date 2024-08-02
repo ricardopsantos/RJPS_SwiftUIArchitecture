@@ -94,7 +94,7 @@ struct SettingsScreen: View, ViewProtocol {
                 Header(text: "Settings".localizedMissing)
                 userDetailsView
                 updateButtonView
-                AppearanceSelectionView(selectedMode: $selectedMode)
+                AppearancePickerView(selected: $selectedMode)
                 bottomButtons
             }.padding(SizeNames.defaultMargin)
             if viewModel.confirmationSheetType != nil {

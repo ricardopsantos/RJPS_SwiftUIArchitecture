@@ -57,7 +57,7 @@ class ___Template___ViewModel: ObservableObject {
     @Published private(set) var message: String = ""
     @Published var counter: Int = 0
     @Published private(set) var alertModel: Model.AlertModel?
-    
+
     // MARK: - Auxiliar Attributes
     private let sampleService: SampleServiceProtocol?
     public init(dependencies: Dependencies) {

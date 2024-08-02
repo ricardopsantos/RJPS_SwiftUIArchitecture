@@ -56,7 +56,7 @@ class RootViewModel: ObservableObject {
     @Published private(set) var isTermsAndConditionsAccepted: Bool = false
     @Published private(set) var isOnboardingCompleted: Bool = false
     @Published private(set) var preferencesChanged: Date = .now
-    
+
     // MARK: - Auxiliar Attributes
     private var cancelBag = CancelBag()
     private var nonSecureAppPreferences: NonSecureAppPreferencesProtocol?

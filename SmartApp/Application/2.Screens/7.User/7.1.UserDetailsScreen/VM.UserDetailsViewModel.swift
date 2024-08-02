@@ -50,7 +50,7 @@ extension UserDetailsViewModel {
 class UserDetailsViewModel: ObservableObject {
     // MARK: - View Usage Attributes
     @Published var alertModel: Model.AlertModel?
-    
+
     // MARK: - Auxiliar Attributes
     private let userRepository: UserRepositoryProtocol?
     public init(dependencies: Dependencies) {

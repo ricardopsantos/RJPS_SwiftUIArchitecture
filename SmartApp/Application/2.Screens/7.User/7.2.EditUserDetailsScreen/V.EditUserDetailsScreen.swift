@@ -118,7 +118,7 @@ struct EditUserDetailsView: View {
                     accessibility: .txtEmail
                 )
 
-                GenderView(selectedGender: $viewModel.selectedGender)
+                GenderPickerView(selected: $viewModel.selectedGender)
                     .padding(.vertical, SizeNames.defaultMargin)
 
                 CustomTitleAndCustomTextField(
@@ -139,7 +139,9 @@ struct EditUserDetailsView: View {
                     )
                 }
 
-                CountryView(selectedCountry: $viewModel.selectedCountry)
+                CountryPickerView(
+                    selected: $viewModel.selectedCountry
+                )
 
                 Spacer()
 

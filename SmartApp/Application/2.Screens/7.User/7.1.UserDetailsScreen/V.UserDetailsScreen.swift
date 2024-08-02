@@ -112,7 +112,7 @@ struct UserDetailsView: View {
                 accessibility: .txtName
             )
             .padding(.vertical, SizeNames.defaultMargin)
-            GenderView(selectedGender: $selectedGender)
+            GenderPickerView(selected: $selectedGender)
             CustomTitleAndCustomTextField(
                 label: "DateOfBirth".localizedMissing,
                 placeholder: "DateOfBirthPlaceHolder".localizedMissing,
@@ -135,8 +135,10 @@ struct UserDetailsView: View {
                 )
             }
             .padding(.vertical, SizeNames.defaultMargin)
-            CountryView(selectedCountry: $selectedCountry)
-                .padding(.vertical, SizeNames.defaultMargin)
+            CountryPickerView(
+                selected: $selectedCountry
+            )
+            .padding(.vertical, SizeNames.defaultMargin)
             Spacer()
             TextButton(
                 onClick: {

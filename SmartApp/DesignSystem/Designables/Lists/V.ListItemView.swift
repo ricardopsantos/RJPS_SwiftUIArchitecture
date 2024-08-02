@@ -17,12 +17,14 @@ public struct ListItemView: View {
     private let shadowRadius: Double
     private let infoAction: () -> Void
 
-    public init(title: String,
-                subTitle: String,
-                backgroundColor: Color = .backgroundTertiary,
-                cornerRadius: CGFloat = SizeNames.cornerRadius,
-                shadowRadius: Double = 5.0,
-                infoAction: @escaping () -> Void = {}) {
+    public init(
+        title: String,
+        subTitle: String,
+        backgroundColor: Color = .backgroundTertiary,
+        cornerRadius: CGFloat = SizeNames.cornerRadius,
+        shadowRadius: Double = 5.0,
+        infoAction: @escaping () -> Void = {}
+    ) {
         self.title = title
         self.subTitle = subTitle
         self.backgroundColor = backgroundColor
@@ -30,7 +32,7 @@ public struct ListItemView: View {
         self.shadowRadius = shadowRadius
         self.infoAction = infoAction
     }
-    
+
     public var body: some View {
         HStack {
             VStack(spacing: SizeNames.defaultMargin) {

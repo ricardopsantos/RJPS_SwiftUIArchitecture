@@ -15,16 +15,19 @@ public struct Header: View {
     private let hasBackButton: Bool
     private let hasCloseButton: Bool
     private let onBackOrCloseClick: () -> Void
-    public init(text: String, 
-                hasBackButton: Bool = false,
-                hasCloseButton: Bool = false,
-                onBackOrCloseClick: @escaping () -> Void = {}) {
+    public init(
+        text: String,
+
+        hasBackButton: Bool = false,
+        hasCloseButton: Bool = false,
+        onBackOrCloseClick: @escaping () -> Void = {}
+    ) {
         self.text = text
         self.hasBackButton = hasBackButton
         self.hasCloseButton = hasCloseButton
         self.onBackOrCloseClick = onBackOrCloseClick
     }
-    
+
     public var body: some View {
         ZStack(alignment: hasBackButton ? .leading : .trailing) {
             if hasBackButton {

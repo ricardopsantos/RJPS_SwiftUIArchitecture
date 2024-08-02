@@ -17,17 +17,18 @@ public struct CustomTitleAndCustomTextField: View {
 
     public init(
         label: String,
-                placeholder: String,
-                inputText: Binding<String>,
-                isSecured: Bool = false,
-                accessibility: Accessibility) {
+        placeholder: String,
+        inputText: Binding<String>,
+        isSecured: Bool = false,
+        accessibility: Accessibility
+    ) {
         self._inputText = inputText
         self.label = label
         self.placeholder = placeholder
         self.accessibility = accessibility
         self.isSecured = isSecured
     }
-    
+
     public var body: some View {
         VStack(alignment: .leading) {
             Text(label)
@@ -47,9 +48,9 @@ public struct CustomTitleAndCustomTextField: View {
 
 #Preview {
     CustomTitleAndCustomTextField(
-                                  label: "label",
-                                  placeholder: "placeholder",
-                                  inputText: .constant("inputText"),
-                                  accessibility: .undefined
+        label: "label",
+        placeholder: "placeholder",
+        inputText: .constant("inputText"),
+        accessibility: .undefined
     )
 }
