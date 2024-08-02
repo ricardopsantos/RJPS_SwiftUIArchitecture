@@ -24,6 +24,7 @@ enum AppScreen: Hashable, Identifiable {
     case editUserDetails
     case termsAndConditions
     case populationNation
+    case populationStates
     case populationState(model: PopulationStateModel)
     // case mainApp
     var id: String {

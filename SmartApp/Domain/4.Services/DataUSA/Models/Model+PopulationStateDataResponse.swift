@@ -12,16 +12,16 @@ import Common
 public extension ModelDto {
     // MARK: - PopulationStateDataResponse
     struct PopulationStateDataResponse: ModelProtocol {
-        let data: [Datum]
-        let source: [Source]
+        public let data: [Datum]
+        public let source: [Source]
         
         // MARK: - Datum
-        struct Datum: ModelProtocol {
-            let idState, state: String
-            let idYear: Int
-            let year: String
-            let population: Int
-            let slugState: String
+        public struct Datum: ModelProtocol {
+            public let idState, state: String
+            public let idYear: Int
+            public let year: String
+            public let population: Int
+            public let slugState: String
 
             enum CodingKeys: String, CodingKey {
                 case idState = "ID State"
@@ -34,18 +34,18 @@ public extension ModelDto {
         }
 
         // MARK: - Source
-        struct Source: ModelProtocol {
-            let measures: [String]
-            let annotations: Annotations
-            let name: String
+        public struct Source: ModelProtocol {
+            public let measures: [String]
+            public let annotations: Annotations
+            public let name: String
             //let substitutions: [JSONAny]
         }
 
         // MARK: - Annotations
-        struct Annotations: ModelProtocol {
-            let sourceName, sourceDescription, datasetName: String
-            let datasetLink: String
-            let tableID, topic, subtopic: String
+        public struct Annotations: ModelProtocol {
+            public let sourceName, sourceDescription, datasetName: String
+            public let datasetLink: String
+            public let tableID, topic, subtopic: String
 
             enum CodingKeys: String, CodingKey {
                 case sourceName = "source_name"
