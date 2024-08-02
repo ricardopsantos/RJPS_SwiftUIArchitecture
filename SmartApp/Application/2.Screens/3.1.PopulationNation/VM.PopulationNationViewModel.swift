@@ -29,7 +29,7 @@ struct PopulationNationModel: Equatable, Hashable {
     init(populationNationDataResponse modelDto: ModelDto.PopulationNationDataResponse.Datum) {
         self.init(
             title: "\(modelDto.nation.rawValue) \(modelDto.year)",
-            subTitle: "Population: \(modelDto.population.localeString)", 
+            subTitle: "Population: \(modelDto.population.localeString)",
             year: modelDto.year
         )
     }

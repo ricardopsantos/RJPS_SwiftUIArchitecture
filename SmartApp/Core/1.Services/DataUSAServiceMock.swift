@@ -17,10 +17,10 @@ public class DataUSAServiceMock {
 
 extension DataUSAServiceMock: DataUSAServiceProtocol {
     public func requestPopulationStateData(_ request: ModelDto.PopulationStateDataRequest) async throws -> ModelDto.PopulationStateDataResponse {
-        return ModelDto.PopulationStateDataResponse.mock!
+        ModelDto.PopulationStateDataResponse.mock!
     }
 
     public func requestPopulationNationData(_ request: ModelDto.PopulationNationDataRequest) async throws -> ModelDto.PopulationNationDataResponse {
-        return ModelDto.PopulationNationDataResponse.mock!
+        ModelDto.PopulationNationDataResponse.mock!
     }
 }

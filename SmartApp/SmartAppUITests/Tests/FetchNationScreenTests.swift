@@ -46,5 +46,4 @@ final class FetchNationScreenTests: BaseUITests {
         waitFor(staticText: "United States 2021", on: app)
         waitFor(staticText: "United States 2020", on: app)
     }
-
 }

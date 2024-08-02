@@ -16,7 +16,7 @@ import Core
 import Common
 
 final class DataUSAServiceTests: XCTestCase {
-    lazy var dataUSAService: DataUSAServiceProtocol = { DependenciesManager.Services.dataUSAService }()
+    lazy var dataUSAService: DataUSAServiceProtocol = { DependenciesManager.Services.dataUSAService }()
     override func setUp() {
         super.setUp()
         continueAfterFailure = false

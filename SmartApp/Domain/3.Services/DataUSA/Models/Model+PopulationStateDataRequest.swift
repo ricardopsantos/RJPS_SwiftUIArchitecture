@@ -10,7 +10,7 @@ import Foundation
 import Common
 
 public extension ModelDto.PopulationStateDataRequest {
-    struct Constants {
+    enum Constants {
         public static let lastYear = "latest"
     }
 }

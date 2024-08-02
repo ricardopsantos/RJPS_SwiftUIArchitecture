@@ -19,7 +19,6 @@ let cancelBag = CancelBag()
 var timeout: Int = 5
 var loadedAny: Any?
 
-
 class BaseUITests: XCTestCase {
     lazy var app: XCUIApplication = {
         let app = XCUIApplication()

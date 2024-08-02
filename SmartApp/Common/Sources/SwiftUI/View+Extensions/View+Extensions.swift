@@ -11,19 +11,6 @@ import SwiftUI
 //
 
 public extension View {
-    func customBackButton(action: @escaping () -> Void) -> some View {
-        navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        action()
-                    } label: {
-                        Image("back")
-                            .tint(.white)
-                    }
-                }
-            }
-    }
 
     @inlinable func easeInOutAnimation() -> some View {
         animation(

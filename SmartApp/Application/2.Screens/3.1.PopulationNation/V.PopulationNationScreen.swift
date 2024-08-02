@@ -50,6 +50,9 @@ struct PopulationNationViewCoordinator: View, ViewCoordinatorProtocol {
                 }, dataUSAService: configuration.dataUSAService
             )
             PopulationStateView(dependencies: dependencies)
+                .customBackButton(action: {
+                    router.navigateBack()
+                })
 
         default:
             EmptyView().onAppear(perform: {
@@ -107,6 +110,7 @@ struct PopulationNationView: View {
             }.padding()
         }
         .frame(maxWidth: .infinity)
+
     }
 }
 
@@ -121,17 +125,13 @@ fileprivate extension PopulationNationView {
                     title: item.title,
                     subTitle: item.subTitle,
                     backgroundColor: ColorSemantic.backgroundTertiary.color,
-                    infoAction: {
+                    onTapGesture: {
                         let label = "Taped index \(index): Year \(item.year)"
                         AnalyticsManager.shared.handleListItemTapEvent(label: label, sender: "\(Self.self)")
-                        router.sheetLink = .populationStates(year: item.year, model: [])
+                       //router.coverLink = .populationStates(year: item.year, model: [])
+                        router.navigate(to: AppScreen.populationStates(year: item.year, model: []))
                     }
                 )
-                /*.onTapGesture {
-                    let label = "Taped index \(index): Year \(item.year)"
-                    AnalyticsManager.shared.handleListItemTapEvent(label: label, sender: "\(Self.self)")
-                    router.sheetLink = .populationStates(year: item.year, model: [])
-                }*/
             }
         }
     }

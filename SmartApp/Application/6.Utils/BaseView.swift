@@ -290,8 +290,8 @@ extension BaseView {
         ignoresSafeArea: true,
         background: .gradient,
         loadingModel: .notLoading,
-     //   loadingModel: .loading(message: "Loading".localizedMissing, id: UUID().uuidString),
-      //  alertModel: .noInternet,
+        //   loadingModel: .loading(message: "Loading".localizedMissing, id: UUID().uuidString),
+        //  alertModel: .noInternet,
         alertModel: nil,
         content: {
             Text("Content")

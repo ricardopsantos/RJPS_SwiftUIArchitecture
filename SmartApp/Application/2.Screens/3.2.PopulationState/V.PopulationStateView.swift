@@ -93,7 +93,9 @@ struct PopulationStateView: View {
 
     var content: some View {
         VStack(spacing: 0) {
-            Header(text: viewModel.title).padding(.horizontal, SizeNames.defaultMargin)
+            Header(text: viewModel.title)
+                .padding(.horizontal, SizeNames.defaultMargin)
+                .offset(.init(width: 0, height: -SizeNames.defaultMargin))
             ScrollView(showsIndicators: false) {
                 listView
             }
@@ -108,11 +110,12 @@ struct PopulationStateView: View {
 fileprivate extension PopulationStateView {
     var listView: some View {
         VStack(spacing: SizeNames.defaultMargin) {
-            ForEach(Array(viewModel.model.enumerated()), id: \.element) { index, item in
+            ForEach(Array(viewModel.model.enumerated()), id: \.element) { _, item in
                 ListItemView(
                     title: item.title,
                     subTitle: item.subTitle,
-                    backgroundColor: ColorSemantic.backgroundTertiary.color
+                    backgroundColor: ColorSemantic.backgroundTertiary.color,
+                    onTapGesture: nil
                 )
             }
         }

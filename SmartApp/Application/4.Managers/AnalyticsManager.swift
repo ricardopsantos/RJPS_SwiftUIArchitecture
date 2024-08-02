@@ -50,7 +50,7 @@ class AnalyticsManager {
         ]
         Analytics.logEvent(AnalyticsEventScreenView, parameters: parameters)
     }
-    
+
     func handleAppLifeCycleEvent(
         label: String,
         sender: String,
@@ -63,7 +63,7 @@ class AnalyticsManager {
         let baseEvent = BaseEvent(eventType: EventType.appLifeCycleEvent(label: label), eventProperties: properties)
         handle(baseEvent: baseEvent)
     }
-    
+
     func handleListItemTapEvent(
         label: String,
         sender: String,
@@ -76,7 +76,7 @@ class AnalyticsManager {
         let baseEvent = BaseEvent(eventType: EventType.listItemTap(label: label), eventProperties: properties)
         handle(baseEvent: baseEvent)
     }
-    
+
     func handleButtonClickEvent(
         buttonType: AnalyticsManager.EventType.ButtonType = .primary,
         label: String,
