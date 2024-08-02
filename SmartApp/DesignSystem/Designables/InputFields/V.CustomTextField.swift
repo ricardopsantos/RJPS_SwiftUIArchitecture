@@ -6,16 +6,15 @@
 //
 
 import SwiftUI
-import DesignSystem
 
-struct CustomTextField: View {
+public struct CustomTextField: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var inputText: String
-    var placeholder: String
-    var cornerRadius: CGFloat
-    var borderColor: Color
-    let isSecured: Bool
-    let accessibility: AppConstants.Accessibility
+    private let placeholder: String
+    private let cornerRadius: CGFloat
+    private let borderColor: Color
+    private let isSecured: Bool
+    private let accessibility: Accessibility
 
     public init(
         inputText: Binding<String>,
@@ -23,7 +22,7 @@ struct CustomTextField: View {
         cornerRadius: CGFloat,
         borderColor: Color,
         isSecured: Bool = false,
-        accessibility: AppConstants.Accessibility
+        accessibility: Accessibility
     ) {
         self._inputText = inputText
         self.isSecured = isSecured
@@ -33,7 +32,7 @@ struct CustomTextField: View {
         self.accessibility = accessibility
     }
 
-    var body: some View {
+    public var body: some View {
         ZStack(alignment: .leading) {
             if inputText.isEmpty {
                 Text(placeholder)
@@ -69,7 +68,7 @@ struct CustomTextField: View {
             inputText: .constant("inputText"),
             placeholder: "placeholder",
             cornerRadius: SizeNames.cornerRadius,
-            borderColor: Color.primary,
+            borderColor: ColorSemantic.allCool.color,
             isSecured: false,
             accessibility: .undefined
         )

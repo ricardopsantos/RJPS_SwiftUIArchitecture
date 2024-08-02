@@ -194,6 +194,44 @@ public extension XCTestCase {
 
 public extension XCTestCase {
     func tap(
+        tabBarIndex: Int,
+        andWaitForStaticText nextStaticText: String = "",
+        on app: XCUIApplication,
+        timeout: TimeInterval = XCTestCase.timeout
+    ) {
+        let tabBarId = "Tab Bar"
+        let expectation = expectation(
+            for: NSPredicate.exists,
+            evaluatedWith: app.tabBars[tabBarId],
+            handler: nil
+        )
+        wait(for: [expectation], timeout: timeout)
+        app.tabBars[tabBarId].buttons.element(boundBy: tabBarIndex).tap()
+        if !nextStaticText.isEmpty {
+            waitFor(staticText: nextStaticText, on: app, timeout: timeout)
+        }
+    }
+
+    func tap(
+        tabBarText: String,
+        andWaitForStaticText nextStaticText: String = "",
+        on app: XCUIApplication,
+        timeout: TimeInterval = XCTestCase.timeout
+    ) {
+        let tabBarId = "Tab Bar"
+        let expectation = expectation(
+            for: NSPredicate.exists,
+            evaluatedWith: app.tabBars[tabBarId],
+            handler: nil
+        )
+        wait(for: [expectation], timeout: timeout)
+        app.tabBars[tabBarId].buttons[tabBarText].tap()
+        if !nextStaticText.isEmpty {
+            waitFor(staticText: nextStaticText, on: app, timeout: timeout)
+        }
+    }
+
+    func tap(
         button: String,
         andWaitForStaticText nextStaticText: String = "",
         andWaitForButtonWithText nextButtonWithText: String = "",

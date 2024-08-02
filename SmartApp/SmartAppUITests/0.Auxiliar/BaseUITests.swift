@@ -3,6 +3,10 @@
 //  Copyright © 2024 - 2019 Ricardo Santos. All rights reserved.
 //
 
+/*
+ https://medium.com/@jpmtech/level-up-your-career-by-adding-ui-tests-to-your-swiftui-app-37cbffeba459
+ */
+
 @testable import Smart_Dev
 
 import XCTest
@@ -11,8 +15,7 @@ import Nimble
 //
 import Common
 
-final class SmartAppUITests: XCTestCase {
-    var enabled: Bool = true
+class BaseUITests: XCTestCase {
     lazy var app: XCUIApplication = {
         let app = XCUIApplication()
         return app
@@ -22,69 +25,9 @@ final class SmartAppUITests: XCTestCase {
         app.launchArguments = launchArguments + ["shouldDisableAnimations"]
         app.launch()
     }
-
-    override class var runsForEachTargetApplicationUIConfiguration: Bool {
-        false
-    }
-
-    override func setUp() {
-        super.setUp()
-        continueAfterFailure = false
-    }
-
-    override func setUpWithError() throws {
-        continueAfterFailure = false
-    }
-
-    override func tearDownWithError() throws {}
-
-    //
-    // MARK: - testAxxx : Splash Screen
-    //
-
-    func testA1_welcomeScreen() {
-        guard enabled else {
-            XCTAssert(true)
-            return
-        }
-        appLaunch(launchArguments: [
-            "shouldResetAllPreferences"
-        ])
-        waitFor(staticText: "Welcome", on: app)
-    }
-
-    //
-    // MARK: - testBxxx :Login
-    //
-
-    func testB1_login() {
-        guard enabled else {
-            XCTAssert(true)
-            return
-        }
-        appLaunch(launchArguments: [
-            "shouldResetAllPreferences"
-        ])
-        auxiliar_performLogin()
-    }
-
-    func testB2_onBoarding() {
-        guard enabled else {
-            XCTAssert(true)
-            return
-        }
-        appLaunch(launchArguments: [
-            "shouldResetAllPreferences"
-        ])
-        auxiliar_performLogin()
-        auxiliar_performOnBoarding()
-    }
 }
 
-//
-// MARK: - Utils flows
-//
-extension SmartAppUITests {
+extension BaseUITests {
     // Will fill user email and password.
     // User needs to be unauthenticated
     func auxiliar_performLogin() {
@@ -105,7 +48,7 @@ extension SmartAppUITests {
             delayBeforeTap: 0,
             delayBeforeType: 0
         )
-        tap(button: "loginButton", andWaitForStaticText: "UserDetails", on: app)
+        tap(button: "loginButton", on: app)
     }
 
     // Will perform the onboarding flow.

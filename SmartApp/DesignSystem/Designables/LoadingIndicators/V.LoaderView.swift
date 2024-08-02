@@ -6,12 +6,11 @@
 //
 
 import SwiftUI
-import DesignSystem
 
-struct LoaderView: View {
+public struct LoaderView: View {
     @Environment(\.colorScheme) var colorScheme
-    var isLoading = true
-    var body: some View {
+    public var isLoading = true
+    public var body: some View {
         if isLoading {
             VStack {
                 ProgressView()
@@ -28,9 +27,9 @@ struct LoaderView: View {
     }
 }
 
-struct LoaderViewModifier: ViewModifier {
+public struct LoaderViewModifier: ViewModifier {
     var isLoading: Bool
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .overlay(LoaderView(isLoading: isLoading))
     }

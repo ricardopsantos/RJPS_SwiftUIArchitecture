@@ -6,9 +6,8 @@
 //
 
 import SwiftUI
-import DesignSystem
 
-struct ConfirmationSheetV2: View {
+public struct ConfirmationSheetV2: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var isOpen: Bool
     private let title: String
@@ -18,7 +17,7 @@ struct ConfirmationSheetV2: View {
     private var confirmationAction: () -> Void
     public init(
         isOpen: Binding<Bool>,
-        title: String = "Alert".localizedMissing,
+        title: String = "Alert",
         subTitle: String = "Are you really really sure that you want to go ahead with this action?",
         leftText: String = "No",
         rightText: String = "Yes",
@@ -32,7 +31,7 @@ struct ConfirmationSheetV2: View {
         self.confirmationAction = confirmationAction
     }
 
-    var body: some View {
+    public var body: some View {
         VStack {
             Spacer()
             ConfirmationSheetV1(
@@ -60,7 +59,7 @@ struct ConfirmationSheetV2: View {
     }
 }
 
-struct ConfirmationSheetV1: View {
+public struct ConfirmationSheetV1: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var isOpen: Bool
     private var confirmationAction: () -> Void
@@ -68,7 +67,7 @@ struct ConfirmationSheetV1: View {
     private let subTitle: String
     private let leftText: String
     private let rightText: String
-    init(
+    public init(
         isOpen: Binding<Bool>,
         title: String,
         subTitle: String,
@@ -84,7 +83,7 @@ struct ConfirmationSheetV1: View {
         self.confirmationAction = confirmationAction
     }
 
-    var body: some View {
+    public var body: some View {
         VStack(spacing: 0) {
             Text(title)
                 .fixedSize(horizontal: false, vertical: true)

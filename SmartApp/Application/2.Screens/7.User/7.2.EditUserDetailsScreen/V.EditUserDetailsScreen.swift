@@ -118,7 +118,7 @@ struct EditUserDetailsView: View {
                     accessibility: .txtEmail
                 )
 
-                GenderView(selectedGender: $viewModel.selectedGender)
+                GenderPickerView(selected: $viewModel.selectedGender)
                     .padding(.vertical, SizeNames.defaultMargin)
 
                 CustomTitleAndCustomTextField(
@@ -132,14 +132,16 @@ struct EditUserDetailsView: View {
                 }
                 .popover(isPresented: $showingDatePicker, attachmentAnchor: .point(.bottom), arrowEdge: .bottom) {
                     DatePickerPopover(
-                        isPresented: $showingDatePicker,
-                        dateSelection: $viewModel.dateOfBirth,
                         title: "DateOfBirthPlaceHolder".localizedMissing,
-                        doneButtonLabel: "Done".localizedMissing
+                        doneButtonLabel: "Done".localizedMissing,
+                        isPresented: $showingDatePicker,
+                        dateSelection: $viewModel.dateOfBirth
                     )
                 }
 
-                CountryView(selectedCountry: $viewModel.selectedCountry)
+                CountryPickerView(
+                    selected: $viewModel.selectedCountry
+                )
 
                 Spacer()
 

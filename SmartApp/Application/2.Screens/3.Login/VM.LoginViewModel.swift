@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 import SwiftUI
 //
 import Core
@@ -41,10 +42,29 @@ extension LoginViewModel {
 
 @MainActor
 class LoginViewModel: ObservableObject {
+    // MARK: - Usage Attributes
     @Published var alertModel: Model.AlertModel?
+    @Published var errorMessage: String = ""
+    @Published var password: String = ""
+    @Published var email: String = ""
+    @Published var canLogin: Bool = false
+
+    // MARK: - Auxiliar Attributes
     private let authenticationViewModel: AuthenticationViewModel
+    private var cancelBag = CancelBag()
+    public let formEvalDebounce: Double = 0.8
     public init(dependencies: Dependencies) {
         self.authenticationViewModel = dependencies.authenticationViewModel
+        isEmailValid
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .map { valid in valid ? "" : "Invalid email" }
+            .assign(to: \.errorMessage, on: self)
+            .store(in: cancelBag)
+        isFormValid
+            .receive(on: RunLoop.main)
+            .assign(to: \.canLogin, on: self)
+            .store(in: cancelBag)
     }
 
     func send(action: Actions) {
@@ -68,6 +88,41 @@ class LoginViewModel: ObservableObject {
                 }
             }
         }
+    }
+}
+
+//
+// MARK: - Auxiliar
+//
+
+fileprivate extension LoginViewModel {
+    var isFormValid: AnyPublisher<Bool, Never> {
+        Publishers.CombineLatest(isPasswordValid, isEmailValid)
+            .map { $0 && $1 }
+            .eraseToAnyPublisher()
+    }
+
+    var isPasswordValid: AnyPublisher<Bool, Never> {
+        $password
+            .debounce(
+                for: RunLoop.SchedulerTimeType.Stride(formEvalDebounce),
+
+                scheduler: RunLoop.main
+            )
+            .removeDuplicates()
+            .map { $0.count >= 3 }
+            .eraseToAnyPublisher()
+    }
+
+    var isEmailValid: AnyPublisher<Bool, Never> {
+        $email
+            .debounce(
+                for: RunLoop.SchedulerTimeType.Stride(formEvalDebounce),
+                scheduler: RunLoop.main
+            )
+            .removeDuplicates()
+            .map(\.isValidEmail)
+            .eraseToAnyPublisher()
     }
 }
 

@@ -11,5 +11,11 @@ public enum Gender: String, CaseIterable, Identifiable, Sendable {
     case male = "Male"
     case female = "Female"
     case other = "Other"
-    public var id: String { rawValue }
+    public var id: Int {
+        switch self {
+        case .male: 0
+        case .female: 1
+        case .other: 2
+        }
+    }
 }

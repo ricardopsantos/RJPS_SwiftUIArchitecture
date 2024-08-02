@@ -5,17 +5,31 @@
 //  Created by Ricardo Santos on 15/04/2024.
 //
 import SwiftUI
-import DesignSystem
 
-struct CustomTitleAndCustomTextField: View {
+public struct CustomTitleAndCustomTextField: View {
     @Environment(\.colorScheme) var colorScheme
-    var label: String
-    var placeholder: String
-    var isSecured: Bool = false
     @Binding var inputText: String
-    let accessibility: AppConstants.Accessibility
 
-    var body: some View {
+    private let label: String
+    private let placeholder: String
+    private let isSecured: Bool
+    private let accessibility: Accessibility
+
+    public init(
+        label: String,
+        placeholder: String,
+        inputText: Binding<String>,
+        isSecured: Bool = false,
+        accessibility: Accessibility
+    ) {
+        self._inputText = inputText
+        self.label = label
+        self.placeholder = placeholder
+        self.accessibility = accessibility
+        self.isSecured = isSecured
+    }
+
+    public var body: some View {
         VStack(alignment: .leading) {
             Text(label)
                 .fontSemantic(.body)
@@ -34,7 +48,7 @@ struct CustomTitleAndCustomTextField: View {
 
 #Preview {
     CustomTitleAndCustomTextField(
-        label: "Title",
+        label: "label",
         placeholder: "placeholder",
         inputText: .constant("inputText"),
         accessibility: .undefined

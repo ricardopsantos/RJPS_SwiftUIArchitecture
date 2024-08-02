@@ -32,8 +32,9 @@ public enum UITestingManager {
         }
         if CommandLine.arguments.contains(UITestingManager.Options.isAuthenticated.rawValue) {
             NonSecureAppPreferences.shared.isAuthenticated = true
-            NonSecureAppPreferences.shared.isOnboardingCompleted = true
             NonSecureAppPreferences.shared.isProfileComplete = true
+            NonSecureAppPreferences.shared.isPrivacyPolicyAccepted = true
+            NonSecureAppPreferences.shared.isOnboardingCompleted = true
         }
     }
 }

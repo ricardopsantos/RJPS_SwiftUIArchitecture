@@ -8,18 +8,24 @@
 import Foundation
 import SwiftUI
 
-struct TitleAndValueView: View {
-    enum Style: CaseIterable {
+public struct TitleAndValueView: View {
+    public enum Style: CaseIterable {
         case horizontal
         case vertical1
         case vertical2
     }
 
     @Environment(\.colorScheme) var colorScheme
-    let title: String
-    let value: String
-    var style: Style = .horizontal
-    var body: some View {
+    private let title: String
+    private let value: String
+    private let style: Style
+    public init(title: String, value: String, style: Style = .horizontal) {
+        self.title = title
+        self.value = value
+        self.style = style
+    }
+
+    public var body: some View {
         Group {
             switch style {
             case .horizontal:

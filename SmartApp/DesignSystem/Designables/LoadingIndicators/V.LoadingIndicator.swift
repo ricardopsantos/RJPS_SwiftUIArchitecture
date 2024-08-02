@@ -8,11 +8,11 @@ import SwiftUI
 import Combine
 import Common
 
-struct LoadingIndicator: View {
+public struct LoadingIndicator: View {
     @Environment(\.colorScheme) var colorScheme
 
-    let isLoading: Bool
-    let loadingMessage: String
+    private let isLoading: Bool
+    private let loadingMessage: String
 
     public init(isLoading: Bool, loadingMessage: String) {
         self.isLoading = isLoading

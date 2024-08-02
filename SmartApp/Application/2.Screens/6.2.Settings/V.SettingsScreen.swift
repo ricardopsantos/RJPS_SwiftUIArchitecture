@@ -94,7 +94,7 @@ struct SettingsScreen: View, ViewProtocol {
                 Header(text: "Settings".localizedMissing)
                 userDetailsView
                 updateButtonView
-                AppearanceSelectionView(selectedMode: $selectedMode)
+                AppearancePickerView(selected: $selectedMode)
                 bottomButtons
             }.padding(SizeNames.defaultMargin)
             if viewModel.confirmationSheetType != nil {
@@ -180,7 +180,17 @@ fileprivate extension SettingsScreen {
             isOpen: isOpen,
             title: viewModel.confirmationSheetType!.title,
             subTitle: viewModel.confirmationSheetType!.subTitle,
-            confirmationAction: {}
+            confirmationAction: {
+                guard let sheetType = viewModel.confirmationSheetType else {
+                    return
+                }
+                switch sheetType {
+                case .logout:
+                    viewModel.send(action: .performLogout)
+                case .delete:
+                    viewModel.send(action: .deleteAccount)
+                }
+            }
         )
     }
 }

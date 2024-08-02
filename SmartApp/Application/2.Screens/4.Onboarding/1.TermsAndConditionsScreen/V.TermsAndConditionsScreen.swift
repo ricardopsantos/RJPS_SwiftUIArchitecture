@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+//
 import DesignSystem
 
 struct TermsAndConditionsScreen: View {
@@ -78,7 +79,7 @@ fileprivate extension TermsAndConditionsScreen {
                     .foregroundColor(.primaryColor)
             }
         }
-        .accessibilityIdentifier(AppConstants.Accessibility.readTermsAndConditions.identifier)
+        .accessibilityIdentifier(Accessibility.readTermsAndConditions.identifier)
         .padding(.top, SizeNames.defaultMarginBig)
         .frame(maxWidth: .infinity, alignment: .leading)
     }

@@ -27,12 +27,12 @@ final class CoreRepositoriesTests: XCTestCase {
 }
 
 //
-// MARK: - Weather
+// MARK: - Tests
 //
 
 extension CoreRepositoriesTests {
     // Test to verify that an event is emitted when a non-secure app preference property changes
-    func test_nonSecureAppPreferences_emitEventOnChangedProperty() {
+    func testA1_nonSecureAppPreferences_emitEventOnChangedProperty() {
         var emittedEvent = false
 
         // Subscribe to output events for the .changedKey event with key .isAuthenticated

@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+//
+import DesignSystem
 
 struct OnboardingScreen: View {
     @Environment(\.colorScheme) var colorScheme

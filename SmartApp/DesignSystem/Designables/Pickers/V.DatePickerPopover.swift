@@ -7,14 +7,26 @@
 
 import SwiftUI
 
-struct DatePickerPopover: View {
+public struct DatePickerPopover: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var isPresented: Bool
     @Binding var dateSelection: Date
-    let title: String
-    let doneButtonLabel: String
+    private let title: String
+    private let doneButtonLabel: String
 
-    var body: some View {
+    public init(
+        title: String,
+        doneButtonLabel: String,
+        isPresented: Binding<Bool>,
+        dateSelection: Binding<Date>
+    ) {
+        self._isPresented = isPresented
+        self._dateSelection = dateSelection
+        self.title = title
+        self.doneButtonLabel = doneButtonLabel
+    }
+
+    public var body: some View {
         VStack {
             DatePicker(
                 title,
@@ -24,7 +36,6 @@ struct DatePickerPopover: View {
             .datePickerStyle(GraphicalDatePickerStyle())
             .labelsHidden()
             .frame(maxHeight: 400)
-
             Button(doneButtonLabel) {
                 isPresented = false
             }
@@ -36,10 +47,9 @@ struct DatePickerPopover: View {
 
 #Preview {
     DatePickerPopover(
-        isPresented: .constant(true),
-
-        dateSelection: .constant(Date()),
         title: "Title",
-        doneButtonLabel: "Done"
+        doneButtonLabel: "Done",
+        isPresented: .constant(true),
+        dateSelection: .constant(Date())
     )
 }
