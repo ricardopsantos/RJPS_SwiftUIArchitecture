@@ -33,11 +33,14 @@ final class FetchNationScreenTests: BaseUITests {
 
     func testA1_appStartsAndUpdatesNavigationBarTitle() {
         appLaunch(launchArguments: [
-            "shouldResetAllPreferences"
+            "shouldResetAllPreferences",
+            "isAuthenticated"
         ])
-
-        // Navigation bar text should update
-        waitFor(staticText: "USA Population: Last 10 years", on: app)
+        tap(
+            tabBarIndex: 1,
+            andWaitForStaticText: "USA Population: Last 10 years",
+            on: app
+        )
     }
 
     func testA2_appStartsAndDisplayRecords() {

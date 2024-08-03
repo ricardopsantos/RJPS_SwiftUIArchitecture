@@ -116,7 +116,7 @@ final class LoginAndSessionTests: BaseUITests {
             "isAuthenticated"
         ])
         tap(
-            tabBarIndex: 2,
+            tabBarIndex: 3,
             andWaitForStaticText: "Settings",
             on: app
         )
@@ -137,7 +137,7 @@ final class LoginAndSessionTests: BaseUITests {
             "isAuthenticated"
         ])
         tap(
-            tabBarIndex: 2,
+            tabBarIndex: 3,
             andWaitForStaticText: "Settings",
             on: app
         )

@@ -14,10 +14,11 @@ import Nimble
 import Domain
 import Core
 
-final class CoreServicesTests: XCTestCase {
+final class WeatherServiceTests: XCTestCase {
     var enabled: Bool = true
-    private var weatherService: WeatherServiceProtocol? = WeatherService.shared
-
+    
+    lazy var service: WeatherServiceProtocol = { DependenciesManager.Services.weatherService }()
+    
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
@@ -30,7 +31,7 @@ final class CoreServicesTests: XCTestCase {
 // MARK: - Tests
 //
 
-extension CoreServicesTests {
+extension WeatherServiceTests {
     // Test to verify that weather information can be fetched by coordinates
     func testA1_weatherService_getWeather() async {
         // Check if the test is enabled before proceeding
@@ -45,7 +46,7 @@ extension CoreServicesTests {
             let longitude = "-9.142685" // Longitude for the test location
 
             // Attempt to fetch weather data using the provided coordinates
-            loadedAny = try await weatherService?.getWeather(.init(
+            loadedAny = try await service.getWeather(.init(
                 latitude: latitude,
                 longitude: longitude
             ))

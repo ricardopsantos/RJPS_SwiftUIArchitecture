@@ -30,12 +30,17 @@ final class FetchStatesScreenTests: BaseUITests {
     }
 
     override func tearDownWithError() throws {}
-
+    
     func testA1_appStartsAndRouteToStates() {
         appLaunch(launchArguments: [
-            "shouldResetAllPreferences"
+            "shouldResetAllPreferences",
+            "isAuthenticated"
         ])
-        waitFor(staticText: "Year: 2022", on: app) // List loaded
+        tap(
+            tabBarIndex: 1,
+            andWaitForStaticText: "USA Population: Last 10 years",
+            on: app
+        )
         tap(staticText: "Year: 2022", on: app) // Tapped list item
         waitFor(staticText: "USA States Population for 2022", on: app) // Should appear the next screen navigation title
     }

@@ -33,7 +33,7 @@
 
 /* Begin PBXBuildFile section */
 		014828FBD853C47D25ED455E /* Model+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B6721583AC8699837F3B89 /* Model+User.swift */; };
-		01BFF4BAEA5774EDBF28E2D5 /* CoreServicesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD6262483A61088E0A1C6C1 /* CoreServicesTests.swift */; };
+		01BFF4BAEA5774EDBF28E2D5 /* WeatherServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD6262483A61088E0A1C6C1 /* WeatherServiceTests.swift */; };
 		01D8DD7CA82C9543F8483173 /* Future+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81F72613405A99648414EB8 /* Future+Extensions.swift */; };
 		01E0162A4034746356269AD5 /* E.FilterStrength.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957C961F03B3137C753C05C9 /* E.FilterStrength.swift */; };
 		021EAFD433FAEADACDE43E86 /* TinyConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F380013D4E281C262948053 /* TinyConstraints.swift */; };
@@ -344,6 +344,7 @@
 		D7508F482C5E91AB002ED443 /* FetchNationScreenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7508F462C5E91AB002ED443 /* FetchNationScreenTests.swift */; };
 		D7508F492C5E91AB002ED443 /* FetchStatesScreenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7508F472C5E91AB002ED443 /* FetchStatesScreenTests.swift */; };
 		D7508F4B2C5E92AD002ED443 /* PopulationNationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7508F4A2C5E92AD002ED443 /* PopulationNationViewModelTests.swift */; };
+		D7508F4E2C5E944C002ED443 /* DataUSAServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7508F4D2C5E944C002ED443 /* DataUSAServiceTests.swift */; };
 		D77A251F685328CA88F7231E /* UIView+AnimationsBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6344864F30EC39BE520CCB /* UIView+AnimationsBase.swift */; };
 		D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */; };
 		D7F33EE52C5CEED30029AE41 /* V.DefaultSegmentedPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F33EE42C5CEED30029AE41 /* V.DefaultSegmentedPickerView.swift */; };
@@ -747,7 +748,7 @@
 		5C2DAA9FE074D0DAC22AD57D /* E.HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = E.HttpMethod.swift; sourceTree = "<group>"; };
 		5C7EC094663F1DD3D03F5778 /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		5CF533AD4DA4360CFA2264C0 /* CustomSubscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSubscriber.swift; sourceTree = "<group>"; };
-		5DD6262483A61088E0A1C6C1 /* CoreServicesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreServicesTests.swift; sourceTree = "<group>"; };
+		5DD6262483A61088E0A1C6C1 /* WeatherServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherServiceTests.swift; sourceTree = "<group>"; };
 		5E4D76844B051C1557169374 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		5EDDEB817C898D0858EF84B1 /* Common_XXXRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common_XXXRepresentable.swift; sourceTree = "<group>"; };
 		5F380013D4E281C262948053 /* TinyConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinyConstraints.swift; sourceTree = "<group>"; };
@@ -931,6 +932,7 @@
 		D7508F462C5E91AB002ED443 /* FetchNationScreenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchNationScreenTests.swift; sourceTree = "<group>"; };
 		D7508F472C5E91AB002ED443 /* FetchStatesScreenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchStatesScreenTests.swift; sourceTree = "<group>"; };
 		D7508F4A2C5E92AD002ED443 /* PopulationNationViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopulationNationViewModelTests.swift; sourceTree = "<group>"; };
+		D7508F4D2C5E944C002ED443 /* DataUSAServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataUSAServiceTests.swift; sourceTree = "<group>"; };
 		D7F33EE42C5CEED30029AE41 /* V.DefaultSegmentedPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.DefaultSegmentedPickerView.swift; sourceTree = "<group>"; };
 		D9AE59B81096776D491A6ABE /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		DB898961FEA3638351E6407C /* SampleServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleServiceProtocol.swift; sourceTree = "<group>"; };
@@ -1279,7 +1281,7 @@
 			path = 5.MainTab;
 			sourceTree = "<group>";
 		};
-		2E7453BA071184F9C66F223D /* 1.Application.ViewModelds */ = {
+		2E7453BA071184F9C66F223D /* 1.Application.ViewModels */ = {
 			isa = PBXGroup;
 			children = (
 				0EADC8E4E1DD9C70733C882B /* ___Template___ViewModelTests.swift */,
@@ -1287,7 +1289,7 @@
 				A1903D76A899FE86D95A37F2 /* EditUserDetailsViewModelTests.swift */,
 				34B540FCA016EA7323275211 /* LoginViewModel.swift */,
 			);
-			path = 1.Application.ViewModelds;
+			path = 1.Application.ViewModels;
 			sourceTree = "<group>";
 		};
 		30BCE9D4E123265A6F0B7FE9 /* SwiftUI */ = {
@@ -1526,7 +1528,8 @@
 		6000FDD749759E14FBB0C2A4 /* 2.2.Core.Services */ = {
 			isa = PBXGroup;
 			children = (
-				5DD6262483A61088E0A1C6C1 /* CoreServicesTests.swift */,
+				D7508F4D2C5E944C002ED443 /* DataUSAServiceTests.swift */,
+				5DD6262483A61088E0A1C6C1 /* WeatherServiceTests.swift */,
 			);
 			path = 2.2.Core.Services;
 			sourceTree = "<group>";
@@ -2232,7 +2235,7 @@
 		D7508F4C2C5E92CC002ED443 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				2E7453BA071184F9C66F223D /* 1.Application.ViewModelds */,
+				2E7453BA071184F9C66F223D /* 1.Application.ViewModels */,
 				6000FDD749759E14FBB0C2A4 /* 2.2.Core.Services */,
 				5D874871E88AF6B09153293A /* 2.1.Core.Repositories */,
 			);
@@ -2820,7 +2823,8 @@
 				32670D6647625D860C5CC907 /* BaseViewModelsTests.swift in Sources */,
 				0CB1E4E94F374F5533AB0054 /* CoreRepositoriesTests.swift in Sources */,
 				D7508F4B2C5E92AD002ED443 /* PopulationNationViewModelTests.swift in Sources */,
-				01BFF4BAEA5774EDBF28E2D5 /* CoreServicesTests.swift in Sources */,
+				D7508F4E2C5E944C002ED443 /* DataUSAServiceTests.swift in Sources */,
+				01BFF4BAEA5774EDBF28E2D5 /* WeatherServiceTests.swift in Sources */,
 				910CA349A14F46D16BD3A16E /* EditUserDetailsViewModelTests.swift in Sources */,
 				E8A0DACEA16CE8D8266D7F1C /* LoginViewModel.swift in Sources */,
 				9D1C67E33FBC7EE0A612D563 /* ___Template___ViewModelTests.swift in Sources */,
