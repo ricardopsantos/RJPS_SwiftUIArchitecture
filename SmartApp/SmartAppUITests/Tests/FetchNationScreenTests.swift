@@ -35,7 +35,9 @@ final class FetchNationScreenTests: BaseUITests {
         appLaunch(launchArguments: [
             "shouldResetAllPreferences"
         ])
-        waitFor(staticText: "USA Population: Last 10 years", on: app) // Navigation bar text should update
+
+        // Navigation bar text should update
+        waitFor(staticText: "USA Population: Last 10 years", on: app)
     }
 
     func testA2_appStartsAndDisplayRecords() {

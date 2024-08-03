@@ -13,7 +13,7 @@ import Domain
 @MainActor
 public class BaseViewModel: ObservableObject {
     @Published var alertModel: Model.AlertModel?
-    @Published var loadingModel: Model.LoadingModel?    
+    @Published var loadingModel: Model.LoadingModel?
     func handle(error: Error, sender: String) {
         ErrorsManager.handleError(message: sender, error: error)
         if let appError = error as? AppErrors, !appError.localizedForUser.isEmpty {
@@ -24,4 +24,3 @@ public class BaseViewModel: ObservableObject {
         loadingModel = .notLoading
     }
 }
-

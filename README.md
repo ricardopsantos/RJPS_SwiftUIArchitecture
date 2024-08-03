@@ -1,169 +1,194 @@
-# SmartApp
+# Index
 
-<p align="center">
-   <img src="https://img.shields.io/badge/status-active-brightgreen">
-<img src="https://img.shields.io/badge/Swift-5.10-orange.svg?style=flat">
+* __Arquitecture Features__
+	* Clean Arquitecture Principles 
+	* Swift Package Manager
+	* SwiftLint and SwiftFormat
+* __UI/UX Features__
+	* Ligth / Dark mode suport 
+	* Localizables
+	* Pull down to refresh
+	* Loading Screens
+	* Alerts (for Success, Warnings and Errors)
+* __Design Language Features__
+	* Custom Colors (for Ligth/Dark mode) 
+	* Custom Fonts 
+	* Custom Designables 
+* __Performance Features__
+	* Services Caching  
+* __Debug Features__
+	* Logs	 
+	* Analitics
+	* Errors handling
+* __Testing Features__
+	* UITesting 	
+	* Unit Testing (ViewModels & Services)
 
-<img src="https://img.shields.io/badge/Xcode-15.4-blue.svg">
-   <a href="https://twitter.com/ricardo_psantos/">
-      <img src="https://img.shields.io/badge/Twitter-@ricardo_psantos-blue.svg?style=flat" alt="Twitter">
-   </a>
-</p>
-
-## About 
-
-_SmartApp_ is a modern _iOS_ application built with _SwiftUI_ using _MVVM_ and _Domain-Driven Design_. This design approach ensures that the structure and language of the software code (class names, methods, variables) match the business domain. More info at [DDD](https://en.wikipedia.org/wiki/Domain-driven_design).
-
-<center>
-<img src=SmartApp/_Documents/graphviz.png width=250/>
-</center>
-
-__The project was mainly designed to demonstrate the integration of various frameworks and tools for robust app development using SwiftUI__ and features a well-organized structure with support for _Unit Testing_, _UI Testing_, and multiple configurations.
-
-<center>
-<img src=SmartApp/_Documents/images/Xcode.png width=800/>
-</center>
-
-Also, was inspired by [iOSKickstart: Create iOS App Boilerplate in Just 20 Seconds](https://medium.com/shuru-tech/ioskickstart-create-ios-app-boilerplate-in-just-20-seconds-b793ed911705) and the navigation was inspired by [Modular Navigation in SwiftUI: A Comprehensive Guide](https://medium.com/gitconnected/modular-navigation-in-swiftui-a-comprehensive-guide-5eeb8a511583).
-
-
-## Install 
-
-No need to install anything, as all app dependencies are managed via [Swift Package Manager](https://www.swift.org/documentation/package-manager/).
-
-However, the project can be fully rebuilt with `./makefile.sh` (for a total cleanup and conflict fixing) using [XcodeGen](https://github.com/yonaskolb/XcodeGen). If you are not familiar with XcodeGen, please check [Avoiding merge conflicts with XcodeGen](https://medium.com/@ricardojpsantos/avoiding-merge-conflicts-with-xcodegen-a0e2a1647bcb).
-
-The scripts can be found at [`SmartApp/XcodeGen`](https://github.com/ricardopsantos/RJPS_SwiftUIArchitecture/tree/main/SmartApp/Xcodegen).
+## Arquitecture Features 
 
 <center>
-<img src=SmartApp/_Documents/install.png width=500/>
+<img src=SmartApp/_Documents/images/features/clean.png width=300/>
 </center>
 
+### Clean Arquitecture Principles
 
+Our app is built using _Clean Architecture_ principles and separation of concerns, ensuring a maintainable and scalable codebase. It leverages dependency injection and interfaces for easy testing and seamless implementation changes.
 
-## Project Structure (Targets)
+#### Architecture Overview
 
-The project is organized into several key directories/targets, each serving a specific purpose: __SmartApp__, __Domain__, __Core__, __Common__, __DesignSystem__, __DevTools__, __SmartAppUnitTests__, __SmartAppUITests__ 
+* __Domain:__ Defines the app's _Models_ and _Interfaces_.
+
+* __Core:__ Implements the business logic, such as caching and API requests, defined in the _Domain_.
+
+* __SmartApp:__ The main application containing _Views_, _ViewModels_, _Managers_ (e.g., Analytics), _Assets_, and handling the app's life cycle.
+
+* __DesignSystem:__ Houses definitions for the app's Fonts, Colors, and Designables (reusable UI components).
+
+#### Additional Modules
+
+There are 2 other modules not displayed for simplicity. 
+
+* __Common:__ A utility toolbox containing helper extensions, property wrappers, and other utilities. It has its own unit tests and can be used in any project as it has no dependencies.
+ 
+* __DevTools:__ Manages app logs, with dependencies across all other modules to facilitate logging.
+
+This modular structure ensures each component is focused on a specific responsibility, promoting clean, efficient, and easily testable code.
+
+### Swift Package Manager
+
+As dependencies manager, the app uses SPM allready integrated with _Xcode_ for a seamless experience.
+
+<center>
+<img src=SmartApp/_Documents/images/features/spm.png width=800/>
+</center>
+
+### SwiftLint and SwiftFormat
+
+<center>
+<img src=SmartApp/_Documents/images/features/lint.png width=400/>
+</center>
+
+## UI/UX Features 
+
+### Ligth / Dark mode suport
 
 <center>
 <table>
 <tr>
 <td>
-<img src=SmartApp/_Documents/images/project_struct/Application.png width=200/>
+<img src=SmartApp/_Documents/images/features/ligthMode.png width=200/>
 </td>
 <td>
-<center>
-<img src=SmartApp/_Documents/images/project_struct/Core.png width=200/>
-</center>
-</td>
-<td>
-<img src=SmartApp/_Documents/images/project_struct/Domain.png width=200/>
-</td>
-</tr>
-<tr>
-<td>
-<img src=SmartApp/_Documents/images/project_struct/DevTools.png width=200/>
-</td>
-<td>
-<center>
-<img src=SmartApp/_Documents/images/project_struct/SmartAppUnitTests.png width=200/>
-<img src=SmartApp/_Documents/images/project_struct/SmartAppUITests.png width=200/>
-</center>
-</td>
-<td>
-<img src=SmartApp/_Documents/images/project_struct/DesignSystem.png width=200/>
-</td>
-</tr>
+<img src=SmartApp/_Documents/images/features/darkMode.png width=200/>
 </table>
 </center>
 
-### Application Target
+### Localizables 
+ 
+Portuguese and English are for now the available app languages. 
+ 
+<img src=SmartApp/_Documents/images/features/localizables.png width=800/>
 
-It's the main application target. Contains the `Views` (scenes), `ViewModels` (glue betweeen _Views_ and Logic), `Coordinators` (routing logic). 
+### Pull down to refresh
 
-### Domain Target
+The user can force a screen to refresh by "Pull donw to refresh"
 
-This target encapsulates the interface functionality of the application. Providing the _Models_ and _Protocols_ it define what the app can do and the data structures to do it.
+<center>
+<img src=SmartApp/_Documents/images/features/pullDonwRefresh.png width=200/>
+</center>
 
-- __Repositories__: Local data storage protocols.
-- __Services__: Bigde betweens _ViewModels_ and _Network_ and where we can have more logic associated (eg. caching)
+### Loading Screens
 
-### Core Target
+While the user is waiting for data to be loaded, theres a loader for UX reasons.
 
-This target implements the _Domain_ functionalities, providing essential components such as:
+<table>
+<tr>
+<td>
+<center>
+<img src=SmartApp/_Documents/images/features/loading2.png width=200/>
+<center>
+</td>
+<tr>
+<td>
+<img src=SmartApp/_Documents/images/features/loading1.png width=800/>
+</td>
+</tr>
+</table>
 
-- __Network__: Remote communication implementations.
-- __Repositories__: Local data storage implementations.
-- __Services__: Bigde betweens _ViewModels_ and _Network_ and where we can have more logic associated (eg. caching)
+### Alerts (for Success, Warnings and Errors)
 
-Notably, `Services`, `Repositories` and `Network` are defined and implemented via _protocols_. The actual implementation is determined in the main app target, which is crucial for testing and ensuring scalable, maintainable code.
+<table>
+<tr>
+<td>
+<center>
+<img src=SmartApp/_Documents/images/features/error2.png width=200/>
+</center>
+</td>
+<tr>
+<td>
+<img src=SmartApp/_Documents/images/features/error1.png width=800/>
+</td>
+</tr>
+</table>
 
-### Common Target
+## Design Language Features 
 
-A shared framework that includes extensions and utility functions used across multiple targets, promoting code reuse and modularity. Should not depend on any target, and should seamless work on any project. 
+### Custom Colors (for Ligth/Dark mode)
 
-### DesignSystem Target
+<img src=SmartApp/_Documents/images/features/colors.png width=800/>
 
-This target houses design-related components, ensuring a consistent and reusable visual style throughout the application. Also houses the applications _Colors_ and _Fonts_
+### Custom Fonts 
 
-### DevTools Target
+<img src=SmartApp/_Documents/images/features/fonts.png width=800/>
 
-Includes various development tools and utilities such as logging, facilitating smoother development and debugging processes.
+### Custom Designables 
 
-### SmartAppUnitTests Target
+<img src=SmartApp/_Documents/images/features/designables.png width=800/>
 
-Contains unit tests for the SmartApp, ensuring that individual components function correctly.
+## Performance Features
 
-### SmartAppUITests Target
+### Services Caching 
 
-Contains UI tests for the SmartApp, validating the user interface and user interactions to ensure a seamless user experience.
+By defaults, the _ViewModels_ will prefer to use the cached value (for performance), unless the user chooses to "Pull down to refresh"
 
-## Tests 
+<img src=SmartApp/_Documents/images/features/caching.png width=800/>
 
-The app include Unit Tests and UITests. 
+## Debug Features
 
-<img src=SmartApp/_Documents/images/tests/tests.png width=800/>
+### Logs
 
-### Testing Target: SmartApp
+The app have logs by _type_ (_debug_, _warning_ and _error_) and by _tag_ (_view_, _bussiness_ and app _life cicle_)
 
-<img src=SmartApp/_Documents/images/tests/test_viewmodels.png width=800/>
+<img src=SmartApp/_Documents/images/features/logs.png width=800/>
 
-### Testing Target: Core - Repositories
+### Analitics
 
-<img src=SmartApp/_Documents/images/tests/test_reps.png width=800/>
+Analitics to know the user flow while using the app (screens visited and touchs)
 
-### Testing Target: Core - Services
+<img src=SmartApp/_Documents/images/features/analitics.png width=800/>
 
-<img src=SmartApp/_Documents/images/tests/test_services.png width=800/>
+### Errors handling
 
-### Testing Target: Common
+<img src=SmartApp/_Documents/images/features/errorsManager.png width=800/>
 
-`Common` is a package by it self, and also includes tests. 
+## Testing Features 
 
-<img src=SmartApp/_Documents/images/tests/common.png width=800/>
+The app includes both UI Tests and Unit Tests
 
-## Project Structure (File Groups)
+<img src=SmartApp/_Documents/images/features/testing.png width=800/>
 
-### File Groups
-  - **Documents**: Includes document-related files.
-  - **Configuration**: Contains configuration files for different environments.
-  - **XcodeGen**: YAML files for configuring the Xcode project.
+### UITesting
 
-### Configuration
+The app includes UI Tests for views and routing logic
 
-The project supports multiple configurations including `Production`, `QA`, and `Dev`, with specific settings for `Debug` and `Release` builds. Configuration files are located in the `Configuration` directory and are referenced in the Xcode project settings.
+<img src=SmartApp/_Documents/images/features/uiTesting1.png width=800/>
+    
+### Unit Testing (ViewModels & Services)
 
-### Build Scripts
+The app _ViewModels_ are built on a way that can be tested.
 
-- __SwiftLint__: Enforces Swift style and conventions.
-- __SwiftFormat__: Automatically formats Swift code according to style guidelines.
+<img src=SmartApp/_Documents/images/features/unitTesting1.png width=800/>
 
+The app _Services_ are built on a way that can be tested.
 
-## Project (external) Dependencies
-
-Our philosophy emphasizes avoiding the addition of large dependencies for simple tasks (e.g., using Alamofire for a basic REST GET method). Instead, we carefully selected only three essential dependencies to handle complex or time-consuming (to implement) tasks:
-
-* __Firebase__: Integrated for various backend services, including authentication, real-time database, messaging, and analytics.
-* __Nimble__: A matcher framework that enables writing expressive and readable tests.
-* __Reachability__: A library used to monitor network reachability and handle network state changes effectively.
-
+<img src=SmartApp/_Documents/images/features/unitTesting2.png width=800/>

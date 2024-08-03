@@ -1,11 +1,9 @@
-/* 
+/*
   Localizable.strings
   SmartApp
 
   Created by Ricardo Santos on 15/04/2024.
-
- */
-
+*/
 "PopulationNationViewTitle" = "USA Population";
 "PopulationNationViewTitleWithRecords" = "USA Population: Last %d years";
 "PopulationStateView" = "USA States Population";

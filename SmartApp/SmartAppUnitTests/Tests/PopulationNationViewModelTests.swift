@@ -57,7 +57,7 @@ extension PopulationNationViewModelTests {
         XCTAssert(viewModel.title == "PopulationNationViewTitle".localized)
 
         // Fetch records
-        viewModel.send(action: .getPopulationData)
+        viewModel.send(action: .getPopulationData(cachePolicy: .load))
 
         // Record fetch delay
         let expectation = XCTestExpectation(description: "Request time")

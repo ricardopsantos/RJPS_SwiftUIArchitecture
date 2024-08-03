@@ -123,7 +123,6 @@ fileprivate extension PopulationNationView {
                 )
             }
         }
-
     }
 }
 

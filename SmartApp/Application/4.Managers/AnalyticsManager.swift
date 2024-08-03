@@ -87,7 +87,14 @@ class AnalyticsManager {
         DevTools.assert(!sender.isEmpty, message: "Empty sender")
         var newProperties = properties
         newProperties["sender"] = sender
-        let baseEvent = BaseEvent(eventType: EventType.buttonClick(type: buttonType, label: label), eventProperties: properties)
+        let baseEvent = BaseEvent(
+            eventType: EventType.buttonClick(
+                type: buttonType,
+
+                label: label
+            ),
+            eventProperties: properties
+        )
         handle(baseEvent: baseEvent)
     }
 }

@@ -24,14 +24,16 @@ extension DataUSAService: DataUSAServiceProtocol {
 
         cachePolicy: DataUSAServiceCachePolicy
     ) async throws -> ModelDto.PopulationStateDataResponse {
-        guard Common_Utils.existsInternetConnection else {
-            throw AppErrors.noInternet
-        }
         let cacheKey = "\(#function)_\(request.hashValue)"
         if let cached = populationCache.value(forKey: cacheKey), cachePolicy == .cacheElseLoad {
             DevTools.Log.debug(.log("Returned cache for \(#function)"), .business)
             return cached
         }
+
+        guard Common_Utils.existsInternetConnection else {
+            throw AppErrors.noInternet
+        }
+
         let result = try await NetworkManager.shared.request(
             .getPopulationStateData(request),
             type: ModelDto.PopulationStateDataResponse.self
