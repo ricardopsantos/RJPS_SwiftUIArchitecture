@@ -35,15 +35,13 @@ extension LoginViewModel {
     }
 
     struct Dependencies {
-        let model: SettingsModel
+        let model: LoginModel
         let authenticationViewModel: AuthenticationViewModel
     }
 }
 
-@MainActor
-class LoginViewModel: ObservableObject {
+class LoginViewModel: BaseViewModel {
     // MARK: - Usage Attributes
-    @Published var alertModel: Model.AlertModel?
     @Published var errorMessage: String = ""
     @Published var password: String = ""
     @Published var email: String = ""
@@ -55,6 +53,7 @@ class LoginViewModel: ObservableObject {
     public let formEvalDebounce: Double = 0.8
     public init(dependencies: Dependencies) {
         self.authenticationViewModel = dependencies.authenticationViewModel
+        super.init()
         isEmailValid
             .dropFirst()
             .receive(on: RunLoop.main)

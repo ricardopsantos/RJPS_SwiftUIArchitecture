@@ -37,11 +37,9 @@ extension MainTabViewModel {
     }
 }
 
-@MainActor
-class MainTabViewModel: ObservableObject {
+class MainTabViewModel: BaseViewModel {
     // MARK: - Usage Attributes
     @Published var selectedTab: Tab = .tab1
-    @Published var alertModel: Model.AlertModel?
 
     // MARK: - Auxiliar Attributes
     private let sampleService: SampleServiceProtocol?

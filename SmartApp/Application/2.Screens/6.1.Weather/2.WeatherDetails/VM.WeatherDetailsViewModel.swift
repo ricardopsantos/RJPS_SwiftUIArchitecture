@@ -44,17 +44,15 @@ extension WeatherDetailsViewModel {
 //
 // MARK: - View
 //
-@MainActor
-class WeatherDetailsViewModel: ObservableObject {
+class WeatherDetailsViewModel: BaseViewModel {
     // MARK: - View Usage Attributes
-    @Published var alertModel: Model.AlertModel?
-    @Published var model: WeatherDetailsModel
-
+    let model: WeatherDetailsModel
     // MARK: - Auxiliar Attributes
     private let weatherService: WeatherServiceProtocol?
     public init(dependencies: Dependencies) {
         self.weatherService = dependencies.weatherService
         self.model = dependencies.model
+        super.init()
     }
 
     func send(action: Actions) {

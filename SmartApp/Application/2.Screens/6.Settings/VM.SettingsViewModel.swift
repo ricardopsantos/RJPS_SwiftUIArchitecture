@@ -45,10 +45,8 @@ extension SettingsViewModel {
     }
 }
 
-@MainActor
-class SettingsViewModel: ObservableObject {
+class SettingsViewModel: BaseViewModel {
     // MARK: - View Usage Attributes
-    @Published private(set) var alertModel: Model.AlertModel?
     @Published private(set) var userName: String = ""
     @Published private(set) var userEmail: String = ""
     @Published private(set) var gender: String = ""
@@ -73,6 +71,7 @@ class SettingsViewModel: ObservableObject {
         self.authenticationViewModel = dependencies.authenticationViewModel
         self.nonSecureAppPreferences = dependencies.nonSecureAppPreferences
         self.userRepository = dependencies.userRepository
+        super.init()
         dependencies.userRepository.output([])
             .sink { [weak self] state in
                 switch state {

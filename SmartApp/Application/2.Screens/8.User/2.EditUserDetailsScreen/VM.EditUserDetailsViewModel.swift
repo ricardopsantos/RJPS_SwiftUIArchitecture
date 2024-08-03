@@ -61,10 +61,8 @@ public class EditUserDetailsViewModel2 {
     }
 }
 
-@MainActor
-public class EditUserDetailsViewModel: ObservableObject {
+public class EditUserDetailsViewModel: BaseViewModel {
     // MARK: - View Usage Attributes
-    @Published var alertModel: Model.AlertModel?
     @Published var name: String = ""
     @Published var email: String = ""
     @Published var selectedGender: Gender = .male

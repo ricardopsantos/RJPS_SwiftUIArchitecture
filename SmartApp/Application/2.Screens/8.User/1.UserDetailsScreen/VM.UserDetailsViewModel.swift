@@ -46,10 +46,8 @@ extension UserDetailsViewModel {
     }
 }
 
-@MainActor
-class UserDetailsViewModel: ObservableObject {
+class UserDetailsViewModel: BaseViewModel {
     // MARK: - View Usage Attributes
-    @Published var alertModel: Model.AlertModel?
 
     // MARK: - Auxiliar Attributes
     private let userRepository: UserRepositoryProtocol?
