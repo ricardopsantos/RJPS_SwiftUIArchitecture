@@ -153,6 +153,47 @@ By defaults, the _ViewModels_ will prefer to use the cached value (for performan
 
 <img src=SmartApp/_Documents/images/features/caching.png width=800/>
 
+__IMPORTANT__: This is a very simple cache approach. Ussually I do it this way [Enhancing mobile app user experience through efficient caching in Swift](https://ricardojpsantos.medium.com/enhancing-mobile-app-user-experience-through-efficient-caching-in-swift-c970554eab84) or 
+
+or on the `URLSession`
+
+```
+public extension URLSession {
+    static var defaultForNetworkAgent: URLSession {
+        defaultWithConfig(
+            waitsForConnectivity: false,
+            timeoutIntervalForResource: defaultTimeoutIntervalForResource,
+            cacheEnabled: false
+        )
+    }
+
+    static var defaultTimeoutIntervalForResource: TimeInterval { 60 }
+
+    static func defaultWithConfig(
+        waitsForConnectivity: Bool,
+        timeoutIntervalForResource: TimeInterval = defaultTimeoutIntervalForResource,
+        cacheEnabled: Bool = true
+    ) -> URLSession {
+        let config = URLSessionConfiguration.default
+        config.waitsForConnectivity = waitsForConnectivity
+        if cacheEnabled {
+            config.timeoutIntervalForResource = timeoutIntervalForResource
+            let cache = URLCache(
+                memoryCapacity: 20 * 1024 * 1024,
+                diskCapacity: 100 * 1024 * 1024,
+                diskPath: "URLSession.defaultWithConfig"
+            )
+            config.urlCache = cache
+            config.requestCachePolicy = .returnCacheDataElseLoad
+        } else {
+            config.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+        }
+
+        return URLSession(configuration: config)
+    }
+}
+```
+
 ## Debug Features
 
 ### Logs
