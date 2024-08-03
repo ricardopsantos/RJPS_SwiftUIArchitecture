@@ -18,8 +18,8 @@ public extension View {
                     Button {
                         action()
                     } label: {
-                        Image("back")
-                            .tint(.white)
+                        Image(systemName: "arrow.backward")
+                            .tint(.secondary)
                     }
                 }
             }

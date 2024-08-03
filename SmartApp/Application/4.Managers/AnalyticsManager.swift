@@ -35,13 +35,13 @@ extension AnalyticsManager {
 
         var rawValue: String {
             switch self {
-            case .buttonClick(type: let type, label: let label): 
+            case .buttonClick(type: let type, label: let label):
                 return "buttonClick_\(type)_\(label)"
-            case .listItemTap(label: let label): 
+            case .listItemTap(label: let label):
                 return "listItemTap_\(label)"
             case .appLifeCycleEvent(label: let label):
                 return "appLifeCycleEvent_\(label)"
-            default: 
+            default:
                 return "\(self)"
             }
         }
@@ -70,7 +70,7 @@ class AnalyticsManager {
         let baseEvent = BaseEvent(eventType: eventType, eventProperties: properties)
         handle(baseEvent: baseEvent)
     }
-    
+
     func handleAppLifeCycleEvent(
         label: String,
         sender: String,

@@ -16,9 +16,9 @@ import Core
 
 final class WeatherServiceTests: XCTestCase {
     var enabled: Bool = true
-    
+
     lazy var service: WeatherServiceProtocol = { DependenciesManager.Services.weatherService }()
-    
+
     override func setUp() {
         super.setUp()
         continueAfterFailure = false

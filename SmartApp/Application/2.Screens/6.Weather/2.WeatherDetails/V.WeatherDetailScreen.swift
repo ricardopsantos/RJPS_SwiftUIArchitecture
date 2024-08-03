@@ -70,13 +70,12 @@ struct WeatherDetailsView: View, ViewProtocol {
             let _ = Self._printChanges()
             // swiftlint:enable redundant_discardable_let
         }
-        BaseView.with(
+        BaseView.withLoading(
             sender: "\(Self.self)",
             appScreen: .weatherDetailsWith(model: .init(weatherResponse: .mockLisbon14March2023!)),
-            navigationViewEmbed: false,
-            scrollViewEmbed: false,
-            ignoresSafeArea: false,
-            background: .gradient,
+            navigationViewModel: .disabled,
+            background: .default,
+            loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel
         ) {
             content

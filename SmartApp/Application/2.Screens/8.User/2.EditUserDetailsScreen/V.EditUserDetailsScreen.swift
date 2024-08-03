@@ -71,13 +71,12 @@ struct EditUserDetailsView: View {
 
     // MARK: - Body & View
     var body: some View {
-        BaseView.with(
+        BaseView.withLoading(
             sender: "\(Self.self)",
             appScreen: .editUserDetails,
-            navigationViewEmbed: false,
-            scrollViewEmbed: false,
-            ignoresSafeArea: true,
-            background: .gradient,
+            navigationViewModel: .disabled,
+            background: .default,
+            loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel
         ) {
             content
@@ -156,7 +155,8 @@ struct EditUserDetailsView: View {
                         AnalyticsManager.shared.handleCustomEvent(
                             eventType: .updateUser,
                             properties: userProperties,
-                            sender: "\(Self.self)")
+                            sender: "\(Self.self)"
+                        )
                         AnalyticsManager.shared.handleButtonClickEvent(
                             buttonType:
                             .primary,

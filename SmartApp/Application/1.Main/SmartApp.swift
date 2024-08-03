@@ -17,7 +17,7 @@ struct SmartApp: App {
         let config: ConfigurationViewModel = .init(
             userService: DependenciesManager.Services.userService,
             weatherService: DependenciesManager.Services.weatherService,
-            sampleService: DependenciesManager.Services.sampleService, 
+            sampleService: DependenciesManager.Services.sampleService,
             dataUSAService: DependenciesManager.Services.dataUSAService,
             userRepository: DependenciesManager.Repository.userRepository,
             nonSecureAppPreferences: DependenciesManager.Repository.nonSecureAppPreferences,

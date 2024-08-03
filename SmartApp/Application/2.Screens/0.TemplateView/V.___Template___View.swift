@@ -72,14 +72,13 @@ struct ___Template___View: View, ViewProtocol {
 
     // MARK: - Body & View
     var body: some View {
-        BaseView.with(
+        BaseView.withLoading(
             sender: "\(Self.self)",
             appScreen: .template,
-            navigationViewEmbed: false,
-            scrollViewEmbed: false,
+            navigationViewModel: .disabled,
             ignoresSafeArea: true,
-            background: .gradient,
-            displayRenderedView: true,
+            background: .default,
+            loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel) {
                 content
             }.onAppear {
@@ -105,6 +104,10 @@ struct ___Template___View: View, ViewProtocol {
             })
             Divider()
             ___Template___AuxiliarAuthView()
+            Divider()
+            Button("Display error") {
+                viewModel.send(.displayRandomError)
+            }
             Divider()
             routingView
         }

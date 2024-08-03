@@ -21,9 +21,10 @@ public struct CountryPickerView: View {
     }
 
     public var body: some View {
-        DefaultPickerView(title: "Country",
-                          options: AppConstants.countriesOptions,
-                          selectedOption: $selected)
+        DefaultPickerView(
+            title: "Country",
+            options: AppConstants.countriesOptions,
+            selectedOption: $selected)
     }
 }
 

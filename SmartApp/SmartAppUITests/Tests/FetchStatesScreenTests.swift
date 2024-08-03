@@ -30,7 +30,7 @@ final class FetchStatesScreenTests: BaseUITests {
     }
 
     override func tearDownWithError() throws {}
-    
+
     func testA1_appStartsAndRouteToStates() {
         appLaunch(launchArguments: [
             "shouldResetAllPreferences",

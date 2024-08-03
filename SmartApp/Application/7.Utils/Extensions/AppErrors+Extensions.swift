@@ -26,11 +26,12 @@ public extension AppErrors {
         case .network: defaultMessage
         case .parsing: defaultMessage
         case .finishWithStatusCodeAndJSONData: defaultMessage
-            
+
         // Bussines
         case .userIsNotAuthenticated: defaultMessage
         case .tokenStoringFailed: defaultMessage
         }
     }
 }
+
 // swiftlint:enable switch_case_alignment

@@ -51,12 +51,10 @@ extension ___Template___ViewModel {
 //
 // MARK: - ViewModel
 //
-@MainActor
-class ___Template___ViewModel: ObservableObject {
+class ___Template___ViewModel: BaseViewModel {
     // MARK: - Usage Attributes
     @Published private(set) var message: String = ""
     @Published var counter: Int = 0
-    @Published private(set) var alertModel: Model.AlertModel?
 
     // MARK: - Auxiliar Attributes
     private let sampleService: SampleServiceProtocol?

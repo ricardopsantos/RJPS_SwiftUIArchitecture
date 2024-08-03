@@ -71,13 +71,12 @@ struct SettingsScreen: View, ViewProtocol {
 
     // MARK: - Body & View
     var body: some View {
-        BaseView.with(
+        BaseView.withLoading(
             sender: "\(Self.self)",
             appScreen: .settings,
-            navigationViewEmbed: false,
-            scrollViewEmbed: false,
-            ignoresSafeArea: false,
-            background: .gradient,
+            navigationViewModel: .disabled,
+            background: .default,
+            loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel
         ) {
             content

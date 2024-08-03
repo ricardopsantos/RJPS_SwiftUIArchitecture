@@ -14,9 +14,9 @@ import DevTools
 public class DataUSAService {
     private init() {}
     public static let shared = DataUSAService()
-    
+
     /**
-     __IMPORTANT__: This is a very simple cache approach. Usually I do it this way [Enhancing mobile app user experience through efficient caching in Swift](https://ricardojpsantos.medium.com/enhancing-mobile-app-user-experience-through-efficient-caching-in-swift-c970554eab84) or 
+     __IMPORTANT__: This is a very simple cache approach. Usually I do it this way [Enhancing mobile app user experience through efficient caching in Swift](https://ricardojpsantos.medium.com/enhancing-mobile-app-user-experience-through-efficient-caching-in-swift-c970554eab84) or
      */
     private let populationCache = CacheManager<String, ModelDto.PopulationStateDataResponse>()
     private let nationCache = CacheManager<String, ModelDto.PopulationNationDataResponse>()
