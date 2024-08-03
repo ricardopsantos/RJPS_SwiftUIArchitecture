@@ -26,7 +26,7 @@ enum BaseView {
         ignoresSafeArea: Bool,
         dismissKeyboardOnTap: Bool = true,
         background: BackgroundView.Background,
-        displayRenderedView: Bool = true,
+        displayRenderedView: Bool = DevTools.onSimulator,
         alertModel: Model.AlertModel? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
@@ -73,14 +73,10 @@ enum BaseView {
         })
         .onAppear {
             DevTools.Log.debug(DevTools.Log.LogTemplate.screenIn(sender), .view)
-            BackgroundServicesManager.shared.handleEvent(
-                .viewLifeCycle(.viewDidAppear(appScreen: appScreen)), nil
-            )
+            AnalyticsManager.shared.handleScreenIn(appScreen: appScreen)
+
         }.onDisappear {
             DevTools.Log.debug(DevTools.Log.LogTemplate.screenOut(sender), .view)
-            BackgroundServicesManager.shared.handleEvent(
-                .viewLifeCycle(.viewDidDisappear(appScreen: appScreen)), nil
-            )
         }
     }
 
@@ -165,11 +161,6 @@ extension BaseView {
 
         let extraH: CGFloat = SizeNames.defaultMargin * 3
         public var body: some View {
-            if Common_Utils.true {
-                // swiftlint:disable redundant_discardable_let
-                let _ = Self._printChanges()
-                // swiftlint:enable redundant_discardable_let
-            }
             Group {
                 if model != nil {
                     ZStack {
@@ -198,10 +189,6 @@ extension BaseView {
             }
             opacity = 0
             model = nil
-            // if !dismissed {
-            //     /// https://www.swiftbysundell.com/articles/dismissing-swiftui-modal-and-detail-views/
-            //    presentation.wrappedValue.dismiss()
-            // }
             dismissed = true
         }
 
@@ -212,7 +199,9 @@ extension BaseView {
                         SwiftUIUtils.FixedVerticalSpacer(height: extraH)
                         Text(model.message)
                             .fontSemantic(.bodyBold)
-                            .lineLimit(0)
+                            .lineLimit(nil) // Unlimited lines
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true) // Prevents truncation
                             .padding()
                             .doIf(model.type == .success, transform: {
                                 $0.background(ColorSemantic.allCool.color)
@@ -294,8 +283,9 @@ extension BaseView {
         ignoresSafeArea: true,
         background: .gradient,
         loadingModel: .notLoading,
-//        loadingModel: .loading(message: "Loading".localizedMissing, id: UUID().uuidString),
-        alertModel: .noInternet,
+        //   loadingModel: .loading(message: "Loading".localizedMissing, id: UUID().uuidString),
+        //  alertModel: .noInternet,
+        alertModel: nil,
         content: {
             Text("Content")
         }

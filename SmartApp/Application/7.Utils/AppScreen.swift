@@ -1,5 +1,5 @@
 //
-//  RootView.swift
+//  AppScreen.swift
 //  SmartApp
 //
 //  Created by Ricardo Santos on 15/04/2024.
@@ -23,6 +23,8 @@ enum AppScreen: Hashable, Identifiable {
     case userDetails
     case editUserDetails
     case termsAndConditions
+    case populationNation
+    case populationStates(year: String, model: [PopulationStateModel])
     // case mainApp
     var id: String {
         String(describing: self)

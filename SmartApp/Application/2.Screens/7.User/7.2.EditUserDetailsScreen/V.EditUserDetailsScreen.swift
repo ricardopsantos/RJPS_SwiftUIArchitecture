@@ -153,7 +153,10 @@ struct EditUserDetailsView: View {
                             "gender": viewModel.selectedGender,
                             "country": viewModel.selectedCountry
                         ] as [String: Any]
-                        AnalyticsManager.shared.handleCustomEvent(eventType: .updateUser, properties: userProperties)
+                        AnalyticsManager.shared.handleCustomEvent(
+                            eventType: .updateUser,
+                            properties: userProperties,
+                            sender: "\(Self.self)")
                         AnalyticsManager.shared.handleButtonClickEvent(
                             buttonType:
                             .primary,

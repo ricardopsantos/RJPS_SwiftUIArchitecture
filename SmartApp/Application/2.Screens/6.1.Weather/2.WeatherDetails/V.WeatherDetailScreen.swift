@@ -65,7 +65,7 @@ struct WeatherDetailsView: View, ViewProtocol {
 
     // MARK: - Body & View
     var body: some View {
-        if Common_Utils.true {
+        if Common_Utils.onSimulator {
             // swiftlint:disable redundant_discardable_let
             let _ = Self._printChanges()
             // swiftlint:enable redundant_discardable_let

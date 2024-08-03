@@ -50,7 +50,7 @@ struct MainTabView: View, ViewProtocol {
     }
 
     var body: some View {
-        if Common_Utils.true {
+        if Common_Utils.onSimulator {
             // swiftlint:disable redundant_discardable_let
             let _ = Self._printChanges()
             // swiftlint:enable redundant_discardable_let
@@ -63,12 +63,15 @@ struct MainTabView: View, ViewProtocol {
             WeatherViewCoordinator()
                 .tabItem { TabItemView(title: "Tab1", icon: "1.circle.fill") }
                 .tag(Tab.tab1)
-            ___Template___ViewCoordinator()
+            PopulationNationViewCoordinator()
                 .tabItem { TabItemView(title: "Tab2", icon: "2.circle.fill") }
                 .tag(Tab.tab2)
-            SettingsViewCoordinator()
+            ___Template___ViewCoordinator()
                 .tabItem { TabItemView(title: "Tab3", icon: "3.circle.fill") }
                 .tag(Tab.tab3)
+            SettingsViewCoordinator()
+                .tabItem { TabItemView(title: "Tab4", icon: "4.circle.fill") }
+                .tag(Tab.tab4)
         })
         .accentColor(.primaryColor)
         .onAppear {

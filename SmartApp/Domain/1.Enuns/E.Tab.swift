@@ -11,4 +11,5 @@ public enum Tab: CaseIterable {
     case tab1
     case tab2
     case tab3
+    case tab4
 }

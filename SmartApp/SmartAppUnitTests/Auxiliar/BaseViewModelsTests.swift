@@ -15,10 +15,14 @@ import Common
 import Domain
 import Core
 
+let cancelBag = CancelBag()
+var timeout: Int = 5
+var loadedAny: Any?
+
 class BaseViewModelsTests: XCTestCase {
-    lazy var sampleService: SampleServiceProtocol = { SampleService.shared }()
-    lazy var secureAppPreferences: SecureAppPreferencesProtocol = { SecureAppPreferences.shared }()
-    lazy var nonSecureAppPreferences: NonSecureAppPreferencesProtocol = { NonSecureAppPreferences.shared }()
+    lazy var sampleService: SampleServiceProtocol = { DependenciesManager.Services.sampleService }()
+    lazy var secureAppPreferences: SecureAppPreferencesProtocol = { DependenciesManager.Repository.secureAppPreferences }()
+    lazy var nonSecureAppPreferences: NonSecureAppPreferencesProtocol = { DependenciesManager.Repository.nonSecureAppPreferences }()
     lazy var userRepository: UserRepositoryProtocol = { UserRepository(
         secureAppPreferences: secureAppPreferences,
         nonSecureAppPreferences: nonSecureAppPreferences
