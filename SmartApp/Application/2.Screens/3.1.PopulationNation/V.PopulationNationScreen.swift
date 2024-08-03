@@ -95,6 +95,9 @@ struct PopulationNationView: View {
             Header(text: viewModel.title).padding(.horizontal, SizeNames.defaultMargin)
             ScrollView(showsIndicators: false) {
                 listView
+            }
+            .refreshable {
+                viewModel.send(action: .getPopulationData(cachePolicy: .load))
             }.padding()
         }
         .frame(maxWidth: .infinity)
@@ -120,6 +123,7 @@ fileprivate extension PopulationNationView {
                 )
             }
         }
+
     }
 }
 

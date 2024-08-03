@@ -51,11 +51,8 @@ extension PopulationStateViewModel {
     }
 }
 
-@MainActor
-class PopulationStateViewModel: ObservableObject {
+class PopulationStateViewModel: BaseViewModel {
     // MARK: - View Usage Attributes
-    @Published var alertModel: Model.AlertModel?
-    @Published var loadingModel: Model.LoadingModel?
     @Published var model: [PopulationStateModel] = []
     @Published var title = "PopulationStateView".localized
     // MARK: - Auxiliar Attributes
@@ -65,6 +62,7 @@ class PopulationStateViewModel: ObservableObject {
         self.model = dependencies.model
         self.year = dependencies.year
         self.dataUSAService = dependencies.dataUSAService
+        super.init()
         send(action: .getPopulationData)
     }
 
@@ -95,13 +93,7 @@ class PopulationStateViewModel: ObservableObject {
                     }
                     loadingModel = .notLoading
                 } catch {
-                    ErrorsManager.handleError(message: "\(Self.self).\(action)", error: error)
-                    ErrorsManager.handleError(message: "\(Self.self).\(action)", error: error)
-                    if let appError = error as? AppErrors, !appError.localizedForUser.isEmpty {
-                        alertModel = .init(type: .error, message: appError.localizedForUser)
-                    } else {
-                        alertModel = .init(type: .error, message: error.localizedDescription)
-                    }
+                    handle(error: error, sender: "\(Self.self).\(action)")
                 }
             }
         }

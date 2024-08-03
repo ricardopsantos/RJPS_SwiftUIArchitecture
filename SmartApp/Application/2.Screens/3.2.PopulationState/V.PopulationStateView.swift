@@ -71,6 +71,11 @@ struct PopulationStateView: View {
 
     // MARK: - Body & View
     var body: some View {
+        if Common_Utils.onSimulator {
+            // swiftlint:disable redundant_discardable_let
+            let _ = Self._printChanges()
+            // swiftlint:enable redundant_discardable_let
+        }
         BaseView.withLoading(
             sender: "\(Self.self)",
             appScreen: .populationStates(year: "", model: []),

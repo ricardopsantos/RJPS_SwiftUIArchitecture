@@ -189,10 +189,6 @@ extension BaseView {
             }
             opacity = 0
             model = nil
-            // if !dismissed {
-            //     /// https://www.swiftbysundell.com/articles/dismissing-swiftui-modal-and-detail-views/
-            //    presentation.wrappedValue.dismiss()
-            // }
             dismissed = true
         }
 
@@ -203,7 +199,9 @@ extension BaseView {
                         SwiftUIUtils.FixedVerticalSpacer(height: extraH)
                         Text(model.message)
                             .fontSemantic(.bodyBold)
-                            .lineLimit(0)
+                            .lineLimit(nil) // Unlimited lines
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true) // Prevents truncation
                             .padding()
                             .doIf(model.type == .success, transform: {
                                 $0.background(ColorSemantic.allCool.color)

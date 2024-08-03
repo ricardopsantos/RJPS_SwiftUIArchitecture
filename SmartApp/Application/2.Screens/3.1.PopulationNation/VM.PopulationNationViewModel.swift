@@ -44,7 +44,7 @@ extension PopulationNationViewModel {
     enum Actions {
         case didAppear
         case didDisappear
-        case getPopulationData
+        case getPopulationData(cachePolicy: DataUSAServiceCachePolicy)
     }
 
     struct Dependencies {
@@ -53,11 +53,7 @@ extension PopulationNationViewModel {
     }
 }
 
-@MainActor
-class PopulationNationViewModel: ObservableObject {
-    // MARK: - View Usage Attributes
-    @Published var alertModel: Model.AlertModel?
-    @Published var loadingModel: Model.LoadingModel?
+class PopulationNationViewModel: BaseViewModel {
     @Published var model: [PopulationNationModel] = []
     @Published var title: String = "PopulationNationViewTitle".localized
     // MARK: - Auxiliar Attributes
@@ -65,7 +61,8 @@ class PopulationNationViewModel: ObservableObject {
     public init(dependencies: Dependencies) {
         self.model = dependencies.model
         self.dataUSAService = dependencies.dataUSAService
-        send(action: .getPopulationData)
+        super.init()
+        send(action: .getPopulationData(cachePolicy: .cacheElseLoad))
     }
 
     func send(action: Actions) {
@@ -74,12 +71,11 @@ class PopulationNationViewModel: ObservableObject {
             ()
         case .didDisappear:
             ()
-        case .getPopulationData:
+        case .getPopulationData(cachePolicy: let cachePolicy):
             Task { @MainActor in
                 loadingModel = .loading(message: "Loading".localized)
                 model = []
                 do {
-                    let cachePolicy: DataUSAServiceCachePolicy = .cacheElseLoad
                     let modelDto = try await dataUSAService.requestPopulationNationData(
                         .init(),
                         cachePolicy: cachePolicy
@@ -91,12 +87,7 @@ class PopulationNationViewModel: ObservableObject {
                         alertModel = .init(type: .warning, message: "NoDataTryAgainLatter".localized)
                     }
                 } catch {
-                    ErrorsManager.handleError(message: "\(Self.self).\(action)", error: error)
-                    if let appError = error as? AppErrors, !appError.localizedForUser.isEmpty {
-                        alertModel = .init(type: .error, message: appError.localizedForUser)
-                    } else {
-                        alertModel = .init(type: .error, message: error.localizedDescription)
-                    }
+                    handle(error: error, sender: "\(Self.self).\(action)")
                 }
             }
         }
