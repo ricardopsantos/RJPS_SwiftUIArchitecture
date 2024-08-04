@@ -67,7 +67,7 @@ struct PopulationNationView: View, ViewProtocol {
     // MARK: - ViewProtocol
 
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var router: RouterViewModel
+    //@EnvironmentObject var router: RouterViewModel
     let onSelected: (PopulationNationModel)->()
     @StateObject var viewModel: PopulationNationViewModel
     public init(dependencies: PopulationNationViewModel.Dependencies) {

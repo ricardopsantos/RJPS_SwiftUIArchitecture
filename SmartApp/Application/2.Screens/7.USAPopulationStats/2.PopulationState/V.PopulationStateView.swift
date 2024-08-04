@@ -60,7 +60,7 @@ struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
 struct PopulationStateView: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var router: RouterViewModel
+    //@EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: PopulationStateViewModel
     // MARK: - Usage Attributes
     private let onRouteBack: () -> Void

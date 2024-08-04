@@ -43,7 +43,7 @@ struct MainTabViewCoordinator: View, ViewCoordinatorProtocol {
 
 struct MainTabView: View, ViewProtocol {
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var router: RouterViewModel
+    //@EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: MainTabViewModel
     public init(dependencies: MainTabViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))

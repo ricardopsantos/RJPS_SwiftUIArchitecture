@@ -38,7 +38,9 @@ struct WeatherDetailsViewCoordinator: View, ViewCoordinatorProtocol {
         switch screen {
         case .weatherDetailsWith(model: let model):
             let dependencies: WeatherDetailsViewModel.Dependencies = .init(
-                model: model, weatherService: configuration.weatherService
+                model: model, weatherService: configuration.weatherService, onRouteBack: {
+                    router.navigateBack()
+                }
             )
             WeatherDetailsView(dependencies: dependencies)
         default:
@@ -57,10 +59,12 @@ struct WeatherDetailsView: View, ViewProtocol {
     // MARK: - ViewProtocol
 
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var router: RouterViewModel
+    //@EnvironmentObject var router: RouterViewModel
+    let onRouteBack: ()->()
     @StateObject var viewModel: WeatherDetailsViewModel
     public init(dependencies: WeatherDetailsViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
+        onRouteBack = dependencies.onRouteBack
     }
 
     // MARK: - Body & View
@@ -73,7 +77,9 @@ struct WeatherDetailsView: View, ViewProtocol {
         BaseView.withLoading(
             sender: "\(Self.self)",
             appScreen: .weatherDetailsWith(model: .init(weatherResponse: .mockLisbon14March2023!)),
-            navigationViewModel: .disabled,
+            navigationViewModel: .custom(onBackButtonTap: {
+                onRouteBack()
+            }, title: "Weather".localizedMissing),
             background: .default,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel
@@ -87,15 +93,7 @@ struct WeatherDetailsView: View, ViewProtocol {
     }
 
     var content: some View {
-        VStack {
-            Header(
-                text: "Weather".localizedMissing,
-                hasCloseButton: true,
-                onBackOrCloseClick: {
-                    //   dismiss()
-                }
-            )
-            Spacer()
+        VStack(spacing: 0) {
             infoText(
                 text: "Temperature".localizedMissing,
                 value: viewModel.model.weatherResponse.currentWeather?.temperature,

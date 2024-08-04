@@ -36,13 +36,20 @@ struct WeatherViewCoordinator: View, ViewCoordinatorProtocol {
         switch screen {
         case .weather:
             let dependencies: WeatherViewModel.Dependencies = .init(
-                model: .init(), didSelected: { some in
-                    DevTools.Log.debug("\(some)", .generic)
+                model: .init(), onSelected: { model in
+                    router.navigate(to: AppScreen.weatherDetailsWith(model: .init(weatherResponse: model)))
                 }, weatherService: configuration.weatherService
             )
             WeatherView(dependencies: dependencies)
         case .weatherDetailsWith(model: let model):
-            WeatherDetailsViewCoordinator(model: model)
+            //WeatherDetailsViewCoordinator(model: model)
+            let dependencies: WeatherDetailsViewModel.Dependencies = .init(
+                model: .init(weatherResponse: .mockLisbon14March2023!),
+                weatherService: configuration.weatherService,
+                onRouteBack: {
+                    router.navigateBack()
+                })
+            WeatherDetailsView(dependencies: dependencies)
         default:
             EmptyView().onAppear(perform: {
                 DevTools.assert(false, message: "Not predicted \(screen)")
@@ -59,12 +66,12 @@ struct WeatherView: View {
     // MARK: - ViewProtocol
 
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var router: RouterViewModel
+    //@EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: WeatherViewModel
-    let didSelected: (ModelDto.GetWeatherResponse) -> Void
+    let onSelected: (ModelDto.GetWeatherResponse) -> Void
     public init(dependencies: WeatherViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-        self.didSelected = dependencies.didSelected
+        onSelected = dependencies.onSelected
     }
 
     // MARK: - Usage Attributes
@@ -104,7 +111,7 @@ struct WeatherView: View {
                             title: item.timezone ?? "",
                             subTitle: makeDescription(weatherItem: item),
                             onTapGesture: {
-                                router.coverLink = .weatherDetailsWith(model: .init(weatherResponse: item))
+                                onSelected(item)
                             }
                         )
                     }

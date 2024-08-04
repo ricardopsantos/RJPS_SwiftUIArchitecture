@@ -38,6 +38,7 @@ extension WeatherDetailsViewModel {
     struct Dependencies {
         let model: WeatherDetailsModel
         let weatherService: WeatherServiceProtocol
+        let onRouteBack: ()->()
     }
 }
 

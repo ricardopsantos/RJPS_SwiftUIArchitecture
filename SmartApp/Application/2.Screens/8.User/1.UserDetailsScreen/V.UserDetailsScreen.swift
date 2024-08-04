@@ -60,7 +60,7 @@ struct UserDetailsView: View {
     // MARK: - ViewProtocol
 
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var router: RouterViewModel
+    //@EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: UserDetailsViewModel
     let onCompletion: (String) -> Void
     public init(

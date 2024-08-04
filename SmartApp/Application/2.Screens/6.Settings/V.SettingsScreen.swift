@@ -60,7 +60,7 @@ struct SettingsViewCoordinator: View, ViewCoordinatorProtocol {
 struct SettingsScreen: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var router: RouterViewModel
+    //@EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: SettingsViewModel
     public init(dependencies: SettingsViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
@@ -126,7 +126,8 @@ fileprivate extension SettingsScreen {
                     label: "Update",
                     sender: "\(Self.self)"
                 )
-                router.coverLink = .editUserDetails
+                print("fix")
+                //router.coverLink = .editUserDetails
             },
             text: "Update".localizedMissing,
 

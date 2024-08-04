@@ -56,7 +56,7 @@ struct EditUserDetailsViewCoordinator: View, ViewCoordinatorProtocol {
 struct EditUserDetailsView: View {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var router: RouterViewModel
+    //@EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: EditUserDetailsViewModel
     public init(dependencies: EditUserDetailsViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))

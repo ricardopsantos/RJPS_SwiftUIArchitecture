@@ -59,7 +59,7 @@ struct RootViewCoordinator: View, ViewCoordinatorProtocol {
 struct RootView: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var router: RouterViewModel
+    //@EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: RootViewModel
     public init(dependencies: RootViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))

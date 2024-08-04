@@ -39,7 +39,7 @@ extension WeatherViewModel {
 
     struct Dependencies {
         let model: ___Template___Model
-        let didSelected: (ModelDto.GetWeatherResponse) -> Void
+        let onSelected: (ModelDto.GetWeatherResponse) -> Void
         let weatherService: WeatherServiceProtocol
     }
 }
