@@ -79,7 +79,7 @@ struct PopulationStateView: View {
         BaseView.withLoading(
             sender: "\(Self.self)",
             appScreen: .populationStates(year: "", model: []),
-            navigationViewModel: .enabled(onBackButtonTap: {
+            navigationViewModel: .custom(onBackButtonTap: {
                 onRouteBack()
             }, title: viewModel.title),
             background: .linear,

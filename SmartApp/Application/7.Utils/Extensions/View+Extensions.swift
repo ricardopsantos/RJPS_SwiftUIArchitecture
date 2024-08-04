@@ -10,7 +10,10 @@ import SwiftUI
 import DesignSystem
 
 public extension View {
-    func customBackButton(action: @escaping () -> Void, title: String = "") -> some View {
+    func customBackButtonV1(
+        action: @escaping () -> Void,
+        title: String = ""
+    ) -> some View {
         navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -28,6 +31,18 @@ public extension View {
                     ToolbarItem(placement: .principal) {
                         Header(text: title)
                     }
+                }
+            }
+    }
+
+    func customBackButtonV2(
+        action: @escaping () -> Void,
+        title: String
+    ) -> some View {
+        navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Header(text: title, hasBackButton: true, onBackOrCloseClick: action)
                 }
             }
     }

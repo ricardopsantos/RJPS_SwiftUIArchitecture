@@ -102,16 +102,21 @@ fileprivate extension BaseView {
 
         Group {
             switch navigationViewModel.type {
-            case .enabled:
+            case .disabled:
+                baseView
+            case .custom:
                 NavigationView {
                     baseView
-                }.customBackButton(action: {
+                }.customBackButtonV1(action: {
                     if let onBackButtonTap = navigationViewModel.onBackButtonTap {
                         onBackButtonTap()
                     }
                 }, title: navigationViewModel.title)
-            case .none:
-                baseView
+            case .default:
+                NavigationView {
+                    baseView
+                }
+                .navigationTitle(navigationViewModel.title)
             }
         }
     }

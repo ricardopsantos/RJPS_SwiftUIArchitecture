@@ -17,7 +17,6 @@ public struct Header: View {
     private let onBackOrCloseClick: () -> Void
     public init(
         text: String,
-
         hasBackButton: Bool = false,
         hasCloseButton: Bool = false,
         onBackOrCloseClick: @escaping () -> Void = {}
@@ -29,21 +28,36 @@ public struct Header: View {
     }
 
     public var body: some View {
-        ZStack(alignment: hasBackButton ? .leading : .trailing) {
+        ZStack {
             if hasBackButton {
-                Button(action: onBackOrCloseClick) {
-                    Image(systemName: "arrow.backward")
-                        .foregroundColor(.primaryColor)
+                HStack {
+                    Button(action: onBackOrCloseClick) {
+                        AppImages.arrowBackward.image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: SizeNames.defaultMargin * 1.5)
+                            .tint(ColorSemantic.primary.color)
+                        Spacer()
+                    }
                 }
             }
             Text(text)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .font(FontSemantic.title2.font)
+                .frame(
+                    maxWidth: screenWidth - 4 * SizeNames.defaultMargin,
+                    alignment: .center
+                )
+                .font(FontSemantic.headline.font)
                 .foregroundColor(.primaryColor)
             if hasCloseButton {
-                Button(action: onBackOrCloseClick) {
-                    Image(systemName: "xmark")
-                        .foregroundColor(.primaryColor)
+                HStack {
+                    Spacer()
+                    Button(action: onBackOrCloseClick) {
+                        AppImages.close.image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: SizeNames.defaultMargin * 1.5)
+                            .tint(ColorSemantic.primary.color)
+                    }
                 }
             }
         }
