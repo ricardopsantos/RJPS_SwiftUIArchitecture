@@ -49,11 +49,11 @@ public extension View {
 
 public extension View {
     var buildPreviewPhone11: some SwiftUI.View {
-        previewDevice("iPhone 8").previewDisplayName("Default - iPhone11")
+        previewDevice("iPhone 11").previewDisplayName("Default - iPhone11")
     }
 
-    var buildPreviewPhone8: some SwiftUI.View {
-        previewDevice("iPhone 8").previewDisplayName("Default - iPhone8")
+    var buildPreviewPhone15: some SwiftUI.View {
+        previewDevice("iPhone 15").previewDisplayName("Default - iPhone15")
     }
 
     var buildPreviewDark: some SwiftUI.View {

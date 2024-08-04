@@ -73,11 +73,13 @@ fileprivate extension BaseView {
         alertModel: Model.AlertModel?,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
-        var baseView =
+        let baseView =
             ZStack {
                 BackgroundView(background: background)
                 VStack(spacing: 0) {
-                    SwiftUIUtils.RenderedView("\(sender)").opacity(displayRenderedView ? 1 : 0)
+                    SwiftUIUtils.FixedVerticalSpacer(height: 1)
+                    SwiftUIUtils.RenderedView("\(sender)")
+                        .opacity(displayRenderedView ? 1 : 0)
                     Spacer()
                 }
                 content()
@@ -117,6 +119,11 @@ fileprivate extension BaseView {
                     baseView
                 }
                 .navigationTitle(navigationViewModel.title)
+            case .enabledHidden:
+                NavigationView {
+                    baseView
+                }
+                .hideNavigationBar()
             }
         }
     }

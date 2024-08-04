@@ -17,6 +17,7 @@ extension BaseView {
 
         public enum NavigationModelType: CaseIterable, Hashable, Codable {
             case disabled
+            case enabledHidden
             case `default`
             case custom
         }
@@ -33,6 +34,10 @@ extension BaseView {
 
         public static var disabled: Self {
             .init(type: .disabled, title: "", onBackButtonTap: nil)
+        }
+
+        public static var enabledHidden: Self {
+            .init(type: .enabledHidden, title: "", onBackButtonTap: nil)
         }
 
         public static func `default`(title: String) -> Self {

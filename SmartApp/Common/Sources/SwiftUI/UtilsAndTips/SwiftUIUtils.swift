@@ -49,12 +49,9 @@ public enum SwiftUIUtils {
             // let message = "Redraw[\(counter)]: \(name)"
             Text("Redraw[\(counter)]: \(name)")
                 .padding(3)
-                .background(Color.random.opacity(0.15))
+                .background(Color.red.opacity(0.25))
                 .font(.caption2)
                 .opacity(0.25)
-                .onAppear {
-                    // Common.LogsManager.debug(message)
-                }
         }
     }
 

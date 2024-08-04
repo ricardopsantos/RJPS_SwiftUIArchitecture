@@ -36,7 +36,10 @@ struct PopulationNationViewCoordinator: View, ViewCoordinatorProtocol {
         switch screen {
         case .populationNation:
             let dependencies: PopulationNationViewModel.Dependencies = .init(
-                model: .init(), dataUSAService: configuration.dataUSAService
+                model: .init(), dataUSAService: configuration.dataUSAService, onSelected: { item in
+                        print(item)
+                    router.navigate(to: AppScreen.populationStates(year: item.year, model: []))
+                }
             )
             PopulationNationView(dependencies: dependencies)
         case .populationStates(year: let year, _):
@@ -60,14 +63,16 @@ struct PopulationNationViewCoordinator: View, ViewCoordinatorProtocol {
 // MARK: - View
 //
 
-struct PopulationNationView: View {
+struct PopulationNationView: View, ViewProtocol {
     // MARK: - ViewProtocol
 
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var router: RouterViewModel
+    let onSelected: (PopulationNationModel)->()
     @StateObject var viewModel: PopulationNationViewModel
     public init(dependencies: PopulationNationViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
+        onSelected = dependencies.onSelected
     }
 
     // MARK: - Body & View
@@ -116,7 +121,7 @@ fileprivate extension PopulationNationView {
                     onTapGesture: {
                         let label = "Taped index \(index): Year \(item.year)"
                         AnalyticsManager.shared.handleListItemTapEvent(label: label, sender: "\(Self.self)")
-                        router.navigate(to: AppScreen.populationStates(year: item.year, model: []))
+                        onSelected(item)
                     }
                 )
             }

@@ -25,7 +25,7 @@ protocol ViewProtocol {
     associatedtype ContentView: View
     associatedtype Dependencies
     var colorScheme: ColorScheme { get }
-    var router: RouterViewModel { get }
+    //var router: RouterViewModel { get }
     var viewModel: ViewModel { get }
 
     init(dependencies: Dependencies)

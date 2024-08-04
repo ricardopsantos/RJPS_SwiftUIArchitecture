@@ -99,19 +99,14 @@ struct WeatherView: View {
         VStack {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: SizeNames.defaultMargin) {
-                    ForEach(viewModel.weatherData, id: \.self) { data in
+                    ForEach(viewModel.weatherData, id: \.self) { item in
                         ListItemView(
-                            title: data.timezone ?? "",
-                            subTitle: makeDescription(weatherItem: data)
-                        )
-                        .onTapGesture {
-                            guard let index = viewModel.weatherData.firstIndex(of: data),
-                                  let model = viewModel.weatherData.safeItem(at: index) else {
-                                return
+                            title: item.timezone ?? "",
+                            subTitle: makeDescription(weatherItem: item),
+                            onTapGesture: {
+                                router.coverLink = .weatherDetailsWith(model: .init(weatherResponse: item))
                             }
-                            router.coverLink = .weatherDetailsWith(model: .init(weatherResponse: model))
-                            // didSelected(model)
-                        }
+                        )
                     }
                 }
                 .padding(.top, SizeNames.defaultMargin)

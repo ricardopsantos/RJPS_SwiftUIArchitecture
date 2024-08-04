@@ -35,7 +35,7 @@ public struct Header: View {
                         AppImages.arrowBackward.image
                             .resizable()
                             .scaledToFit()
-                            .frame(width: SizeNames.defaultMargin * 1.5)
+                            .frame(SizeNames.defaultMarginSmall)
                             .tint(ColorSemantic.primary.color)
                         Spacer()
                     }
@@ -55,7 +55,7 @@ public struct Header: View {
                         AppImages.close.image
                             .resizable()
                             .scaledToFit()
-                            .frame(width: SizeNames.defaultMargin * 1.5)
+                            .frame(SizeNames.defaultMarginSmall)
                             .tint(ColorSemantic.primary.color)
                     }
                 }
