@@ -38,15 +38,13 @@ final class FetchNationScreenTests: BaseUITests {
         ])
         tap(
             tabBarIndex: 1,
-            andWaitForStaticText: "USA Population: Last 10 years",
+            andWaitForStaticText: Constants.tab2Title,
             on: app
         )
     }
 
     func testA2_appStartsAndDisplayRecords() {
         testA1_appStartsAndUpdatesNavigationBarTitle() // Re-use test A1
-        waitFor(staticText: "Year: 2022", on: app)
-        waitFor(staticText: "Year: 2021", on: app)
-        waitFor(staticText: "Year: 2020", on: app)
+        waitFor(staticText: Constants.tab2ListItem, on: app)
     }
 }

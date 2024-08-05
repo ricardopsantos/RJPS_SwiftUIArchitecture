@@ -10,19 +10,20 @@ import Common
 
 public enum AppScreen: Hashable, Identifiable {
     case na
-    case template
-    case templateWith(model: ___Template___Model)
     case splash
     case root
     case mainApp // TabBar
+    //
     case login
     case onboarding
-    case weather
     case settings
-    case weatherDetailsWith(model: WeatherDetailsModel)
     case userDetails
     case editUserDetails
     case termsAndConditions
+    //
+    case templateWith(model: ___Template___Model)
+    case weather
+    case weatherDetailsWith(model: WeatherDetailsModel)
     case populationNation
     case populationStates(year: String, model: [PopulationStateModel])
     // case mainApp

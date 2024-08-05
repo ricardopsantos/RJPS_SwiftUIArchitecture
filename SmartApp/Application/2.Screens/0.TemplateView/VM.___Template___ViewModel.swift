@@ -34,10 +34,7 @@ extension ___Template___ViewModel {
     enum Actions {
         case didAppear
         case didDisappear
-        case dismissThis
         case increment
-        case dismissAll
-        case routeToSceneX
         case displayRandomError
     }
 
@@ -73,9 +70,6 @@ class ___Template___ViewModel: BaseViewModel {
             message = "Counter: \(counter)"
         case .displayRandomError:
             alertModel = .init(type: .error, message: String.randomWithSpaces(10))
-        case .routeToSceneX: ()
-        case .dismissThis: ()
-        case .dismissAll: ()
         }
     }
 }

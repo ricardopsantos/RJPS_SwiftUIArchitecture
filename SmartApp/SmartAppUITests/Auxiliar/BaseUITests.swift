@@ -19,6 +19,15 @@ let cancelBag = CancelBag()
 var timeout: Int = 5
 var loadedAny: Any?
 
+enum Constants {
+    static let tab1Title = "Current Weather"
+    static let tab1DetailsTitle = "Weather Details"
+    static let tab1ListItem = "Europe/Lisbon"
+    static let tab2Title = "USA Population: Last 10 years"
+    static let tab2DetailsTitle = "USA States Population for 2022"
+    static let tab2ListItem = "Year: 2022"
+}
+
 class BaseUITests: XCTestCase {
     lazy var app: XCUIApplication = {
         let app = XCUIApplication()

@@ -94,6 +94,7 @@ struct WeatherView: View, ViewProtocol {
     var content: some View {
         VStack {
             ScrollView(showsIndicators: false) {
+                Header(text: "Current Weather")
                 counterView
                 listView
             }
@@ -111,10 +112,10 @@ struct WeatherView: View, ViewProtocol {
         HStack {
             TextButton(onClick: {
                 viewModel.send(action: .incrementCounter)
-            }, text: "Increment Counter", style: .textOnly, accessibility: .undefined)
+            }, text: "Increment", style: .textOnly, accessibility: .undefined)
             .frame(maxWidth: screenWidth / 4)
             Spacer()
-            Text(viewModel.counter.description)
+            Text("Counter: \(viewModel.counter.description)")
                 .fontSemantic(.callout)
         }
         .padding(.horizontal, SizeNames.defaultMargin)

@@ -77,7 +77,7 @@ struct WeatherDetailsView: View, ViewProtocol {
             appScreen: .weatherDetailsWith(model: .init(weatherResponse: .mockLisbon14March2023!)),
             navigationViewModel: .custom(onBackButtonTap: {
                 onRouteBack()
-            }, title: "Weather".localizedMissing),
+            }, title: "Weather Details".localizedMissing),
             background: .default,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel
