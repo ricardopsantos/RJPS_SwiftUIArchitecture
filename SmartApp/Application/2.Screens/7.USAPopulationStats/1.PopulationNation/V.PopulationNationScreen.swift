@@ -17,18 +17,18 @@ import DesignSystem
 struct PopulationNationViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
-    @StateObject var router = RouterViewModel()
+    @StateObject var coordinator = RouterViewModel()
     // MARK: - Usage Attributes
 
     // MARK: - Body & View
     var body: some View {
-        NavigationStack(path: $router.navPath) {
+        NavigationStack(path: $coordinator.navPath) {
             buildScreen(.populationNation)
                 .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                .sheet(item: $router.sheetLink, content: buildScreen)
-                .fullScreenCover(item: $router.coverLink, content: buildScreen)
+                .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
         }
-        .environmentObject(router)
+        // .environmentObject(router)
     }
 
     @ViewBuilder
@@ -36,9 +36,10 @@ struct PopulationNationViewCoordinator: View, ViewCoordinatorProtocol {
         switch screen {
         case .populationNation:
             let dependencies: PopulationNationViewModel.Dependencies = .init(
-                model: .init(), dataUSAService: configuration.dataUSAService, onSelected: { item in
-                        print(item)
-                    router.navigate(to: AppScreen.populationStates(year: item.year, model: []))
+                model: .init(),
+                dataUSAService: configuration.dataUSAService,
+                onSelected: { item in
+                    coordinator.navigate(to: AppScreen.populationStates(year: item.year, model: []))
                 }
             )
             PopulationNationView(dependencies: dependencies)
@@ -47,7 +48,7 @@ struct PopulationNationViewCoordinator: View, ViewCoordinatorProtocol {
                 model: .init(),
                 year: year,
                 onRouteBack: {
-                    router.navigateBack()
+                    coordinator.navigateBack()
                 }, dataUSAService: configuration.dataUSAService
             )
             PopulationStateView(dependencies: dependencies)
@@ -67,12 +68,12 @@ struct PopulationNationView: View, ViewProtocol {
     // MARK: - ViewProtocol
 
     @Environment(\.colorScheme) var colorScheme
-    //@EnvironmentObject var router: RouterViewModel
-    let onSelected: (PopulationNationModel)->()
+    // @EnvironmentObject var router: RouterViewModel
+    let onSelected: (PopulationNationModel) -> Void
     @StateObject var viewModel: PopulationNationViewModel
     public init(dependencies: PopulationNationViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-        onSelected = dependencies.onSelected
+        self.onSelected = dependencies.onSelected
     }
 
     // MARK: - Body & View

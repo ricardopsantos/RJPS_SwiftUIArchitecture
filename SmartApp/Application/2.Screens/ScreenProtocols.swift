@@ -14,7 +14,7 @@ import Common
 protocol ViewCoordinatorProtocol {
     associatedtype ContentView: View
     var configuration: ConfigurationViewModel { get }
-    var router: RouterViewModel { get }
+    var coordinator: RouterViewModel { get }
     @ViewBuilder
     func buildScreen(_ screen: AppScreen) -> ContentView
 }
@@ -25,7 +25,7 @@ protocol ViewProtocol {
     associatedtype ContentView: View
     associatedtype Dependencies
     var colorScheme: ColorScheme { get }
-    //var router: RouterViewModel { get }
+    // var router: RouterViewModel { get }
     var viewModel: ViewModel { get }
 
     init(dependencies: Dependencies)

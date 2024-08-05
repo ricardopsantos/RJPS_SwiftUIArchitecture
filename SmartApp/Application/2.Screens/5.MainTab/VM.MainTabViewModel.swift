@@ -28,12 +28,10 @@ extension MainTabViewModel {
     enum Actions {
         case didAppear
         case didDisappear
-        case doSomething
     }
 
     struct Dependencies {
         let model: MainTabModel
-        let sampleService: SampleServiceProtocol
     }
 }
 
@@ -42,9 +40,7 @@ class MainTabViewModel: BaseViewModel {
     @Published var selectedTab: Tab = .tab1
 
     // MARK: - Auxiliar Attributes
-    private let sampleService: SampleServiceProtocol?
     public init(dependencies: Dependencies) {
-        self.sampleService = dependencies.sampleService
         self.selectedTab = dependencies.model.selectedTab
     }
 
@@ -52,7 +48,6 @@ class MainTabViewModel: BaseViewModel {
         switch action {
         case .didAppear: ()
         case .didDisappear: ()
-        case .doSomething: () // Do something
         }
     }
 }

@@ -19,20 +19,20 @@ import DevTools
 struct UserDetailsViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
-    @StateObject var router = RouterViewModel()
+    @StateObject var coordinator = RouterViewModel()
 
     // MARK: - Usage Attributes
     let onCompletion: (String) -> Void
 
     // MARK: - Body & View
     var body: some View {
-        NavigationStack(path: $router.navPath) {
+        NavigationStack(path: $coordinator.navPath) {
             buildScreen(.userDetails)
                 .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                .sheet(item: $router.sheetLink, content: buildScreen)
-                .fullScreenCover(item: $router.coverLink, content: buildScreen)
+                .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
         }
-        .environmentObject(router)
+        // .environmentObject(router)
     }
 
     @ViewBuilder
@@ -60,7 +60,7 @@ struct UserDetailsView: View {
     // MARK: - ViewProtocol
 
     @Environment(\.colorScheme) var colorScheme
-    //@EnvironmentObject var router: RouterViewModel
+    // @EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: UserDetailsViewModel
     let onCompletion: (String) -> Void
     public init(

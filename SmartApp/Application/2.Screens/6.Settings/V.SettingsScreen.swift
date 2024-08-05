@@ -18,18 +18,18 @@ import DesignSystem
 struct SettingsViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
-    @StateObject var router = RouterViewModel()
+    @StateObject var coordinator = RouterViewModel()
     // MARK: - Usage Attributes
 
     // MARK: - Body & View
     var body: some View {
-        NavigationStack(path: $router.navPath) {
+        NavigationStack(path: $coordinator.navPath) {
             buildScreen(.settings)
                 .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                .sheet(item: $router.sheetLink, content: buildScreen)
-                .fullScreenCover(item: $router.coverLink, content: buildScreen)
+                .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
         }
-        .environmentObject(router)
+        // .environmentObject(router)
     }
 
     @ViewBuilder
@@ -60,7 +60,7 @@ struct SettingsViewCoordinator: View, ViewCoordinatorProtocol {
 struct SettingsScreen: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    //@EnvironmentObject var router: RouterViewModel
+    // @EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: SettingsViewModel
     public init(dependencies: SettingsViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
@@ -127,7 +127,7 @@ fileprivate extension SettingsScreen {
                     sender: "\(Self.self)"
                 )
                 print("fix")
-                //router.coverLink = .editUserDetails
+                // router.coverLink = .editUserDetails
             },
             text: "Update".localizedMissing,
 

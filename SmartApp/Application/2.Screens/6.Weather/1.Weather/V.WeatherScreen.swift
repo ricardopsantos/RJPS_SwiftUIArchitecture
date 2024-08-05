@@ -14,21 +14,19 @@ import DesignSystem
 //
 // MARK: - Coordinator
 //
-struct WeatherViewCoordinator: View, ViewCoordinatorProtocol {
+
+struct WeatherViewCoordinator: View {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
-    @StateObject var router = RouterViewModel()
+    @EnvironmentObject var coordinatorTab1: RouterViewModel
+    @StateObject var coordinator = RouterViewModel()
     // MARK: - Usage Attributes
 
     // MARK: - Body & View
     var body: some View {
-        NavigationStack(path: $router.navPath) {
-            buildScreen(.weather)
-                .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                .sheet(item: $router.sheetLink, content: buildScreen)
-                .fullScreenCover(item: $router.coverLink, content: buildScreen)
-        }
-        .environmentObject(router)
+        buildScreen(.weather)
+            .sheet(item: $coordinator.sheetLink, content: buildScreen)
+            .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
     }
 
     @ViewBuilder
@@ -37,18 +35,19 @@ struct WeatherViewCoordinator: View, ViewCoordinatorProtocol {
         case .weather:
             let dependencies: WeatherViewModel.Dependencies = .init(
                 model: .init(), onSelected: { model in
-                    router.navigate(to: AppScreen.weatherDetailsWith(model: .init(weatherResponse: model)))
+                    coordinatorTab1.navigate(to: .weatherDetailsWith(model: .init(weatherResponse: model)))
                 }, weatherService: configuration.weatherService
             )
             WeatherView(dependencies: dependencies)
         case .weatherDetailsWith(model: let model):
-            //WeatherDetailsViewCoordinator(model: model)
+            // WeatherDetailsViewCoordinator(model: model)
             let dependencies: WeatherDetailsViewModel.Dependencies = .init(
-                model: .init(weatherResponse: .mockLisbon14March2023!),
+                model: .init(weatherResponse: model.weatherResponse),
                 weatherService: configuration.weatherService,
                 onRouteBack: {
-                    router.navigateBack()
-                })
+                    coordinatorTab1.navigateBack()
+                }
+            )
             WeatherDetailsView(dependencies: dependencies)
         default:
             EmptyView().onAppear(perform: {
@@ -66,12 +65,11 @@ struct WeatherView: View {
     // MARK: - ViewProtocol
 
     @Environment(\.colorScheme) var colorScheme
-    //@EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: WeatherViewModel
     let onSelected: (ModelDto.GetWeatherResponse) -> Void
     public init(dependencies: WeatherViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-        onSelected = dependencies.onSelected
+        self.onSelected = dependencies.onSelected
     }
 
     // MARK: - Usage Attributes

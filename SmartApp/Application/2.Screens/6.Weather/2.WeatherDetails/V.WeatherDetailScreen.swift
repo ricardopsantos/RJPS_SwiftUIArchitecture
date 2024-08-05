@@ -18,19 +18,19 @@ import DesignSystem
 struct WeatherDetailsViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
-    @StateObject var router = RouterViewModel()
+    @StateObject var coordinator = RouterViewModel()
     // MARK: - Usage Attributes
     let model: WeatherDetailsModel
 
     // MARK: - Body & View
     var body: some View {
-        NavigationStack(path: $router.navPath) {
+        NavigationStack(path: $coordinator.navPath) {
             buildScreen(.weatherDetailsWith(model: model))
                 .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                .sheet(item: $router.sheetLink, content: buildScreen)
-                .fullScreenCover(item: $router.coverLink, content: buildScreen)
+                .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
         }
-        .environmentObject(router)
+        // .environmentObject(router)
     }
 
     @ViewBuilder
@@ -39,7 +39,7 @@ struct WeatherDetailsViewCoordinator: View, ViewCoordinatorProtocol {
         case .weatherDetailsWith(model: let model):
             let dependencies: WeatherDetailsViewModel.Dependencies = .init(
                 model: model, weatherService: configuration.weatherService, onRouteBack: {
-                    router.navigateBack()
+                    coordinator.navigateBack()
                 }
             )
             WeatherDetailsView(dependencies: dependencies)
@@ -59,12 +59,12 @@ struct WeatherDetailsView: View, ViewProtocol {
     // MARK: - ViewProtocol
 
     @Environment(\.colorScheme) var colorScheme
-    //@EnvironmentObject var router: RouterViewModel
-    let onRouteBack: ()->()
+    // @EnvironmentObject var router: RouterViewModel
+    let onRouteBack: () -> Void
     @StateObject var viewModel: WeatherDetailsViewModel
     public init(dependencies: WeatherDetailsViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-        onRouteBack = dependencies.onRouteBack
+        self.onRouteBack = dependencies.onRouteBack
     }
 
     // MARK: - Body & View

@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 public final class RouterViewModel: ObservableObject {
-    
     // MARK: - Dependency Attributes
 
     // MARK: - Usage Attributes
@@ -25,6 +24,10 @@ public final class RouterViewModel: ObservableObject {
     public init() {}
 
     // MARK: - Functions
+
+    public func navigate(to appScreen: AppScreen) {
+        navPath.append(appScreen)
+    }
 
     public func navigate(to destination: any Hashable) {
         navPath.append(destination)
@@ -46,7 +49,7 @@ public final class RouterViewModel: ObservableObject {
 extension RouterViewModel: Equatable {
     public static func == (lhs: RouterViewModel, rhs: RouterViewModel) -> Bool {
         lhs.navPath == rhs.navPath &&
-        lhs.sheetLink == rhs.sheetLink &&
-        lhs.coverLink == rhs.coverLink
+            lhs.sheetLink == rhs.sheetLink &&
+            lhs.coverLink == rhs.coverLink
     }
 }

@@ -16,7 +16,7 @@ import Core
 // MARK: - Model
 //
 
-struct WeatherDetailsModel: Equatable, Hashable {
+public struct WeatherDetailsModel: Equatable, Hashable {
     let weatherResponse: ModelDto.GetWeatherResponse
 
     init(weatherResponse: ModelDto.GetWeatherResponse) {
@@ -38,7 +38,7 @@ extension WeatherDetailsViewModel {
     struct Dependencies {
         let model: WeatherDetailsModel
         let weatherService: WeatherServiceProtocol
-        let onRouteBack: ()->()
+        let onRouteBack: () -> Void
     }
 }
 

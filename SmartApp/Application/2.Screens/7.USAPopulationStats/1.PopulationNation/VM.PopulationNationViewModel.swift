@@ -50,7 +50,7 @@ extension PopulationNationViewModel {
     struct Dependencies {
         let model: [PopulationNationModel]
         let dataUSAService: DataUSAServiceProtocol
-        let onSelected: (PopulationNationModel)->()
+        let onSelected: (PopulationNationModel) -> Void
     }
 }
 

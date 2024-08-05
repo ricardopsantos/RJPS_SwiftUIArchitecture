@@ -16,7 +16,7 @@ import Core
 // MARK: - Model
 //
 
-struct PopulationStateModel: Equatable, Hashable {
+public struct PopulationStateModel: Equatable, Hashable {
     let title: String
     let subTitle: String
     init(title: String = "", subTitle: String = "") {

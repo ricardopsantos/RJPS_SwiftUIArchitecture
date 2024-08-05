@@ -345,6 +345,7 @@
 		D71DB0872C5EBC4100AF2A4F /* BaseView+NavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71DB0862C5EBC4100AF2A4F /* BaseView+NavigationModel.swift */; };
 		D71DB0892C5F6ACB00AF2A4F /* AppImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71DB0882C5F6ACB00AF2A4F /* AppImages.swift */; };
 		D71DB08B2C600BFD00AF2A4F /* View+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71DB08A2C600BFD00AF2A4F /* View+Animations.swift */; };
+		D71DB08E2C60D71000AF2A4F /* SampleTabBarNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71DB08C2C60D6AE00AF2A4F /* SampleTabBarNavigation.swift */; };
 		D77A251F685328CA88F7231E /* UIView+AnimationsBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6344864F30EC39BE520CCB /* UIView+AnimationsBase.swift */; };
 		D77DFB82549FEC2F91AD6C44 /* LoginAndSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8869CC081A4CE3C6D6BAC /* LoginAndSessionTests.swift */; };
 		D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */; };
@@ -958,6 +959,7 @@
 		D71DB0862C5EBC4100AF2A4F /* BaseView+NavigationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseView+NavigationModel.swift"; sourceTree = "<group>"; };
 		D71DB0882C5F6ACB00AF2A4F /* AppImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppImages.swift; sourceTree = "<group>"; };
 		D71DB08A2C600BFD00AF2A4F /* View+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Animations.swift"; sourceTree = "<group>"; };
+		D71DB08C2C60D6AE00AF2A4F /* SampleTabBarNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleTabBarNavigation.swift; sourceTree = "<group>"; };
 		D73F950216792C50E6323F9C /* UIImageView+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Transform.swift"; sourceTree = "<group>"; };
 		D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDtoProtocol.swift; sourceTree = "<group>"; };
 		D970FE1EDEA881819AF775BA /* host.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = host.png; sourceTree = "<group>"; };
@@ -1242,6 +1244,7 @@
 		1CBC2672B700A13DCDF3C5D7 /* AuxiliarViews */ = {
 			isa = PBXGroup;
 			children = (
+				D71DB08C2C60D6AE00AF2A4F /* SampleTabBarNavigation.swift */,
 				ADE5CB48F914C8C492A316FF /* V.TabItem.swift */,
 			);
 			path = AuxiliarViews;
@@ -2989,6 +2992,7 @@
 				D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */,
 				D57806EC90116D0571EB721A /* AppConstants.swift in Sources */,
 				326293D346405A2029F9D378 /* AppDelegate.swift in Sources */,
+				D71DB08E2C60D71000AF2A4F /* SampleTabBarNavigation.swift in Sources */,
 				B58569C1AD6F14CA33AB056E /* AppErrors+Extensions.swift in Sources */,
 				9AF19870283F64A98D1F71A5 /* AppScreen.swift in Sources */,
 				AF1D7546AD4B9410E2FEB515 /* AppStateViewModel.swift in Sources */,

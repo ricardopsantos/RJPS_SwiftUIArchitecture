@@ -19,19 +19,19 @@ import DesignSystem
 struct EditUserDetailsViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
-    @StateObject var router = RouterViewModel()
+    @StateObject var coordinator = RouterViewModel()
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
 
     // MARK: - Body & View
     var body: some View {
-        NavigationStack(path: $router.navPath) {
+        NavigationStack(path: $coordinator.navPath) {
             buildScreen(.editUserDetails)
                 .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                .sheet(item: $router.sheetLink, content: buildScreen)
-                .fullScreenCover(item: $router.coverLink, content: buildScreen)
+                .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
         }
-        .environmentObject(router)
+        // .environmentObject(router)
     }
 
     @ViewBuilder
@@ -56,7 +56,7 @@ struct EditUserDetailsViewCoordinator: View, ViewCoordinatorProtocol {
 struct EditUserDetailsView: View {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    //@EnvironmentObject var router: RouterViewModel
+    // @EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: EditUserDetailsViewModel
     public init(dependencies: EditUserDetailsViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))

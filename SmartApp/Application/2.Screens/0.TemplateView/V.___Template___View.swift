@@ -17,19 +17,19 @@ import Common
 struct ___Template___ViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
-    @StateObject var router = RouterViewModel()
+    @StateObject var coordinator = RouterViewModel()
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
 
     // MARK: - Body & View
     var body: some View {
-        NavigationStack(path: $router.navPath) {
+        NavigationStack(path: $coordinator.navPath) {
             buildScreen(.templateWith(model: .init(message: "!! Main !!")))
                 .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                .sheet(item: $router.sheetLink, content: buildScreen)
-                .fullScreenCover(item: $router.coverLink, content: buildScreen)
+                .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
         }
-        .environmentObject(router)
+        // .environmentObject(router)
     }
 
     @ViewBuilder
@@ -57,7 +57,7 @@ struct ___Template___ViewCoordinator: View, ViewCoordinatorProtocol {
 struct ___Template___View: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    //@EnvironmentObject var router: RouterViewModel
+    // @EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: ___Template___ViewModel
     public init(dependencies: ___Template___ViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
@@ -119,31 +119,31 @@ fileprivate extension ___Template___View {
     var routingView: some View {
         Button("Push") {
             viewModel.send(.routeToSceneX)
-            /*router.navigate(
-                to: AppScreen.templateWith(
-                    model:
-                    .init(message: "Push \(Date())", counter: 1)))*/
+            /* router.navigate(
+             to: AppScreen.templateWith(
+                 model:
+                 .init(message: "Push \(Date())", counter: 1))) */
         }
         Button("Sheet") {
             viewModel.send(.routeToSceneX)
-           /* router.sheetLink = .templateWith(
-                model:
-                .init(message: "Sheet \(Date())", counter: 1))*/
+            /* router.sheetLink = .templateWith(
+             model:
+             .init(message: "Sheet \(Date())", counter: 1))*/
         }
         Button("Cover") {
             viewModel.send(.routeToSceneX)
-           /* router.coverLink = .templateWith(
-                model:
-                .init(message: "Cover \(Date())", counter: 1))*/
+            /* router.coverLink = .templateWith(
+             model:
+             .init(message: "Cover \(Date())", counter: 1))*/
         }
         Divider()
         Button("viewModel.send(.dismissThis)") {
             viewModel.send(.dismissThis)
-            //router.navigateBack()
+            // router.navigateBack()
         }.padding()
         Button("viewModel.send(.dismissAll)") {
             viewModel.send(.dismissAll)
-            //router.navigateToRoot()
+            // router.navigateToRoot()
         }.padding()
     }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 import Common
 
-enum AppScreen: Hashable, Identifiable {
+public enum AppScreen: Hashable, Identifiable {
     case na
     case template
     case templateWith(model: ___Template___Model)
@@ -26,7 +26,7 @@ enum AppScreen: Hashable, Identifiable {
     case populationNation
     case populationStates(year: String, model: [PopulationStateModel])
     // case mainApp
-    var id: String {
+    public var id: String {
         String(describing: self)
     }
 }

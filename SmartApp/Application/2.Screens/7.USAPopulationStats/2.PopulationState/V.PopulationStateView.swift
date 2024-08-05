@@ -18,19 +18,19 @@ import DesignSystem
 struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
-    @StateObject var router = RouterViewModel()
+    @StateObject var coordinator = RouterViewModel()
     // MARK: - Usage Attributes
     let year: String
 
     // MARK: - Body & View
     var body: some View {
-        NavigationStack(path: $router.navPath) {
+        NavigationStack(path: $coordinator.navPath) {
             buildScreen(.populationStates(year: year, model: []))
                 .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                .sheet(item: $router.sheetLink, content: buildScreen)
-                .fullScreenCover(item: $router.coverLink, content: buildScreen)
+                .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
         }
-        .environmentObject(router)
+        // .environmentObject(router)
     }
 
     @ViewBuilder
@@ -40,7 +40,7 @@ struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
             let dependencies: PopulationStateViewModel.Dependencies = .init(
                 model: model, year: year,
                 onRouteBack: {
-                    router.navigateBack()
+                    coordinator.navigateBack()
                 }, dataUSAService: configuration.dataUSAService
             )
             PopulationStateView(dependencies: dependencies)
@@ -60,7 +60,7 @@ struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
 struct PopulationStateView: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    //@EnvironmentObject var router: RouterViewModel
+    // @EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: PopulationStateViewModel
     // MARK: - Usage Attributes
     private let onRouteBack: () -> Void
