@@ -50,10 +50,10 @@ class WeatherViewModel: BaseViewModel {
     // MARK: - Auxiliar Attributes
     @Published var counter: Int = 0
     private let weatherService: WeatherServiceProtocol
-    
+
     public init(dependencies: Dependencies) {
-        weatherService = dependencies.weatherService
-        counter = dependencies.model.counter
+        self.weatherService = dependencies.weatherService
+        self.counter = dependencies.model.counter
         super.init()
         send(action: .getWeatherData(userLat: nil, userLong: nil))
     }

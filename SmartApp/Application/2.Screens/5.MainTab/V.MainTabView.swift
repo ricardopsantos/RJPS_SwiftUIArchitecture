@@ -47,7 +47,7 @@ struct MainTabView: View {
             }
             .tabItem { TabItemView(title: "Tab1", icon: "1.circle.fill") }
             .tag(Tab.tab1)
-            
+
             NavigationStack(path: $tab2Router.navPath) {
                 PopulationNationViewCoordinator()
                     .navigationDestination(for: AppScreen.self, destination: buildScreen)

@@ -101,7 +101,9 @@ class PopulationStateViewModel: BaseViewModel {
 }
 
 #Preview {
-    PopulationStateViewCoordinator(year: ModelDto.PopulationStateDataRequest.Constants.lastYear,
-                                   model: [])
-        .environmentObject(ConfigurationViewModel.defaultForPreviews)
+    PopulationStateViewCoordinator(
+        year: ModelDto.PopulationStateDataRequest.Constants.lastYear,
+        model: []
+    )
+    .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

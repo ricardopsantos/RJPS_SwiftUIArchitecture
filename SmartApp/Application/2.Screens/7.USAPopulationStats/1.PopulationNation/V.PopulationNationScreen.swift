@@ -61,7 +61,7 @@ struct PopulationNationView: View, ViewProtocol {
     // MARK: - Constructor
     public init(dependencies: PopulationNationViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-        onSelected = dependencies.onSelected
+        self.onSelected = dependencies.onSelected
     }
 
     // MARK: - Body & View

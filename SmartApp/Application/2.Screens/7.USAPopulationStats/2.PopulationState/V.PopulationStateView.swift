@@ -19,12 +19,12 @@ struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var coordinator = RouterViewModel()
-    
+
     // MARK: - Usage Attributes
     @EnvironmentObject var coordinatorTab2: RouterViewModel
     let year: String
     let model: [PopulationStateModel]
-    
+
     // MARK: - Body & View
     var body: some View {
         buildScreen(.populationStates(year: year, model: model))
@@ -66,7 +66,7 @@ struct PopulationStateView: View, ViewProtocol {
     // MARK: - Constructor
     public init(dependencies: PopulationStateViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-        onRouteBack = dependencies.onRouteBack
+        self.onRouteBack = dependencies.onRouteBack
     }
 
     // MARK: - Body & View

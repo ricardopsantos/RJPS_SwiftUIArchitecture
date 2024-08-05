@@ -983,7 +983,7 @@ public final class Keychain {
 
     #if os(iOS) && !targetEnvironment(macCatalyst)
     @available(iOS 8.0, *)
-    public func getSharedPassword(_ completion: @escaping (_ account: String?, _ password: String?, _ error: Error?) -> Void = { account, password, error in }) {
+    public func getSharedPassword(_ completion: @escaping (_ account: String?, _ password: String?, _ error: Error?) -> Void = { _, _, _ in }) {
         if let domain = server.host {
             type(of: self).requestSharedWebCredential(domain: domain, account: nil) { credentials, error in
                 if let credential = credentials.first {

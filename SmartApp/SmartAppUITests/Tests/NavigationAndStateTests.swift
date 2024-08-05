@@ -45,11 +45,11 @@ final class NavigationAndStateTests: BaseUITests {
 
     func testA2_counterStateIsNotLostOnNavigation() {
         testA1_appStartsAndUpdatesNavigationBarTitle() // Re-use test A1
-        
+
         // Increment Counter...
         tap(button: "Increment", andWaitForStaticText: "Counter: 1", on: app)
         tap(button: "Increment", andWaitForStaticText: "Counter: 2", on: app)
-        
+
         // Push details and go back...
         tap(staticText: Constants.tab1ListItem, andWaitForStaticText: Constants.tab1DetailsTitle, on: app)
         tap(button: "backButton", andWaitForStaticText: Constants.tab1Title, on: app)
@@ -64,7 +64,7 @@ final class NavigationAndStateTests: BaseUITests {
             andWaitForStaticText: Constants.tab2Title,
             on: app
         )
-        
+
         // Go back to original tab
         tap(
             tabBarIndex: 0,
@@ -73,10 +73,10 @@ final class NavigationAndStateTests: BaseUITests {
         )
         // Dismiss details
         tap(button: "backButton", andWaitForStaticText: Constants.tab1Title, on: app)
-        
+
         // Check state
         exists(staticText: "Counter: 3", on: app)
-        
+
         // Increment counter and push details again
         tap(button: "Increment", andWaitForStaticText: "Counter: 4", on: app)
         tap(staticText: Constants.tab1ListItem, andWaitForStaticText: Constants.tab1DetailsTitle, on: app)
@@ -89,14 +89,14 @@ final class NavigationAndStateTests: BaseUITests {
         )
         tap(staticText: Constants.tab2ListItem, on: app) // Tapped list item
         waitFor(staticText: Constants.tab2DetailsTitle, on: app)
-        
+
         // Go back to original tab
         tap(
             tabBarIndex: 0,
             andWaitForStaticText: Constants.tab1DetailsTitle,
             on: app
         )
-        
+
         tap(
             tabBarIndex: 1,
             andWaitForStaticText: Constants.tab2DetailsTitle,

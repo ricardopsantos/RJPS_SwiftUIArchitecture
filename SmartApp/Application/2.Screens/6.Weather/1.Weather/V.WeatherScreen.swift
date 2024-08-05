@@ -60,7 +60,7 @@ struct WeatherView: View, ViewProtocol {
     // MARK: - Constructor
     public init(dependencies: WeatherViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-        onSelected = dependencies.onSelected
+        self.onSelected = dependencies.onSelected
     }
 
     // MARK: - Usage Attributes
@@ -107,20 +107,20 @@ struct WeatherView: View, ViewProtocol {
             ))
         }
     }
-    
+
     var counterView: some View {
         HStack {
             TextButton(onClick: {
                 viewModel.send(action: .incrementCounter)
             }, text: "Increment", style: .textOnly, accessibility: .undefined)
-            .frame(maxWidth: screenWidth / 4)
+                .frame(maxWidth: screenWidth / 4)
             Spacer()
             Text("Counter: \(viewModel.counter.description)")
                 .fontSemantic(.callout)
         }
         .padding(.horizontal, SizeNames.defaultMargin)
     }
-    
+
     var listView: some View {
         VStack(spacing: SizeNames.defaultMargin) {
             ForEach(viewModel.weatherData, id: \.self) { item in

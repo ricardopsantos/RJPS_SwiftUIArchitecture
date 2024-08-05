@@ -62,7 +62,7 @@ struct WeatherDetailsView: View, ViewProtocol {
     // MARK: - Constructor
     public init(dependencies: WeatherDetailsViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-        onRouteBack = dependencies.onRouteBack
+        self.onRouteBack = dependencies.onRouteBack
     }
 
     // MARK: - Body & View

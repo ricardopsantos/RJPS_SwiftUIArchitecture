@@ -116,22 +116,12 @@ struct ___Template___View: View, ViewProtocol {
 fileprivate extension ___Template___View {
     @ViewBuilder
     var routingView: some View {
-        Button("Push") {
-
-        }
-        Button("Sheet") {
-
-        }
-        Button("Cover") {
-
-        }
+        Button("Push") {}
+        Button("Sheet") {}
+        Button("Cover") {}
         Divider()
-        Button("viewModel.send(.dismissThis)") {
-
-        }.padding()
-        Button("viewModel.send(.dismissAll)") {
-
-        }.padding()
+        Button("viewModel.send(.dismissThis)") {}.padding()
+        Button("viewModel.send(.dismissAll)") {}.padding()
     }
 }
 
