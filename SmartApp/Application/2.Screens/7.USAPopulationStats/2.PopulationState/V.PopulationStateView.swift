@@ -19,18 +19,18 @@ struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var coordinator = RouterViewModel()
+    
     // MARK: - Usage Attributes
+    @EnvironmentObject var coordinatorTab2: RouterViewModel
     let year: String
-
+    let model: [PopulationStateModel]
+    
     // MARK: - Body & View
     var body: some View {
-        NavigationStack(path: $coordinator.navPath) {
-            buildScreen(.populationStates(year: year, model: []))
-                .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                .sheet(item: $coordinator.sheetLink, content: buildScreen)
-                .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
-        }
-        // .environmentObject(router)
+        buildScreen(.populationStates(year: year, model: model))
+            .navigationDestination(for: AppScreen.self, destination: buildScreen)
+            .sheet(item: $coordinator.sheetLink, content: buildScreen)
+            .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
     }
 
     @ViewBuilder
@@ -40,7 +40,7 @@ struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
             let dependencies: PopulationStateViewModel.Dependencies = .init(
                 model: model, year: year,
                 onRouteBack: {
-                    coordinator.navigateBack()
+                    coordinatorTab2.navigateBack()
                 }, dataUSAService: configuration.dataUSAService
             )
             PopulationStateView(dependencies: dependencies)
@@ -60,13 +60,13 @@ struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
 struct PopulationStateView: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    // @EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: PopulationStateViewModel
     // MARK: - Usage Attributes
     private let onRouteBack: () -> Void
+    // MARK: - Constructor
     public init(dependencies: PopulationStateViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-        self.onRouteBack = dependencies.onRouteBack
+        onRouteBack = dependencies.onRouteBack
     }
 
     // MARK: - Body & View
@@ -124,6 +124,6 @@ fileprivate extension PopulationStateView {
 }
 
 #Preview {
-    PopulationStateViewCoordinator(year: "2022")
+    PopulationStateViewCoordinator(year: "2022", model: [])
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

@@ -19,18 +19,16 @@ struct WeatherDetailsViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var coordinator = RouterViewModel()
+
     // MARK: - Usage Attributes
+    @EnvironmentObject var coordinatorTab1: RouterViewModel
     let model: WeatherDetailsModel
 
     // MARK: - Body & View
     var body: some View {
-        NavigationStack(path: $coordinator.navPath) {
-            buildScreen(.weatherDetailsWith(model: model))
-                .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                .sheet(item: $coordinator.sheetLink, content: buildScreen)
-                .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
-        }
-        // .environmentObject(router)
+        buildScreen(.weatherDetailsWith(model: model))
+            .sheet(item: $coordinator.sheetLink, content: buildScreen)
+            .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
     }
 
     @ViewBuilder
@@ -39,7 +37,7 @@ struct WeatherDetailsViewCoordinator: View, ViewCoordinatorProtocol {
         case .weatherDetailsWith(model: let model):
             let dependencies: WeatherDetailsViewModel.Dependencies = .init(
                 model: model, weatherService: configuration.weatherService, onRouteBack: {
-                    coordinator.navigateBack()
+                    coordinatorTab1.navigateBack()
                 }
             )
             WeatherDetailsView(dependencies: dependencies)
@@ -57,14 +55,14 @@ struct WeatherDetailsViewCoordinator: View, ViewCoordinatorProtocol {
 
 struct WeatherDetailsView: View, ViewProtocol {
     // MARK: - ViewProtocol
-
     @Environment(\.colorScheme) var colorScheme
-    // @EnvironmentObject var router: RouterViewModel
-    let onRouteBack: () -> Void
     @StateObject var viewModel: WeatherDetailsViewModel
+    // MARK: - Usage Attributes
+    let onRouteBack: () -> Void
+    // MARK: - Constructor
     public init(dependencies: WeatherDetailsViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-        self.onRouteBack = dependencies.onRouteBack
+        onRouteBack = dependencies.onRouteBack
     }
 
     // MARK: - Body & View

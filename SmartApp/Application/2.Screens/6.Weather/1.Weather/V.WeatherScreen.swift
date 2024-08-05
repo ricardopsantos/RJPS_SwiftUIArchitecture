@@ -39,16 +39,6 @@ struct WeatherViewCoordinator: View {
                 }, weatherService: configuration.weatherService
             )
             WeatherView(dependencies: dependencies)
-        case .weatherDetailsWith(model: let model):
-            // WeatherDetailsViewCoordinator(model: model)
-            let dependencies: WeatherDetailsViewModel.Dependencies = .init(
-                model: .init(weatherResponse: model.weatherResponse),
-                weatherService: configuration.weatherService,
-                onRouteBack: {
-                    coordinatorTab1.navigateBack()
-                }
-            )
-            WeatherDetailsView(dependencies: dependencies)
         default:
             EmptyView().onAppear(perform: {
                 DevTools.assert(false, message: "Not predicted \(screen)")
@@ -61,15 +51,16 @@ struct WeatherViewCoordinator: View {
 // MARK: - View
 //
 
-struct WeatherView: View {
+struct WeatherView: View, ViewProtocol {
     // MARK: - ViewProtocol
-
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: WeatherViewModel
-    let onSelected: (ModelDto.GetWeatherResponse) -> Void
+    // MARK: - Usage Attributes
+    private let onSelected: (ModelDto.GetWeatherResponse) -> Void
+    // MARK: - Constructor
     public init(dependencies: WeatherViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-        self.onSelected = dependencies.onSelected
+        onSelected = dependencies.onSelected
     }
 
     // MARK: - Usage Attributes
@@ -103,19 +94,8 @@ struct WeatherView: View {
     var content: some View {
         VStack {
             ScrollView(showsIndicators: false) {
-                VStack(spacing: SizeNames.defaultMargin) {
-                    ForEach(viewModel.weatherData, id: \.self) { item in
-                        ListItemView(
-                            title: item.timezone ?? "",
-                            subTitle: makeDescription(weatherItem: item),
-                            onTapGesture: {
-                                onSelected(item)
-                            }
-                        )
-                    }
-                }
-                .padding(.top, SizeNames.defaultMargin)
-                .padding(.horizontal, SizeNames.defaultMargin)
+                counterView
+                listView
             }
         }
         .frame(maxWidth: .infinity)
@@ -125,6 +105,35 @@ struct WeatherView: View {
                 userLong: some?.longitude
             ))
         }
+    }
+    
+    var counterView: some View {
+        HStack {
+            TextButton(onClick: {
+                viewModel.send(action: .incrementCounter)
+            }, text: "Increment Counter", style: .textOnly, accessibility: .undefined)
+            .frame(maxWidth: screenWidth / 4)
+            Spacer()
+            Text(viewModel.counter.description)
+                .fontSemantic(.callout)
+        }
+        .padding(.horizontal, SizeNames.defaultMargin)
+    }
+    
+    var listView: some View {
+        VStack(spacing: SizeNames.defaultMargin) {
+            ForEach(viewModel.weatherData, id: \.self) { item in
+                ListItemView(
+                    title: item.timezone ?? "",
+                    subTitle: makeDescription(weatherItem: item),
+                    onTapGesture: {
+                        onSelected(item)
+                    }
+                )
+            }
+        }
+        .padding(.top, SizeNames.defaultMargin)
+        .padding(.horizontal, SizeNames.defaultMargin)
     }
 }
 
@@ -138,6 +147,7 @@ fileprivate extension WeatherView {}
 //
 fileprivate extension WeatherView {
     func makeDescription(weatherItem: ModelDto.GetWeatherResponse) -> String {
+        print("fix. put on model")
         let location = "• Coords: \(weatherItem.latitude!) | \(weatherItem.longitude!)\n"
         let temperature2MMax = weatherItem.daily?.temperature2MMax?.first ?? 0
         let maxTemperature = "• Max Temperature".localizedMissing + ": " + "\(temperature2MMax) °C \n"

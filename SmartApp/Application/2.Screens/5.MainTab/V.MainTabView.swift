@@ -14,7 +14,6 @@ import DevTools
 import DesignSystem
 
 struct MainTabViewCoordinator: View {
-    @EnvironmentObject var configuration: ConfigurationViewModel
     var body: some View {
         MainTabView(dependencies: .init(
             model: .init(selectedTab: .tab1)
@@ -48,7 +47,7 @@ struct MainTabView: View {
             }
             .tabItem { TabItemView(title: "Tab1", icon: "1.circle.fill") }
             .tag(Tab.tab1)
-
+            
             NavigationStack(path: $tab2Router.navPath) {
                 PopulationNationViewCoordinator()
                     .navigationDestination(for: AppScreen.self, destination: buildScreen)
@@ -82,22 +81,14 @@ struct MainTabView: View {
     @ViewBuilder
     func buildScreen(_ screen: AppScreen) -> some View {
         switch screen {
-        case .weather:
-            let dependencies: WeatherViewModel.Dependencies = .init(
-                model: .init(), onSelected: { model in
-                    tab1Router.navigate(to: .weatherDetailsWith(model: .init(weatherResponse: model)))
-                }, weatherService: configuration.weatherService
-            )
-            WeatherView(dependencies: dependencies)
         case .weatherDetailsWith(model: let model):
-            let dependencies: WeatherDetailsViewModel.Dependencies = .init(
-                model: .init(weatherResponse: .mockLisbon14March2023!),
-                weatherService: configuration.weatherService,
-                onRouteBack: {
-                    tab1Router.navigateBack()
-                }
-            )
-            WeatherDetailsView(dependencies: dependencies)
+            WeatherDetailsViewCoordinator(model: model)
+                .environmentObject(configuration)
+                .environmentObject(tab1Router)
+        case .populationStates(year: let year, model: let model):
+            PopulationStateViewCoordinator(year: year, model: model)
+                .environmentObject(configuration)
+                .environmentObject(tab2Router)
         default:
             EmptyView().onAppear(perform: {
                 DevTools.assert(false, message: "Not predicted \(screen)")

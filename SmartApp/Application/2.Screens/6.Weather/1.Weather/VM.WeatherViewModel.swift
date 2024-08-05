@@ -17,11 +17,9 @@ import Core
 //
 
 struct WeatherModel: Equatable, Hashable {
-    let message: String
     let counter: Int
 
-    init(message: String = "", counter: Int = 0) {
-        self.message = message
+    init(counter: Int = 0) {
         self.counter = counter
     }
 }
@@ -34,6 +32,7 @@ extension WeatherViewModel {
     enum Actions {
         case didAppear
         case didDisappear
+        case incrementCounter
         case getWeatherData(userLat: Double?, userLong: Double?)
     }
 
@@ -49,9 +48,12 @@ class WeatherViewModel: BaseViewModel {
     @Published var weatherData: [ModelDto.GetWeatherResponse] = []
 
     // MARK: - Auxiliar Attributes
+    @Published var counter: Int = 0
     private let weatherService: WeatherServiceProtocol
+    
     public init(dependencies: Dependencies) {
-        self.weatherService = dependencies.weatherService
+        weatherService = dependencies.weatherService
+        counter = dependencies.model.counter
         super.init()
         send(action: .getWeatherData(userLat: nil, userLong: nil))
     }
@@ -66,6 +68,8 @@ class WeatherViewModel: BaseViewModel {
             ()
         case .didDisappear:
             ()
+        case .incrementCounter:
+            counter += 1
         case .getWeatherData(userLat: let userLat, userLong: let userLong):
             Task { @MainActor in
                 loadingModel = .loading(message: "Loading".localizedMissing)

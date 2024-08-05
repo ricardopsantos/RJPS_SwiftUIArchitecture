@@ -58,11 +58,9 @@ struct UserDetailsViewCoordinator: View, ViewCoordinatorProtocol {
 
 struct UserDetailsView: View {
     // MARK: - ViewProtocol
-
     @Environment(\.colorScheme) var colorScheme
-    // @EnvironmentObject var router: RouterViewModel
-    @StateObject var viewModel: UserDetailsViewModel
-    let onCompletion: (String) -> Void
+    @StateObject private var viewModel: UserDetailsViewModel
+    private let onCompletion: (String) -> Void
     public init(
         dependencies: UserDetailsViewModel.Dependencies,
         onCompletion: @escaping (String) -> Void
