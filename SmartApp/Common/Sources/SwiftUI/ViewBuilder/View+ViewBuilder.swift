@@ -6,7 +6,7 @@
 import Foundation
 import SwiftUI
 
-/*
+/**
  In SwiftUI, the @ViewBuilder attribute is used to indicate that a function or initializer returns one or more views
  that should be automatically embedded in a parent view.
  */

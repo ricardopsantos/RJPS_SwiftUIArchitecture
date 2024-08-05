@@ -12,15 +12,18 @@ import Domain
 import Common
 import Core
 
-@MainActor
-class TermsAndConditionsViewModel: ObservableObject {
+extension TermsAndConditionsViewModel {
     enum Actions {
         case didAppear
         case didDisappear
         case doSomething
     }
+}
 
-    @Published var alertModel: Model.AlertModel?
+class TermsAndConditionsViewModel: BaseViewModel {
+    // MARK: - Usage Attributes
+
+    // MARK: - Auxiliar Attributes
     private let sampleService: SampleServiceProtocol?
     public init(sampleService: SampleServiceProtocol?) {
         self.sampleService = sampleService

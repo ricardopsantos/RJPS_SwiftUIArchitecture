@@ -16,7 +16,7 @@ import Core
 // MARK: - Model
 //
 
-struct ___Template___Model: Equatable, Hashable {
+public struct ___Template___Model: Equatable, Hashable {
     let message: String
     let counter: Int
 
@@ -34,10 +34,7 @@ extension ___Template___ViewModel {
     enum Actions {
         case didAppear
         case didDisappear
-        case dismissThis
         case increment
-        case dismissAll
-        case routeToSceneX
         case displayRandomError
     }
 
@@ -51,12 +48,10 @@ extension ___Template___ViewModel {
 //
 // MARK: - ViewModel
 //
-@MainActor
-class ___Template___ViewModel: ObservableObject {
+class ___Template___ViewModel: BaseViewModel {
     // MARK: - Usage Attributes
     @Published private(set) var message: String = ""
     @Published var counter: Int = 0
-    @Published private(set) var alertModel: Model.AlertModel?
 
     // MARK: - Auxiliar Attributes
     private let sampleService: SampleServiceProtocol?
@@ -75,9 +70,6 @@ class ___Template___ViewModel: ObservableObject {
             message = "Counter: \(counter)"
         case .displayRandomError:
             alertModel = .init(type: .error, message: String.randomWithSpaces(10))
-        case .routeToSceneX: ()
-        case .dismissThis: ()
-        case .dismissAll: ()
         }
     }
 }

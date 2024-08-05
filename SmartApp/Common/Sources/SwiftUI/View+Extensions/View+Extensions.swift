@@ -18,8 +18,8 @@ public extension View {
                     Button {
                         action()
                     } label: {
-                        Image("back")
-                            .tint(.white)
+                        Image(systemName: "arrow.backward")
+                            .tint(.secondary)
                     }
                 }
             }
@@ -36,7 +36,6 @@ public extension View {
     @inlinable func springAnimation() -> some View {
         animation(
             .spring,
-
             value: 1.5
         )
     }
@@ -69,11 +68,26 @@ public extension View {
 }
 
 //
+// MARK: - View (Frame)
+//
+public extension View {
+    @ViewBuilder
+    func frame(_ length: CGFloat) -> some View {
+        frame(width: length, height: length)
+    }
+}
+
+//
 // MARK: - View (Corner utils)
 //
 
 public extension View {
-    func addCorner(color: Color, lineWidth: CGFloat, padding: Bool) -> some View {
+    func addCorner(
+        color: Color,
+
+        lineWidth: CGFloat,
+        padding: Bool
+    ) -> some View {
         doIf(padding) { $0.padding(8) }
             .overlay(
                 Capsule()
@@ -83,7 +97,11 @@ public extension View {
     }
 
     /// Usage `.cornerRadius1(24, corners: [.topLeft, .topRight])`
-    func cornerRadius1(_ radius: CGFloat, corners: UIRectCorner = .allCorners) -> some View {
+    func cornerRadius1(
+        _ radius: CGFloat,
+
+        corners: UIRectCorner = .allCorners
+    ) -> some View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
 
@@ -102,7 +120,11 @@ public extension View {
             .cornerRadius(radius) // Outer corner radius
     }
 
-    func cornerRadius5(_ radius: CGFloat, corners: UIRectCorner = .allCorners) -> some View {
+    func cornerRadius5(
+        _ radius: CGFloat,
+
+        corners: UIRectCorner = .allCorners
+    ) -> some View {
         clipShape(
             RoundedCorner(radius: radius, corners: corners)
         )

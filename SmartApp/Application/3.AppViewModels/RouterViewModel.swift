@@ -1,5 +1,5 @@
 //
-//  Router.swift
+//  RouterViewModel.swift
 //  SmartApp
 //
 //  Created by Ricardo Santos on 19/07/2024.
@@ -12,7 +12,6 @@ public final class RouterViewModel: ObservableObject {
     // MARK: - Dependency Attributes
 
     // MARK: - Usage Attributes
-
     @Published var navPath = NavigationPath()
     @Published var sheetLink: AppScreen?
     @Published var coverLink: AppScreen?
@@ -25,6 +24,10 @@ public final class RouterViewModel: ObservableObject {
     public init() {}
 
     // MARK: - Functions
+
+    public func navigate(to appScreen: AppScreen) {
+        navPath.append(appScreen)
+    }
 
     public func navigate(to destination: any Hashable) {
         navPath.append(destination)
@@ -40,5 +43,13 @@ public final class RouterViewModel: ObservableObject {
         if !navPath.isEmpty {
             navPath.removeLast(navPath.count)
         }
+    }
+}
+
+extension RouterViewModel: Equatable {
+    public static func == (lhs: RouterViewModel, rhs: RouterViewModel) -> Bool {
+        lhs.navPath == rhs.navPath &&
+            lhs.sheetLink == rhs.sheetLink &&
+            lhs.coverLink == rhs.coverLink
     }
 }

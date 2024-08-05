@@ -11,7 +11,9 @@ import UIKit
 //
 
 /**
- # A keypath is essentially a string that represents the path to a property or method of a type.
+ Keypaths in iOS Swift are a powerful tool for accessing and mutating data in structs and classes. They allow developers to write concise, expressive code by providing a way to refer to properties and methods of a particular type in a type-safe way.
+
+ A keypath is essentially a string that represents the path to a property or method of a type.
  */
 
 //
@@ -21,12 +23,12 @@ import UIKit
 extension Common {
     struct KeyPathStudy {
         private init() {}
-        struct Person: KeypathConfigurationProtocol {
+        struct Person: KeyPathConfigurationProtocol {
             var name: String
             var address: Address
         }
 
-        struct Address: KeypathConfigurationProtocol {
+        struct Address: KeyPathConfigurationProtocol {
             var street: String
             var city: String
         }
@@ -34,19 +36,19 @@ extension Common {
 }
 
 //
-// MARK: - KeypathConfigurationProtocol
+// MARK: - KeyPathConfigurationProtocol
 //
 
-protocol KeypathConfigurationProtocol {}
+protocol KeyPathConfigurationProtocol {}
 
-extension KeypathConfigurationProtocol where Self: Any {
+extension KeyPathConfigurationProtocol where Self: Any {
     func with<T>(_ property: ReferenceWritableKeyPath<Self, T>, setTo value: T) -> Self {
         self[keyPath: property] = value
         return self
     }
 }
 
-extension UIView: KeypathConfigurationProtocol {}
+extension UIView: KeyPathConfigurationProtocol {}
 
 //
 // MARK: - Sample

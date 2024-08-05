@@ -19,6 +19,7 @@ class ConfigurationViewModel: ObservableObject {
     let userService: UserServiceProtocol
     let weatherService: WeatherServiceProtocol
     let sampleService: SampleServiceProtocol
+    let dataUSAService: DataUSAServiceProtocol
 
     // Repositories
     let nonSecureAppPreferences: NonSecureAppPreferencesProtocol
@@ -38,6 +39,7 @@ class ConfigurationViewModel: ObservableObject {
         userService: UserServiceProtocol,
         weatherService: WeatherServiceProtocol,
         sampleService: SampleServiceProtocol,
+        dataUSAService: DataUSAServiceProtocol,
         userRepository: UserRepositoryProtocol,
         nonSecureAppPreferences: NonSecureAppPreferencesProtocol,
         secureAppPreferences: SecureAppPreferencesProtocol
@@ -45,6 +47,7 @@ class ConfigurationViewModel: ObservableObject {
         self.userService = userService
         self.weatherService = weatherService
         self.sampleService = sampleService
+        self.dataUSAService = dataUSAService
         self.userRepository = userRepository
         self.nonSecureAppPreferences = nonSecureAppPreferences
         self.secureAppPreferences = secureAppPreferences
@@ -66,6 +69,7 @@ extension ConfigurationViewModel {
             userService: DependenciesManager.Services.userService,
             weatherService: DependenciesManager.Services.weatherService,
             sampleService: DependenciesManager.Services.sampleService,
+            dataUSAService: DependenciesManager.Services.dataUSAService,
             userRepository: DependenciesManager.Repository.userRepository,
             nonSecureAppPreferences: DependenciesManager.Repository.nonSecureAppPreferences,
             secureAppPreferences: DependenciesManager.Repository.secureAppPreferences

@@ -16,19 +16,15 @@ import DevTools
 struct RootViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
-    @StateObject var router = RouterViewModel()
+    @StateObject var coordinator = RouterViewModel()
     // MARK: - Usage Attributes
 
     // MARK: - Body & View
     var body: some View {
-        NavigationStack(path: $router.navPath) {
-            buildScreen(.root)
-                .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                .sheet(item: $router.sheetLink, content: buildScreen)
-                .fullScreenCover(item: $router.coverLink, content: buildScreen)
-        }
-        .environmentObject(router)
-        .environmentObject(configuration.authenticationViewModel)
+        buildScreen(.root)
+            .sheet(item: $coordinator.sheetLink, content: buildScreen)
+            .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
+            .environmentObject(configuration.authenticationViewModel)
     }
 
     /// Navigation Links
@@ -59,7 +55,6 @@ struct RootViewCoordinator: View, ViewCoordinatorProtocol {
 struct RootView: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: RootViewModel
     public init(dependencies: RootViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
@@ -88,7 +83,7 @@ struct RootView: View, ViewProtocol {
 
     @ViewBuilder
     var content: some View {
-        if Common_Utils.true {
+        if Common_Utils.onSimulator {
             // swiftlint:disable redundant_discardable_let
             let _ = Self._printChanges()
             // swiftlint:enable redundant_discardable_let

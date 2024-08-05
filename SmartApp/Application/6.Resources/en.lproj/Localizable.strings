@@ -6,11 +6,20 @@
 
  */
 
-//MARK: - AuthorizationScreen
 "Login" = "Login";
 "Password" = "Password";
 
-//MARK: - AcceptTermsAndConditionsScreen
 "Terms&Conditions" = "Terms & Conditions";
 "ReadAndAcceptTerms&Conditions" = "Read and accept Terms & Conditions";
 "DummyTermsAndConditions" = "I am entering into an iOS app template.\nI will improve my app as per my needs.\n...";
+
+"PopulationNationViewTitle" = "USA Population";
+"PopulationNationViewTitleWithRecords" = "USA Population: Last %d years";
+"PopulationStateView" = "USA States Population";
+"PopulationStateViewWithRecords" = "USA States Population for %@";
+"LastYear" = "last year";
+"PleaseTryAgainLatter" = "Please try again latter";
+"NotInternetPleaseTryAgainLatter" = "No network connection. Please try again latter";
+"Loading" = "Loading";
+"Success" = "Success";
+"NoDataTryAgainLatter" = "No data. Please try again latter";

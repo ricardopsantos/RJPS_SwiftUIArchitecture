@@ -13,13 +13,6 @@ import SwiftUI
 public extension Binding {
     func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
         didSet(handler)
-        /* Binding(
-             get: { wrappedValue },
-             set: {
-                 wrappedValue = $0
-                 handler($0)
-             }
-         ) */
     }
 
     func didSet(_ handler: @escaping (Value) -> Void) -> Binding {

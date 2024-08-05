@@ -9,4 +9,12 @@ public extension Int {
     var boolValue: Bool {
         self != 0
     }
+
+    var localeString: String {
+        let formatter = NumberFormatter()
+        formatter.locale = .current
+        formatter.numberStyle = .decimal
+        formatter.isLenient = true
+        return formatter.string(from: self as NSNumber) ?? "\(self)"
+    }
 }

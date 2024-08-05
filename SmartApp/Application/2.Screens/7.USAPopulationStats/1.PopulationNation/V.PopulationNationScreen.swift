@@ -1,0 +1,124 @@
+//
+//  PopulationNationView.swift
+//  SmartApp
+//
+//  Created by Ricardo Santos on 02/08/2024.
+//
+
+import SwiftUI
+//
+import DevTools
+import Common
+import DesignSystem
+
+//
+// MARK: - Coordinator
+//
+struct PopulationNationViewCoordinator: View, ViewCoordinatorProtocol {
+    // MARK: - ViewCoordinatorProtocol
+    @EnvironmentObject var configuration: ConfigurationViewModel
+    @StateObject var coordinator = RouterViewModel()
+    // MARK: - Usage Attributes
+    @EnvironmentObject var coordinatorTab2: RouterViewModel
+
+    // MARK: - Body & View
+    var body: some View {
+        buildScreen(.populationNation)
+            .sheet(item: $coordinator.sheetLink, content: buildScreen)
+            .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
+    }
+
+    @ViewBuilder
+    func buildScreen(_ screen: AppScreen) -> some View {
+        switch screen {
+        case .populationNation:
+            let dependencies: PopulationNationViewModel.Dependencies = .init(
+                model: .init(),
+                dataUSAService: configuration.dataUSAService,
+                onSelected: { item in
+                    coordinatorTab2.navigate(to: .populationStates(year: item.year, model: []))
+                }
+            )
+            PopulationNationView(dependencies: dependencies)
+        default:
+            EmptyView().onAppear(perform: {
+                DevTools.assert(false, message: "Not predicted \(screen)")
+            })
+        }
+    }
+}
+
+//
+// MARK: - View
+//
+
+struct PopulationNationView: View, ViewProtocol {
+    // MARK: - ViewProtocol
+    @Environment(\.colorScheme) var colorScheme
+    @StateObject var viewModel: PopulationNationViewModel
+    // MARK: - Usage Attributes
+    let onSelected: (PopulationNationModel) -> Void
+    // MARK: - Constructor
+    public init(dependencies: PopulationNationViewModel.Dependencies) {
+        _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
+        self.onSelected = dependencies.onSelected
+    }
+
+    // MARK: - Body & View
+    var body: some View {
+        BaseView.withLoading(
+            sender: "\(Self.self)",
+            appScreen: .populationNation,
+            navigationViewModel: .disabled,
+            background: .default,
+            loadingModel: viewModel.loadingModel,
+            alertModel: viewModel.alertModel
+        ) {
+            content
+        }.onAppear {
+            viewModel.send(action: .didAppear)
+        }.onDisappear {
+            viewModel.send(action: .didDisappear)
+        }
+    }
+
+    var content: some View {
+        VStack(spacing: 0) {
+            Header(text: viewModel.title).padding(.horizontal, SizeNames.defaultMargin)
+            ScrollView(showsIndicators: false) {
+                listView
+            }
+            .refreshable {
+                viewModel.send(action: .getPopulationData(cachePolicy: .load))
+            }.padding()
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
+//
+// MARK: - Auxiliar Views
+//
+fileprivate extension PopulationNationView {
+    var listView: some View {
+        VStack(spacing: SizeNames.defaultMarginSmall) {
+            ForEach(Array(viewModel.model.enumerated()), id: \.element) { index, item in
+                ListItemView(
+                    title: item.title,
+                    subTitle: item.subTitle,
+                    backgroundColor: ColorSemantic.backgroundTertiary.color,
+                    onTapGesture: {
+                        let label = "Taped index \(index): Year \(item.year)"
+                        AnalyticsManager.shared.handleListItemTapEvent(label: label, sender: "\(Self.self)")
+                        onSelected(item)
+                    }
+                )
+            }
+        }
+    }
+}
+
+#Preview {
+    PopulationNationViewCoordinator()
+        .environmentObject(ConfigurationViewModel.defaultForPreviews)
+}

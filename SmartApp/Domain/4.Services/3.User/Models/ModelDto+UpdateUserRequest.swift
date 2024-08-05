@@ -8,7 +8,6 @@
 
 import Foundation
 //
-import Domain
 import Common
 
 public extension ModelDto {

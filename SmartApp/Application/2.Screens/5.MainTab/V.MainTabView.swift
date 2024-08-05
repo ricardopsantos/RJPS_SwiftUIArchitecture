@@ -11,68 +11,88 @@ import Domain
 import Common
 import Core
 import DevTools
+import DesignSystem
 
-struct MainTabViewCoordinator: View, ViewCoordinatorProtocol {
-    @EnvironmentObject var configuration: ConfigurationViewModel
-    @StateObject var router = RouterViewModel()
-
+struct MainTabViewCoordinator: View {
     var body: some View {
-        NavigationStack(path: $router.navPath) {
-            buildScreen(.mainApp)
-                .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                .sheet(item: $router.sheetLink, content: buildScreen)
-                .fullScreenCover(item: $router.coverLink, content: buildScreen)
-        }
-        .environmentObject(router)
-    }
-
-    /// Navigation Links
-    @ViewBuilder func buildScreen(_ screen: AppScreen) -> some View {
-        switch screen {
-        case .mainApp:
-            MainTabView(dependencies: .init(
-                model: .init(selectedTab: .tab1),
-                sampleService: configuration.sampleService))
-        default:
-            EmptyView().onAppear(perform: {
-                DevTools.assert(false, message: "Not predicted \(screen)")
-            })
-        }
+        MainTabView(dependencies: .init(
+            model: .init(selectedTab: .tab1)
+        ))
     }
 }
 
-struct MainTabView: View, ViewProtocol {
+struct MainTabView: View {
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var router: RouterViewModel
+    @EnvironmentObject var configuration: ConfigurationViewModel
+    @StateObject var tab1Router = RouterViewModel()
+    @StateObject var tab2Router = RouterViewModel()
+    @StateObject var tab3Router = RouterViewModel()
+    @StateObject var tab4Router = RouterViewModel()
     @StateObject var viewModel: MainTabViewModel
+
     public init(dependencies: MainTabViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
     }
 
     var body: some View {
-        if Common_Utils.true {
-            // swiftlint:disable redundant_discardable_let
-            let _ = Self._printChanges()
-            // swiftlint:enable redundant_discardable_let
-        }
         content
     }
 
     var content: some View {
-        TabView(selection: $viewModel.selectedTab, content: {
-            WeatherViewCoordinator()
-                .tabItem { TabItemView(title: "Tab1", icon: "1.circle.fill") }
-                .tag(Tab.tab1)
-            ___Template___ViewCoordinator()
-                .tabItem { TabItemView(title: "Tab2", icon: "2.circle.fill") }
-                .tag(Tab.tab2)
-            SettingsViewCoordinator()
-                .tabItem { TabItemView(title: "Tab3", icon: "3.circle.fill") }
-                .tag(Tab.tab3)
-        })
+        TabView(selection: $viewModel.selectedTab) {
+            NavigationStack(path: $tab1Router.navPath) {
+                WeatherViewCoordinator()
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .environmentObject(tab1Router)
+            }
+            .tabItem { TabItemView(title: "Tab1", icon: "1.circle.fill") }
+            .tag(Tab.tab1)
+
+            NavigationStack(path: $tab2Router.navPath) {
+                PopulationNationViewCoordinator()
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .environmentObject(tab2Router)
+            }
+            .tabItem { TabItemView(title: "Tab2", icon: "2.circle.fill") }
+            .tag(Tab.tab2)
+
+            NavigationStack(path: $tab3Router.navPath) {
+                ___Template___ViewCoordinator()
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .environmentObject(tab3Router)
+            }
+            .tabItem { TabItemView(title: "Tab3", icon: "3.circle.fill") }
+            .tag(Tab.tab3)
+
+            NavigationStack(path: $tab4Router.navPath) {
+                SettingsViewCoordinator()
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .environmentObject(tab4Router)
+            }
+            .tabItem { TabItemView(title: "Tab4", icon: "4.circle.fill") }
+            .tag(Tab.tab4)
+        }
         .accentColor(.primaryColor)
         .onAppear {
-            UITabBar.appearance().unselectedItemTintColor = UIColor(.backgroundTertiary)
+            UITabBar.appearance().unselectedItemTintColor = ColorSemantic.backgroundTertiary.uiColor
+        }
+    }
+
+    @ViewBuilder
+    func buildScreen(_ screen: AppScreen) -> some View {
+        switch screen {
+        case .weatherDetailsWith(model: let model):
+            WeatherDetailsViewCoordinator(model: model)
+                .environmentObject(configuration)
+                .environmentObject(tab1Router)
+        case .populationStates(year: let year, model: let model):
+            PopulationStateViewCoordinator(year: year, model: model)
+                .environmentObject(configuration)
+                .environmentObject(tab2Router)
+        default:
+            EmptyView().onAppear(perform: {
+                DevTools.assert(false, message: "Not predicted \(screen)")
+            })
         }
     }
 }

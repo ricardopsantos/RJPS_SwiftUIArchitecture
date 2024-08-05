@@ -56,7 +56,12 @@ class AuthenticationViewModel: ObservableObject {
         secureAppPreferences.password = user.password
         nonSecureAppPreferences.isAuthenticated = true
         // isAuthenticated = true
-        AnalyticsManager.shared.handleCustomEvent(eventType: .login, properties: ["email": user.email])
+        AnalyticsManager.shared.handleCustomEvent(
+            eventType: .login,
+
+            properties: ["email": user.email],
+            sender: "\(Self.self)"
+        )
     }
 
     func logout() async throws {

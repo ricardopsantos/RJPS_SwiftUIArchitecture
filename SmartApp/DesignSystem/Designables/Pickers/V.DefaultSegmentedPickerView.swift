@@ -15,7 +15,7 @@ public struct DefaultSegmentedPickerView: View {
         let tag: String
         public init(value: String, tag: String = "") {
             self.value = value
-            self.tag = tag.isEmpty ? value: tag
+            self.tag = tag.isEmpty ? value : tag
         }
     }
 

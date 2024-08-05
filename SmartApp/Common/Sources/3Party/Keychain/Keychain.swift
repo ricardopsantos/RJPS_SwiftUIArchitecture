@@ -23,15 +23,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-// swiftlint:disable all
+/*
+ https://raw.githubusercontent.com/kishikawakatsumi/KeychainAccess/master/Lib/KeychainAccess/Keychain.swift
+ */
 
 import Foundation
 import Security
-#if os(iOS) || os(OSX)
+#if os(iOS) || os(macOS)
 import LocalAuthentication
 #endif
 
-public let KeychainAccessErrorDomain = "com.kishikawakatsumi.commom.KeychainAccess.error"
+public let KeychainAccessErrorDomain = "com.kishikawakatsumi.KeychainAccess.error"
 
 public enum ItemClass {
     case genericPassword
@@ -87,7 +89,7 @@ public enum Accessibility {
     /**
      Item data can only be accessed
      while the device is unlocked. This is recommended for items that only
-     need be accessible while the application is in the foreground. Items
+     need be accesible while the application is in the foreground. Items
      with this attribute will migrate to a new device when using encrypted
      backups.
      */
@@ -96,7 +98,7 @@ public enum Accessibility {
     /**
      Item data can only be
      accessed once the device has been unlocked after a restart. This is
-     recommended for items that need to be accessible by background
+     recommended for items that need to be accesible by background
      applications. Items with this attribute will migrate to a new device
      when using encrypted backups.
      */
@@ -122,7 +124,7 @@ public enum Accessibility {
      without a passcode. Disabling the device passcode will cause all
      items in this class to be deleted.
      */
-    @available(iOS 8.0, OSX 10.10, *)
+    @available(iOS 8.0, macOS 10.10, *)
     case whenPasscodeSetThisDeviceOnly
 
     /**
@@ -183,7 +185,7 @@ public enum AuthenticationUI {
     case skip
 }
 
-@available(iOS 9.0, OSX 10.11, *)
+@available(iOS 9.0, macOS 10.11, *)
 public extension AuthenticationUI {
     var rawValue: String {
         switch self {
@@ -214,7 +216,7 @@ public struct AuthenticationPolicy: OptionSet {
      have to be available or enrolled. Item is still accessible by Touch ID
      even if fingers are added or removed.
      */
-    @available(iOS 8.0, OSX 10.10, watchOS 2.0, tvOS 8.0, *)
+    @available(iOS 8.0, macOS 10.10, watchOS 2.0, tvOS 8.0, *)
     public static let userPresence = AuthenticationPolicy(rawValue: 1 << 0)
 
     /**
@@ -222,14 +224,14 @@ public struct AuthenticationPolicy: OptionSet {
      at least one finger must be enrolled. With Face ID user has to be enrolled. Item is still accessible by Touch ID even
      if fingers are added or removed. Item is still accessible by Face ID if user is re-enrolled.
      */
-    @available(iOS 11.3, OSX 10.13.4, watchOS 4.3, tvOS 11.3, *)
+    @available(iOS 11.3, macOS 10.13.4, watchOS 4.3, tvOS 11.3, *)
     public static let biometryAny = AuthenticationPolicy(rawValue: 1 << 1)
 
     /**
      Deprecated, please use biometryAny instead.
      */
     @available(iOS, introduced: 9.0, deprecated: 11.3, renamed: "biometryAny")
-    @available(OSX, introduced: 10.12.1, deprecated: 10.13.4, renamed: "biometryAny")
+    @available(macOS, introduced: 10.12.1, deprecated: 10.13.4, renamed: "biometryAny")
     @available(watchOS, introduced: 2.0, deprecated: 4.3, renamed: "biometryAny")
     @available(tvOS, introduced: 9.0, deprecated: 11.3, renamed: "biometryAny")
     public static let touchIDAny = AuthenticationPolicy(rawValue: 1 << 1)
@@ -238,14 +240,14 @@ public struct AuthenticationPolicy: OptionSet {
      Constraint: Touch ID from the set of currently enrolled fingers. Touch ID must be available and at least one finger must
      be enrolled. When fingers are added or removed, the item is invalidated. When Face ID is re-enrolled this item is invalidated.
      */
-    @available(iOS 11.3, OSX 10.13, watchOS 4.3, tvOS 11.3, *)
+    @available(iOS 11.3, macOS 10.13, watchOS 4.3, tvOS 11.3, *)
     public static let biometryCurrentSet = AuthenticationPolicy(rawValue: 1 << 3)
 
     /**
      Deprecated, please use biometryCurrentSet instead.
      */
     @available(iOS, introduced: 9.0, deprecated: 11.3, renamed: "biometryCurrentSet")
-    @available(OSX, introduced: 10.12.1, deprecated: 10.13.4, renamed: "biometryCurrentSet")
+    @available(macOS, introduced: 10.12.1, deprecated: 10.13.4, renamed: "biometryCurrentSet")
     @available(watchOS, introduced: 2.0, deprecated: 4.3, renamed: "biometryCurrentSet")
     @available(tvOS, introduced: 9.0, deprecated: 11.3, renamed: "biometryCurrentSet")
     public static let touchIDCurrentSet = AuthenticationPolicy(rawValue: 1 << 3)
@@ -253,14 +255,14 @@ public struct AuthenticationPolicy: OptionSet {
     /**
      Constraint: Device passcode
      */
-    @available(iOS 9.0, OSX 10.11, watchOS 2.0, tvOS 9.0, *)
+    @available(iOS 9.0, macOS 10.11, watchOS 2.0, tvOS 9.0, *)
     public static let devicePasscode = AuthenticationPolicy(rawValue: 1 << 4)
 
     /**
      Constraint: Watch
      */
     @available(iOS, unavailable)
-    @available(OSX 10.15, *)
+    @available(macOS 10.15, *)
     @available(watchOS, unavailable)
     @available(tvOS, unavailable)
     public static let watch = AuthenticationPolicy(rawValue: 1 << 5)
@@ -269,27 +271,27 @@ public struct AuthenticationPolicy: OptionSet {
      Constraint logic operation: when using more than one constraint,
      at least one of them must be satisfied.
      */
-    @available(iOS 9.0, OSX 10.12.1, watchOS 2.0, tvOS 9.0, *)
+    @available(iOS 9.0, macOS 10.12.1, watchOS 2.0, tvOS 9.0, *)
     public static let or = AuthenticationPolicy(rawValue: 1 << 14)
 
     /**
      Constraint logic operation: when using more than one constraint,
      all must be satisfied.
      */
-    @available(iOS 9.0, OSX 10.12.1, watchOS 2.0, tvOS 9.0, *)
+    @available(iOS 9.0, macOS 10.12.1, watchOS 2.0, tvOS 9.0, *)
     public static let and = AuthenticationPolicy(rawValue: 1 << 15)
 
     /**
      Create access control for private key operations (i.e. sign operation)
      */
-    @available(iOS 9.0, OSX 10.12.1, watchOS 2.0, tvOS 9.0, *)
+    @available(iOS 9.0, macOS 10.12.1, watchOS 2.0, tvOS 9.0, *)
     public static let privateKeyUsage = AuthenticationPolicy(rawValue: 1 << 30)
 
     /**
      Security: Application provided password for data encryption key generation.
      This is not a constraint but additional item encryption mechanism.
      */
-    @available(iOS 9.0, OSX 10.12.1, watchOS 2.0, tvOS 9.0, *)
+    @available(iOS 9.0, macOS 10.12.1, watchOS 2.0, tvOS 9.0, *)
     public static let applicationPassword = AuthenticationPolicy(rawValue: 1 << 31)
 
     #if swift(>=2.3)
@@ -329,7 +331,7 @@ public struct Attributes {
     }
 
     public var accessControl: SecAccessControl? {
-        if #available(OSX 10.10, *) {
+        if #available(macOS 10.10, *) {
             if let accessControl = attributes[AttributeAccessControl] {
                 return accessControl as! SecAccessControl
             }
@@ -463,7 +465,7 @@ public final class Keychain {
         options.accessibility
     }
 
-    @available(iOS 8.0, OSX 10.10, *)
+    @available(iOS 8.0, macOS 10.10, *)
     @available(watchOS, unavailable)
     public var authenticationPolicy: AuthenticationPolicy? {
         options.authenticationPolicy
@@ -481,19 +483,19 @@ public final class Keychain {
         options.comment
     }
 
-    @available(iOS 8.0, OSX 10.10, *)
+    @available(iOS 8.0, macOS 10.10, *)
     @available(watchOS, unavailable)
     public var authenticationPrompt: String? {
         options.authenticationPrompt
     }
 
-    @available(iOS 9.0, OSX 10.11, *)
+    @available(iOS 9.0, macOS 10.11, *)
     public var authenticationUI: AuthenticationUI {
         options.authenticationUI ?? .allow
     }
 
-    #if os(iOS) || os(OSX)
-    @available(iOS 9.0, OSX 10.11, *)
+    #if os(iOS) || os(macOS)
+    @available(iOS 9.0, macOS 10.11, *)
     public var authenticationContext: LAContext? {
         options.authenticationContext as? LAContext
     }
@@ -511,12 +513,6 @@ public final class Keychain {
         self.init(options)
     }
 
-    public convenience init(service: String) {
-        var options = Options()
-        options.service = service
-        self.init(options)
-    }
-
     public convenience init(accessGroup: String) {
         var options = Options()
         if let bundleIdentifier = Bundle.main.bundleIdentifier {
@@ -526,7 +522,7 @@ public final class Keychain {
         self.init(options)
     }
 
-    public convenience init(service: String, accessGroup: String) {
+    public convenience init(service: String, accessGroup: String? = nil) {
         var options = Options()
         options.service = service
         options.accessGroup = accessGroup
@@ -559,7 +555,7 @@ public final class Keychain {
         return Keychain(options)
     }
 
-    @available(iOS 8.0, OSX 10.10, *)
+    @available(iOS 8.0, macOS 10.10, *)
     @available(watchOS, unavailable)
     public func accessibility(_ accessibility: Accessibility, authenticationPolicy: AuthenticationPolicy) -> Keychain {
         var options = options
@@ -592,7 +588,7 @@ public final class Keychain {
         return Keychain(options)
     }
 
-    @available(iOS 8.0, OSX 10.10, *)
+    @available(iOS 8.0, macOS 10.10, *)
     @available(watchOS, unavailable)
     public func authenticationPrompt(_ authenticationPrompt: String) -> Keychain {
         var options = options
@@ -600,15 +596,15 @@ public final class Keychain {
         return Keychain(options)
     }
 
-    @available(iOS 9.0, OSX 10.11, *)
+    @available(iOS 9.0, macOS 10.11, *)
     public func authenticationUI(_ authenticationUI: AuthenticationUI) -> Keychain {
         var options = options
         options.authenticationUI = authenticationUI
         return Keychain(options)
     }
 
-    #if os(iOS) || os(OSX)
-    @available(iOS 9.0, OSX 10.11, *)
+    #if os(iOS) || os(macOS)
+    @available(iOS 9.0, macOS 10.11, *)
     public func authenticationContext(_ authenticationContext: LAContext) -> Keychain {
         var options = options
         options.authenticationContext = authenticationContext
@@ -627,7 +623,7 @@ public final class Keychain {
             return nil
         }
         guard let string = String(data: data, encoding: .utf8) else {
-            Common.LogsManager.error("failed to convert data to string")
+            print("failed to convert data to string")
             throw Status.conversionError
         }
         return string
@@ -689,7 +685,7 @@ public final class Keychain {
 
     public func set(_ value: String, key: String, ignoringAttributeSynchronizable: Bool = true) throws {
         guard let data = value.data(using: .utf8, allowLossyConversion: false) else {
-            Common.LogsManager.error("failed to convert data to data")
+            print("failed to convert string to data")
             throw Status.conversionError
         }
         try set(data, key: key, ignoringAttributeSynchronizable: ignoringAttributeSynchronizable)
@@ -708,9 +704,9 @@ public final class Keychain {
         } else {
             query[UseNoAuthenticationUI] = kCFBooleanTrue
         }
-        #elseif os(OSX)
+        #elseif os(macOS)
         query[ReturnData] = kCFBooleanTrue
-        if #available(OSX 10.11, *) {
+        if #available(macOS 10.11, *) {
             if let authenticationUI = options.authenticationUI {
                 query[UseAuthenticationUI] = authenticationUI.rawValue
             } else {
@@ -731,7 +727,7 @@ public final class Keychain {
 
             var (attributes, error) = options.attributes(key: nil, value: value)
             if let error = error {
-                Common.LogsManager.error(error.localizedDescription)
+                print(error.localizedDescription)
                 throw error
             }
 
@@ -756,7 +752,7 @@ public final class Keychain {
         case errSecItemNotFound:
             var (attributes, error) = options.attributes(key: key, value: value)
             if let error = error {
-                Common.LogsManager.error(error.localizedDescription)
+                print(error.localizedDescription)
                 throw error
             }
 
@@ -877,18 +873,18 @@ public final class Keychain {
                 query[UseNoAuthenticationUI] = kCFBooleanTrue
             }
             #else
-            if #available(OSX 10.11, *) {
+            if #available(macOS 10.11, *) {
                 if let authenticationUI = options.authenticationUI {
                     query[UseAuthenticationUI] = authenticationUI.rawValue
                 } else {
                     query[UseAuthenticationUI] = UseAuthenticationUIFail
                 }
-            } else if #available(OSX 10.10, *) {
+            } else if #available(macOS 10.10, *) {
                 query[UseNoAuthenticationUI] = kCFBooleanTrue
             }
             #endif
         } else {
-            if #available(iOS 9.0, OSX 10.11, *) {
+            if #available(iOS 9.0, macOS 10.11, *) {
                 if let authenticationUI = options.authenticationUI {
                     query[UseAuthenticationUI] = authenticationUI.rawValue
                 }
@@ -987,7 +983,7 @@ public final class Keychain {
 
     #if os(iOS) && !targetEnvironment(macCatalyst)
     @available(iOS 8.0, *)
-    public func getSharedPassword(_ completion: @escaping (_ account: String?, _ password: String?, _ error: Error?) -> Void = { account, password, error in }) {
+    public func getSharedPassword(_ completion: @escaping (_ account: String?, _ password: String?, _ error: Error?) -> Void = { _, _, _ in }) {
         if let domain = server.host {
             type(of: self).requestSharedWebCredential(domain: domain, account: nil) { credentials, error in
                 if let credential = credentials.first {
@@ -1088,7 +1084,7 @@ public final class Keychain {
             if let error = error {
                 remoteError = error.error
                 if remoteError?.code != Int(errSecItemNotFound) {
-                    Common.LogsManager.error("error:[\(remoteError!.code)] \(remoteError!.localizedDescription)")
+                    print("error:[\(remoteError!.code)] \(remoteError!.localizedDescription)")
                 }
             }
             if let credentials = credentials {
@@ -1215,7 +1211,7 @@ public final class Keychain {
     fileprivate class func securityError(status: OSStatus) -> Error {
         let error = Status(status: status)
         if error != .userCanceled {
-            Common.LogsManager.error("OSStatus error:[\(error.errorCode)] \(error.description)")
+            print("OSStatus error:[\(error.errorCode)] \(error.description)")
         }
 
         return error
@@ -1258,7 +1254,7 @@ private let Class = String(kSecClass)
 /** Attribute Key Constants */
 private let AttributeAccessible = String(kSecAttrAccessible)
 
-@available(iOS 8.0, OSX 10.10, *)
+@available(iOS 8.0, macOS 10.10, *)
 private let AttributeAccessControl = String(kSecAttrAccessControl)
 
 private let AttributeAccessGroup = String(kSecAttrAccessGroup)
@@ -1301,28 +1297,28 @@ private let ValueRef = String(kSecValueRef)
 private let ValuePersistentRef = String(kSecValuePersistentRef)
 
 /** Other Constants */
-@available(iOS 8.0, OSX 10.10, tvOS 8.0, *)
+@available(iOS 8.0, macOS 10.10, tvOS 8.0, *)
 private let UseOperationPrompt = String(kSecUseOperationPrompt)
 
 @available(iOS, introduced: 8.0, deprecated: 9.0, message: "Use a UseAuthenticationUI instead.")
-@available(OSX, introduced: 10.10, deprecated: 10.11, message: "Use UseAuthenticationUI instead.")
+@available(macOS, introduced: 10.10, deprecated: 10.11, message: "Use UseAuthenticationUI instead.")
 @available(watchOS, introduced: 2.0, deprecated: 2.0, message: "Use UseAuthenticationUI instead.")
 @available(tvOS, introduced: 8.0, deprecated: 9.0, message: "Use UseAuthenticationUI instead.")
 private let UseNoAuthenticationUI = String(kSecUseNoAuthenticationUI)
 
-@available(iOS 9.0, OSX 10.11, watchOS 2.0, tvOS 9.0, *)
+@available(iOS 9.0, macOS 10.11, watchOS 2.0, tvOS 9.0, *)
 private let UseAuthenticationUI = String(kSecUseAuthenticationUI)
 
-@available(iOS 9.0, OSX 10.11, watchOS 2.0, tvOS 9.0, *)
+@available(iOS 9.0, macOS 10.11, watchOS 2.0, tvOS 9.0, *)
 private let UseAuthenticationContext = String(kSecUseAuthenticationContext)
 
-@available(iOS 9.0, OSX 10.11, watchOS 2.0, tvOS 9.0, *)
+@available(iOS 9.0, macOS 10.11, watchOS 2.0, tvOS 9.0, *)
 private let UseAuthenticationUIAllow = String(kSecUseAuthenticationUIAllow)
 
-@available(iOS 9.0, OSX 10.11, watchOS 2.0, tvOS 9.0, *)
+@available(iOS 9.0, macOS 10.11, watchOS 2.0, tvOS 9.0, *)
 private let UseAuthenticationUIFail = String(kSecUseAuthenticationUIFail)
 
-@available(iOS 9.0, OSX 10.11, watchOS 2.0, tvOS 9.0, *)
+@available(iOS 9.0, macOS 10.11, watchOS 2.0, tvOS 9.0, *)
 private let UseAuthenticationUISkip = String(kSecUseAuthenticationUISkip)
 
 #if os(iOS) && !targetEnvironment(macCatalyst)
@@ -1374,14 +1370,14 @@ extension Options {
             query[AttributeAuthenticationType] = authenticationType.rawValue
         }
 
-        if #available(OSX 10.10, *) {
+        if #available(macOS 10.10, *) {
             if authenticationPrompt != nil {
                 query[UseOperationPrompt] = authenticationPrompt
             }
         }
 
         #if !os(watchOS)
-        if #available(iOS 9.0, OSX 10.11, *) {
+        if #available(iOS 9.0, macOS 10.11, *) {
             if authenticationContext != nil {
                 query[UseAuthenticationContext] = authenticationContext
             }
@@ -1411,7 +1407,7 @@ extension Options {
         }
 
         if let policy = authenticationPolicy {
-            if #available(OSX 10.10, *) {
+            if #available(macOS 10.10, *) {
                 var error: Unmanaged<CFError>?
                 guard let accessControl = SecAccessControlCreateWithFlags(
                     kCFAllocatorDefault,
@@ -1427,7 +1423,7 @@ extension Options {
                 }
                 attributes[AttributeAccessControl] = accessControl
             } else {
-                Common.LogsManager.error("Unavailable 'Touch ID integration' on OS X versions prior to 10.10.")
+                print("Unavailable 'Touch ID integration' on macOS versions prior to 10.10.")
             }
         } else {
             attributes[AttributeAccessible] = accessibility.rawValue
@@ -1756,7 +1752,7 @@ extension AuthenticationType: RawRepresentable, CustomStringConvertible {
 
 extension Accessibility: RawRepresentable, CustomStringConvertible {
     public init?(rawValue: String) {
-        if #available(OSX 10.10, *) {
+        if #available(macOS 10.10, *) {
             switch rawValue {
             case String(kSecAttrAccessibleWhenUnlocked):
                 self = .whenUnlocked
@@ -1811,11 +1807,10 @@ extension Accessibility: RawRepresentable, CustomStringConvertible {
             return String(kSecAttrAccessibleAfterFirstUnlock)
         #if !targetEnvironment(macCatalyst)
         case .always:
-            // return String(kSecAttrAccessibleAlways)
-            return String(kSecAttrAccessibleAfterFirstUnlock)
+            return String(kSecAttrAccessibleAlways)
         #endif
         case .whenPasscodeSetThisDeviceOnly:
-            if #available(OSX 10.10, *) {
+            if #available(macOS 10.10, *) {
                 return String(kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly)
             } else {
                 fatalError("'Accessibility.WhenPasscodeSetThisDeviceOnly' is not available on this version of OS.")
@@ -1826,8 +1821,7 @@ extension Accessibility: RawRepresentable, CustomStringConvertible {
             return String(kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
         #if !targetEnvironment(macCatalyst)
         case .alwaysThisDeviceOnly:
-            return String(kSecAttrAccessibleAfterFirstUnlock)
-            // return String(kSecAttrAccessibleAlwaysThisDeviceOnly)
+            return String(kSecAttrAccessibleAlwaysThisDeviceOnly)
         #endif
         }
     }
@@ -3104,5 +3098,3 @@ extension Status: CustomNSError {
         [NSLocalizedDescriptionKey: description]
     }
 }
-
-// swiftlint:enable all

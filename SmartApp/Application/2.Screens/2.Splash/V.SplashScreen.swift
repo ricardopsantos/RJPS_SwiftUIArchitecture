@@ -12,13 +12,13 @@ import DesignSystem
 struct SplashView: View {
     @Environment(\.colorScheme) var colorScheme
     var body: some View {
-        BaseView.with(
+        BaseView.withLoading(
             sender: "\(Self.self)",
             appScreen: .splash,
-            navigationViewEmbed: false,
-            scrollViewEmbed: false,
-            ignoresSafeArea: false,
-            background: .clear
+            navigationViewModel: .disabled,
+            background: .clear,
+            loadingModel: nil,
+            alertModel: nil
         ) {
             content
         }
