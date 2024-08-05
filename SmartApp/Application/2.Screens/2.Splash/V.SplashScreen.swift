@@ -18,7 +18,8 @@ struct SplashView: View {
             navigationViewModel: .disabled,
             background: .clear,
             loadingModel: nil,
-            alertModel: nil
+            alertModel: nil,
+            networkStatus: nil
         ) {
             content
         }

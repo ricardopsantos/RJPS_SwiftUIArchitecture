@@ -62,6 +62,7 @@ struct PopulationStateView: View, ViewProtocol {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: PopulationStateViewModel
     // MARK: - Usage Attributes
+    @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
     private let onRouteBack: () -> Void
     // MARK: - Constructor
     public init(dependencies: PopulationStateViewModel.Dependencies) {
@@ -84,7 +85,8 @@ struct PopulationStateView: View, ViewProtocol {
             }, title: viewModel.title),
             background: .linear,
             loadingModel: viewModel.loadingModel,
-            alertModel: viewModel.alertModel
+            alertModel: viewModel.alertModel,
+            networkStatus: networkMonitorViewModel.networkStatus
         ) {
             content
         }

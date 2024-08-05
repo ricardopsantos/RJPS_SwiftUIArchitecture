@@ -39,7 +39,7 @@ enum BackgroundServicesManagerInput: Hashable {
 enum BackgroundServicesManagerOutput: Hashable {
     case userLocationUpdated(location: CLLocation?)
     case userLocationLost
-    case internetConnectionStatusChanged(_ status: CommonNetworking.NetworkMonitorViewModel.Status)
+    case internetConnectionStatusChanged(_ status: CommonNetworking.NetworkStatus)
 }
 
 enum BackgroundServicesManagerSender: Hashable {
@@ -123,13 +123,14 @@ fileprivate extension BackgroundServicesManager {
             self.enableAppBackgroundServices()
             CommonNetworking.NetworkMonitor.shared.start { [weak self] currentStatus in
                 Self.output.send(.internetConnectionStatusChanged(currentStatus))
-                self?.enableAppBackgroundServices()
-            } onRecovered: { [weak self] currentStatus in
-                Self.output.send(.internetConnectionStatusChanged(currentStatus))
-                self?.enableAppBackgroundServices()
-            } onLost: { [weak self] currentStatus in
-                Self.output.send(.internetConnectionStatusChanged(currentStatus))
-                self?.disableAppBackgroundServices()
+                switch currentStatus {
+                case .unknown:
+                    self?.disableAppBackgroundServices()
+                case .internetConnectionAvailable, .internetConnectionRecovered:
+                    self?.enableAppBackgroundServices()
+                case .internetConnectionLost:
+                    self?.disableAppBackgroundServices()
+                }
             }
         }
     }

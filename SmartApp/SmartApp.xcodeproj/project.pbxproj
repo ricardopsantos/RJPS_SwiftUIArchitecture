@@ -263,7 +263,6 @@
 		96938FC2A54CDEF9D6D571DA /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7D4AEE0387B2A54199FFCD07 /* FirebaseCrashlytics */; };
 		97CB839800C2C0B28E9DA888 /* CombineCompatibleProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72F9BDE3579774308661ED0 /* CombineCompatibleProtocol.swift */; };
 		97EB0E9BAC292B5D95E18F66 /* MKMapView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32DEFC471AD1F5E31A2DFA2 /* MKMapView+Extensions.swift */; };
-		983E5CA846783490F57A3BD1 /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5FA2BBCF14FE8274718753 /* StateMachine.swift */; };
 		991F1306301AF2CC428AAE59 /* Result+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902C153C0F2240419C6FD778 /* Result+Extensions.swift */; };
 		993A8DF310B9EA7A6BA82DEC /* V.WeatherDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FF7F1ACB0CE7151BF80102 /* V.WeatherDetailScreen.swift */; };
 		994D38350A4579D71ECE3B81 /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E237663C47BB81482983EC /* Common.framework */; };
@@ -347,7 +346,7 @@
 		D71DB08B2C600BFD00AF2A4F /* View+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71DB08A2C600BFD00AF2A4F /* View+Animations.swift */; };
 		D71DB08E2C60D71000AF2A4F /* SampleTabBarNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71DB08C2C60D6AE00AF2A4F /* SampleTabBarNavigation.swift */; };
 		D71DB0902C60F4F300AF2A4F /* FetchNationScreenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71DB08F2C60F4F300AF2A4F /* FetchNationScreenTests.swift */; };
-		D71DB0922C61054D00AF2A4F /* C.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71DB0912C61054D00AF2A4F /* C.swift */; };
+		D71DB0922C61054D00AF2A4F /* NetworkMonitorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71DB0912C61054D00AF2A4F /* NetworkMonitorViewModel.swift */; };
 		D77A251F685328CA88F7231E /* UIView+AnimationsBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6344864F30EC39BE520CCB /* UIView+AnimationsBase.swift */; };
 		D77DFB82549FEC2F91AD6C44 /* LoginAndSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8869CC081A4CE3C6D6BAC /* LoginAndSessionTests.swift */; };
 		D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */; };
@@ -765,7 +764,6 @@
 		598B781BD81740C400822A67 /* View+Conditionals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Conditionals.swift"; sourceTree = "<group>"; };
 		5AF9F359AFBF283C78C3CD4E /* SyncCoreDataManagerCreatingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncCoreDataManagerCreatingProtocol.swift; sourceTree = "<group>"; };
 		5B2814161A4FEFEA3B4ACF85 /* VM.MainTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VM.MainTabViewModel.swift; sourceTree = "<group>"; };
-		5B5FA2BBCF14FE8274718753 /* StateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachine.swift; sourceTree = "<group>"; };
 		5BC149EA84681453EE007F8C /* LoggerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerManager.swift; sourceTree = "<group>"; };
 		5C2DAA9FE074D0DAC22AD57D /* E.HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = E.HttpMethod.swift; sourceTree = "<group>"; };
 		5C7EC094663F1DD3D03F5778 /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
@@ -963,7 +961,7 @@
 		D71DB08A2C600BFD00AF2A4F /* View+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Animations.swift"; sourceTree = "<group>"; };
 		D71DB08C2C60D6AE00AF2A4F /* SampleTabBarNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleTabBarNavigation.swift; sourceTree = "<group>"; };
 		D71DB08F2C60F4F300AF2A4F /* FetchNationScreenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchNationScreenTests.swift; sourceTree = "<group>"; };
-		D71DB0912C61054D00AF2A4F /* C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = C.swift; sourceTree = "<group>"; };
+		D71DB0912C61054D00AF2A4F /* NetworkMonitorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitorViewModel.swift; sourceTree = "<group>"; };
 		D73F950216792C50E6323F9C /* UIImageView+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Transform.swift"; sourceTree = "<group>"; };
 		D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDtoProtocol.swift; sourceTree = "<group>"; };
 		D970FE1EDEA881819AF775BA /* host.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = host.png; sourceTree = "<group>"; };
@@ -2529,8 +2527,7 @@
 				691EDC95A79072FEB13AB25C /* LockManager.swift */,
 				5BC149EA84681453EE007F8C /* LoggerManager.swift */,
 				7FE8C1AC3AD2E4A726718BE8 /* OperationQueueManager.swift */,
-				5B5FA2BBCF14FE8274718753 /* StateMachine.swift */,
-				D71DB0912C61054D00AF2A4F /* C.swift */,
+				D71DB0912C61054D00AF2A4F /* NetworkMonitorViewModel.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -3216,10 +3213,9 @@
 				7150B770BB24AC5DED58A638 /* SimpleCacheManagerForCodable.swift in Sources */,
 				BF1AD2E2ED5795E1750779E0 /* SimpleNetworkAgentSampleAPI+Usage.swift in Sources */,
 				5F9D12C910ADE2789AE4B349 /* Stack.swift in Sources */,
-				983E5CA846783490F57A3BD1 /* StateMachine.swift in Sources */,
 				6CE0859C8D64F0C4866F47C6 /* String+Extensions.swift in Sources */,
 				ED915C56861CF070025EACAD /* Subscribers+Extentions.swift in Sources */,
-				D71DB0922C61054D00AF2A4F /* C.swift in Sources */,
+				D71DB0922C61054D00AF2A4F /* NetworkMonitorViewModel.swift in Sources */,
 				FB79D52D2C18D3B192C1DA0E /* SwiftUI+UIKit.swift in Sources */,
 				C5C4D5B050029EB137FE02B3 /* SwiftUITipsAndTricks.swift in Sources */,
 				27EA1602E81BC55B95123C39 /* SwiftUIUtils.swift in Sources */,

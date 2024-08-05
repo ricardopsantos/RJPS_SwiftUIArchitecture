@@ -57,7 +57,8 @@ struct PopulationNationView: View, ViewProtocol {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: PopulationNationViewModel
     // MARK: - Usage Attributes
-    let onSelected: (PopulationNationModel) -> Void
+    private let onSelected: (PopulationNationModel) -> Void
+    @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
     // MARK: - Constructor
     public init(dependencies: PopulationNationViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
@@ -72,13 +73,22 @@ struct PopulationNationView: View, ViewProtocol {
             navigationViewModel: .disabled,
             background: .default,
             loadingModel: viewModel.loadingModel,
-            alertModel: viewModel.alertModel
+            alertModel: viewModel.alertModel,
+            networkStatus: networkMonitorViewModel.networkStatus
         ) {
             content
         }.onAppear {
             viewModel.send(action: .didAppear)
         }.onDisappear {
             viewModel.send(action: .didDisappear)
+        }
+        .onChange(of: networkMonitorViewModel.networkStatus) { networkStatus in
+            switch networkStatus {
+            case .unknown, .internetConnectionAvailable, .internetConnectionLost:
+                ()
+            case .internetConnectionRecovered:
+                viewModel.send(action: .getPopulationData(cachePolicy: .load))
+            }
         }
     }
 

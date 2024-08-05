@@ -80,7 +80,8 @@ struct WeatherDetailsView: View, ViewProtocol {
             }, title: "Weather Details".localizedMissing),
             background: .default,
             loadingModel: viewModel.loadingModel,
-            alertModel: viewModel.alertModel
+            alertModel: viewModel.alertModel,
+            networkStatus: nil
         ) {
             content
         }.onAppear {
