@@ -71,7 +71,7 @@ extension BaseView {
 }
 
 struct AlertModelTestView: View {
-    @State var alertModel: Model.AlertModel? = nil
+    @State var alertModel: Model.AlertModel?
     var body: some View {
         BaseView.withLoading(
             sender: "\(Self.self)",

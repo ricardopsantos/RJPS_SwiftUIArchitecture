@@ -57,10 +57,9 @@ public struct AppearancePickerView: View {
     public init(selected: Binding<Common.InterfaceStyle?>) {
         _selected = Binding(
             get: { selected.wrappedValue?.rawValue ?? Self.systemValue },
-             set: { newValue in
-                 selected.wrappedValue = Common.InterfaceStyle(rawValue: newValue)
-             }
-         )
+            set: { newValue in
+                selected.wrappedValue = Common.InterfaceStyle(rawValue: newValue)
+            })
     }
 
     public var body: some View {

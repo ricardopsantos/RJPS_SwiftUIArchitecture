@@ -59,8 +59,6 @@ public extension CommonNetworking {
 
         public func start(statusUpdate: @escaping (Status) -> Void) {
             monitor.pathUpdateHandler = { [weak self] path in
-                print("\(Date()) path changed!!")
-                //    Common.ExecutionControlManager.debounce(0.5, operationId: "\(Self.self)_\(#function)") {
                 Common_Utils.executeInMainTread { [weak self] in
                     guard let self = self else { return }
                     let newStatusV1: Status
@@ -85,18 +83,13 @@ public extension CommonNetworking {
                         newStatusV2 = .internetConnectionLost
                     }
 
-                    if newStatusV1 != newStatusV2 {
-                        print(newStatusV1, newStatusV2)
-                    }
                     let newStatus = newStatusV2
                     if self.statusHistory.last != newStatus {
-                        print("newStatus: \(newStatus)")
                         self.statusHistory.append(newStatus)
                         statusUpdate(newStatus)
                         self.isInternetConnectionAvailable = newStatus.existsInternetConnection
                     }
                 }
-                //   }
             }
         }
     }
