@@ -26,6 +26,7 @@ enum Constants {
     static let tab2Title = "USA Population: Last 10 years"
     static let tab2DetailsTitle = "USA States Population for 2022"
     static let tab2ListItem = "Year: 2022"
+    static let tab4Title = "Settings"
 }
 
 class BaseUITests: XCTestCase {

@@ -71,7 +71,7 @@ final class LoginAndSessionTests: BaseUITests {
         ])
         tap(
             tabBarIndex: 3,
-            andWaitForStaticText: "Settings",
+            andWaitForStaticText: Constants.tab4Title,
             on: app
         )
         tap(
@@ -81,7 +81,7 @@ final class LoginAndSessionTests: BaseUITests {
         )
         tap(
             button: "No",
-            andWaitForStaticText: "Settings",
+            andWaitForStaticText: Constants.tab4Title,
             on: app
         )
     }
@@ -92,7 +92,7 @@ final class LoginAndSessionTests: BaseUITests {
         ])
         tap(
             tabBarIndex: 3,
-            andWaitForStaticText: "Settings",
+            andWaitForStaticText: Constants.tab4Title,
             on: app
         )
         tap(
@@ -117,7 +117,7 @@ final class LoginAndSessionTests: BaseUITests {
         ])
         tap(
             tabBarIndex: 3,
-            andWaitForStaticText: "Settings",
+            andWaitForStaticText: Constants.tab4Title,
             on: app
         )
         tap(
@@ -127,7 +127,7 @@ final class LoginAndSessionTests: BaseUITests {
         )
         tap(
             button: "No",
-            andWaitForStaticText: "Settings",
+            andWaitForStaticText: Constants.tab4Title,
             on: app
         )
     }
@@ -138,7 +138,7 @@ final class LoginAndSessionTests: BaseUITests {
         ])
         tap(
             tabBarIndex: 3,
-            andWaitForStaticText: "Settings",
+            andWaitForStaticText: Constants.tab4Title,
             on: app
         )
         tap(

@@ -39,6 +39,7 @@ extension SettingsViewModel {
 
     struct Dependencies {
         let model: SettingsModel
+        let onShouldDisplayEditUserDetails: () -> Void
         let authenticationViewModel: AuthenticationViewModel
         let nonSecureAppPreferences: NonSecureAppPreferencesProtocol
         let userRepository: UserRepositoryProtocol
