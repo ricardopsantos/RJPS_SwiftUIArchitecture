@@ -26,7 +26,6 @@ public class SetupManager {
         FirebaseApp.configure()
         UITestingManager.setup()
         FontsName.setup()
-        InterfaceStyleManager.setup(nonSecureAppPreferences: nonSecureAppPreferences)
         if Common_Utils.onDebug {
             UserDefaults.standard.set(true, forKey: "com.apple.CoreData.ConcurrencyDebug")
             UserDefaults.standard.set(1, forKey: "com.apple.CoreData.SQLDebug")

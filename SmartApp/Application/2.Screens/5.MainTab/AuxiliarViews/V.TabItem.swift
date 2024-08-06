@@ -10,6 +10,7 @@ import SwiftUI
 import DesignSystem
 
 struct TabItemView: View {
+    @Environment(\.colorScheme) var colorScheme
     var title: String
     var icon: String
     var body: some View {
