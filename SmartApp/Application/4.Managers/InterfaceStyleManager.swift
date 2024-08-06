@@ -12,11 +12,13 @@ import Domain
 import Core
 import Common
 import DesignSystem
+import DevTools
 
 struct InterfaceStyleManager {
     private static var selected: Common.InterfaceStyle?
     static var nonSecureAppPreferences: NonSecureAppPreferencesProtocol?
     static func setup(nonSecureAppPreferences: NonSecureAppPreferencesProtocol?) {
+        Self.nonSecureAppPreferences = nonSecureAppPreferences
         applyAppearance(current)
     }
 
@@ -36,6 +38,7 @@ struct InterfaceStyleManager {
     }
 
     static func applyAppearance(_ style: Common.InterfaceStyle?) {
+        DevTools.assert(nonSecureAppPreferences != nil, message: "nonSecureAppPreferences not set")
         guard style != selected else {
             return
         }

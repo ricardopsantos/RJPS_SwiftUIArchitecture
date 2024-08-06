@@ -31,6 +31,9 @@ struct SmartApp: App {
     var body: some Scene {
         WindowGroup {
             RootViewCoordinator()
+                .onAppear(perform: {
+                    InterfaceStyleManager.setup(nonSecureAppPreferences: configuration.nonSecureAppPreferences)
+                })
                 .environmentObject(appState)
                 .environmentObject(configuration)
         }

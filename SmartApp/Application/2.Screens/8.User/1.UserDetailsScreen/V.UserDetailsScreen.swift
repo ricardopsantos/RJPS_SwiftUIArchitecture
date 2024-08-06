@@ -32,7 +32,6 @@ struct UserDetailsViewCoordinator: View, ViewCoordinatorProtocol {
                 .sheet(item: $coordinator.sheetLink, content: buildScreen)
                 .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
         }
-        // .environmentObject(router)
     }
 
     @ViewBuilder
