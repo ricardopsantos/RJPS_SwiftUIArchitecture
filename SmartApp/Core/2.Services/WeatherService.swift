@@ -9,17 +9,37 @@ import Foundation
 //
 import Domain
 import Common
+import DevTools
 
 public class WeatherService {
     private init() {}
     public static let shared = WeatherService()
+    private let cacheManager = Common.SimpleCacheManagerForCodable.shared
 }
 
 extension WeatherService: WeatherServiceProtocol {
     public func getWeather(_ request: ModelDto.GetWeatherRequest) async throws -> ModelDto.GetWeatherResponse {
-        try await NetworkManager.shared.request(
+        
+        let cacheKey = "\(#function)"
+        let cacheParams: [any Hashable] = [request.latitude, request.longitude]
+        let cacheType = ModelDto.GetWeatherResponse.self
+        
+        if let cached = cacheManager.syncRetrieve(cacheType, key: cacheKey, params: cacheParams) {
+            DevTools.Log.debug(.log("Returned cache for \(#function)"), .business)
+            return cached.model
+        }
+
+        guard Common_Utils.existsInternetConnection else {
+            throw AppErrors.noInternet
+        }
+
+        let result = try await NetworkManager.shared.request(
             .getWeather(request),
-            type: ModelDto.GetWeatherResponse.self
-        )
+            type: cacheType)
+        
+        cacheManager.syncStore(result, key: cacheKey, params: cacheParams)
+        
+        return result
+        
     }
 }

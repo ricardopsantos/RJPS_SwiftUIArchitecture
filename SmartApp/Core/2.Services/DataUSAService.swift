@@ -15,23 +15,21 @@ public class DataUSAService {
     private init() {}
     public static let shared = DataUSAService()
 
-    /**
-     __IMPORTANT__: This is a very simple cache approach. Usually I do it this way [Enhancing mobile app user experience through efficient caching in Swift](https://ricardojpsantos.medium.com/enhancing-mobile-app-user-experience-through-efficient-caching-in-swift-c970554eab84) or
-     */
-    private let populationCache = CacheManager<String, ModelDto.PopulationStateDataResponse>()
-    private let nationCache = CacheManager<String, ModelDto.PopulationNationDataResponse>()
+    private let cacheManager = Common.SimpleCacheManagerForCodable.shared
 }
 
 extension DataUSAService: DataUSAServiceProtocol {
     public func requestPopulationStateData(
         _ request: ModelDto.PopulationStateDataRequest,
-
         cachePolicy: DataUSAServiceCachePolicy
     ) async throws -> ModelDto.PopulationStateDataResponse {
-        let cacheKey = "\(#function)_\(request.hashValue)"
-        if let cached = populationCache.value(forKey: cacheKey), cachePolicy == .cacheElseLoad {
+        let cacheKey = "\(#function)"
+        let cacheParams: [any Hashable] = [request.year, request.drilldowns, request.measures]
+        let cacheType = ModelDto.PopulationStateDataResponse.self
+        
+        if let cached = cacheManager.syncRetrieve(cacheType, key: cacheKey, params: cacheParams), cachePolicy == .cacheElseLoad {
             DevTools.Log.debug(.log("Returned cache for \(#function)"), .business)
-            return cached
+            return cached.model
         }
 
         guard Common_Utils.existsInternetConnection else {
@@ -40,9 +38,11 @@ extension DataUSAService: DataUSAServiceProtocol {
 
         let result = try await NetworkManager.shared.request(
             .getPopulationStateData(request),
-            type: ModelDto.PopulationStateDataResponse.self
+            type: cacheType
         )
-        populationCache.insert(result, forKey: cacheKey)
+        
+        cacheManager.syncStore(result, key: cacheKey, params: cacheParams)
+        
         return result
     }
 
@@ -50,19 +50,23 @@ extension DataUSAService: DataUSAServiceProtocol {
         _ request: ModelDto.PopulationNationDataRequest,
         cachePolicy: DataUSAServiceCachePolicy
     ) async throws -> ModelDto.PopulationNationDataResponse {
-        let cacheKey = "\(#function)_\(request.hashValue)"
-        if let cached = nationCache.value(forKey: cacheKey), cachePolicy == .cacheElseLoad {
+        let cacheKey = "\(#function)"
+        let cacheParams: [any Hashable] = [request.drilldowns, request.measures]
+        let cacheType = ModelDto.PopulationNationDataResponse.self
+        if let cached = cacheManager.syncRetrieve(cacheType, key: cacheKey, params: cacheParams), cachePolicy == .cacheElseLoad {
             DevTools.Log.debug(.log("Returned cache for \(#function)"), .business)
-            return cached
+            return cached.model
         }
+
         guard Common_Utils.existsInternetConnection else {
             throw AppErrors.noInternet
         }
+
         let result = try await NetworkManager.shared.request(
             .getPopulationNationData(request),
-            type: ModelDto.PopulationNationDataResponse.self
+            type: cacheType
         )
-        nationCache.insert(result, forKey: cacheKey)
+        cacheManager.syncStore(result, key: cacheKey, params: cacheParams)
         return result
     }
 }
