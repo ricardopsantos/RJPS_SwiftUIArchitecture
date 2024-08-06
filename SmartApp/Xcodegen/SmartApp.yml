@@ -25,12 +25,10 @@ packages:
   Firebase:
     url: https://github.com/firebase/firebase-ios-sdk.git
     revision: "888f0b6026e2441a69e3ee2ad5293c7a92031e62"
-    #revision: "065a5bbc7408d42f28c590a02352c03d9c654e27"
     
   Reachability:
     url: https://github.com/ashleymills/Reachability.swift
     revision: "7b7018a69c84ea94ac2a38dff626e16ea81d1db9"
-    #revision: "c01bbdf2d633cf049ae1ed1a68a2020a8bda32e2"
 
  # Use Nimble to express the expected outcomes of Swift or Objective-C expressions
   Nimble:
