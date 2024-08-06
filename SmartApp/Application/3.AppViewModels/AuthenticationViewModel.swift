@@ -41,24 +41,17 @@ class AuthenticationViewModel: ObservableObject {
             }.store(in: cancelBag)
     }
 
-    public enum AuthenticationError: Swift.Error {
-        case invalidPassword
-    }
-
     // MARK: - Functions
 
     func login(user: Model.User) async throws {
-        let authToken = "dummy_token_qwertyuiopasdfghjklzxcvbnm"
         guard user.password == "123" else {
-            throw AuthenticationError.invalidPassword
+            throw AppErrors.invalidPassword
         }
         userRepository.saveUser(user: Model.User(email: user.email, password: user.password))
         secureAppPreferences.password = user.password
         nonSecureAppPreferences.isAuthenticated = true
-        // isAuthenticated = true
         AnalyticsManager.shared.handleCustomEvent(
             eventType: .login,
-
             properties: ["email": user.email],
             sender: "\(Self.self)"
         )
@@ -66,12 +59,10 @@ class AuthenticationViewModel: ObservableObject {
 
     func logout() async throws {
         nonSecureAppPreferences.isAuthenticated = false
-        // isAuthenticated = false
     }
 
     func deleteAccount() async throws {
         nonSecureAppPreferences.isAuthenticated = false
-        // isAuthenticated = false
         nonSecureAppPreferences.deleteAll()
         secureAppPreferences.deleteAll()
     }

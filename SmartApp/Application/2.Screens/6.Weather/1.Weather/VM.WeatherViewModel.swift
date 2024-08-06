@@ -93,8 +93,7 @@ class WeatherViewModel: BaseViewModel {
                         )
                         weatherData.append(data)
                     } catch {
-                        ErrorsManager.handleError(message: "\(Self.self).\(action)", error: error)
-                        alertModel = .tryAgainLatter
+                        handle(error: error, sender: "\(Self.self).\(action)")
                     }
                 }
                 loadingModel = .notLoading

@@ -26,8 +26,8 @@ public extension CommonNetworking {
         }
 
         public static var isConnectedToNetwork: Bool {
-            if Common_Utils.onSimulator {
-                isConnectedToNetworkV3
+            if Common_Utils.onSimulator, Common_Utils.false {
+                isConnectedToNetworkV3 // Slow! Takes 1s
             } else {
                 isConnectedToNetworkV2
             }

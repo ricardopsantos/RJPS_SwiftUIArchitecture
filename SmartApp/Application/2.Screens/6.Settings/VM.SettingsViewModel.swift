@@ -100,9 +100,7 @@ class SettingsViewModel: BaseViewModel {
                 do {
                     try await authenticationViewModel?.logout()
                 } catch {
-                    let errorMessage = "Error while logging out."
-                    alertModel = .init(type: .error, message: errorMessage)
-                    ErrorsManager.handleError(message: "\(Self.self).\(action)", error: error)
+                    handle(error: error, sender: "\(Self.self).\(action)")
                 }
             }
         case .deleteAccount:
@@ -110,9 +108,7 @@ class SettingsViewModel: BaseViewModel {
                 do {
                     try await authenticationViewModel?.deleteAccount()
                 } catch {
-                    let errorMessage = "Error while deleting account."
-                    alertModel = .init(type: .error, message: errorMessage)
-                    ErrorsManager.handleError(message: "\(Self.self).\(action)", error: error)
+                    handle(error: error, sender: "\(Self.self).\(action)")
                 }
             }
         case .handleConfirmation:

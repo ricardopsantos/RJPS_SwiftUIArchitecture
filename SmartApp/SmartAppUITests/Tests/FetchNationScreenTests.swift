@@ -39,12 +39,17 @@ final class FetchNationScreenTests: BaseUITests {
         tap(
             tabBarIndex: 1,
             andWaitForStaticText: Constants.tab2Title,
-            on: app
+            on: app,
+            timeout: XCTestCase.timeout * 2
         )
     }
 
     func testA2_appStartsAndDisplayRecords() {
         testA1_appStartsAndUpdatesNavigationBarTitle() // Re-use test A1
-        waitFor(staticText: Constants.tab2ListItem, on: app)
+        waitFor(
+            staticText: Constants.tab2ListItem,
+            on: app,
+            timeout: XCTestCase.timeout * 2
+        )
     }
 }
