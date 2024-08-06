@@ -34,13 +34,13 @@ extension DataUSAServiceTests {
     func test_mockPopulationStateData() async {
         XCTAssertTrue(ModelDto.PopulationStateDataResponse.mock != nil, "mock data should be loaded successfully.")
     }
-    
+
     // Test to verify that PopulationStateData information can be fetched
     func test_requestPopulationStateData() async {
         do {
             // Attempt to fetch PopulationNationData
             loadedAny = try await service.requestPopulationStateData(.init(), cachePolicy: .load)
-            
+
             // Verify that PopulationStateData was successfully loaded
             XCTAssertTrue(loadedAny != nil, "data should be loaded successfully.")
         } catch {
@@ -48,18 +48,18 @@ extension DataUSAServiceTests {
             XCTAssertTrue(false, "Failed to fetch with error: \(error)")
         }
     }
-    
+
     // Test to verify that PopulationNationDataResponse mock
     func test_mockPopulationNationDataResponse() async {
         XCTAssertTrue(ModelDto.PopulationNationDataResponse.mock != nil, "PopulationNationDataResponse.mock data should be loaded successfully.")
     }
-    
+
     // Test to verify that PopulationNationDat information can be fetched
     func test_requestPopulationNationData() async {
         do {
             // Attempt to fetch PopulationNationData
             loadedAny = try await service.requestPopulationNationData(.init(), cachePolicy: .load)
-            
+
             // Verify that PopulationNationData was successfully loaded
             XCTAssertTrue(loadedAny != nil, "PopulationNationData data should be loaded successfully.")
         } catch {
@@ -84,8 +84,10 @@ extension DataUSAServiceTests {
             Task {
                 do {
                     for _ in 1...count {
-                        let _ = try await service.requestPopulationStateData(.init(),
-                                                                             cachePolicy: cachePolicy)
+                        _ = try await service.requestPopulationStateData(
+                            .init(),
+                            cachePolicy: cachePolicy
+                        )
                     }
                     expectation.fulfill()
                 } catch {
@@ -94,9 +96,8 @@ extension DataUSAServiceTests {
             }
             wait(for: [expectation], timeout: expectedTime * 1.25 * Double(count))
         }
-     }
+    }
 
-    
     func test_requestPopulationStateData_Performance_CacheElseLoad() throws {
         let cachePolicy: ServiceCachePolicy = .cacheElseLoad
         let expectedTime: Double = 0.007
@@ -107,8 +108,10 @@ extension DataUSAServiceTests {
             Task {
                 do {
                     for _ in 1...count {
-                        let _ = try await service.requestPopulationStateData(.init(),
-                                                                             cachePolicy: cachePolicy)
+                        _ = try await service.requestPopulationStateData(
+                            .init(),
+                            cachePolicy: cachePolicy
+                        )
                     }
                     expectation.fulfill()
                 } catch {
@@ -117,6 +120,5 @@ extension DataUSAServiceTests {
             }
             wait(for: [expectation], timeout: expectedTime * 1.25 * Double(count))
         }
-     }
+    }
 }
-

@@ -71,7 +71,7 @@ extension WeatherServiceTests {
             Task {
                 do {
                     for _ in 1...count {
-                        let _ = try await service.getWeather(.init(
+                        _ = try await service.getWeather(.init(
                             latitude: "38.736946",
                             longitude: "-9.142685"
                         ), cachePolicy: cachePolicy)
@@ -83,9 +83,8 @@ extension WeatherServiceTests {
             }
             wait(for: [expectation], timeout: expectedTime * 1.25 * Double(count))
         }
-     }
+    }
 
-    
     func test_requestPopulationStateData_Performance_CacheElseLoad() throws {
         let cachePolicy: ServiceCachePolicy = .cacheElseLoad
         let expectedTime: Double = 0.005
@@ -96,7 +95,7 @@ extension WeatherServiceTests {
             Task {
                 do {
                     for _ in 1...count {
-                        let _ = try await service.getWeather(.init(
+                        _ = try await service.getWeather(.init(
                             latitude: "38.736946",
                             longitude: "-9.142685"
                         ), cachePolicy: cachePolicy)
@@ -108,5 +107,5 @@ extension WeatherServiceTests {
             }
             wait(for: [expectation], timeout: expectedTime * 1.25 * Double(count))
         }
-     }
+    }
 }

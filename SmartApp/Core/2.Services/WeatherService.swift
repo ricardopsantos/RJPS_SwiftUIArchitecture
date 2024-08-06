@@ -18,8 +18,9 @@ public class WeatherService {
 }
 
 extension WeatherService: WeatherServiceProtocol {
-    public func getWeather(_ request: ModelDto.GetWeatherRequest,
-                           cachePolicy: ServiceCachePolicy) async throws -> ModelDto.GetWeatherResponse {
+    public func getWeather(
+        _ request: ModelDto.GetWeatherRequest,
+        cachePolicy: ServiceCachePolicy) async throws -> ModelDto.GetWeatherResponse {
         let cacheKey = "\(#function)"
         let cacheParams: [any Hashable] = [request.latitude, request.longitude]
         let responseType = ModelDto.GetWeatherResponse.self
