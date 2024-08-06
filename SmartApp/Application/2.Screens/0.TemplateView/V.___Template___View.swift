@@ -119,12 +119,12 @@ fileprivate extension ___Template___View {
     var routingView: some View {
         EmptyView()
         /*
-        Button("Push") {}
-        Button("Sheet") {}
-        Button("Cover") {}
-        Divider()
-        Button("viewModel.send(.dismissThis)") {}.padding()
-        Button("viewModel.send(.dismissAll)") {}.padding()*/
+         Button("Push") {}
+         Button("Sheet") {}
+         Button("Cover") {}
+         Divider()
+         Button("viewModel.send(.dismissThis)") {}.padding()
+         Button("viewModel.send(.dismissAll)") {}.padding()*/
     }
 }
 

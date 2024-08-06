@@ -67,7 +67,7 @@ struct SettingsScreen: View, ViewProtocol {
     }
 
     // MARK: - Usage Attributes
-    @State private var selectedMode: Common.InterfaceStyle? = InterfaceStyle.current
+    @State private var selectedMode: Common.InterfaceStyle? = InterfaceStyleManager.current
 
     // MARK: - Body & View
     var body: some View {

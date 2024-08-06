@@ -46,9 +46,10 @@ final class FetchNationScreenTests: BaseUITests {
 
     func testA2_appStartsAndDisplayRecords() {
         testA1_appStartsAndUpdatesNavigationBarTitle() // Re-use test A1
-        waitFor(staticText: Constants.tab2ListItem,
-                on: app,
-                timeout: XCTestCase.timeout * 2
+        waitFor(
+            staticText: Constants.tab2ListItem,
+            on: app,
+            timeout: XCTestCase.timeout * 2
         )
     }
 }

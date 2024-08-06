@@ -24,7 +24,7 @@ public extension AppErrors {
 
         // User errors
         case .invalidPassword: "Invalid user or password".localizedMissing
-            
+
         // WebAPI
         case .network: defaultMessage
         case .parsing: defaultMessage
@@ -33,7 +33,6 @@ public extension AppErrors {
         // Bussines
         case .userIsNotAuthenticated: defaultMessage
         case .tokenStoringFailed: defaultMessage
-
         }
     }
 }

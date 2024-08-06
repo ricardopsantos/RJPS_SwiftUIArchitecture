@@ -39,7 +39,6 @@ extension BaseView {
         }
 
         var backgroundLinear: some View {
-            // Color.white
             ColorSemantic.backgroundPrimary.color.ignoresSafeArea()
         }
 

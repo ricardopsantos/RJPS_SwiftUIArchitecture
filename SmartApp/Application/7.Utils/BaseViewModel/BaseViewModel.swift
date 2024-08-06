@@ -13,43 +13,31 @@ import DevTools
 
 @MainActor
 public class BaseViewModel: ObservableObject {
-    // Published properties to trigger UI updates when values change
+
+    // MARK: - Usage Attributes
+    @Published var loadingModel: Model.LoadingModel?
     @Published var alertModel: Model.AlertModel? {
         didSet {
-            
-            var visibleTime: CGFloat {
-                guard let alertModel = alertModel else {
-                    return 0
-                }
-                let defaultTime: CGFloat = 3
-                switch alertModel.type {
-                case .success: return defaultTime
-                case .warning: return defaultTime * 1.5
-                case .error: return DevTools.onSimulator ? defaultTime : defaultTime * 2
-                case .information: return defaultTime
-                }
+            guard let alertModel = alertModel else {
+                return
             }
-            
-            // If alertModel is not nil, schedule it to be set to nil after 5 seconds
-            if alertModel != nil {
-                DispatchQueue.main.asyncAfter(deadline: .now() + visibleTime) { [weak self] in
-                    // Check if alertModel is still the same as before to prevent race conditions
-                    self?.alertModel = nil
-                }
+            Common.ExecutionControlManager.debounce(alertModel.visibleTime, 
+                                                    operationId: "\(Self.self)_\(#function)") { [weak self] in
+                self?.dismissAlert()
             }
         }
     }
-    @Published var loadingModel: Model.LoadingModel?
+    
+    // MARK: - Helpers
 
     // Function to handle errors
     func handle(error: Error, sender: String) {
-        
         // Set the loading model to indicate loading has stopped
         loadingModel = .notLoading
-        
+
         // Handle the error using a custom error manager
         ErrorsManager.handleError(message: sender, error: error)
-        
+
         // Check if the error is of type AppErrors and has a user-friendly message
         if let appError = error as? AppErrors, !appError.localizedForUser.isEmpty {
             // Set the alert model with the user-friendly error message
@@ -58,6 +46,9 @@ public class BaseViewModel: ObservableObject {
             // Set the alert model with the error's localized description
             alertModel = .init(type: .error, message: error.localizedDescription)
         }
-
+    }
+    
+    func dismissAlert() {
+        alertModel = nil
     }
 }

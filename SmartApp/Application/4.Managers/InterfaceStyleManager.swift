@@ -1,5 +1,5 @@
 //
-//  AppearancePreference.swift
+//  InterfaceStyle.swift
 //  SmartApp
 //
 //  Created by Ricardo Santos on 15/04/2024.
@@ -13,14 +13,10 @@ import Core
 import Common
 import DesignSystem
 
-//
-// User Interface Style
-//
-
-struct InterfaceStyle {
+struct InterfaceStyleManager {
     private static var selected: Common.InterfaceStyle?
     static var nonSecureAppPreferences: NonSecureAppPreferencesProtocol?
-    static func setupUserInterfaceStyle(nonSecureAppPreferences: NonSecureAppPreferencesProtocol?) {
+    static func setup(nonSecureAppPreferences: NonSecureAppPreferencesProtocol?) {
         applyAppearance(current)
     }
 
@@ -43,7 +39,7 @@ struct InterfaceStyle {
         guard style != selected else {
             return
         }
-        DispatchQueue.main.async {
+        Common_Utils.executeInMainTread {
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
                 windowScene.windows.forEach { window in
                     ColorSemantic.applyUserCustomInterfaceStyle(style)

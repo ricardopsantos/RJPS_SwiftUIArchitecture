@@ -20,7 +20,7 @@ public enum UITestingManager {
         }
     }
 
-    public static func setupForForTestingIfNeeded() {
+    public static func setup() {
         if CommandLine.arguments.contains(UITestingManager.Options.shouldDisableAnimations.rawValue) {
             // clear your app state before running UI tests here.
             UIView.setAnimationsEnabled(false)

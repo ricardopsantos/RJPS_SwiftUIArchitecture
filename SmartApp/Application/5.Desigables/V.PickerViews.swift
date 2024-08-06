@@ -69,7 +69,7 @@ public struct AppearancePickerView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             .onChange(of: selected) { newValue in
-                InterfaceStyle.current = newValue
+                InterfaceStyleManager.current = newValue
             }
         }
         .foregroundColor(.labelPrimary)
