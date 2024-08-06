@@ -21,13 +21,13 @@ public class DataUSAService {
 extension DataUSAService: DataUSAServiceProtocol {
     public func requestPopulationStateData(
         _ request: ModelDto.PopulationStateDataRequest,
-        cachePolicy: DataUSAServiceCachePolicy
+        cachePolicy: ServiceCachePolicy
     ) async throws -> ModelDto.PopulationStateDataResponse {
         let cacheKey = "\(#function)"
         let cacheParams: [any Hashable] = [request.year, request.drilldowns, request.measures]
-        let cacheType = ModelDto.PopulationStateDataResponse.self
-        
-        if let cached = cacheManager.syncRetrieve(cacheType, key: cacheKey, params: cacheParams), cachePolicy == .cacheElseLoad {
+        let responseType = ModelDto.PopulationStateDataResponse.self
+
+        if let cached = cacheManager.syncRetrieve(responseType, key: cacheKey, params: cacheParams), cachePolicy == .cacheElseLoad {
             DevTools.Log.debug(.log("Returned cache for \(#function)"), .business)
             return cached.model
         }
@@ -38,22 +38,22 @@ extension DataUSAService: DataUSAServiceProtocol {
 
         let result = try await NetworkManager.shared.request(
             .getPopulationStateData(request),
-            type: cacheType
+            type: responseType
         )
-        
+
         cacheManager.syncStore(result, key: cacheKey, params: cacheParams)
-        
+
         return result
     }
 
     public func requestPopulationNationData(
         _ request: ModelDto.PopulationNationDataRequest,
-        cachePolicy: DataUSAServiceCachePolicy
+        cachePolicy: ServiceCachePolicy
     ) async throws -> ModelDto.PopulationNationDataResponse {
         let cacheKey = "\(#function)"
         let cacheParams: [any Hashable] = [request.drilldowns, request.measures]
-        let cacheType = ModelDto.PopulationNationDataResponse.self
-        if let cached = cacheManager.syncRetrieve(cacheType, key: cacheKey, params: cacheParams), cachePolicy == .cacheElseLoad {
+        let responseType = ModelDto.PopulationNationDataResponse.self
+        if let cached = cacheManager.syncRetrieve(responseType, key: cacheKey, params: cacheParams), cachePolicy == .cacheElseLoad {
             DevTools.Log.debug(.log("Returned cache for \(#function)"), .business)
             return cached.model
         }
@@ -64,7 +64,7 @@ extension DataUSAService: DataUSAServiceProtocol {
 
         let result = try await NetworkManager.shared.request(
             .getPopulationNationData(request),
-            type: cacheType
+            type: responseType
         )
         cacheManager.syncStore(result, key: cacheKey, params: cacheParams)
         return result

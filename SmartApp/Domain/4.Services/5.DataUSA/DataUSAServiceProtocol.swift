@@ -9,19 +9,14 @@ import Foundation
 //
 import Common
 
-public enum DataUSAServiceCachePolicy {
-    case cacheElseLoad
-    case load
-}
-
 public protocol DataUSAServiceProtocol {
     func requestPopulationStateData(
         _ request: ModelDto.PopulationStateDataRequest,
-        cachePolicy: DataUSAServiceCachePolicy
+        cachePolicy: ServiceCachePolicy
     ) async throws -> ModelDto.PopulationStateDataResponse
 
     func requestPopulationNationData(
         _ request: ModelDto.PopulationNationDataRequest,
-        cachePolicy: DataUSAServiceCachePolicy
+        cachePolicy: ServiceCachePolicy
     ) async throws -> ModelDto.PopulationNationDataResponse
 }

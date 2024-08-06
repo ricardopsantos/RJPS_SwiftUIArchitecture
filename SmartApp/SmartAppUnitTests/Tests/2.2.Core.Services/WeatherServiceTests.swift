@@ -41,15 +41,11 @@ extension WeatherServiceTests {
         }
 
         do {
-            // Define the coordinates for the test
-            let latitude = "38.736946" // Latitude for the test location
-            let longitude = "-9.142685" // Longitude for the test location
-
             // Attempt to fetch weather data using the provided coordinates
             loadedAny = try await service.getWeather(.init(
-                latitude: latitude,
-                longitude: longitude
-            ))
+                latitude: "38.736946",
+                longitude: "-9.142685"
+            ), cachePolicy: .load)
 
             // Verify that the weather data was successfully loaded
             XCTAssertTrue(loadedAny != nil, "Weather data should be loaded successfully.")
@@ -58,4 +54,59 @@ extension WeatherServiceTests {
             XCTAssertTrue(false, "Failed to fetch weather data with error: \(error)")
         }
     }
+}
+
+//
+// MARK: - Performance Tests
+//
+
+extension WeatherServiceTests {
+    func test_requestPopulationStateData_Performance_Load() throws {
+        let cachePolicy: ServiceCachePolicy = .load
+        let expectedTime: Double = 0.70
+        let count = 10
+        // Time: 0.708 sec
+        measure {
+            let expectation = self.expectation(description: #function)
+            Task {
+                do {
+                    for _ in 1...count {
+                        let _ = try await service.getWeather(.init(
+                            latitude: "38.736946",
+                            longitude: "-9.142685"
+                        ), cachePolicy: cachePolicy)
+                    }
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Async function threw an error: \(error)")
+                }
+            }
+            wait(for: [expectation], timeout: expectedTime * 1.25 * Double(count))
+        }
+     }
+
+    
+    func test_requestPopulationStateData_Performance_CacheElseLoad() throws {
+        let cachePolicy: ServiceCachePolicy = .cacheElseLoad
+        let expectedTime: Double = 0.005
+        let count = 10
+        // Time: 0.005 sec
+        measure {
+            let expectation = self.expectation(description: #function)
+            Task {
+                do {
+                    for _ in 1...count {
+                        let _ = try await service.getWeather(.init(
+                            latitude: "38.736946",
+                            longitude: "-9.142685"
+                        ), cachePolicy: cachePolicy)
+                    }
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Async function threw an error: \(error)")
+                }
+            }
+            wait(for: [expectation], timeout: expectedTime * 1.25 * Double(count))
+        }
+     }
 }

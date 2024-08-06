@@ -18,13 +18,13 @@ public class WeatherService {
 }
 
 extension WeatherService: WeatherServiceProtocol {
-    public func getWeather(_ request: ModelDto.GetWeatherRequest) async throws -> ModelDto.GetWeatherResponse {
-        
+    public func getWeather(_ request: ModelDto.GetWeatherRequest,
+                           cachePolicy: ServiceCachePolicy) async throws -> ModelDto.GetWeatherResponse {
         let cacheKey = "\(#function)"
         let cacheParams: [any Hashable] = [request.latitude, request.longitude]
-        let cacheType = ModelDto.GetWeatherResponse.self
-        
-        if let cached = cacheManager.syncRetrieve(cacheType, key: cacheKey, params: cacheParams) {
+        let responseType = ModelDto.GetWeatherResponse.self
+
+        if let cached = cacheManager.syncRetrieve(responseType, key: cacheKey, params: cacheParams), cachePolicy == .cacheElseLoad {
             DevTools.Log.debug(.log("Returned cache for \(#function)"), .business)
             return cached.model
         }
@@ -35,11 +35,10 @@ extension WeatherService: WeatherServiceProtocol {
 
         let result = try await NetworkManager.shared.request(
             .getWeather(request),
-            type: cacheType)
-        
+            type: responseType)
+
         cacheManager.syncStore(result, key: cacheKey, params: cacheParams)
-        
+
         return result
-        
     }
 }

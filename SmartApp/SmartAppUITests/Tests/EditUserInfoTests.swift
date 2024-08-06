@@ -45,7 +45,7 @@ final class EditUserInfoTests: BaseUITests {
             andWaitForStaticText: "UpdateUserDetails",
             on: app
         )
-        let newName = "NewName"+Int.random(in: 1...100).description
+        let newName = "NewName" + Int.random(in: 1...100).description
         let newMail = newName + "@mail.com"
         tap(
             textField: "txtUserName",
@@ -65,10 +65,8 @@ final class EditUserInfoTests: BaseUITests {
         )
         tap(button: "Save", andWaitForStaticText: "SaveUserInfoBottomSheetTitle", on: app)
         tap(button: "Yes", andWaitForStaticText: Constants.tab4Title, on: app)
-        
+
         exists(staticText: newName, on: app)
         exists(staticText: newMail, on: app)
     }
-
-
 }

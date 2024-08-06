@@ -79,7 +79,7 @@ class WeatherViewModel: BaseViewModel {
                         .init(
                             latitude: userLat.description,
                             longitude: userLong.description
-                        )
+                        ), cachePolicy: .cacheElseLoad
                     )
                     weatherData.append(userData)
                 }
@@ -89,7 +89,7 @@ class WeatherViewModel: BaseViewModel {
                             .init(
                                 latitude: coordinate.coord.lat.description,
                                 longitude: coordinate.coord.long.description
-                            )
+                            ), cachePolicy: .cacheElseLoad
                         )
                         weatherData.append(data)
                     } catch {

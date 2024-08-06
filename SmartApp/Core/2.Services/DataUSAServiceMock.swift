@@ -18,14 +18,14 @@ public class DataUSAServiceMock {
 extension DataUSAServiceMock: DataUSAServiceProtocol {
     public func requestPopulationStateData(
         _ request: ModelDto.PopulationStateDataRequest,
-        cachePolicy: DataUSAServiceCachePolicy
+        cachePolicy: ServiceCachePolicy
     ) async throws -> ModelDto.PopulationStateDataResponse {
         ModelDto.PopulationStateDataResponse.mock!
     }
 
     public func requestPopulationNationData(
         _ request: ModelDto.PopulationNationDataRequest,
-        cachePolicy: DataUSAServiceCachePolicy
+        cachePolicy: ServiceCachePolicy
     ) async throws -> ModelDto.PopulationNationDataResponse {
         ModelDto.PopulationNationDataResponse.mock!
     }
