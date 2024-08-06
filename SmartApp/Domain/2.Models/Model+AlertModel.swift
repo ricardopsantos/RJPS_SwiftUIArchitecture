@@ -13,6 +13,7 @@ public extension Model {
         public static func == (lhs: AlertModel, rhs: AlertModel) -> Bool {
             lhs.type == rhs.type &&
                 lhs.message == rhs.message &&
+            lhs.date == rhs.date &&
                 lhs.onDismiss.debugDescription == rhs.onDismiss.debugDescription
         }
 
@@ -25,12 +26,14 @@ public extension Model {
 
         public let type: AlertType
         public let message: String
+        public let date: Date
         public var onDismiss: (() -> Void)?
 
         public init(type: AlertType, message: String, onDismiss: (() -> Void)? = nil) {
             self.type = type
             self.message = message
             self.onDismiss = onDismiss
+            self.date = .now
         }
 
         public static var success: Self {

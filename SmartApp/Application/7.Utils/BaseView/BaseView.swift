@@ -87,7 +87,7 @@ fileprivate extension BaseView {
                 }
                 content()
                 if let alertModel = alertModel {
-                    AlertView(model: alertModel, opacity: 1)
+                    AlertView(model: alertModel)
                         .ignoresSafeArea(.keyboard, edges: .bottom)
                         .doIf(ignoresSafeArea, transform: {
                             $0.ignoresSafeArea()

@@ -340,7 +340,7 @@
 		D57806EC90116D0571EB721A /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A02C3DDA4813DC3537C7001 /* AppConstants.swift */; };
 		D5D5FAC3229B645CC7ED06A4 /* ASyncCoreDataManagerSavePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16429CFBAB85FB1C727FDC62 /* ASyncCoreDataManagerSavePublisher.swift */; };
 		D71DB0832C5EB74600AF2A4F /* BaseView+BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71DB0822C5EB74600AF2A4F /* BaseView+BackgroundView.swift */; };
-		D71DB0852C5EB7AF00AF2A4F /* BaseView+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71DB0842C5EB7AF00AF2A4F /* BaseView+Alert.swift */; };
+		D71DB0852C5EB7AF00AF2A4F /* BaseView+AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71DB0842C5EB7AF00AF2A4F /* BaseView+AlertView.swift */; };
 		D71DB0872C5EBC4100AF2A4F /* BaseView+NavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71DB0862C5EBC4100AF2A4F /* BaseView+NavigationModel.swift */; };
 		D71DB0892C5F6ACB00AF2A4F /* AppImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71DB0882C5F6ACB00AF2A4F /* AppImages.swift */; };
 		D71DB08B2C600BFD00AF2A4F /* View+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71DB08A2C600BFD00AF2A4F /* View+Animations.swift */; };
@@ -955,7 +955,7 @@
 		D55DB282E77E9F535E393B7D /* ScreenProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenProtocols.swift; sourceTree = "<group>"; };
 		D610E9C15F645141AA91565A /* GoogleService-Info-com.ricardo.app.id.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info-com.ricardo.app.id.plist"; sourceTree = "<group>"; };
 		D71DB0822C5EB74600AF2A4F /* BaseView+BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseView+BackgroundView.swift"; sourceTree = "<group>"; };
-		D71DB0842C5EB7AF00AF2A4F /* BaseView+Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseView+Alert.swift"; sourceTree = "<group>"; };
+		D71DB0842C5EB7AF00AF2A4F /* BaseView+AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseView+AlertView.swift"; sourceTree = "<group>"; };
 		D71DB0862C5EBC4100AF2A4F /* BaseView+NavigationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseView+NavigationModel.swift"; sourceTree = "<group>"; };
 		D71DB0882C5F6ACB00AF2A4F /* AppImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppImages.swift; sourceTree = "<group>"; };
 		D71DB08A2C600BFD00AF2A4F /* View+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Animations.swift"; sourceTree = "<group>"; };
@@ -2333,7 +2333,7 @@
 			children = (
 				EF0B02C5EBB0BB47988FCF7C /* BaseView.swift */,
 				D71DB0822C5EB74600AF2A4F /* BaseView+BackgroundView.swift */,
-				D71DB0842C5EB7AF00AF2A4F /* BaseView+Alert.swift */,
+				D71DB0842C5EB7AF00AF2A4F /* BaseView+AlertView.swift */,
 				D71DB0862C5EBC4100AF2A4F /* BaseView+NavigationModel.swift */,
 			);
 			path = BaseView;
@@ -3016,7 +3016,7 @@
 				A12015A6889F802D0F50A392 /* SmartApp.swift in Sources */,
 				5191CC7D0A597904F60A8AE6 /* String+Extensions.swift in Sources */,
 				14EFA1CF13CD527620FFAA7E /* UITestingManager.swift in Sources */,
-				D71DB0852C5EB7AF00AF2A4F /* BaseView+Alert.swift in Sources */,
+				D71DB0852C5EB7AF00AF2A4F /* BaseView+AlertView.swift in Sources */,
 				D863FD483BEB16AB0BB36A01 /* V.EditUserDetailsScreen.swift in Sources */,
 				2B2EE18553F19723C27FA936 /* V.LoginScreen.swift in Sources */,
 				3CC3853A022ABF2F47B1505D /* V.MainTabView.swift in Sources */,

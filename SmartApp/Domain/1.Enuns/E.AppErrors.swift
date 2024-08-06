@@ -16,7 +16,8 @@ public enum AppErrors: Error, Equatable, Hashable, Codable {
 
     case userIsNotAuthenticated
     case tokenStoringFailed
-
+    case invalidPassword
+    
     // WebAPI
     case network(description: String)
     case parsing(description: String, data: Data?)

@@ -71,23 +71,16 @@ class LoginViewModel: BaseViewModel {
         case .didAppear:
             alertModel = .init(type: .warning, message: "Tap to Autofill", onDismiss: { [weak self] in
                 self?.email = "mail@gmail.com"
-                self?.password = "213"
+                self?.password = "123"
             })
         case .didDisappear: ()
         case .doLogin(email: let email, password: let password):
-            var canLogin: Bool {
-                !email.isEmpty && !password.isEmpty
-            }
-            guard canLogin else {
-                return
-            }
             Task { @MainActor in
                 do {
                     let user = Model.User(email: email, password: password)
                     try await authenticationViewModel.login(user: user)
                 } catch {
-                    alertModel = .tryAgainLatter
-                    ErrorsManager.handleError(message: "\(Self.self).\(action)", error: error)
+                    handle(error: error, sender: "\(Self.self).\(action)")
                 }
             }
         }
@@ -109,7 +102,6 @@ fileprivate extension LoginViewModel {
         $password
             .debounce(
                 for: RunLoop.SchedulerTimeType.Stride(formEvalDebounce),
-
                 scheduler: RunLoop.main
             )
             .removeDuplicates()
