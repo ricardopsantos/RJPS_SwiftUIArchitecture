@@ -57,7 +57,7 @@ class LoginViewModel: BaseViewModel {
         isEmailValid
             .dropFirst()
             .receive(on: RunLoop.main)
-            .map { valid in valid ? "" : "Invalid email" }
+            .map { valid in valid ? "" : "Invalid email".localizedMissing }
             .assign(to: \.errorMessage, on: self)
             .store(in: cancelBag)
         isFormValid
@@ -68,7 +68,11 @@ class LoginViewModel: BaseViewModel {
 
     func send(action: Actions) {
         switch action {
-        case .didAppear: ()
+        case .didAppear:
+            alertModel = .init(type: .warning, message: "Tap to Autofill", onDismiss: { [weak self] in
+                self?.email = "mail@gmail.com"
+                self?.password = "213"
+            })
         case .didDisappear: ()
         case .doLogin(email: let email, password: let password):
             var canLogin: Bool {

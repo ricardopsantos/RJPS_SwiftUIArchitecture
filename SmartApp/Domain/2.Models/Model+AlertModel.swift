@@ -34,15 +34,15 @@ public extension Model {
         }
 
         public static var success: Self {
-            AlertModel(type: .success, message: "Success", onDismiss: {})
+            AlertModel(type: .success, message: "Success", onDismiss: nil)
         }
 
         public static var tryAgainLatter: Self {
-            AlertModel(type: .error, message: "Please try again latter", onDismiss: {})
+            AlertModel(type: .error, message: "Please try again latter", onDismiss: nil)
         }
 
         public static var noInternet: Self {
-            AlertModel(type: .error, message: "No internet", onDismiss: {})
+            AlertModel(type: .error, message: "No internet", onDismiss: nil)
         }
     }
 }

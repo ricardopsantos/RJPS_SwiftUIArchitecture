@@ -26,11 +26,11 @@ public extension CommonNetworking {
         }
 
         public static var isConnectedToNetwork: Bool {
-            if Common_Utils.onSimulator {
-                isConnectedToNetworkV3
-            } else {
+            //if Common_Utils.onSimulator {
+            //    isConnectedToNetworkV3 // Slow! Takes 1s
+            //} else {
                 isConnectedToNetworkV2
-            }
+            //}
         }
 
         @PWThreadSafe private static var isConnected = false
