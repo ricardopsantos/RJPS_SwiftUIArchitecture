@@ -28,7 +28,9 @@ extension BaseView {
             .opacity(dismissed ? 0 : 1)
             .defaultAnimation()
             .onTapGesture {
-                dismiss()
+                guard !dismissed else { return }
+                model.wasDismissed()
+                dismissed = true
             }
         }
 
@@ -55,17 +57,8 @@ extension BaseView {
             }
             .padding()
             .background(Color.clear)
+        }
 
-        }
-        
-        func dismiss() {
-            guard !dismissed else { return }
-            if let onDismiss = model.onDismiss {
-                onDismiss()
-            }
-            dismissed = true
-        }
-        
         private var baseColor: Color {
             switch model.type {
             case .success: return ColorSemantic.allCool.color
@@ -74,7 +67,6 @@ extension BaseView {
             case .information: return ColorSemantic.warning.color
             }
         }
-
     }
 }
 
@@ -104,6 +96,7 @@ struct AlertModelTestView: View {
         )
     }
 }
+
 #Preview("Preview") {
     AlertModelTestView()
 }

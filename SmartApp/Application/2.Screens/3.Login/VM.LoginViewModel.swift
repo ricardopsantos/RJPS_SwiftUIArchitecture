@@ -69,10 +69,14 @@ class LoginViewModel: BaseViewModel {
     func send(action: Actions) {
         switch action {
         case .didAppear:
-            alertModel = .init(type: .warning, message: "Tap to Autofill", onDismiss: { [weak self] in
-                self?.email = "mail@gmail.com"
-                self?.password = "123"
-            })
+            alertModel = .init(
+                type: .warning,
+                message: "Tap to Autofill",
+                onUserDismissAlert: { [weak self] in
+                    self?.email = "mail@gmail.com"
+                    self?.password = "123"
+                }
+            )
         case .didDisappear: ()
         case .doLogin(email: let email, password: let password):
             Task { @MainActor in

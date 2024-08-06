@@ -30,12 +30,22 @@ public extension Model {
         public let type: AlertType
         public let message: String
         public let date: Date
-        public var onDismiss: (() -> Void)?
+        public var onUserDismissAlert: (() -> Void)? // Custom code to run when user tapped alert
+        public var parentDismiss: (() -> Void)? // Inject code to dismiss alert externally (by parent view)
 
-        public init(type: AlertType, message: String, onDismiss: (() -> Void)? = nil) {
+        public func wasDismissed() {
+            if let onUserDismissAlert = onUserDismissAlert {
+                onUserDismissAlert()
+            }
+            if let parentDismiss = parentDismiss {
+                parentDismiss()
+            }
+        }
+
+        public init(type: AlertType, message: String, onUserDismissAlert: (() -> Void)? = nil) {
             self.type = type
             self.message = message
-            self.onDismiss = onDismiss
+            self.onUserDismissAlert = onUserDismissAlert
             self.date = .now
         }
     }
@@ -49,7 +59,7 @@ extension Model.AlertModel: Equatable {
         lhs.type == rhs.type &&
             lhs.message == rhs.message &&
             lhs.date == rhs.date &&
-            lhs.onDismiss.debugDescription == rhs.onDismiss.debugDescription
+            lhs.onUserDismissAlert.debugDescription == rhs.onUserDismissAlert.debugDescription
     }
 }
 
@@ -57,7 +67,6 @@ extension Model.AlertModel: Equatable {
 // MARK: - Utils
 //
 public extension Model.AlertModel {
-    
     var visibleTime: CGFloat {
         let defaultTime: CGFloat = 3
         switch type {
@@ -69,16 +78,14 @@ public extension Model.AlertModel {
     }
 
     static var success: Self {
-        Model.AlertModel(type: .success, message: "Success", onDismiss: nil)
+        Model.AlertModel(type: .success, message: "Success", onUserDismissAlert: nil)
     }
 
     static var tryAgainLatter: Self {
-        Model.AlertModel(type: .error, message: "Please try again latter", onDismiss: nil)
+        Model.AlertModel(type: .error, message: "Please try again latter", onUserDismissAlert: nil)
     }
 
     static var noInternet: Self {
-        Model.AlertModel(type: .error, message: "No internet", onDismiss: nil)
+        Model.AlertModel(type: .error, message: "No internet", onUserDismissAlert: nil)
     }
 }
-
-

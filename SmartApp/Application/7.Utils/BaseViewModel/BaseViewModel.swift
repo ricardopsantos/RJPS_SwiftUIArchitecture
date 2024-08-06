@@ -13,21 +13,33 @@ import DevTools
 
 @MainActor
 public class BaseViewModel: ObservableObject {
-
     // MARK: - Usage Attributes
     @Published var loadingModel: Model.LoadingModel?
     @Published var alertModel: Model.AlertModel? {
         didSet {
-            guard let alertModel = alertModel else {
+            guard var alertModel = alertModel else {
                 return
             }
-            Common.ExecutionControlManager.debounce(alertModel.visibleTime, 
-                                                    operationId: "\(Self.self)_\(#function)") { [weak self] in
-                self?.dismissAlert()
+            if alertModel.parentDismiss == nil {
+                // Append dismissAlert to the onDismiss closure
+                alertModel.parentDismiss = { [weak self] in
+                    self?.alertModel = nil
+                }
+
+                // Set the alertModel back with the updated onDismiss
+                self.alertModel = alertModel
+                return
+            }
+
+            Common.ExecutionControlManager.debounce(
+                alertModel.visibleTime,
+                operationId: "\(Self.self)_\(#function)"
+            ) { [weak self] in
+                self?.alertModel = nil
             }
         }
     }
-    
+
     // MARK: - Helpers
 
     // Function to handle errors
@@ -46,9 +58,5 @@ public class BaseViewModel: ObservableObject {
             // Set the alert model with the error's localized description
             alertModel = .init(type: .error, message: error.localizedDescription)
         }
-    }
-    
-    func dismissAlert() {
-        alertModel = nil
     }
 }
