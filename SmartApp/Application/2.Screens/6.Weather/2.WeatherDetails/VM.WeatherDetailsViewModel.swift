@@ -16,7 +16,7 @@ import Core
 // MARK: - Model
 //
 
-public struct WeatherDetailsModel: Equatable, Hashable {
+public struct WeatherDetailsModel: Equatable, Hashable, Sendable {
     let weatherResponse: ModelDto.GetWeatherResponse
 
     init(weatherResponse: ModelDto.GetWeatherResponse) {

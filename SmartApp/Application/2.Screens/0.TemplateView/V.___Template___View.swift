@@ -78,7 +78,8 @@ struct ___Template___View: View, ViewProtocol {
             ignoresSafeArea: true,
             background: .default,
             loadingModel: viewModel.loadingModel,
-            alertModel: viewModel.alertModel) {
+            alertModel: viewModel.alertModel,
+            networkStatus: nil) {
                 content
             }.onAppear {
                 viewModel.send(.didAppear)

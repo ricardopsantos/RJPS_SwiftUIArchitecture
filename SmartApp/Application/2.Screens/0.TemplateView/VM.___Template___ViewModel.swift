@@ -16,7 +16,7 @@ import Core
 // MARK: - Model
 //
 
-public struct ___Template___Model: Equatable, Hashable {
+public struct ___Template___Model: Equatable, Hashable, Sendable {
     let message: String
     let counter: Int
 

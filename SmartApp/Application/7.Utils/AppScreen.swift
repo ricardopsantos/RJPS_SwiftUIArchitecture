@@ -8,7 +8,7 @@
 import SwiftUI
 import Common
 
-public enum AppScreen: Hashable, Identifiable {
+public enum AppScreen: Hashable, Identifiable, Sendable {
     case na
     case splash
     case root

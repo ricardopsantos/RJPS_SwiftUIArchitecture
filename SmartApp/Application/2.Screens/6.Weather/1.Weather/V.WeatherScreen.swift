@@ -56,15 +56,14 @@ struct WeatherView: View, ViewProtocol {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: WeatherViewModel
     // MARK: - Usage Attributes
+    @StateObject var locationViewModel: Common.CoreLocationManagerViewModel = .shared
+    @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
     private let onSelected: (ModelDto.GetWeatherResponse) -> Void
     // MARK: - Constructor
     public init(dependencies: WeatherViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onSelected = dependencies.onSelected
     }
-
-    // MARK: - Usage Attributes
-    @StateObject var locationViewModel: Common.CoreLocationManagerViewModel = .shared
 
     // MARK: - Body & View
     var body: some View {
@@ -79,7 +78,8 @@ struct WeatherView: View, ViewProtocol {
             navigationViewModel: .disabled,
             background: .default,
             loadingModel: viewModel.loadingModel,
-            alertModel: viewModel.alertModel
+            alertModel: viewModel.alertModel,
+            networkStatus: networkMonitorViewModel.networkStatus
         ) {
             content
         }.onAppear {
@@ -100,10 +100,21 @@ struct WeatherView: View, ViewProtocol {
             }
         }
         .frame(maxWidth: .infinity)
-        .onChange(of: locationViewModel.coordinates) { some in
+        .onChange(of: networkMonitorViewModel.networkStatus) { networkStatus in
+            switch networkStatus {
+            case .unknown, .internetConnectionAvailable, .internetConnectionLost:
+                ()
+            case .internetConnectionRecovered:
+                viewModel.send(action: .getWeatherData(
+                    userLat: locationViewModel.coordinates?.latitude,
+                    userLong: locationViewModel.coordinates?.longitude
+                ))
+            }
+        }
+        .onChange(of: locationViewModel.coordinates) { coordinates in
             viewModel.send(action: .getWeatherData(
-                userLat: some?.latitude,
-                userLong: some?.longitude
+                userLat: coordinates?.latitude,
+                userLong: coordinates?.longitude
             ))
         }
     }
@@ -126,7 +137,11 @@ struct WeatherView: View, ViewProtocol {
             ForEach(viewModel.weatherData, id: \.self) { item in
                 ListItemView(
                     title: item.timezone ?? "",
-                    subTitle: makeDescription(weatherItem: item),
+                    subTitle: makeDescription(
+                        weatherItem: item,
+                        latitude: item.latitude,
+                        longitude: item.longitude
+                    ),
                     onTapGesture: {
                         onSelected(item)
                     }
@@ -147,12 +162,19 @@ fileprivate extension WeatherView {}
 // MARK: - Private
 //
 fileprivate extension WeatherView {
-    func makeDescription(weatherItem: ModelDto.GetWeatherResponse) -> String {
-        print("fix. put on model")
-        let location = "• Coords: \(weatherItem.latitude!) | \(weatherItem.longitude!)\n"
+    func makeDescription(
+        weatherItem: ModelDto.GetWeatherResponse,
+        latitude: Double?,
+        longitude: Double?
+    ) -> String {
         let temperature2MMax = weatherItem.daily?.temperature2MMax?.first ?? 0
         let maxTemperature = "• Max Temperature".localizedMissing + ": " + "\(temperature2MMax) °C \n"
-        return maxTemperature + location
+        if let latitude = latitude, let longitude = longitude {
+            let location = "• Coords: \(latitude) | \(longitude)\n"
+            return maxTemperature + location
+        } else {
+            return maxTemperature
+        }
     }
 }
 
