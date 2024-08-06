@@ -301,7 +301,7 @@ public extension XCTestCase {
         if dismissKeyboard {
             tap(
                 // button: XCUIKeyboardKey.return.rawValue,
-                button: "retorno",
+                button: "enter",
                 on: app
             )
         }

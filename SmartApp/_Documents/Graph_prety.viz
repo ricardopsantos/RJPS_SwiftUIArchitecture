@@ -9,28 +9,28 @@ digraph {
 
   subgraph cluster_App {
     label="• SceneDelegate\n• AppDelegate\n• Views\n • ViewModels\n• Localizables";
-    fontsize=8; 
+    fontsize=8;
     node [style=filled, fillcolor="#bbdefb"];
     SmartApp
   }
 
   subgraph cluster_Core {
-    label="• Models\n• Repositories Implementation\n• Services Implementation\n• Network";
-    fontsize=8; 
+    label="• Repositories Implementation\n• Services Implementation\n• Networking (Web APIs)";
+    fontsize=8;
     node [style=filled, fillcolor="#beeeee"];
     Core
   }
 
   subgraph cluster_Domain {
-    label="• Models\n• Repositories Interfaces\n• Services Interfaces";
-    fontsize=8; 
+    label="• Models (struts, enuns...)\n• Repositories Interfaces\n• Services Interfaces";
+    fontsize=8;
     node [style=filled, fillcolor="#beeeee"];
     Domain
   }
 
   subgraph cluster_DesignSystem {
-    label="• Colors\n• Fonts\n• Reusable UI Components";
-    fontsize=8; 
+    label="• Colors\n• Fonts\n• SizeNaming\n• Reusable UI Components";
+    fontsize=8;
     node [style=filled, fillcolor="#beeeee"];
     DesignSystem
   }

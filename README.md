@@ -76,7 +76,7 @@ Our philosophy emphasizes avoiding the addition of large dependencies for simple
 # Architecture
 
 <center>
-<img src=SmartApp/_Documents/images/Xcode.png width=500/>
+<img src=SmartApp/_Documents/images/Xcode.png width=800/>
 </center>
 
 The project is organized into several key directories/targets, each serving a specific purpose: __SmartApp__, __Domain__, __Core__, __Common__, __DesignSystem__, __DevTools__, __SmartAppUnitTests__, __SmartAppUITests__ 
@@ -193,7 +193,7 @@ More about at [Adding a Design Language to your Xcode project.](https://medium.c
 __XcodeGen__ treamlines project management by allowing you to generate Xcode project files from a simple YAML or JSON specification. This approach reduces merge conflicts, ensures consistency across teams, and makes it easier to version control project settings. By automating project setup, XcodeGen enhances productivity and maintains a cleaner, more organized codebase.
 
 <center>
-<img src=SmartApp/_Documents/images/features/xcodegen.png width=400/>
+<img src=SmartApp/_Documents/images/features/xcodegen.png width=800/>
 </center>
 
 ## SwiftLint and SwiftFormat
@@ -210,6 +210,7 @@ At the present day the project is [leaks](https://developer.apple.com/documentat
 
 <center>
 <img src=SmartApp/_Documents/images/tests/leaks.png width=800/>
+</center>
 
 ## Install 
 
@@ -221,5 +222,5 @@ The scripts can be found at [`SmartApp/XcodeGen`](https://github.com/ricardopsan
 
 
 <center>
-<img src=SmartApp/_Documents/install.png width=500/>
+<img src=SmartApp/_Documents/install.png width=400/>
 </center>

@@ -44,7 +44,7 @@ extension PopulationNationViewModel {
     enum Actions {
         case didAppear
         case didDisappear
-        case getPopulationData(cachePolicy: DataUSAServiceCachePolicy)
+        case getPopulationData(cachePolicy: ServiceCachePolicy)
     }
 
     struct Dependencies {

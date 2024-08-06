@@ -68,3 +68,57 @@ extension DataUSAServiceTests {
         }
     }
 }
+
+//
+// MARK: - Performance Tests
+//
+
+extension DataUSAServiceTests {
+    func test_requestPopulationStateData_Performance_Load() throws {
+        let cachePolicy: ServiceCachePolicy = .load
+        let expectedTime: Double = 0.498
+        let count = 10
+        // Time: 0.498 sec
+        measure {
+            let expectation = self.expectation(description: #function)
+            Task {
+                do {
+                    for _ in 1...count {
+                        _ = try await service.requestPopulationStateData(
+                            .init(),
+                            cachePolicy: cachePolicy
+                        )
+                    }
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Async function threw an error: \(error)")
+                }
+            }
+            wait(for: [expectation], timeout: expectedTime * 1.25 * Double(count))
+        }
+    }
+
+    func test_requestPopulationStateData_Performance_CacheElseLoad() throws {
+        let cachePolicy: ServiceCachePolicy = .cacheElseLoad
+        let expectedTime: Double = 0.007
+        let count = 10
+        // Time: 0.007 sec
+        measure {
+            let expectation = self.expectation(description: #function)
+            Task {
+                do {
+                    for _ in 1...count {
+                        _ = try await service.requestPopulationStateData(
+                            .init(),
+                            cachePolicy: cachePolicy
+                        )
+                    }
+                    expectation.fulfill()
+                } catch {
+                    XCTFail("Async function threw an error: \(error)")
+                }
+            }
+            wait(for: [expectation], timeout: expectedTime * 1.25 * Double(count))
+        }
+    }
+}

@@ -29,7 +29,6 @@ struct SettingsViewCoordinator: View, ViewCoordinatorProtocol {
                 .sheet(item: $coordinator.sheetLink, content: buildScreen)
                 .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
         }
-        // .environmentObject(router)
     }
 
     @ViewBuilder
@@ -37,7 +36,9 @@ struct SettingsViewCoordinator: View, ViewCoordinatorProtocol {
         switch screen {
         case .settings:
             let dependencies: SettingsViewModel.Dependencies = .init(
-                model: .init(),
+                model: .init(), onShouldDisplayEditUserDetails: {
+                    coordinator.coverLink = .editUserDetails
+                },
                 authenticationViewModel: configuration.authenticationViewModel,
                 nonSecureAppPreferences: configuration.nonSecureAppPreferences,
                 userRepository: configuration.userRepository
@@ -60,13 +61,15 @@ struct SettingsViewCoordinator: View, ViewCoordinatorProtocol {
 struct SettingsScreen: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    // @EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: SettingsViewModel
+    // MARK: - Usage Attributes
+    private let onShouldDisplayEditUserDetails: () -> Void
     public init(dependencies: SettingsViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
+        self.onShouldDisplayEditUserDetails = dependencies.onShouldDisplayEditUserDetails
     }
 
-    // MARK: - Usage Attributes
+    // MARK: - Auxiliar Attributes
     @State private var selectedMode: Common.InterfaceStyle? = InterfaceStyleManager.current
 
     // MARK: - Body & View
@@ -127,8 +130,7 @@ fileprivate extension SettingsScreen {
                     label: "Update",
                     sender: "\(Self.self)"
                 )
-                print("fix")
-                // router.coverLink = .editUserDetails
+                onShouldDisplayEditUserDetails()
             },
             text: "Update".localizedMissing,
 

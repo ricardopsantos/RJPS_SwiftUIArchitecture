@@ -77,7 +77,7 @@ class PopulationStateViewModel: BaseViewModel {
                 loadingModel = .loading(message: "Loading".localized)
                 model = []
                 do {
-                    let cachePolicy: DataUSAServiceCachePolicy = .cacheElseLoad
+                    let cachePolicy: ServiceCachePolicy = .cacheElseLoad
                     let modelDto = try await dataUSAService.requestPopulationStateData(
                         .init(year: year),
                         cachePolicy: cachePolicy

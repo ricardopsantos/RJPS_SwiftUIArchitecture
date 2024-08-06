@@ -9,5 +9,8 @@ import Foundation
 import Common
 
 public protocol WeatherServiceProtocol {
-    func getWeather(_ request: ModelDto.GetWeatherRequest) async throws -> ModelDto.GetWeatherResponse
+    func getWeather(
+        _ request: ModelDto.GetWeatherRequest,
+        cachePolicy: ServiceCachePolicy
+    ) async throws -> ModelDto.GetWeatherResponse
 }
