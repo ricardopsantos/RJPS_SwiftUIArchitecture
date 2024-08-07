@@ -16,12 +16,24 @@ import Core
 // MARK: - Model
 //
 public struct WeatherDetailsModel: Equatable, Hashable, Sendable {
+    let temperatureMax: Double?
+    let temperatureMin: Double?
     let latitude: Double
     let longitude: Double
+    let location: String
+    public init(
+        latitude: Double = 38.71,
 
-    public init(latitude: Double = 38.71, longitude: Double = 9.14) {
+        longitude: Double = 9.14,
+        temperatureMax: Double? = 0,
+        temperatureMin: Double? = 0,
+        location: String = ""
+    ) {
         self.latitude = latitude
         self.longitude = longitude
+        self.temperatureMax = temperatureMax
+        self.temperatureMin = temperatureMin
+        self.location = location
     }
 }
 
@@ -33,7 +45,7 @@ extension WeatherDetailsViewModel {
     enum Actions {
         case didAppear
         case didDisappear
-        case doSomething
+        case load
     }
 
     struct Dependencies {
@@ -48,7 +60,7 @@ extension WeatherDetailsViewModel {
 //
 class WeatherDetailsViewModel: BaseViewModel {
     // MARK: - View Usage Attributes
-    let model: WeatherDetailsModel
+    @Published var model: WeatherDetailsModel?
     // MARK: - Auxiliar Attributes
     private let weatherService: WeatherServiceProtocol?
     public init(dependencies: Dependencies) {
@@ -59,9 +71,37 @@ class WeatherDetailsViewModel: BaseViewModel {
 
     func send(action: Actions) {
         switch action {
-        case .didAppear: ()
+        case .didAppear:
+            send(action: .load)
         case .didDisappear: ()
-        case .doSomething: () // Do something
+        case .load:
+            Task { @MainActor [weak self] in
+                guard let self = self else { return }
+                self.loadingModel = .loading(message: "Loading".localizedMissing)
+                if let latitude = model?.latitude, let longitude = model?.longitude {
+                    let modelDto = try await self.weatherService?.getWeather(
+                        .init(
+                            latitude: latitude.description,
+                            longitude: longitude.description
+                        ), cachePolicy: .cacheElseLoad
+                    )
+                    let coordinates = try await Common.CoreLocationManager.getAddressFromAsync(
+                        latitude: latitude,
+                        longitude: longitude
+                    )
+
+                    let temperatureMax = modelDto?.daily?.temperature2MMax?.first
+                    let temperatureMin = modelDto?.daily?.temperature2MMin?.first
+                    model = .init(
+                        latitude: latitude,
+                        longitude: longitude,
+                        temperatureMax: temperatureMax,
+                        temperatureMin: temperatureMin,
+                        location: coordinates.1
+                    )
+                    self.loadingModel = .notLoading
+                }
+            }
         }
     }
 }

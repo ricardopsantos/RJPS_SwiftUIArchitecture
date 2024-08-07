@@ -38,7 +38,9 @@ struct WeatherModel: Equatable, Hashable, Sendable {
         getWeatherResponse modelDto: ModelDto.GetWeatherResponse
     ) {
         let temperature2MMax = modelDto.daily?.temperature2MMax?.first ?? 0
-        let maxTemperature = "• Max Temperature".localizedMissing + ": " + "\(temperature2MMax) °C \n"
+        let temperature2MMin = modelDto.daily?.temperature2MMin?.first ?? 0
+        let temperatureAvg = (temperature2MMax + temperature2MMin) / 2
+        let maxTemperature = "• Avg Temperature".localizedMissing + ": " + "\(temperatureAvg.localeString) °C \n"
         if let latitude = modelDto.latitude, let longitude = modelDto.longitude {
             let location = "• Coords: \(latitude) | \(longitude)\n"
             self.subTitle = maxTemperature + location

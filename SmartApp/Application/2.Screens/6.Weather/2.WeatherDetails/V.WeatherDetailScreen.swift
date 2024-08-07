@@ -98,11 +98,9 @@ struct WeatherDetailsView: View, ViewProtocol {
 
     var content: some View {
         VStack(spacing: 0) {
-            infoText(
-                text: "Temperature".localizedMissing,
-                value: 0,
-                unit: " °C"
-            )
+            locationView(value: viewModel.model?.location)
+            temperatureMaxView(value: viewModel.model?.temperatureMax)
+            temperatureMinView(value: viewModel.model?.temperatureMin)
             Spacer()
         }
         .padding()
@@ -118,8 +116,37 @@ fileprivate extension WeatherDetailsView {}
 // MARK: - Private
 //
 fileprivate extension WeatherDetailsView {
-    func infoText(text: String, value: Double?, unit: String) -> some View {
-        TitleAndValueView(title: text, value: "\(value ?? 0) \(unit)")
+    @ViewBuilder
+    func locationView(value: String?) -> some View {
+        if let value = value {
+            TitleAndValueView(
+                title: "Location".localizedMissing,
+                value: value
+            )
+        }
+        EmptyView()
+    }
+
+    @ViewBuilder
+    func temperatureMaxView(value: Double?) -> some View {
+        if let value = value {
+            TitleAndValueView(
+                title: "Temperature Max".localizedMissing,
+                value: "\(value.localeString) °C"
+            )
+        }
+        EmptyView()
+    }
+
+    @ViewBuilder
+    func temperatureMinView(value: Double?) -> some View {
+        if let value = value {
+            TitleAndValueView(
+                title: "Temperature Min".localizedMissing,
+                value: "\(value.localeString) °C"
+            )
+        }
+        EmptyView()
     }
 }
 

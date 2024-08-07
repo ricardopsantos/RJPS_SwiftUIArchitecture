@@ -35,9 +35,12 @@ struct WeatherViewCoordinator: View {
         case .weather:
             let dependencies: WeatherViewModel.Dependencies = .init(
                 counter: 0, model: .init(), onSelected: { model in
-                    let detailsModel: WeatherDetailsModel = .init(latitude: model.latitude, 
-                                                                  longitude: model.longitude)
-                    coordinatorTab1.navigate(to: .weatherDetailsWith(model:detailsModel))
+                    let detailsModel: WeatherDetailsModel = .init(
+                        latitude: model.latitude,
+
+                        longitude: model.longitude
+                    )
+                    coordinatorTab1.navigate(to: .weatherDetailsWith(model: detailsModel))
                 }, weatherService: configuration.weatherService
             )
             WeatherView(dependencies: dependencies)
