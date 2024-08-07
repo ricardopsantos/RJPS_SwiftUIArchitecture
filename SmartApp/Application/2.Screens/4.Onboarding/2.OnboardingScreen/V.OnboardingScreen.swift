@@ -111,6 +111,12 @@ fileprivate extension OnboardingScreen {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     OnboardingScreen(onCompletion: { _ in }, onBackPressed: {})
 }
+#endif

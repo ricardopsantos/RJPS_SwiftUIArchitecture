@@ -111,8 +111,8 @@ public enum SwiftUIUtils {
 //
 
 #if canImport(SwiftUI) && DEBUG
-private extension Common_Preview {
-    struct SwiftUIUtilsPreview: View {
+fileprivate extension Common_Preview {
+    struct SwiftUIUtilsTestView: View {
         public init() {}
         public var body: some View {
             ZStack {
@@ -129,9 +129,8 @@ private extension Common_Preview {
     }
 }
 
-struct Common_Previews_SwiftUIUtils: PreviewProvider {
-    public static var previews: some View {
-        Common_Preview.SwiftUIUtilsPreview().buildPreviews()
-    }
+#Preview {
+    Common_Preview.SwiftUIUtilsTestView()
 }
+
 #endif

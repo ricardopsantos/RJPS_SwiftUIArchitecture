@@ -57,13 +57,18 @@ struct WeatherDetailsView: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: WeatherDetailsViewModel
-    // MARK: - Usage Attributes
-    let onRouteBack: () -> Void
-    // MARK: - Constructor
     public init(dependencies: WeatherDetailsViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onRouteBack = dependencies.onRouteBack
     }
+
+    // MARK: - Usage Attributes
+    @Environment(\.dismiss) var dismiss
+    // @State var someVar = 0
+    // @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
+
+    // MARK: - Auxiliar Attributes
+    private let onRouteBack: () -> Void
 
     // MARK: - Body & View
     var body: some View {
@@ -74,7 +79,7 @@ struct WeatherDetailsView: View, ViewProtocol {
         }
         BaseView.withLoading(
             sender: "\(Self.self)",
-            appScreen: .weatherDetailsWith(model: .init(weatherResponse: .mockLisbon14March2023!)),
+            appScreen: .weatherDetailsWith(model: .init(latitude: 0, longitude: 0)),
             navigationViewModel: .custom(onBackButtonTap: {
                 onRouteBack()
             }, title: "Weather Details".localizedMissing),
@@ -93,11 +98,9 @@ struct WeatherDetailsView: View, ViewProtocol {
 
     var content: some View {
         VStack(spacing: 0) {
-            infoText(
-                text: "Temperature".localizedMissing,
-                value: viewModel.model.weatherResponse.currentWeather?.temperature,
-                unit: " °C"
-            )
+            locationView(value: viewModel.model?.location)
+            temperatureMaxView(value: viewModel.model?.temperatureMax)
+            temperatureMinView(value: viewModel.model?.temperatureMin)
             Spacer()
         }
         .padding()
@@ -113,13 +116,48 @@ fileprivate extension WeatherDetailsView {}
 // MARK: - Private
 //
 fileprivate extension WeatherDetailsView {
-    func infoText(text: String, value: Double?, unit: String) -> some View {
-        TitleAndValueView(title: text, value: "\(value ?? 0) \(unit)")
+    @ViewBuilder
+    func locationView(value: String?) -> some View {
+        if let value = value {
+            TitleAndValueView(
+                title: "Location".localizedMissing,
+                value: value
+            )
+        }
+        EmptyView()
+    }
+
+    @ViewBuilder
+    func temperatureMaxView(value: Double?) -> some View {
+        if let value = value {
+            TitleAndValueView(
+                title: "Temperature Max".localizedMissing,
+                value: "\(value.localeString) °C"
+            )
+        }
+        EmptyView()
+    }
+
+    @ViewBuilder
+    func temperatureMinView(value: Double?) -> some View {
+        if let value = value {
+            TitleAndValueView(
+                title: "Temperature Min".localizedMissing,
+                value: "\(value.localeString) °C"
+            )
+        }
+        EmptyView()
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
-    WeatherDetailsViewCoordinator(model: .init(weatherResponse: .mockLisbon14March2023!))
+    WeatherDetailsViewCoordinator(model: .init())
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

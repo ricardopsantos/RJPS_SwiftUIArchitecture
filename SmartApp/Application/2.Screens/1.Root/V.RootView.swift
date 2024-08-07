@@ -61,6 +61,8 @@ struct RootView: View, ViewProtocol {
     }
 
     // MARK: - Usage Attributes
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject private var authenticationViewModel: AuthenticationViewModel
     @State private var root: AppScreen = .splash {
         didSet {
             DevTools.Log.debug(
@@ -74,7 +76,8 @@ struct RootView: View, ViewProtocol {
         }
     }
 
-    @EnvironmentObject private var authenticationViewModel: AuthenticationViewModel
+    // MARK: - Auxiliar Attributes
+    // private let cancelBag: CancelBag = .init()
 
     // MARK: - Body & View
     var body: some View {
@@ -158,7 +161,13 @@ fileprivate extension RootView {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     RootViewCoordinator()
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

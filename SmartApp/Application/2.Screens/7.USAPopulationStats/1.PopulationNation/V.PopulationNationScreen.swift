@@ -56,14 +56,17 @@ struct PopulationNationView: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: PopulationNationViewModel
-    // MARK: - Usage Attributes
-    private let onSelected: (PopulationNationModel) -> Void
-    @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
-    // MARK: - Constructor
     public init(dependencies: PopulationNationViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onSelected = dependencies.onSelected
     }
+
+    // MARK: - Usage Attributes
+    @Environment(\.dismiss) var dismiss
+    @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
+
+    // MARK: - Auxiliar Attributes
+    private let onSelected: (PopulationNationModel) -> Void
 
     // MARK: - Body & View
     var body: some View {
@@ -128,7 +131,13 @@ fileprivate extension PopulationNationView {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     PopulationNationViewCoordinator()
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

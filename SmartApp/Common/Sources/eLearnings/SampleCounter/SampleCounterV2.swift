@@ -43,11 +43,9 @@ public extension SampleCounterDomain {
 //
 
 #if canImport(SwiftUI) && DEBUG
-public struct SampleCounterV2_Preview: PreviewProvider {
-    public static var previews: some View {
-        SampleCounterDomain.SampleCounterV2_View(
-            viewModel:
-            .init(count: SampleCounterDomain.startValue))
-    }
+#Preview {
+    SampleCounterDomain.SampleCounterV2_View(
+        viewModel:
+        .init(count: SampleCounterDomain.startValue))
 }
 #endif

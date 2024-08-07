@@ -62,15 +62,18 @@ struct SettingsScreen: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: SettingsViewModel
-    // MARK: - Usage Attributes
-    private let onShouldDisplayEditUserDetails: () -> Void
     public init(dependencies: SettingsViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onShouldDisplayEditUserDetails = dependencies.onShouldDisplayEditUserDetails
     }
 
-    // MARK: - Auxiliar Attributes
+    // MARK: - Usage Attributes
+    @Environment(\.dismiss) var dismiss
     @State private var selectedMode: Common.InterfaceStyle? = InterfaceStyleManager.current
+    // @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
+
+    // MARK: - Auxiliar Attributes
+    private let onShouldDisplayEditUserDetails: () -> Void
 
     // MARK: - Body & View
     var body: some View {
@@ -203,8 +206,14 @@ fileprivate extension SettingsScreen {
 //
 fileprivate extension SettingsScreen {}
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     SettingsViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

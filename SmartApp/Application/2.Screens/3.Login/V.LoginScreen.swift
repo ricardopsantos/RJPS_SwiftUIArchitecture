@@ -50,14 +50,18 @@ struct LoginViewCoordinator: View, ViewCoordinatorProtocol {
 struct LoginView: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    // @EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: LoginViewModel
     public init(dependencies: LoginViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
     }
 
     // MARK: - Usage Attributes
-    // @State private var password: String = ""
+    @Environment(\.dismiss) var dismiss
+    // @State var someVar = 0
+    // @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
+
+    // MARK: - Auxiliar Attributes
+    // private let cancelBag: CancelBag = .init()
 
     // MARK: - Body & View
     var body: some View {
@@ -158,9 +162,14 @@ fileprivate extension LoginView {
 
 fileprivate extension LoginView {}
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     LoginViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
-        // .environmentObject(AppStateViewModel.defaultForPreviews.authenticationViewModel)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

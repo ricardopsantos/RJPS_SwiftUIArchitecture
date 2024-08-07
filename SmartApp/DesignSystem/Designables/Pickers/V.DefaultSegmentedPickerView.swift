@@ -48,6 +48,11 @@ public struct DefaultSegmentedPickerView: View {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     VStack {
         DefaultSegmentedPickerView(
@@ -61,3 +66,4 @@ public struct DefaultSegmentedPickerView: View {
         )
     }
 }
+#endif

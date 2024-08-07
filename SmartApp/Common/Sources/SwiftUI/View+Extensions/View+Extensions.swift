@@ -178,8 +178,7 @@ public extension View {
 //
 
 #if canImport(SwiftUI) && DEBUG
-
-private extension Common_Preview {
+fileprivate extension Common_Preview {
     struct SampleViewsExtensions: View {
         public init() {}
         public var body: some View {
@@ -188,9 +187,8 @@ private extension Common_Preview {
     }
 }
 
-struct Common_Previews_SampleViewsExtensions: PreviewProvider {
-    public static var previews: some View {
-        Common_Preview.SampleViewsExtensions().buildPreviews()
-    }
+#Preview {
+    Common_Preview.SampleViewsExtensions()
 }
+
 #endif

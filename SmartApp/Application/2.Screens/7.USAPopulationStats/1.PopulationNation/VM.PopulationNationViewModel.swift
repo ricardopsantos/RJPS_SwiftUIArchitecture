@@ -17,7 +17,7 @@ import DevTools
 // MARK: - Model
 //
 
-struct PopulationNationModel: Equatable, Hashable {
+struct PopulationNationModel: Equatable, Hashable, Sendable {
     let title: String
     let subTitle: String
     let year: String
@@ -95,7 +95,13 @@ class PopulationNationViewModel: BaseViewModel {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     PopulationNationViewCoordinator()
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

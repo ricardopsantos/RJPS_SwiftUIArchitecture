@@ -62,6 +62,11 @@ public struct CustomTextField: View {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     VStack {
         CustomTextField(
@@ -82,3 +87,4 @@ public struct CustomTextField: View {
         )
     }
 }
+#endif

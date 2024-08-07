@@ -109,7 +109,7 @@ public extension Common_PropertyWrappers {
 //
 
 #if canImport(SwiftUI) && DEBUG
-private extension Common_Preview {
+fileprivate extension Common_Preview {
     struct UserDefaultsTestViewView: View {
         @AppStorage("myKey1")
         public var text1: String = "default value"
@@ -131,9 +131,7 @@ private extension Common_Preview {
     }
 }
 
-public struct Common_Previews_UserDefaultsTestView: PreviewProvider {
-    public static var previews: some View {
-        Common_Preview.UserDefaultsTestViewView().buildPreviews()
-    }
+#Preview {
+    Common_Preview.UserDefaultsTestViewView()
 }
 #endif

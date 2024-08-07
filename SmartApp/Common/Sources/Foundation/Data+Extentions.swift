@@ -22,6 +22,10 @@ public extension Encodable {
 }
 
 public extension Data {
+    var utf8String: String? {
+        String(data: self, encoding: .utf8)
+    }
+
     func toObject<D: Decodable>() throws -> D {
         try JSONDecoder().decodeFriendly(D.self, from: self)
     }

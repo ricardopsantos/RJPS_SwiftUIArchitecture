@@ -49,6 +49,9 @@ public struct LoadingIndicator: View {
 //
 // MARK: - Preview
 //
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     LoadingIndicator(isLoading: true, loadingMessage: "loadingMessage")
 }
+#endif

@@ -16,7 +16,7 @@ import Common
 // MARK: - Model
 //
 
-struct LoginModel {
+struct LoginModel: Equatable, Hashable, Sendable {
     let some: Bool
     init(some: Bool = false) {
         self.some = some
@@ -125,9 +125,14 @@ fileprivate extension LoginViewModel {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     LoginViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
-        // .environmentObject(AppStateViewModel.defaultForPreviews.authenticationViewModel)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

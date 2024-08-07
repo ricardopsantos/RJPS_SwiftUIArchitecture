@@ -93,7 +93,7 @@ public extension Common {
 //
 
 #if canImport(SwiftUI) && DEBUG
-private extension Common_Preview {
+fileprivate extension Common_Preview {
     struct AppInfo: View {
         public init() {}
         public var body: some View {
@@ -122,9 +122,7 @@ private extension Common_Preview {
     }
 }
 
-struct Common_Previews_AppInfo: PreviewProvider {
-    public static var previews: some View {
-        Common_Preview.AppInfo().buildPreviews()
-    }
+#Preview {
+    Common_Preview.AppInfo()
 }
 #endif

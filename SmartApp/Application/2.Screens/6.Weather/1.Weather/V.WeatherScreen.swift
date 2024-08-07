@@ -34,8 +34,13 @@ struct WeatherViewCoordinator: View {
         switch screen {
         case .weather:
             let dependencies: WeatherViewModel.Dependencies = .init(
-                model: .init(), onSelected: { model in
-                    coordinatorTab1.navigate(to: .weatherDetailsWith(model: .init(weatherResponse: model)))
+                counter: 0, model: .init(), onSelected: { model in
+                    let detailsModel: WeatherDetailsModel = .init(
+                        latitude: model.latitude,
+
+                        longitude: model.longitude
+                    )
+                    coordinatorTab1.navigate(to: .weatherDetailsWith(model: detailsModel))
                 }, weatherService: configuration.weatherService
             )
             WeatherView(dependencies: dependencies)
@@ -55,15 +60,18 @@ struct WeatherView: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: WeatherViewModel
-    // MARK: - Usage Attributes
-    @StateObject var locationViewModel: Common.CoreLocationManagerViewModel = .shared
-    @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
-    private let onSelected: (ModelDto.GetWeatherResponse) -> Void
-    // MARK: - Constructor
     public init(dependencies: WeatherViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onSelected = dependencies.onSelected
     }
+
+    // MARK: - Usage Attributes
+    @Environment(\.dismiss) var dismiss
+    @StateObject var locationViewModel: Common.CoreLocationManagerViewModel = .shared
+    @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
+
+    // MARK: - Auxiliar Attributes
+    private let onSelected: (WeatherModel) -> Void
 
     // MARK: - Body & View
     var body: some View {
@@ -106,15 +114,15 @@ struct WeatherView: View, ViewProtocol {
                 ()
             case .internetConnectionRecovered:
                 viewModel.send(action: .getWeatherData(
-                    userLat: locationViewModel.coordinates?.latitude,
-                    userLong: locationViewModel.coordinates?.longitude
+                    userLatitude: locationViewModel.coordinates?.latitude,
+                    userLongitude: locationViewModel.coordinates?.longitude
                 ))
             }
         }
         .onChange(of: locationViewModel.coordinates) { coordinates in
             viewModel.send(action: .getWeatherData(
-                userLat: coordinates?.latitude,
-                userLong: coordinates?.longitude
+                userLatitude: coordinates?.latitude,
+                userLongitude: coordinates?.longitude
             ))
         }
     }
@@ -134,14 +142,10 @@ struct WeatherView: View, ViewProtocol {
 
     var listView: some View {
         VStack(spacing: SizeNames.defaultMargin) {
-            ForEach(viewModel.weatherData, id: \.self) { item in
+            ForEach(viewModel.model, id: \.self) { item in
                 ListItemView(
-                    title: item.timezone ?? "",
-                    subTitle: makeDescription(
-                        weatherItem: item,
-                        latitude: item.latitude,
-                        longitude: item.longitude
-                    ),
+                    title: item.title,
+                    subTitle: item.subTitle,
                     onTapGesture: {
                         onSelected(item)
                     }
@@ -161,25 +165,16 @@ fileprivate extension WeatherView {}
 //
 // MARK: - Private
 //
-fileprivate extension WeatherView {
-    func makeDescription(
-        weatherItem: ModelDto.GetWeatherResponse,
-        latitude: Double?,
-        longitude: Double?
-    ) -> String {
-        let temperature2MMax = weatherItem.daily?.temperature2MMax?.first ?? 0
-        let maxTemperature = "• Max Temperature".localizedMissing + ": " + "\(temperature2MMax) °C \n"
-        if let latitude = latitude, let longitude = longitude {
-            let location = "• Coords: \(latitude) | \(longitude)\n"
-            return maxTemperature + location
-        } else {
-            return maxTemperature
-        }
-    }
-}
+fileprivate extension WeatherView {}
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     WeatherViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

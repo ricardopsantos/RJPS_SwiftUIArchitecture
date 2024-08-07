@@ -38,6 +38,12 @@ class TermsAndConditionsViewModel: BaseViewModel {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     TermsAndConditionsScreen(onCompletion: { _ in })
 }
+#endif
