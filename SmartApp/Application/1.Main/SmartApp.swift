@@ -14,17 +14,36 @@ struct SmartApp: App {
     let configuration: ConfigurationViewModel
     let appState: AppStateViewModel
     init() {
-        let config: ConfigurationViewModel = .init(
-            userService: DependenciesManager.Services.userService,
-            weatherService: DependenciesManager.Services.weatherService,
-            sampleService: DependenciesManager.Services.sampleService,
-            dataUSAService: DependenciesManager.Services.dataUSAService,
-            userRepository: DependenciesManager.Repository.userRepository,
-            nonSecureAppPreferences: DependenciesManager.Repository.nonSecureAppPreferences,
-            secureAppPreferences: DependenciesManager.Repository.secureAppPreferences
-        )
-        SetupManager.shared.setup(nonSecureAppPreferences: config.nonSecureAppPreferences)
-        self.configuration = config
+        SetupManager.shared.setup()
+        let userService = DependenciesManager.Services.userService
+        let sampleService = DependenciesManager.Services.sampleService
+        let userRepository = DependenciesManager.Repository.userRepository
+        let nonSecureAppPreferences = DependenciesManager.Repository.nonSecureAppPreferences
+        let secureAppPreferences = DependenciesManager.Repository.secureAppPreferences
+        let config: ConfigurationViewModel!
+        if UITestingManager.Options.onUITesting.enabled {
+            config = .init(
+                userService: userService,
+                weatherService: DependenciesManager.Services.weatherServiceMock,
+                sampleService: sampleService,
+                dataUSAService: DependenciesManager.Services.dataUSAServiceMock,
+                userRepository: userRepository,
+                nonSecureAppPreferences: nonSecureAppPreferences,
+                secureAppPreferences: secureAppPreferences
+            )
+            self.configuration = config
+        } else {
+            config = .init(
+                userService: userService,
+                weatherService: DependenciesManager.Services.weatherService,
+                sampleService: sampleService,
+                dataUSAService: DependenciesManager.Services.dataUSAService,
+                userRepository: userRepository,
+                nonSecureAppPreferences: nonSecureAppPreferences,
+                secureAppPreferences: secureAppPreferences
+            )
+            self.configuration = config
+        }
         self.appState = .init()
     }
 

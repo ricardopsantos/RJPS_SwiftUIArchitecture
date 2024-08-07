@@ -20,13 +20,13 @@ extension DataUSAServiceMock: DataUSAServiceProtocol {
         _ request: ModelDto.PopulationStateDataRequest,
         cachePolicy: ServiceCachePolicy
     ) async throws -> ModelDto.PopulationStateDataResponse {
-        ModelDto.PopulationStateDataResponse.mock!
+        ModelDto.PopulationStateDataResponse.mock2!
     }
 
     public func requestPopulationNationData(
         _ request: ModelDto.PopulationNationDataRequest,
         cachePolicy: ServiceCachePolicy
     ) async throws -> ModelDto.PopulationNationDataResponse {
-        ModelDto.PopulationNationDataResponse.mock!
+        ModelDto.PopulationNationDataResponse.mock2!
     }
 }

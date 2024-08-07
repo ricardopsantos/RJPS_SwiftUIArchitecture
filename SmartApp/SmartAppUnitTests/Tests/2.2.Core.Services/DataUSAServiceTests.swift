@@ -32,7 +32,7 @@ final class DataUSAServiceTests: XCTestCase {
 extension DataUSAServiceTests {
     // Test to verify that PopulationStateDataResponse mock
     func test_mockPopulationStateData() async {
-        XCTAssertTrue(ModelDto.PopulationStateDataResponse.mock != nil, "mock data should be loaded successfully.")
+        XCTAssertTrue(ModelDto.PopulationStateDataResponse.mock2 != nil, "mock data should be loaded successfully.")
     }
 
     // Test to verify that PopulationStateData information can be fetched
@@ -51,7 +51,7 @@ extension DataUSAServiceTests {
 
     // Test to verify that PopulationNationDataResponse mock
     func test_mockPopulationNationDataResponse() async {
-        XCTAssertTrue(ModelDto.PopulationNationDataResponse.mock != nil, "PopulationNationDataResponse.mock data should be loaded successfully.")
+        XCTAssertTrue(ModelDto.PopulationNationDataResponse.mock2 != nil, "PopulationNationDataResponse.mock data should be loaded successfully.")
     }
 
     // Test to verify that PopulationNationDat information can be fetched

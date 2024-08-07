@@ -60,7 +60,36 @@ public extension ModelDto {
 }
 
 public extension ModelDto.PopulationStateDataResponse {
-    static var mock: Self? {
+    
+    static var mock2: Self? {
+        var data: [Datum] = []
+        var population = 4000000
+        let states = [
+            "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
+            "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
+            "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan",
+            "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire",
+            "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma",
+            "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee",
+            "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
+        ]
+        states.forEach { state in
+            for year in 1980...2024 {
+                population += 100000
+                data.append(.init(idState: "",
+                                  state: state,
+                                  idYear: year,
+                                  year: year.description,
+                                  population: population,
+                                  slugState: state.replace(" ", with: "".lowercased())))
+            }
+        }
+
+        var source: [Source] = []
+        return .init(data: data, source: source)
+    }
+    
+    static var mock1: Self? {
         let jsonString = """
         {
             "data": [

@@ -9,32 +9,55 @@ import UIKit
 import Common
 import Core
 
-public enum UITestingManager {
-    public enum Options: String {
+public extension UITestingManager {
+    enum Options: String {
+        case onUITesting
         case shouldDisableAnimations
         case shouldResetAllPreferences
         case isAuthenticated
-
-        public var rawValue: String {
-            "\(self)"
+        
+        var enabled: Bool {
+            switch self {
+            case .onUITesting:
+                return UITestingManager.enabled(option: self)
+            default:
+                guard UITestingManager.enabled(option: .onUITesting) else {
+                    return false
+                }
+                return UITestingManager.enabled(option: self)
+            }
         }
     }
+}
 
+public enum UITestingManager {
+    private static func enabled(option: UITestingManager.Options) -> Bool {
+        CommandLine.arguments.contains(option.rawValue)
+    }
+    
     public static func setup() {
-        if CommandLine.arguments.contains(UITestingManager.Options.shouldDisableAnimations.rawValue) {
-            // clear your app state before running UI tests here.
+        
+        guard enabled(option: .onUITesting) else {
+            return
+        }
+        
+        if enabled(option: .shouldDisableAnimations) {
             UIView.setAnimationsEnabled(false)
         }
-        if CommandLine.arguments.contains(UITestingManager.Options.shouldResetAllPreferences.rawValue) {
+        
+        if enabled(option: .shouldResetAllPreferences) {
             DependenciesManager.Repository.nonSecureAppPreferences.deleteAll()
             DependenciesManager.Repository.secureAppPreferences.deleteAll()
             UserDefaults.resetStandardUserDefaults()
         }
-        if CommandLine.arguments.contains(UITestingManager.Options.isAuthenticated.rawValue) {
-            NonSecureAppPreferences.shared.isAuthenticated = true
-            NonSecureAppPreferences.shared.isProfileComplete = true
-            NonSecureAppPreferences.shared.isPrivacyPolicyAccepted = true
-            NonSecureAppPreferences.shared.isOnboardingCompleted = true
+        
+        if enabled(option: .isAuthenticated) {
+            var nonSecureAppPreferences = DependenciesManager.Repository.nonSecureAppPreferences
+            nonSecureAppPreferences.isAuthenticated = true
+            nonSecureAppPreferences.isAuthenticated = true
+            nonSecureAppPreferences.isProfileComplete = true
+            nonSecureAppPreferences.isPrivacyPolicyAccepted = true
+            nonSecureAppPreferences.isOnboardingCompleted = true
         }
     }
 }

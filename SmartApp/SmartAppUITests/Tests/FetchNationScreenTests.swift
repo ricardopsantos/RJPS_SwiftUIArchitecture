@@ -39,8 +39,7 @@ final class FetchNationScreenTests: BaseUITests {
         tap(
             tabBarIndex: 1,
             andWaitForStaticText: Constants.tab2Title,
-            on: app,
-            timeout: XCTestCase.timeout * 2
+            on: app
         )
     }
 
@@ -48,8 +47,39 @@ final class FetchNationScreenTests: BaseUITests {
         testA1_appStartsAndUpdatesNavigationBarTitle() // Re-use test A1
         waitFor(
             staticText: Constants.tab2ListItem,
-            on: app,
-            timeout: XCTestCase.timeout * 2
+            on: app
         )
     }
+}
+
+
+//
+// MARK: Performance
+//
+extension FetchNationScreenTests {
+    
+    func testA1_performance() {
+        let metrics: [XCTMetric] = [
+            XCTCPUMetric(application: app),
+            XCTMemoryMetric(application: app)
+        ]
+        // CPU Time (id): 1.805 s
+        // Memory Physical (id): 53000.000 kB
+        measure(metrics: metrics) {
+            testA1_appStartsAndUpdatesNavigationBarTitle()
+        }
+    }
+    
+    func testA2_performance() {
+        let metrics: [XCTMetric] = [
+            XCTCPUMetric(application: app),
+            XCTMemoryMetric(application: app)
+        ]
+        // CPU Time (id): 1.939 s
+        // Memory Physical (id): 53490.342 kB
+        measure(metrics: metrics) {
+            testA2_appStartsAndDisplayRecords()
+        }
+    }
+
 }
