@@ -148,15 +148,18 @@ Includes various development tools and utilities such as logging, facilitating s
 
 # Tests 
 
-The app includes both UI Tests and Unit Tests
+The app includes comprehensive testing coverage with both UI Tests and Unit Tests. These tests are designed to cover a wide range of daily development scenarios, ensuring the app's reliability and performance. Additionally, we have incorporated measure/performance tests to monitor and optimize the app's efficiency.
 
-<img src=SmartApp/_Documents/images/tests/tests2.png width=800/>
+<img src=SmartApp/_Documents/images/tests/tests.png width=800/>
+
+This revision aims to clearly communicate the purpose and scope of the tests while emphasizing their importance in maintaining app quality and performance.
+
 
 ### UITesting
 
 The app includes UI Tests for views and routing logic
 
-<img src=SmartApp/_Documents/images/features/uiTesting1.png width=800/>
+<img src=SmartApp/_Documents/images/features/uiTesting.png width=800/>
     
 ### Unit Testing (ViewModels & Services)
 
