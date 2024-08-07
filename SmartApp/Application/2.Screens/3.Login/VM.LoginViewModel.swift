@@ -125,9 +125,14 @@ fileprivate extension LoginViewModel {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     LoginViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
-        // .environmentObject(AppStateViewModel.defaultForPreviews.authenticationViewModel)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

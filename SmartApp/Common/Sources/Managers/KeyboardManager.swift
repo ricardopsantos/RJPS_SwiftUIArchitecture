@@ -67,8 +67,12 @@ public extension Common {
     }
 }
 
+//
+// MARK: - Preview
+//
+
 #if canImport(SwiftUI) && DEBUG
-private extension Common_Preview {
+fileprivate extension Common_Preview {
     struct KeyboardManager: View {
         @StateObject var keyboardManagerV1 = Common.KeyboardManagerV1()
         @StateObject var keyboardManagerV2 = Common.KeyboardManagerV2()

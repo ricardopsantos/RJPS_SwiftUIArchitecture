@@ -133,8 +133,7 @@ struct ViewFrameGetter: ViewModifier {
 // MARK: - Preview
 //
 
-#if canImport(SwiftUI) && DEBUG
-private extension Common_Preview {
+fileprivate extension Common_Preview {
     struct SampleViewsModifiers: View {
         public init() {}
         @State var viewFrame: (CGRect, CGRect) = (.zero, .zero)
@@ -149,6 +148,7 @@ private extension Common_Preview {
     }
 }
 
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     Common_Preview.SampleViewsModifiers()
         .loading(.false)

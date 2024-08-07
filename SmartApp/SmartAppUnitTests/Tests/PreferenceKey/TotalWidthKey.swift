@@ -69,6 +69,12 @@ struct ParentView: View {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     ParentView()
 }
+#endif

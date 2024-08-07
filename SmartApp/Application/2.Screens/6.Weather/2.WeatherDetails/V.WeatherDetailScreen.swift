@@ -118,8 +118,14 @@ fileprivate extension WeatherDetailsView {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     WeatherDetailsViewCoordinator(model: .init(weatherResponse: .mockLisbon14March2023!))
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

@@ -47,6 +47,12 @@ extension SwiftUITipsAndTricks {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     SwiftUITipsAndTricks.TypingEffectView(fulltext: String.randomWithSpaces(500))
 }
+#endif

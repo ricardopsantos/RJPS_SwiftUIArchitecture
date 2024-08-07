@@ -293,6 +293,11 @@ private struct ColorsCache {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     HStack {
         VStack(spacing: 1) {
@@ -323,3 +328,4 @@ private struct ColorsCache {
         }
     }
 }
+#endif

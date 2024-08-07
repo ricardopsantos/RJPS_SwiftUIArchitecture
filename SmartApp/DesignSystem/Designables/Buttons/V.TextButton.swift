@@ -82,6 +82,11 @@ extension TextButton {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     VStack {
         ForEach(TextButton.Style.allCases, id: \.self) { style in
@@ -107,3 +112,4 @@ extension TextButton {
     }
     .padding()
 }
+#endif

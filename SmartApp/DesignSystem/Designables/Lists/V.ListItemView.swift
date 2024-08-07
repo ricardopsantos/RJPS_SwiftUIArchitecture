@@ -102,6 +102,11 @@ public struct ListItemView: View {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     VStack {
         ListItemView(title: "title1", subTitle: "subTitle", systemNameImage: "info.circle", onTapGesture: {})
@@ -110,3 +115,4 @@ public struct ListItemView: View {
         Spacer()
     }
 }
+#endif

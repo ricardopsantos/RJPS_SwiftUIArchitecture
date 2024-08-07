@@ -97,7 +97,6 @@ public struct SheetModifierWithItem<Item: Identifiable, Destination: View>: View
 //
 
 #if canImport(SwiftUI) && DEBUG
-
 internal extension Common_Preview {
     typealias SampleNavAppA = Common_Preview.SampleNavigationAppA
     struct SampleNavigationAppA {

@@ -121,6 +121,12 @@ fileprivate extension TermsAndConditionsScreen {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     TermsAndConditionsScreen(onCompletion: { _ in })
 }
+#endif

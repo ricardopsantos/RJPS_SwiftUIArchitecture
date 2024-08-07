@@ -100,6 +100,11 @@ class PopulationStateViewModel: BaseViewModel {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     PopulationStateViewCoordinator(
         year: ModelDto.PopulationStateDataRequest.Constants.lastYear,
@@ -107,3 +112,4 @@ class PopulationStateViewModel: BaseViewModel {
     )
     .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

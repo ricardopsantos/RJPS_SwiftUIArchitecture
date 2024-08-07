@@ -91,7 +91,7 @@ public extension View {
 //
 
 #if canImport(SwiftUI) && DEBUG
-private extension Common_Preview {
+fileprivate extension Common_Preview {
     struct SampleViewsDebug: View {
         public init() {}
         public var body: some View {

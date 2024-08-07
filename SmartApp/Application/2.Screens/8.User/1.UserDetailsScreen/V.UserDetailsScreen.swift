@@ -170,9 +170,15 @@ struct UserDetailsView: View {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     UserDetailsViewCoordinator(onCompletion: { _ in
 
     }).environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

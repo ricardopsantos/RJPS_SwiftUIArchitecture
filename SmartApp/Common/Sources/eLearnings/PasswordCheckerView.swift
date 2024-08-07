@@ -177,14 +177,13 @@ extension SwiftUITipsAndTricks {
             Text("Welcome! Great to have you on board!")
         }
     }
-
 }
-
 
 //
 // MARK: - Preview
 //
-
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     SwiftUITipsAndTricks.PasswordCheckerView()
 }
+#endif

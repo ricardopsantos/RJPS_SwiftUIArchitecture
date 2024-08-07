@@ -177,6 +177,10 @@ public enum ___Template___Auxiliar {
     }
 }
 
+//
+// MARK: - Preview
+//
+
 #if canImport(SwiftUI) && DEBUG
 #Preview {
     ___Template___ViewCoordinator()

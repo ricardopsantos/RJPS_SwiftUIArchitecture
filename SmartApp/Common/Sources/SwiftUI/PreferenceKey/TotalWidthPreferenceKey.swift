@@ -78,6 +78,12 @@ struct TotalWidthPreferenceKeyTestView: View {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     TotalWidthPreferenceKeyTestView()
 }
+#endif

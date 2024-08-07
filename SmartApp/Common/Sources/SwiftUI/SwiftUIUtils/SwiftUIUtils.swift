@@ -129,7 +129,6 @@ fileprivate extension Common_Preview {
     }
 }
 
-
 #Preview {
     Common_Preview.SwiftUIUtilsTestView()
 }

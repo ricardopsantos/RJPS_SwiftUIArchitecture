@@ -238,7 +238,7 @@ public extension SwiftUITipsAndTricks {
 //
 
 #if canImport(SwiftUI) && DEBUG
-private extension Common_Preview {
+fileprivate extension Common_Preview {
     struct SwiftUITipsAndTricksPreview: View {
         @State private var categoryId = 0
         public init() {}

@@ -85,6 +85,12 @@ struct EqualWidthPreferenceKeyTestView: View {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     EqualWidthPreferenceKeyTestView()
 }
+#endif

@@ -50,6 +50,12 @@ fileprivate extension SplashView {}
 //
 fileprivate extension SplashView {}
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     SplashView()
 }
+#endif

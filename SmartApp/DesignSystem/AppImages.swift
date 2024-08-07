@@ -24,6 +24,11 @@ public enum AppImages: String, CaseIterable {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     VStack(spacing: 0) {
         ForEach(AppImages.allCases, id: \.self) { item in
@@ -36,3 +41,4 @@ public enum AppImages: String, CaseIterable {
         Spacer()
     }.frame(maxWidth: UIScreen.screenWidth / 2)
 }
+#endif

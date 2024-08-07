@@ -129,6 +129,9 @@ public extension SwiftUITipsAndTricks {
 //
 // MARK: - Preview
 //
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     SwiftUITipsAndTricks.AsyncAwaitTestView()
 }
+#endif

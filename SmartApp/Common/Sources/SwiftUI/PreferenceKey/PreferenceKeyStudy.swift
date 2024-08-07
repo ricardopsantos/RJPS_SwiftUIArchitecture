@@ -68,6 +68,9 @@ struct PreferenceKeyStudyTestView: View {
 //
 // MARK: - Preview
 //
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     PreferenceKeyStudyTestView()
 }
+#endif

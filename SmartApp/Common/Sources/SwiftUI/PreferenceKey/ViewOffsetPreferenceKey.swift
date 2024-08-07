@@ -76,6 +76,12 @@ struct ViewOffsetPreferenceKeyTestView: View {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     ViewOffsetPreferenceKeyTestView()
 }
+#endif

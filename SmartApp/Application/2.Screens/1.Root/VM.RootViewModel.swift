@@ -108,7 +108,13 @@ class RootViewModel: ObservableObject {
 
 fileprivate extension RootViewModel {}
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     RootViewCoordinator()
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

@@ -29,7 +29,7 @@ func makeTextViews(texts: [String]) -> some View {
 //
 
 #if canImport(SwiftUI) && DEBUG
-private extension Common_Preview {
+fileprivate extension Common_Preview {
     struct SampleViewsBuilders: View {
         public init() {}
         @State var viewFrame: (CGRect, CGRect) = (.zero, .zero)

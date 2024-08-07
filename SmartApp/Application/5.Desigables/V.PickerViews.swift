@@ -80,6 +80,11 @@ public struct AppearancePickerView: View {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     VStack {
         CountryPickerView(
@@ -88,3 +93,4 @@ public struct AppearancePickerView: View {
         AppearancePickerView(selected: .constant(.dark))
     }
 }
+#endif

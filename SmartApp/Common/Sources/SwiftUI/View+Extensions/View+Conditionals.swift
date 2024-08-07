@@ -78,7 +78,7 @@ public extension View {
 //
 
 #if canImport(SwiftUI) && DEBUG
-private extension Common_Preview {
+fileprivate extension Common_Preview {
     struct SampleViewsConditionals: View {
         @State private var condition = true
         public init() {}

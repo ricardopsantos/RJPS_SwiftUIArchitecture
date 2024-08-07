@@ -125,7 +125,13 @@ fileprivate extension PopulationStateView {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     PopulationStateViewCoordinator(year: "2022", model: [])
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

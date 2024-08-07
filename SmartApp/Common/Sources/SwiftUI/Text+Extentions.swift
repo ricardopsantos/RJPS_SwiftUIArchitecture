@@ -29,7 +29,7 @@ public extension TextField {
 //
 
 #if canImport(SwiftUI) && DEBUG
-private extension Common_Preview {
+fileprivate extension Common_Preview {
     struct TextExtensions: View {
         public init() {}
         @State var string: String = "string"
@@ -41,6 +41,7 @@ private extension Common_Preview {
         }
     }
 }
+
 #Preview {
     Common_Preview.TextExtensions()
 }
