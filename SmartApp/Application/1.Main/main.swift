@@ -21,5 +21,6 @@ struct EmptyApp: App {
 if NSClassFromString("XCTestCase") != nil { // Unit Testing
     EmptyApp.main()
 } else { // App
+    print("Meter o workflow a fazer testes unitários")
     SmartApp.main()
 }

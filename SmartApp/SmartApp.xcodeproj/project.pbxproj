@@ -348,9 +348,12 @@
 		D77A251F685328CA88F7231E /* UIView+AnimationsBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6344864F30EC39BE520CCB /* UIView+AnimationsBase.swift */; };
 		D77DFB82549FEC2F91AD6C44 /* LoginAndSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8869CC081A4CE3C6D6BAC /* LoginAndSessionTests.swift */; };
 		D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */; };
+		D7C277142C635FD100A02CCF /* PreferenceKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C277132C635FD000A02CCF /* PreferenceKeyTests.swift */; };
+		D7C277172C63604000A02CCF /* TotalWidthKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C277162C63604000A02CCF /* TotalWidthKey.swift */; };
+		D7C277192C6361C700A02CCF /* TotalWidthPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C277182C6361C700A02CCF /* TotalWidthPreferenceKey.swift */; };
 		D8FC857887AF7D20A3D14826 /* ModelDtoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */; };
 		D9F004ECD5CB0FD2E87BD627 /* ModelDto+UpdateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7ADEDCA2B161252C22CB97 /* ModelDto+UpdateUserResponse.swift */; };
-		DB12758C6886293080AAB4F5 /* ColorSchemePreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280FFC6053DCE5261397DB36 /* ColorSchemePreferenceKey.swift */; };
+		DB12758C6886293080AAB4F5 /* PreferenceKeyStudy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280FFC6053DCE5261397DB36 /* PreferenceKeyStudy.swift */; };
 		DB415BF5E648C6D090D87CFE /* V.DatePickerPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FC4108A1B01901E13BD5B1 /* V.DatePickerPopover.swift */; };
 		DB9EA410C8DCA57CB23F177D /* WeatherServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B4D79D5BE3B0D42991224C /* WeatherServiceTests.swift */; };
 		DBB0D50D3A12510C0FD6B4F1 /* ASyncCoreDataManagerFetchPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5695FFE0B837ADAB1ED622FD /* ASyncCoreDataManagerFetchPublisher.swift */; };
@@ -668,7 +671,7 @@
 		26F5983C6823875B3E1FCEA4 /* UIView+Shadows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shadows.swift"; sourceTree = "<group>"; };
 		2799BBAA57DA4E5F3A8AEA82 /* SmartApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; name = SmartApp.app; path = Smart.Dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		279B76239CB42DF131B51430 /* ProjectedOnChange<T>.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProjectedOnChange<T>.swift"; sourceTree = "<group>"; };
-		280FFC6053DCE5261397DB36 /* ColorSchemePreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemePreferenceKey.swift; sourceTree = "<group>"; };
+		280FFC6053DCE5261397DB36 /* PreferenceKeyStudy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceKeyStudy.swift; sourceTree = "<group>"; };
 		296583003B92FC71408EF133 /* APIEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoints.swift; sourceTree = "<group>"; };
 		29B370CCC590C7DED474751D /* Common.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Common.png; sourceTree = "<group>"; };
 		2C285D0A3790B14FFCE84D7F /* ThreadSafe<T>.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThreadSafe<T>.swift"; sourceTree = "<group>"; };
@@ -966,6 +969,10 @@
 		D610E9C15F645141AA91565A /* GoogleService-Info-com.ricardo.app.id.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info-com.ricardo.app.id.plist"; sourceTree = "<group>"; };
 		D73F950216792C50E6323F9C /* UIImageView+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Transform.swift"; sourceTree = "<group>"; };
 		D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDtoProtocol.swift; sourceTree = "<group>"; };
+		D7C277122C635C1F00A02CCF /* PreferenceKey.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PreferenceKey.md; sourceTree = "<group>"; };
+		D7C277132C635FD000A02CCF /* PreferenceKeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceKeyTests.swift; sourceTree = "<group>"; };
+		D7C277162C63604000A02CCF /* TotalWidthKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalWidthKey.swift; sourceTree = "<group>"; };
+		D7C277182C6361C700A02CCF /* TotalWidthPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalWidthPreferenceKey.swift; sourceTree = "<group>"; };
 		D8AB95F4DBCB362FB08BD60C /* V.PopulationStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.PopulationStateView.swift; sourceTree = "<group>"; };
 		D970FE1EDEA881819AF775BA /* host.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = host.png; sourceTree = "<group>"; };
 		D9AE59B81096776D491A6ABE /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
@@ -1340,6 +1347,7 @@
 		307CB529E77360F6DE1FD58A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				D7C277152C63601300A02CCF /* PreferenceKey */,
 				B1658B9B7FBBB326B1903C0D /* 1.Application.ViewModels */,
 				8DDAA46C7C289D7194839D27 /* 2.1.Core.Repositories */,
 				C6A7972A84BAAF05FE59C910 /* 2.2.Core.Services */,
@@ -2049,9 +2057,11 @@
 		A66B83C9B8BA5776E39B348B /* PreferenceKey */ = {
 			isa = PBXGroup;
 			children = (
-				280FFC6053DCE5261397DB36 /* ColorSchemePreferenceKey.swift */,
+				280FFC6053DCE5261397DB36 /* PreferenceKeyStudy.swift */,
 				055B6313EB92EC710E6212B8 /* EqualWidthPreferenceKey.swift */,
 				F84F526F5A0D58A2E9F3A120 /* ViewOffsetPreferenceKey.swift */,
+				D7C277122C635C1F00A02CCF /* PreferenceKey.md */,
+				D7C277182C6361C700A02CCF /* TotalWidthPreferenceKey.swift */,
 			);
 			path = PreferenceKey;
 			sourceTree = "<group>";
@@ -2351,6 +2361,15 @@
 				9F92B9057D7CD1E9AA391B23 /* RouterViewModel.swift */,
 			);
 			path = 3.AppViewModels;
+			sourceTree = "<group>";
+		};
+		D7C277152C63601300A02CCF /* PreferenceKey */ = {
+			isa = PBXGroup;
+			children = (
+				D7C277132C635FD000A02CCF /* PreferenceKeyTests.swift */,
+				D7C277162C63604000A02CCF /* TotalWidthKey.swift */,
+			);
+			path = PreferenceKey;
 			sourceTree = "<group>";
 		};
 		D7F45A3E0523BE258F0C1742 /* Frameworks */ = {
@@ -2926,8 +2945,10 @@
 				F6D5749C67A415A15FD8BCFF /* DataUSAServiceTests.swift in Sources */,
 				32E49566B2F24F107DD98D30 /* EditUserDetailsViewModelTests.swift in Sources */,
 				E70D475CFCB161E416C51A09 /* LoginViewModel.swift in Sources */,
+				D7C277172C63604000A02CCF /* TotalWidthKey.swift in Sources */,
 				C9C1FEA2C0266D211E89D897 /* PopulationNationViewModelTests.swift in Sources */,
 				DB9EA410C8DCA57CB23F177D /* WeatherServiceTests.swift in Sources */,
+				D7C277142C635FD100A02CCF /* PreferenceKeyTests.swift in Sources */,
 				277530A2BAE64FD1FADBB281 /* ___Template___ViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3129,7 +3150,8 @@
 				72E1D9DC37E53AE3734186E1 /* Codable+Extensions.swift in Sources */,
 				86253D78904D9E10A879E232 /* Collections+Extensions.swift in Sources */,
 				65C67292C30EBD340B72791A /* Color+Extensions.swift in Sources */,
-				DB12758C6886293080AAB4F5 /* ColorSchemePreferenceKey.swift in Sources */,
+				D7C277192C6361C700A02CCF /* TotalWidthPreferenceKey.swift in Sources */,
+				DB12758C6886293080AAB4F5 /* PreferenceKeyStudy.swift in Sources */,
 				0BF3F834BE566999FFD7A629 /* Combine+UIKit.swift in Sources */,
 				97CB839800C2C0B28E9DA888 /* CombineCompatibleProtocol.swift in Sources */,
 				22E642A7DDF24C795E48D2C2 /* Common.Constants.swift in Sources */,
