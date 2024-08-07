@@ -64,12 +64,12 @@ custom_rules:
         message: "Use #warning"
         severity: error
 
-    no_hardCodedDateFormats:
-        included: ".*\\.swift"
-        name: ""
-        regex: '= "yyyy|DateFormatter(withFormat'
-        message: "Use a DateFormats on AppContants.Date or DateFormatterTypes"
-        severity: error
+#    no_hardCodedDateFormats:
+#        included: ".*\\.swift"
+#        name: ""
+#        regex: '= "yyyy|DateFormatter(withFormat'
+#        message: "Use a DateFormats on AppContants.Date or DateFormatterTypes"
+#        severity: error
 
     logs_rule_1:
         included: ".*\\.swift"
@@ -165,9 +165,9 @@ type_body_length:
     - 500  # warning
     - 1000 # error
 
-large_tuple:
-    - 4  # warning
-    - 5  # error
+#large_tuple:
+#    - 4  # warning
+#    - 5  # error
 
 empty_enum_arguments:
     warning
@@ -215,6 +215,7 @@ identifier_name:
 function_parameter_count: 10
 
 disabled_rules:
+    - switch_case_alignment
     - discouraged_direct_init
     - large_tuple
     - mark

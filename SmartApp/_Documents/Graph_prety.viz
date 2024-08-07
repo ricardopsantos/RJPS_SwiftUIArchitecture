@@ -1,0 +1,49 @@
+digraph {
+  compound=true;
+  rankdir=LR; // Change layout to left-to-right for better readability
+  node [fontname="Helvetica", fontsize=10];
+  edge [fontname="Helvetica", fontsize=8];
+
+  SmartAppUITests [shape=box, style=filled, fillcolor="#beeeee"]
+  SmartAppUnitTests [shape=box, style=filled, fillcolor="#beeeee"]
+
+  subgraph cluster_App {
+    label="• SceneDelegate\n• AppDelegate\n• Views\n • ViewModels\n• Localizables";
+    fontsize=8;
+    node [style=filled, fillcolor="#bbdefb"];
+    SmartApp
+  }
+
+  subgraph cluster_Core {
+    label="• Repositories Implementation\n• Services Implementation\n• Networking (Web APIs)";
+    fontsize=8;
+    node [style=filled, fillcolor="#beeeee"];
+    Core
+  }
+
+  subgraph cluster_Domain {
+    label="• Models (struts, enuns...)\n• Repositories Interfaces\n• Services Interfaces";
+    fontsize=8;
+    node [style=filled, fillcolor="#beeeee"];
+    Domain
+  }
+
+  subgraph cluster_DesignSystem {
+    label="• Colors\n• Fonts\n• SizeNaming\n• Reusable UI Components";
+    fontsize=8;
+    node [style=filled, fillcolor="#beeeee"];
+    DesignSystem
+  }
+
+  SmartApp -> Domain [style=dashed, color="#90a4ae", lhead=cluster_Domain, ltail=cluster_App]
+  SmartApp -> Core [style=dashed, color="#90a4ae", lhead=cluster_Core, ltail=cluster_App]
+  SmartApp -> DesignSystem [style=dashed, color="#90a4ae", lhead=cluster_DesignSystem, ltail=cluster_App]
+
+  Core -> Domain [style=dashed, color="#90a4ae", ltail=cluster_Core, lhead=cluster_Domain]
+  DesignSystem -> Domain [style=dashed, color="#90a4ae", lhead=cluster_Domain, ltail=cluster_DesignSystem]
+
+  SmartAppUITests -> SmartApp [style=dashed, color="#90a4ae", lhead=cluster_App]
+  SmartAppUnitTests -> SmartApp [style=dashed, color="#90a4ae", lhead=cluster_App]
+  SmartAppUnitTests -> Domain [style=dashed, color="#90a4ae", lhead=cluster_Domain]
+  SmartAppUnitTests -> Core [style=dashed, color="#90a4ae", lhead=cluster_Core]
+}

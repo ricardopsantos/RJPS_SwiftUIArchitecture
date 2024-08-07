@@ -29,7 +29,6 @@ struct SettingsViewCoordinator: View, ViewCoordinatorProtocol {
                 .sheet(item: $coordinator.sheetLink, content: buildScreen)
                 .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
         }
-        // .environmentObject(router)
     }
 
     @ViewBuilder
@@ -37,7 +36,9 @@ struct SettingsViewCoordinator: View, ViewCoordinatorProtocol {
         switch screen {
         case .settings:
             let dependencies: SettingsViewModel.Dependencies = .init(
-                model: .init(),
+                model: .init(), onShouldDisplayEditUserDetails: {
+                    coordinator.coverLink = .editUserDetails
+                },
                 authenticationViewModel: configuration.authenticationViewModel,
                 nonSecureAppPreferences: configuration.nonSecureAppPreferences,
                 userRepository: configuration.userRepository
@@ -60,14 +61,19 @@ struct SettingsViewCoordinator: View, ViewCoordinatorProtocol {
 struct SettingsScreen: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    // @EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: SettingsViewModel
     public init(dependencies: SettingsViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
+        self.onShouldDisplayEditUserDetails = dependencies.onShouldDisplayEditUserDetails
     }
 
     // MARK: - Usage Attributes
-    @State private var selectedMode: Common.InterfaceStyle? = InterfaceStyle.current
+    @Environment(\.dismiss) var dismiss
+    @State private var selectedMode: Common.InterfaceStyle? = InterfaceStyleManager.current
+    // @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
+
+    // MARK: - Auxiliar Attributes
+    private let onShouldDisplayEditUserDetails: () -> Void
 
     // MARK: - Body & View
     var body: some View {
@@ -77,7 +83,8 @@ struct SettingsScreen: View, ViewProtocol {
             navigationViewModel: .disabled,
             background: .default,
             loadingModel: viewModel.loadingModel,
-            alertModel: viewModel.alertModel
+            alertModel: viewModel.alertModel,
+            networkStatus: nil
         ) {
             content
         }.onAppear {
@@ -126,8 +133,7 @@ fileprivate extension SettingsScreen {
                     label: "Update",
                     sender: "\(Self.self)"
                 )
-                print("fix")
-                // router.coverLink = .editUserDetails
+                onShouldDisplayEditUserDetails()
             },
             text: "Update".localizedMissing,
 
@@ -200,8 +206,14 @@ fileprivate extension SettingsScreen {
 //
 fileprivate extension SettingsScreen {}
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     SettingsViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

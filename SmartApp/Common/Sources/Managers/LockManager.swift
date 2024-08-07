@@ -125,29 +125,41 @@ public extension Common {
  On Apple’s platforms, the os_unfair_lock is the most performance-efficient lock available.
  */
 public extension Common {
+    // A class that provides thread synchronization using os_unfair_lock
     final class LockManagerV2 {
+        // Initializes the os_unfair_lock
         public init() {
             self.pointer = .allocate(capacity: 1)
             pointer.initialize(to: os_unfair_lock())
         }
 
+        // Deinitializes and deallocates the os_unfair_lock
         deinit {
             self.pointer.deinitialize(count: 1)
             self.pointer.deallocate()
         }
 
+        // Locks the os_unfair_lock
         public func lock() {
             os_unfair_lock_lock(pointer)
         }
 
+        // Unlocks the os_unfair_lock
         public func unlock() {
             os_unfair_lock_unlock(pointer)
         }
 
+        // Tries to lock the os_unfair_lock and returns true if successful
         public func tryLock() -> Bool {
             os_unfair_lock_trylock(pointer)
         }
 
+        /**
+         Executes the provided closure within a lock.
+
+         - Parameter action: The closure to execute.
+         - Returns: The result of the closure.
+         */
         @discardableResult
         @inlinable
         public func execute<T>(_ action: () -> T) -> T {
@@ -155,6 +167,13 @@ public extension Common {
             return action()
         }
 
+        /**
+         Tries to execute the provided closure within a lock. If the closure throws an error, it propagates the error.
+
+         - Parameter action: The closure to execute.
+         - Returns: The result of the closure.
+         - Throws: An error if the closure throws an error.
+         */
         @discardableResult
         @inlinable
         public func tryExecute<T>(_ action: () throws -> T) throws -> T {
@@ -163,6 +182,7 @@ public extension Common {
 
         // MARK: Private
 
+        // Pointer to the os_unfair_lock
         private let pointer: os_unfair_lock_t
     }
 }

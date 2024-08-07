@@ -11,7 +11,9 @@ import UIKit
 //
 
 /**
- Keypaths in iOS Swift are a powerful tool for accessing and mutating data in structs and classes. They allow developers to write concise, expressive code by providing a way to refer to properties and methods of a particular type in a type-safe way.
+ Keypaths in iOS Swift are a powerful tool for accessing and mutating data in structs and classes.
+ They allow developers to write concise, expressive code by providing a way to refer to properties and
+ methods of a particular type in a type-safe way.
 
  A keypath is essentially a string that represents the path to a property or method of a type.
  */

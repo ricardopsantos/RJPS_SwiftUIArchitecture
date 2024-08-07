@@ -16,7 +16,7 @@ import Core
 // MARK: - Model
 //
 
-public struct EditUserDetailsModel: Equatable, Hashable {
+public struct EditUserDetailsModel: Equatable, Hashable, Sendable {
     let counter: Int
 
     public init(counter: Int = 0) {
@@ -95,7 +95,6 @@ public class EditUserDetailsViewModel: BaseViewModel {
             gender: let gender,
             country: let country
         ):
-            print("Bug ao nao conseguir mostrar 2 alertas")
             guard email.isValidEmail else {
                 alertModel = .init(type: .error, message: "Invalid email".localizedMissing)
                 return
@@ -125,9 +124,15 @@ public class EditUserDetailsViewModel: BaseViewModel {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     EditUserDetailsViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
         .environmentObject(AuthenticationViewModel.defaultForPreviews)
 }
+#endif

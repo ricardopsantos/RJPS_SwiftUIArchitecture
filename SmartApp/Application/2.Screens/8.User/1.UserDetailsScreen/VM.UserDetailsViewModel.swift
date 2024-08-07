@@ -16,7 +16,7 @@ import Common
 // MARK: - Model
 //
 
-struct UserDetailsModel: Equatable, Hashable {
+struct UserDetailsModel: Equatable, Hashable, Sendable {
     let counter: Int
 
     init(counter: Int = 0) {
@@ -77,8 +77,14 @@ class UserDetailsViewModel: BaseViewModel {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     UserDetailsViewCoordinator(onCompletion: { _ in })
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

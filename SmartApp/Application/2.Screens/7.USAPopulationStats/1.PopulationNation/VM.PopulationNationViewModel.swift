@@ -17,7 +17,7 @@ import DevTools
 // MARK: - Model
 //
 
-struct PopulationNationModel: Equatable, Hashable {
+struct PopulationNationModel: Equatable, Hashable, Sendable {
     let title: String
     let subTitle: String
     let year: String
@@ -44,7 +44,7 @@ extension PopulationNationViewModel {
     enum Actions {
         case didAppear
         case didDisappear
-        case getPopulationData(cachePolicy: DataUSAServiceCachePolicy)
+        case getPopulationData(cachePolicy: ServiceCachePolicy)
     }
 
     struct Dependencies {
@@ -95,7 +95,13 @@ class PopulationNationViewModel: BaseViewModel {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     PopulationNationViewCoordinator()
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

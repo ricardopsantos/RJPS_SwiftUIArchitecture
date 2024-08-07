@@ -31,7 +31,7 @@ public extension Binding {
 //
 
 #if canImport(SwiftUI) && DEBUG
-private extension Common_Preview {
+fileprivate extension Common_Preview {
     struct BindingExtensions: View {
         public init() {}
         @State var doubleValue: Double = 0
@@ -55,9 +55,8 @@ private extension Common_Preview {
     }
 }
 
-struct Common_Previews_BindingExtensions: PreviewProvider {
-    public static var previews: some View {
-        Common_Preview.BindingExtensions()
-    }
+#Preview {
+    Common_Preview.BindingExtensions()
 }
+
 #endif

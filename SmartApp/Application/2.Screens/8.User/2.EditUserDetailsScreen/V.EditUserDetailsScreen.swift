@@ -31,7 +31,6 @@ struct EditUserDetailsViewCoordinator: View, ViewCoordinatorProtocol {
                 .sheet(item: $coordinator.sheetLink, content: buildScreen)
                 .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
         }
-        // .environmentObject(router)
     }
 
     @ViewBuilder
@@ -56,7 +55,6 @@ struct EditUserDetailsViewCoordinator: View, ViewCoordinatorProtocol {
 struct EditUserDetailsView: View {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    // @EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: EditUserDetailsViewModel
     public init(dependencies: EditUserDetailsViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
@@ -67,6 +65,8 @@ struct EditUserDetailsView: View {
     @State private var showConfirmation: Bool = false
     @State private var isConfirmationGiven: Bool = false
     @State private var showingDatePicker: Bool = false
+
+    // MARK: - Auxiliar Attributes
     private var startDate = Calendar.current.date(byAdding: .year, value: -100, to: Date()) ?? Date()
 
     // MARK: - Body & View
@@ -77,7 +77,8 @@ struct EditUserDetailsView: View {
             navigationViewModel: .disabled,
             background: .default,
             loadingModel: viewModel.loadingModel,
-            alertModel: viewModel.alertModel
+            alertModel: viewModel.alertModel,
+            networkStatus: nil
         ) {
             content
         }.onAppear {
@@ -214,9 +215,15 @@ fileprivate extension EditUserDetailsView {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     EditUserDetailsViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
         .environmentObject(AuthenticationViewModel.defaultForPreviews)
 }
+#endif

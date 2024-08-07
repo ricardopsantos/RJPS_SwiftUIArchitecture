@@ -12,7 +12,7 @@ import Domain
 import Common
 import Core
 
-struct MainTabModel: Equatable, Hashable {
+struct MainTabModel: Equatable, Hashable, Sendable {
     let selectedTab: Tab
 
     init(selectedTab: Tab) {
@@ -52,7 +52,13 @@ class MainTabViewModel: BaseViewModel {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     MainTabViewCoordinator()
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

@@ -16,7 +16,7 @@ import Common
 // MARK: - Model
 //
 
-struct LoginModel {
+struct LoginModel: Equatable, Hashable, Sendable {
     let some: Bool
     init(some: Bool = false) {
         self.some = some
@@ -57,7 +57,7 @@ class LoginViewModel: BaseViewModel {
         isEmailValid
             .dropFirst()
             .receive(on: RunLoop.main)
-            .map { valid in valid ? "" : "Invalid email" }
+            .map { valid in valid ? "" : "Invalid email".localizedMissing }
             .assign(to: \.errorMessage, on: self)
             .store(in: cancelBag)
         isFormValid
@@ -68,22 +68,23 @@ class LoginViewModel: BaseViewModel {
 
     func send(action: Actions) {
         switch action {
-        case .didAppear: ()
+        case .didAppear:
+            alertModel = .init(
+                type: .warning,
+                message: "Tap to Autofill",
+                onUserDismissAlert: { [weak self] in
+                    self?.email = "mail@gmail.com"
+                    self?.password = "123"
+                }
+            )
         case .didDisappear: ()
         case .doLogin(email: let email, password: let password):
-            var canLogin: Bool {
-                !email.isEmpty && !password.isEmpty
-            }
-            guard canLogin else {
-                return
-            }
             Task { @MainActor in
                 do {
                     let user = Model.User(email: email, password: password)
                     try await authenticationViewModel.login(user: user)
                 } catch {
-                    alertModel = .tryAgainLatter
-                    ErrorsManager.handleError(message: "\(Self.self).\(action)", error: error)
+                    handle(error: error, sender: "\(Self.self).\(action)")
                 }
             }
         }
@@ -105,7 +106,6 @@ fileprivate extension LoginViewModel {
         $password
             .debounce(
                 for: RunLoop.SchedulerTimeType.Stride(formEvalDebounce),
-
                 scheduler: RunLoop.main
             )
             .removeDuplicates()
@@ -125,9 +125,14 @@ fileprivate extension LoginViewModel {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     LoginViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
-        // .environmentObject(AppStateViewModel.defaultForPreviews.authenticationViewModel)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

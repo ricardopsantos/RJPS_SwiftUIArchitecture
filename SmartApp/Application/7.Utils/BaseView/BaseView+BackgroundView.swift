@@ -15,7 +15,6 @@ extension BaseView.BackgroundView {
         case clear
         case linear
         case gradient
-
         static var `default`: Self {
             .linear
         }
@@ -40,7 +39,6 @@ extension BaseView {
         }
 
         var backgroundLinear: some View {
-            // Color.white
             ColorSemantic.backgroundPrimary.color.ignoresSafeArea()
         }
 

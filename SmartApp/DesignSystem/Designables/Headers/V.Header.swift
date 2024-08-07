@@ -64,6 +64,11 @@ public struct Header: View {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     VStack {
         Header(
@@ -93,3 +98,4 @@ public struct Header: View {
     .padding()
     .background(ColorSemantic.backgroundPrimary.color)
 }
+#endif

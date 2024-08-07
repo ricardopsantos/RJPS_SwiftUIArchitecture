@@ -41,6 +41,11 @@ public struct DefaultPickerView: View {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     VStack {
         DefaultPickerView(
@@ -50,3 +55,4 @@ public struct DefaultPickerView: View {
         )
     }
 }
+#endif

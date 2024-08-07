@@ -7,28 +7,23 @@ import Foundation
 import SwiftUI
 import Combine
 
-/**
- In SwiftUI, `PreferenceKey` is a protocol that allows you to define
- and collect data from views during the layout phase, and then use that data to modify the behaviour of other views.
- */
-
-public struct ViewOffsetPreferenceKey: PreferenceKey {
-    // https://stackoverflow.com/questions/65062590/swiftui-detect-when-scrollview-has-finished-scrolling
-    public typealias Value = CGFloat
-    public static var defaultValue = CGFloat.zero
-    public static func reduce(value: inout Value, nextValue: () -> Value) {
-        value += nextValue()
+public extension Common {
+    struct ViewOffsetPreferenceKey: PreferenceKey {
+        // https://stackoverflow.com/questions/65062590/swiftui-detect-when-scrollview-has-finished-scrolling
+        public static var defaultValue = CGFloat.zero
+        public static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+            value += nextValue()
+        }
     }
 }
 
 //
-// MARK: - Preview
+// MARK: - Test/Usage View
 //
 
-#if canImport(SwiftUI) && DEBUG
-struct ViewOffsetPreferenceKeySampleView: View {
-    let preferenceChangeDetector: CurrentValueSubject<ViewOffsetPreferenceKey.Value, Never>
-    let preferenceChangePublisher: AnyPublisher<ViewOffsetPreferenceKey.Value, Never>
+struct ViewOffsetPreferenceKeyTestView: View {
+    let preferenceChangeDetector: CurrentValueSubject<Common.ViewOffsetPreferenceKey.Value, Never>
+    let preferenceChangePublisher: AnyPublisher<Common.ViewOffsetPreferenceKey.Value, Never>
     let coordinateSpaceKey = "coordinateSpaceKey"
     @State private var originY: CGFloat = 0
     @State private var text: String = ""
@@ -56,11 +51,11 @@ struct ViewOffsetPreferenceKeySampleView: View {
                     }.padding()
                         .background(GeometryReader {
                             Color.clear.preference(
-                                key: ViewOffsetPreferenceKey.self,
+                                key: Common.ViewOffsetPreferenceKey.self,
                                 value: -$0.frame(in: .named(coordinateSpaceKey)).origin.y
                             )
                         })
-                        .onPreferenceChange(ViewOffsetPreferenceKey.self) {
+                        .onPreferenceChange(Common.ViewOffsetPreferenceKey.self) {
                             preferenceChangeDetector.send($0)
                         }
                 }
@@ -81,9 +76,12 @@ struct ViewOffsetPreferenceKeySampleView: View {
     }
 }
 
-public struct Common_Previews_ViewOffsetPreferenceKey: PreviewProvider {
-    public static var previews: some View {
-        ViewOffsetPreferenceKeySampleView().buildPreviews()
-    }
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
+#Preview {
+    ViewOffsetPreferenceKeyTestView()
 }
 #endif

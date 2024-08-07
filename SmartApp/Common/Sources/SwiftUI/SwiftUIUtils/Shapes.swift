@@ -149,7 +149,7 @@ public struct Hexagon: Shape {
 //
 
 #if canImport(SwiftUI) && DEBUG
-private extension Common_Preview {
+fileprivate extension Common_Preview {
     struct SwiftUIShapes: View {
         public init() {}
         @State var viewFrame: (CGRect, CGRect) = (.zero, .zero)
@@ -258,9 +258,8 @@ private extension Common_Preview {
     }
 }
 
-struct Common_Previews_SwiftUIShapes: PreviewProvider {
-    public static var previews: some View {
-        Common_Preview.SwiftUIShapes().buildPreviews()
-    }
+#Preview {
+    Common_Preview.SwiftUIShapes()
 }
+
 #endif

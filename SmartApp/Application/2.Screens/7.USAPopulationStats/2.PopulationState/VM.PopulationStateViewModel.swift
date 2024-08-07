@@ -16,7 +16,7 @@ import Core
 // MARK: - Model
 //
 
-public struct PopulationStateModel: Equatable, Hashable {
+public struct PopulationStateModel: Equatable, Hashable, Sendable {
     let title: String
     let subTitle: String
     init(title: String = "", subTitle: String = "") {
@@ -77,7 +77,7 @@ class PopulationStateViewModel: BaseViewModel {
                 loadingModel = .loading(message: "Loading".localized)
                 model = []
                 do {
-                    let cachePolicy: DataUSAServiceCachePolicy = .cacheElseLoad
+                    let cachePolicy: ServiceCachePolicy = .cacheElseLoad
                     let modelDto = try await dataUSAService.requestPopulationStateData(
                         .init(year: year),
                         cachePolicy: cachePolicy
@@ -100,6 +100,11 @@ class PopulationStateViewModel: BaseViewModel {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     PopulationStateViewCoordinator(
         year: ModelDto.PopulationStateDataRequest.Constants.lastYear,
@@ -107,3 +112,4 @@ class PopulationStateViewModel: BaseViewModel {
     )
     .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

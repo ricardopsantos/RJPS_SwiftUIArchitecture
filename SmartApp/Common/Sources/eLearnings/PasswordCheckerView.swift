@@ -182,12 +182,8 @@ extension SwiftUITipsAndTricks {
 //
 // MARK: - Preview
 //
-
 #if canImport(SwiftUI) && DEBUG
-public struct SwiftUITipsAndTricks_PasswordCheckerView: PreviewProvider {
-    public static var previews: some View {
-        SwiftUITipsAndTricks.PasswordCheckerView().buildPreviews()
-    }
+#Preview {
+    SwiftUITipsAndTricks.PasswordCheckerView()
 }
 #endif
-// swiftlint:enable all

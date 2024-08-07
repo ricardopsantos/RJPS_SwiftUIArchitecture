@@ -12,148 +12,82 @@ import SystemConfiguration
 
 // https://www.vadimbulavin.com/network-connectivity-on-ios-with-swift/
 
-public extension CommonNetworking.NetworkMonitorViewModel {
-    enum Status: Equatable, Hashable {
+public extension CommonNetworking {
+    enum NetworkStatus: Equatable, Hashable, Sendable {
         case unknown
-        case internetConnectionAvailable // The first time the connection is available
-        case internetConnectionRecovered // When the connection is recovered (after lost)
-        case internetConnectionLost // When the connection is lost
+        case internetConnectionAvailable
+        case internetConnectionRecovered
+        case internetConnectionLost
 
         public var existsInternetConnection: Bool {
             switch self {
-            case .internetConnectionRecovered, .internetConnectionAvailable:
-                true
-            case .internetConnectionLost, .unknown:
-                false
-            }
-        }
-
-        var debugMessage: String {
-            switch self {
-            case .internetConnectionRecovered: "Internet connection active (recovered)"
-            case .internetConnectionAvailable: "Internet connection active"
-            case .internetConnectionLost: "Internet connection lost (not active)"
-            case .unknown: "Unknown"
+            case .internetConnectionAvailable, .internetConnectionRecovered:
+                return true
+            case .unknown, .internetConnectionLost:
+                return false
             }
         }
     }
-}
 
-public extension CommonNetworking {
+    @MainActor
     final class NetworkMonitorViewModel: ObservableObject {
+        private static let networkMonitor = NetworkMonitor.shared
+        public static let shared = NetworkMonitorViewModel()
+
+        @Published public private(set) var networkStatus: NetworkStatus = .unknown
+
         private init() {
-            self.internetConnectionIsAvailable = Common_Utils.existsInternetConnection
-            Self.networkMonitor.monitor.pathUpdateHandler = { [weak self] path in
-                let existsInternetV1 = path.status == .satisfied
-                let existsInternetV2 = Common_Utils.existsInternetConnection
-                self?.internetConnectionIsAvailable = existsInternetV1 && existsInternetV2
-            }
-        }
-
-        private static var networkMonitor = CommonNetworking.NetworkMonitor.shared
-        public static var shared = NetworkMonitorViewModel()
-        @Published public private(set) var status: CommonNetworking.NetworkMonitorViewModel.Status = .unknown
-
-        private var internetConnectionIsAvailable: Bool? {
-            didSet {
-                guard let newValue = internetConnectionIsAvailable else {
-                    return
-                }
-                Common_Utils.executeInMainTread { [weak self] in
-                    guard let self else { return }
-                    if newValue {
-                        if status == .unknown {
-                            status = .internetConnectionAvailable
-                        } else {
-                            status = .internetConnectionRecovered
-                        }
-                    } else {
-                        status = .internetConnectionLost
-                    }
-                }
+            self.networkStatus = Common_Utils.existsInternetConnection ? .internetConnectionAvailable : .internetConnectionLost
+            Self.networkMonitor.start { [weak self] newStatus in
+                self?.networkStatus = newStatus
             }
         }
     }
-}
 
-public extension CommonNetworking {
-    class NetworkMonitor {
-        public typealias Status = CommonNetworking.NetworkMonitorViewModel.Status
-        public static var shared = CommonNetworking.NetworkMonitor()
+    final class NetworkMonitor {
+        public typealias Status = NetworkStatus
+        public static let shared = NetworkMonitor()
+
+        private var monitor: NWPathMonitor!
+        private var isInternetConnectionAvailable: Bool?
+        private var statusHistory = [Status]()
+
         private init() {
             self.monitor = NWPathMonitor()
             monitor.start(queue: DispatchQueue(label: "\(Self.self).queue", qos: .userInitiated))
         }
 
-        fileprivate var monitor: NWPathMonitor!
-        @PWThreadSafe fileprivate var statusHistory: [Status] = []
-        fileprivate var currentStatus: Status {
-            if let last = statusHistory.last {
-                return last
-            }
-            return .unknown
-        }
-
-        public func start(
-            onAvailable: @escaping (Status) -> Void,
-            onRecovered: @escaping (Status) -> Void,
-            onLost: @escaping (Status) -> Void
-        ) {
-            Self.shared.monitor.pathUpdateHandler = { [weak self] path in
-                guard let self else { return }
-                let existsInternetV1 = path.status == .satisfied
-                let existsInternetV2 = Common_Utils.existsInternetConnection
-                let existsInternet = existsInternetV1 && existsInternetV2
-                // Common.LogsManager.debug("existsInternetV1: \(existsInternetV1), existsInternetV2: \(existsInternetV2)")
-
-                weak var weakSelf = self
-                func finishWith(status: CommonNetworking.NetworkMonitorViewModel.Status) {
-                    guard weakSelf != nil else {
-                        return
-                    }
-                    // guard let self = self else { return }
-                    guard status != self.currentStatus else {
-                        // Ignore duplicated
-                        return
-                    }
-                    self.statusHistory.append(status)
-                    Common.LogsManager.debug(status.debugMessage)
-                    switch status {
-                    case .unknown: ()
-                    case .internetConnectionAvailable: onAvailable(status)
-                    case .internetConnectionRecovered: onRecovered(status)
-                    case .internetConnectionLost: onLost(status)
-                    }
-                    onAvailable(status)
-                }
-
-                if currentStatus.existsInternetConnection != existsInternet {
-                    if existsInternet {
-                        if currentStatus == .unknown {
-                            // The app started with internet!
-                            finishWith(status: .internetConnectionAvailable)
+        public func start(statusUpdate: @escaping (Status) -> Void) {
+            monitor.pathUpdateHandler = { [weak self] path in
+                Common_Utils.executeInMainTread { [weak self] in
+                    guard let self = self else { return }
+                    let newStatusV1: Status
+                    if Common_Utils.existsInternetConnection {
+                        if self.isInternetConnectionAvailable == nil {
+                            newStatusV1 = .internetConnectionAvailable
                         } else {
-                            // The app recovered from internet loss!
-                            finishWith(status: .internetConnectionRecovered)
+                            newStatusV1 = .internetConnectionRecovered
                         }
                     } else {
-                        // The app don't have internet
-                        finishWith(status: .internetConnectionLost)
+                        newStatusV1 = .internetConnectionLost
                     }
-                } else if !existsInternet {
-                    // The app started without internet!
-                    finishWith(status: .internetConnectionLost)
-                }
 
-                // Sometimes, after we recovered/lost internet, we still have the value for
-                // `existsInternet` wrong. So after 1s, we always recheck
-                Common_Utils.delay(1) {
-                    if Common_Utils.existsInternetConnection != existsInternet {
-                        if Common_Utils.existsInternetConnection {
-                            finishWith(status: .internetConnectionRecovered)
+                    let newStatusV2: Status
+                    if path.status == .satisfied {
+                        if self.isInternetConnectionAvailable == nil {
+                            newStatusV2 = .internetConnectionAvailable
                         } else {
-                            finishWith(status: .internetConnectionLost)
+                            newStatusV2 = .internetConnectionRecovered
                         }
+                    } else {
+                        newStatusV2 = .internetConnectionLost
+                    }
+
+                    let newStatus = newStatusV2
+                    if self.statusHistory.last != newStatus {
+                        self.statusHistory.append(newStatus)
+                        statusUpdate(newStatus)
+                        self.isInternetConnectionAvailable = newStatus.existsInternetConnection
                     }
                 }
             }

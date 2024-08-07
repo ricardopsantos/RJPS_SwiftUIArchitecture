@@ -56,13 +56,17 @@ struct PopulationNationView: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: PopulationNationViewModel
-    // MARK: - Usage Attributes
-    let onSelected: (PopulationNationModel) -> Void
-    // MARK: - Constructor
     public init(dependencies: PopulationNationViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onSelected = dependencies.onSelected
     }
+
+    // MARK: - Usage Attributes
+    @Environment(\.dismiss) var dismiss
+    @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
+
+    // MARK: - Auxiliar Attributes
+    private let onSelected: (PopulationNationModel) -> Void
 
     // MARK: - Body & View
     var body: some View {
@@ -72,13 +76,22 @@ struct PopulationNationView: View, ViewProtocol {
             navigationViewModel: .disabled,
             background: .default,
             loadingModel: viewModel.loadingModel,
-            alertModel: viewModel.alertModel
+            alertModel: viewModel.alertModel,
+            networkStatus: networkMonitorViewModel.networkStatus
         ) {
             content
         }.onAppear {
             viewModel.send(action: .didAppear)
         }.onDisappear {
             viewModel.send(action: .didDisappear)
+        }
+        .onChange(of: networkMonitorViewModel.networkStatus) { networkStatus in
+            switch networkStatus {
+            case .unknown, .internetConnectionAvailable, .internetConnectionLost:
+                ()
+            case .internetConnectionRecovered:
+                viewModel.send(action: .getPopulationData(cachePolicy: .load))
+            }
         }
     }
 
@@ -118,7 +131,13 @@ fileprivate extension PopulationNationView {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     PopulationNationViewCoordinator()
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

@@ -46,6 +46,11 @@ public struct CustomTitleAndCustomTextField: View {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     CustomTitleAndCustomTextField(
         label: "label",
@@ -54,3 +59,4 @@ public struct CustomTitleAndCustomTextField: View {
         accessibility: .undefined
     )
 }
+#endif

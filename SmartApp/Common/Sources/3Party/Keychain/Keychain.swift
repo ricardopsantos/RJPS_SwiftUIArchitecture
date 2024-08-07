@@ -27,6 +27,8 @@
  https://raw.githubusercontent.com/kishikawakatsumi/KeychainAccess/master/Lib/KeychainAccess/Keychain.swift
  */
 
+// swiftlint:disable all
+
 import Foundation
 import Security
 #if os(iOS) || os(macOS)
@@ -3098,3 +3100,5 @@ extension Status: CustomNSError {
         [NSLocalizedDescriptionKey: description]
     }
 }
+
+// swiftlint:enable all

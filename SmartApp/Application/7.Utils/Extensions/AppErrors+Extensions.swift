@@ -22,6 +22,9 @@ public extension AppErrors {
         case .noInternet: "NotInternetPleaseTryAgainLatter".localized
         case .serverErrorMessage: defaultMessage
 
+        // User errors
+        case .invalidPassword: "Invalid user or password".localizedMissing
+
         // WebAPI
         case .network: defaultMessage
         case .parsing: defaultMessage

@@ -6,6 +6,10 @@
 import Foundation
 import UIKit
 
+// https://medium.com/@zippicoder/downsampling-images-for-better-memory-consumption-and-uicollectionview-performance-35e0b4526425
+// https://swiftsenpai.com/development/reduce-uiimage-memory-footprint/
+// https://medium.com/swift2go/reducing-memory-footprint-when-using-uiimage-ef0b1742cc23
+
 public extension UIImage {
     enum ContentMode {
         case contentFill
@@ -19,7 +23,6 @@ public extension UIImage {
 }
 
 public extension UIImage {
-    // https://medium.com/swift2go/reducing-memory-footprint-when-using-uiimage-ef0b1742cc23
     // imageURL : The image URL. It can be a web URL or a local image path
     // pointSize: The desired size of the downsampled image. Usually, this will be the UIImageView's frame size.
     // scale    : The downsampling scale factor. Usually, this will be the scale factor associated with the screen
@@ -70,7 +73,7 @@ public extension UIImage {
 }
 
 public extension UIImage {
-    /// Main resize function. All the other funtions use this one
+    /// Main resize function. All the other functions use this one
     func resize(
         size targetSize: CGSize,
         contentMode: ContentMode = .default

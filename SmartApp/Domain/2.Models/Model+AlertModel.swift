@@ -6,43 +6,86 @@
 import Foundation
 import UIKit
 import SwiftUI
+//
+import DevTools
 import Common
 
+//
+// MARK: - AlertType
+//
+public extension Model.AlertModel {
+    enum AlertType: String, CaseIterable, Hashable, Codable {
+        case information
+        case success
+        case warning
+        case error
+    }
+}
+
+//
+// MARK: - AlertModel
+//
 public extension Model {
-    struct AlertModel: Equatable {
-        public static func == (lhs: AlertModel, rhs: AlertModel) -> Bool {
-            lhs.type == rhs.type &&
-                lhs.message == rhs.message &&
-                lhs.onDismiss.debugDescription == rhs.onDismiss.debugDescription
-        }
-
-        public enum AlertType: CaseIterable, Hashable, Codable {
-            case information
-            case success
-            case warning
-            case error
-        }
-
+    struct AlertModel {
         public let type: AlertType
         public let message: String
-        public var onDismiss: (() -> Void)?
+        public let date: Date
+        public var onUserDismissAlert: (() -> Void)? // Custom code to run when user tapped alert
+        public var parentDismiss: (() -> Void)? // Inject code to dismiss alert externally (by parent view)
 
-        public init(type: AlertType, message: String, onDismiss: (() -> Void)? = nil) {
+        public func wasDismissed() {
+            if let onUserDismissAlert = onUserDismissAlert {
+                onUserDismissAlert()
+            }
+            if let parentDismiss = parentDismiss {
+                parentDismiss()
+            }
+        }
+
+        public init(type: AlertType, message: String, onUserDismissAlert: (() -> Void)? = nil) {
             self.type = type
             self.message = message
-            self.onDismiss = onDismiss
+            self.onUserDismissAlert = onUserDismissAlert
+            self.date = .now
         }
+    }
+}
 
-        public static var success: Self {
-            AlertModel(type: .success, message: "Success", onDismiss: {})
-        }
+//
+// MARK: - Equatable
+//
+extension Model.AlertModel: Equatable {
+    public static func == (lhs: Model.AlertModel, rhs: Model.AlertModel) -> Bool {
+        lhs.type == rhs.type &&
+            lhs.message == rhs.message &&
+            lhs.date == rhs.date &&
+            lhs.onUserDismissAlert.debugDescription == rhs.onUserDismissAlert.debugDescription
+    }
+}
 
-        public static var tryAgainLatter: Self {
-            AlertModel(type: .error, message: "Please try again latter", onDismiss: {})
+//
+// MARK: - Utils
+//
+public extension Model.AlertModel {
+    var visibleTime: CGFloat {
+        let defaultTime: CGFloat = 3
+        switch type {
+        case .success: return defaultTime
+        case .warning: return defaultTime * 1.5
+        case .error: return DevTools.onSimulator ? defaultTime : defaultTime * 2
+        case .information: return defaultTime
         }
+    }
 
-        public static var noInternet: Self {
-            AlertModel(type: .error, message: "No internet", onDismiss: {})
-        }
+    static var success: Self {
+        Model.AlertModel(type: .success, message: "Success", onUserDismissAlert: nil)
+    }
+
+    static var tryAgainLatter: Self {
+        Model.AlertModel(type: .error, message: "Please try again latter", onUserDismissAlert: nil)
+    }
+
+    static var noInternet: Self {
+        Model.AlertModel(type: .error, message: "No internet", onUserDismissAlert: nil)
     }
 }

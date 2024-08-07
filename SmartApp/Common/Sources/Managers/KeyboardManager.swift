@@ -67,8 +67,12 @@ public extension Common {
     }
 }
 
+//
+// MARK: - Preview
+//
+
 #if canImport(SwiftUI) && DEBUG
-private extension Common_Preview {
+fileprivate extension Common_Preview {
     struct KeyboardManager: View {
         @StateObject var keyboardManagerV1 = Common.KeyboardManagerV1()
         @StateObject var keyboardManagerV2 = Common.KeyboardManagerV2()
@@ -125,11 +129,10 @@ private extension Common_Preview {
     }
 }
 
-public struct Common_Previews_KeyboardManager: PreviewProvider {
-    public static var previews: some View {
-        Common_Preview.KeyboardManager().buildPreviews()
-    }
+#Preview {
+    Common_Preview.KeyboardManager()
 }
+
 #endif
 
 struct CustomBorderViewModifier: ViewModifier {

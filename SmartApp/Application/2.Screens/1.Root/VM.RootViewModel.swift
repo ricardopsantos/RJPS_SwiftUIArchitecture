@@ -12,7 +12,7 @@ import Domain
 import Common
 import Core
 
-struct RootModel: Equatable, Hashable {
+struct RootModel: Equatable, Hashable, Sendable {
     let isAppStartCompleted: Bool
     let isUserDetailsFilled: Bool
     let isTermsAndConditionsAccepted: Bool
@@ -108,7 +108,13 @@ class RootViewModel: ObservableObject {
 
 fileprivate extension RootViewModel {}
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     RootViewCoordinator()
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
+#endif

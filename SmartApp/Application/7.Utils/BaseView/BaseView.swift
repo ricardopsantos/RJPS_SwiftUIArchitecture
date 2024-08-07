@@ -28,6 +28,7 @@ enum BaseView {
         displayRenderedView: Bool = Common_Utils.onSimulator,
         loadingModel: Model.LoadingModel?,
         alertModel: Model.AlertModel?,
+        networkStatus: CommonNetworking.NetworkStatus?,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
         baseWith(
@@ -38,7 +39,8 @@ enum BaseView {
             dismissKeyboardOnTap: dismissKeyboardOnTap,
             background: background,
             displayRenderedView: displayRenderedView,
-            alertModel: alertModel
+            alertModel: alertModel,
+            networkStatus: networkStatus
         ) {
             Group {
                 if let loadingModel = loadingModel {
@@ -71,20 +73,22 @@ fileprivate extension BaseView {
         background: BackgroundView.Background,
         displayRenderedView: Bool,
         alertModel: Model.AlertModel?,
+        networkStatus: CommonNetworking.NetworkStatus?,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
         let baseView =
             ZStack {
                 BackgroundView(background: background)
                 VStack(spacing: 0) {
-                    SwiftUIUtils.FixedVerticalSpacer(height: 1)
+                    SwiftUIUtils.FixedVerticalSpacer(height: 0.1)
                     SwiftUIUtils.RenderedView("\(sender)")
+                        .offset(.init(width: 0, height: -12))
                         .opacity(displayRenderedView ? 1 : 0)
                     Spacer()
                 }
                 content()
                 if let alertModel = alertModel {
-                    AlertView(model: alertModel, opacity: 1)
+                    AlertView(model: alertModel)
                         .ignoresSafeArea(.keyboard, edges: .bottom)
                         .doIf(ignoresSafeArea, transform: {
                             $0.ignoresSafeArea()
@@ -93,6 +97,17 @@ fileprivate extension BaseView {
             }
             .doIf(dismissKeyboardOnTap, transform: {
                 $0.onTapDismissKeyboard()
+            })
+            .doIf(!(networkStatus?.existsInternetConnection ?? true), transform: {
+                $0.opacity(0.1).overlay(
+                    ZStack {
+                        ColorSemantic.warning.color.opacity(0.2)
+                        Text("No Internet connection.\n\nPlease try again latter...".localizedMissing)
+                            .fontSemantic(.callout)
+                            .textColor(ColorSemantic.danger.color)
+                            .multilineTextAlignment(.center)
+                    }
+                )
             })
             .onAppear {
                 DevTools.Log.debug(DevTools.Log.LogTemplate.screenIn(sender), .view)
@@ -137,11 +152,10 @@ fileprivate extension BaseView {
         ignoresSafeArea: true,
         background: .gradient,
         loadingModel: .notLoading,
-        //   loadingModel: .loading(message: "Loading".localizedMissing, id: UUID().uuidString),
-        //  alertModel: .noInternet,
-        alertModel: nil,
+        alertModel: nil /* .noInternet */,
+        networkStatus: .internetConnectionLost,
         content: {
-            Text("Content")
+            Text("\(String.randomWithSpaces(1000))")
         }
     )
 }

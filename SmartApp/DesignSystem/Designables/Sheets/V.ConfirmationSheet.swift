@@ -120,6 +120,11 @@ public struct ConfirmationSheetV1: View {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     ConfirmationSheetV1(
         isOpen: .constant(true),
@@ -129,3 +134,4 @@ public struct ConfirmationSheetV1: View {
         rightText: "rightText", confirmationAction: {}
     )
 }
+#endif

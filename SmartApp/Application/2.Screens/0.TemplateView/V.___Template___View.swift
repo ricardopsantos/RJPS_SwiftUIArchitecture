@@ -57,17 +57,17 @@ struct ___Template___View: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: ___Template___ViewModel
-    // MARK: - Usage Attributes
     public init(dependencies: ___Template___ViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
     }
 
-    // MARK: - Auxiliar Attributes
-    private var cancelBag: CancelBag = .init()
-
     // MARK: - Usage Attributes
-    @EnvironmentObject var appState: AppStateViewModel
     @Environment(\.dismiss) var dismiss
+    // @State var someVar = 0
+    // @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
+
+    // MARK: - Auxiliar Attributes
+    private let cancelBag: CancelBag = .init()
 
     // MARK: - Body & View
     var body: some View {
@@ -78,7 +78,8 @@ struct ___Template___View: View, ViewProtocol {
             ignoresSafeArea: true,
             background: .default,
             loadingModel: viewModel.loadingModel,
-            alertModel: viewModel.alertModel) {
+            alertModel: viewModel.alertModel,
+            networkStatus: nil) {
                 content
             }.onAppear {
                 viewModel.send(.didAppear)
@@ -116,12 +117,14 @@ struct ___Template___View: View, ViewProtocol {
 fileprivate extension ___Template___View {
     @ViewBuilder
     var routingView: some View {
-        Button("Push") {}
-        Button("Sheet") {}
-        Button("Cover") {}
-        Divider()
-        Button("viewModel.send(.dismissThis)") {}.padding()
-        Button("viewModel.send(.dismissAll)") {}.padding()
+        EmptyView()
+        /*
+         Button("Push") {}
+         Button("Sheet") {}
+         Button("Cover") {}
+         Divider()
+         Button("viewModel.send(.dismissThis)") {}.padding()
+         Button("viewModel.send(.dismissAll)") {}.padding()*/
     }
 }
 
@@ -174,9 +177,15 @@ public enum ___Template___Auxiliar {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     ___Template___ViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
         .environmentObject(AuthenticationViewModel.defaultForPreviews)
 }
+#endif

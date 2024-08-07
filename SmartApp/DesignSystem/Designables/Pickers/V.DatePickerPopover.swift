@@ -45,6 +45,11 @@ public struct DatePickerPopover: View {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     DatePickerPopover(
         title: "Title",
@@ -53,3 +58,4 @@ public struct DatePickerPopover: View {
         dateSelection: .constant(Date())
     )
 }
+#endif

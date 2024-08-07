@@ -39,10 +39,16 @@ public final class RouterViewModel: ObservableObject {
         }
     }
 
-    public func navigateToRoot() {
-        if !navPath.isEmpty {
-            navPath.removeLast(navPath.count)
+    public func navigateToRoot() -> Bool {
+        if sheetLink != nil || coverLink == nil || !navPath.isEmpty {
+            sheetLink = nil
+            coverLink = nil
+            if !navPath.isEmpty {
+                navPath.removeLast(navPath.count)
+            }
+            return true // Navigated
         }
+        return false // Nothing to do
     }
 }
 

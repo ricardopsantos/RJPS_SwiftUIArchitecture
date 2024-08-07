@@ -22,10 +22,11 @@ var loadedAny: Any?
 enum Constants {
     static let tab1Title = "Current Weather"
     static let tab1DetailsTitle = "Weather Details"
-    static let tab1ListItem = "Europe/Lisbon"
+    static let tab1ListItem = "Lisbon"
     static let tab2Title = "USA Population: Last 10 years"
     static let tab2DetailsTitle = "USA States Population for 2022"
     static let tab2ListItem = "Year: 2022"
+    static let tab4Title = "Settings"
 }
 
 class BaseUITests: XCTestCase {
@@ -90,6 +91,6 @@ extension BaseUITests {
         // Onboarding screen
         //
         tap(button: "fwdButton", on: app) // Second
-        tap(button: "fwdButton", andWaitForStaticText: "Europe/Lisbon", on: app) // Third
+        tap(button: "fwdButton", andWaitForStaticText: Constants.tab1ListItem, on: app) // Third
     }
 }

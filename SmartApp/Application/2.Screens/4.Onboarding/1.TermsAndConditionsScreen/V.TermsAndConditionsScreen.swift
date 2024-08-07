@@ -16,8 +16,9 @@ struct TermsAndConditionsScreen: View {
     )
     let onCompletion: (String) -> Void
     @State var isTermsSelected: Bool = false
-    @State var isLoading: Bool = true
-    @State var showError: Bool = false
+    @State private var displayedText = ""
+    private let termsAndConditions: String = "DummyTermsAndConditions".localized
+    @State private var currentCharacterIndex: String.Index!
 
     // MARK: - Views
 
@@ -28,11 +29,13 @@ struct TermsAndConditionsScreen: View {
             navigationViewModel: .disabled,
             background: .default,
             loadingModel: viewModel.loadingModel,
-            alertModel: viewModel.alertModel
+            alertModel: viewModel.alertModel,
+            networkStatus: nil
         ) {
             content
         }.onAppear {
             viewModel.send(action: .didAppear)
+            startTypingEffect()
         }.onDisappear {
             viewModel.send(action: .didDisappear)
         }
@@ -42,7 +45,7 @@ struct TermsAndConditionsScreen: View {
         ZStack {
             VStack {
                 Header(text: "Terms&Conditions".localized)
-                Text("DummyTermsAndConditions".localized)
+                Text(displayedText)
                     .padding(.top, SizeNames.defaultMarginBig)
                 termsView
                 Spacer()
@@ -55,6 +58,19 @@ struct TermsAndConditionsScreen: View {
             }
         }
         .padding()
+    }
+
+    func startTypingEffect() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            currentCharacterIndex = termsAndConditions.startIndex
+            Timer.scheduledTimer(withTimeInterval: 0.03, repeats: true) { timer in
+                displayedText.append(termsAndConditions[currentCharacterIndex])
+                currentCharacterIndex = termsAndConditions.index(after: currentCharacterIndex)
+                if currentCharacterIndex == termsAndConditions.endIndex {
+                    timer.invalidate()
+                }
+            }
+        }
     }
 }
 
@@ -105,6 +121,12 @@ fileprivate extension TermsAndConditionsScreen {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     TermsAndConditionsScreen(onCompletion: { _ in })
 }
+#endif

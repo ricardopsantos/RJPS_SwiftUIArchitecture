@@ -36,7 +36,8 @@ struct OnboardingScreen: View {
             navigationViewModel: .disabled,
             background: .default,
             loadingModel: viewModel.loadingModel,
-            alertModel: viewModel.alertModel
+            alertModel: viewModel.alertModel,
+            networkStatus: nil
         ) {
             content
         }.onAppear {
@@ -110,6 +111,12 @@ fileprivate extension OnboardingScreen {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     OnboardingScreen(onCompletion: { _ in }, onBackPressed: {})
 }
+#endif

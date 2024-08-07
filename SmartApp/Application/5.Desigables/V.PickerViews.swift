@@ -52,10 +52,14 @@ struct GenderPickerView: View {
 
 public struct AppearancePickerView: View {
     @Environment(\.colorScheme) var colorScheme
-    @Binding var selected: Common.InterfaceStyle?
-
+    @Binding var selected: String
+    private static var systemValue: String { "system" }
     public init(selected: Binding<Common.InterfaceStyle?>) {
-        self._selected = selected
+        _selected = Binding(
+            get: { selected.wrappedValue?.rawValue ?? Self.systemValue },
+            set: { newValue in
+                selected.wrappedValue = Common.InterfaceStyle(rawValue: newValue)
+            })
     }
 
     public var body: some View {
@@ -63,19 +67,24 @@ public struct AppearancePickerView: View {
             Text("Appearance".localizedMissing)
             Spacer()
             Picker("Appearance".localizedMissing, selection: $selected) {
-                Text("System".localizedMissing).tag("system")
-                Text("Light".localizedMissing).tag(Common.InterfaceStyle.light)
-                Text("Dark".localizedMissing).tag(Common.InterfaceStyle.dark)
+                Text("System".localizedMissing).tag(Self.systemValue)
+                Text("Light".localizedMissing).tag(Common.InterfaceStyle.light.rawValue)
+                Text("Dark".localizedMissing).tag(Common.InterfaceStyle.dark.rawValue)
             }
             .pickerStyle(SegmentedPickerStyle())
             .onChange(of: selected) { newValue in
-                InterfaceStyle.current = newValue
+                InterfaceStyleManager.current = .init(rawValue: newValue)
             }
         }
         .foregroundColor(.labelPrimary)
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     VStack {
         CountryPickerView(
@@ -84,3 +93,4 @@ public struct AppearancePickerView: View {
         AppearancePickerView(selected: .constant(.dark))
     }
 }
+#endif

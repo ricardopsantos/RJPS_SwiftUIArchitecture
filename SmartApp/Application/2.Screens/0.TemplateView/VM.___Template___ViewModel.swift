@@ -16,7 +16,7 @@ import Core
 // MARK: - Model
 //
 
-public struct ___Template___Model: Equatable, Hashable {
+public struct ___Template___Model: Equatable, Hashable, Sendable {
     let message: String
     let counter: Int
 
@@ -84,9 +84,11 @@ fileprivate extension ___Template___ViewModel {}
 // MARK: - Preview
 //
 
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     ___Template___ViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
         .environmentObject(AuthenticationViewModel.defaultForPreviews)
 }
+#endif

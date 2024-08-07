@@ -18,7 +18,8 @@ struct SplashView: View {
             navigationViewModel: .disabled,
             background: .clear,
             loadingModel: nil,
-            alertModel: nil
+            alertModel: nil,
+            networkStatus: nil
         ) {
             content
         }
@@ -49,6 +50,12 @@ fileprivate extension SplashView {}
 //
 fileprivate extension SplashView {}
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     SplashView()
 }
+#endif

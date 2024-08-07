@@ -70,6 +70,11 @@ public struct TitleAndValueView: View {
     }
 }
 
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     VStack {
         Spacer()
@@ -80,3 +85,4 @@ public struct TitleAndValueView: View {
         Spacer()
     }
 }
+#endif
