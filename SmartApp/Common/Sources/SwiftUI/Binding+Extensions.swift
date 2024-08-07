@@ -55,9 +55,8 @@ private extension Common_Preview {
     }
 }
 
-struct Common_Previews_BindingExtensions: PreviewProvider {
-    public static var previews: some View {
-        Common_Preview.BindingExtensions()
-    }
+#Preview {
+    Common_Preview.BindingExtensions()
 }
+
 #endif

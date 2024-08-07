@@ -80,8 +80,9 @@ fileprivate extension BaseView {
             ZStack {
                 BackgroundView(background: background)
                 VStack(spacing: 0) {
-                    SwiftUIUtils.FixedVerticalSpacer(height: 1)
+                    SwiftUIUtils.FixedVerticalSpacer(height: 0.1)
                     SwiftUIUtils.RenderedView("\(sender)")
+                        .offset(.init(width: 0, height: -12))
                         .opacity(displayRenderedView ? 1 : 0)
                     Spacer()
                 }

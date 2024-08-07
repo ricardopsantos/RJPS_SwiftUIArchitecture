@@ -125,11 +125,10 @@ private extension Common_Preview {
     }
 }
 
-public struct Common_Previews_KeyboardManager: PreviewProvider {
-    public static var previews: some View {
-        Common_Preview.KeyboardManager().buildPreviews()
-    }
+#Preview {
+    Common_Preview.KeyboardManager()
 }
+
 #endif
 
 struct CustomBorderViewModifier: ViewModifier {

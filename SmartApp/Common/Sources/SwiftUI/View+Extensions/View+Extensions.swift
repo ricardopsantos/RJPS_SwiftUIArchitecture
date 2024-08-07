@@ -188,9 +188,8 @@ private extension Common_Preview {
     }
 }
 
-struct Common_Previews_SampleViewsExtensions: PreviewProvider {
-    public static var previews: some View {
-        Common_Preview.SampleViewsExtensions().buildPreviews()
-    }
+#Preview {
+    Common_Preview.SampleViewsExtensions()
 }
+
 #endif

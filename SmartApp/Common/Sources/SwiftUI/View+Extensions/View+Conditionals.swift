@@ -119,9 +119,8 @@ private extension Common_Preview {
     }
 }
 
-struct Common_Previews_ViewConditionals: PreviewProvider {
-    public static var previews: some View {
-        Common_Preview.SampleViewsConditionals().buildPreviews()
-    }
+#Preview {
+    Common_Preview.SampleViewsConditionals()
 }
+
 #endif

@@ -131,9 +131,7 @@ private extension Common_Preview {
     }
 }
 
-public struct Common_Previews_UserDefaultsTestView: PreviewProvider {
-    public static var previews: some View {
-        Common_Preview.UserDefaultsTestViewView().buildPreviews()
-    }
+#Preview {
+    Common_Preview.UserDefaultsTestViewView()
 }
 #endif

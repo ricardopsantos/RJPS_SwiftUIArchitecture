@@ -6,11 +6,53 @@
 import Foundation
 import SwiftUI
 
+// https://medium.com/@alessandromanilii/swiftui-custom-modifier-84ce498b0112
+
 /**
  In SwiftUI, a `ViewModifier`  is a method that returns a new version of the view it is called on,
  with additional behaviour or appearance. View modifiers are represented by functions that have the
  `modifier` suffix, and they can be chained together to create complex and reusable views.
  */
+
+//
+// MARK: - LoaderView
+//
+
+public struct LoaderView: View {
+    @Environment(\.colorScheme) var colorScheme
+    public var isLoading = true
+    public var body: some View {
+        if isLoading {
+            VStack {
+                ProgressView()
+            }
+            .padding()
+            .padding()
+            .padding()
+            .background(.background)
+            .cornerRadius(10)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(
+                Color.gray.opacity(0.5)
+                    .edgesIgnoringSafeArea(.all)
+            )
+        }
+    }
+}
+
+public struct LoaderViewModifier: ViewModifier {
+    var isLoading: Bool
+    public func body(content: Content) -> some View {
+        content
+            .overlay(LoaderView(isLoading: isLoading))
+    }
+}
+
+extension View {
+    func loading(_ value: Bool) -> some View {
+        modifier(LoaderViewModifier(isLoading: value))
+    }
+}
 
 //
 // MARK: - HideNavigationBar
@@ -76,7 +118,6 @@ struct ViewFrameGetter: ViewModifier {
 
     static func sampleUsage() -> any View {
         @State var viewFrame: (CGRect, CGRect) = (.zero, .zero)
-        // let result1 = Text("").overlay(Color.clear.modifier(ViewFrameGetter(rects: $viewFrame)))
         let result2 = Text("").overlay(
             GeometryReader { proxy in
                 Color.clear.onAppear {
@@ -108,9 +149,8 @@ private extension Common_Preview {
     }
 }
 
-struct Common_Previews_SampleViewsModifiers: PreviewProvider {
-    public static var previews: some View {
-        Common_Preview.SampleViewsModifiers().buildPreviews()
-    }
+#Preview {
+    Common_Preview.SampleViewsModifiers()
+        .loading(.false)
 }
 #endif

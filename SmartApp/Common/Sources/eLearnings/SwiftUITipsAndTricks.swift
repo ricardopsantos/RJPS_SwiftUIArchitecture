@@ -268,9 +268,8 @@ private extension Common_Preview {
     }
 }
 
-struct Common_Previews_SwiftUITipsAndTricks: PreviewProvider {
-    public static var previews: some View {
-        Common_Preview.SwiftUITipsAndTricksPreview().buildPreviews()
-    }
+#Preview {
+    Common_Preview.SwiftUITipsAndTricksPreview()
 }
+
 #endif

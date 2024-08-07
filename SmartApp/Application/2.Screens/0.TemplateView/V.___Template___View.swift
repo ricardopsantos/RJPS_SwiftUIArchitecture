@@ -177,9 +177,11 @@ public enum ___Template___Auxiliar {
     }
 }
 
+#if canImport(SwiftUI) && DEBUG
 #Preview {
     ___Template___ViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
         .environmentObject(AuthenticationViewModel.defaultForPreviews)
 }
+#endif

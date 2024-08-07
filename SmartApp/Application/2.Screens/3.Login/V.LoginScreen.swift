@@ -50,7 +50,6 @@ struct LoginViewCoordinator: View, ViewCoordinatorProtocol {
 struct LoginView: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    // @EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: LoginViewModel
     public init(dependencies: LoginViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))

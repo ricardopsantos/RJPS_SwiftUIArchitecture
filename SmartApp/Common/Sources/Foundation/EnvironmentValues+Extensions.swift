@@ -65,11 +65,8 @@ struct SafeAreaInsetsView: View {
     }
 }
 
-enum EnvironmentViewPreview {
-    struct Preview: PreviewProvider {
-        public static var previews: some View {
-            SafeAreaInsetsView().buildPreviews()
-        }
-    }
+#Preview {
+    SafeAreaInsetsView()
 }
+
 #endif

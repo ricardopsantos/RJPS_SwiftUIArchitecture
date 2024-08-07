@@ -278,9 +278,7 @@ internal extension Common_Preview {
     }
 }
 
-public struct Common_Previews_SampleNavigationView: PreviewProvider {
-    public static var previews: some View {
-        Common_Preview.SampleNavAppA.MainCoordinatorView(asNavitagion: true).buildPreviews()
-    }
+#Preview {
+    Common_Preview.SampleNavAppA.MainCoordinatorView(asNavitagion: true)
 }
 #endif

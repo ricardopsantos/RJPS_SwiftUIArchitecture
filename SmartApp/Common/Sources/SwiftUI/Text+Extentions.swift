@@ -41,10 +41,8 @@ private extension Common_Preview {
         }
     }
 }
-
-struct Common_Previews_TextExtensions: PreviewProvider {
-    public static var previews: some View {
-        Common_Preview.TextExtensions().buildPreviews()
-    }
+#Preview {
+    Common_Preview.TextExtensions()
 }
+
 #endif
