@@ -63,8 +63,9 @@ extension FetchNationScreenTests {
             XCTCPUMetric(application: app),
             XCTMemoryMetric(application: app)
         ]
-        // CPU Time (id): 1.805 s
-        // Memory Physical (id): 53000.000 kB
+        // CPU Time (id): 1.778 s
+        // Memory Peak Physical (id): 46854.758 kB
+        // Memory Physical (id): 46553.306 kB
         measure(metrics: metrics) {
             testA1_appStartsAndUpdatesNavigationBarTitle()
         }
@@ -75,8 +76,9 @@ extension FetchNationScreenTests {
             XCTCPUMetric(application: app),
             XCTMemoryMetric(application: app)
         ]
-        // CPU Time (id): 1.939 s
-        // Memory Physical (id): 53490.342 kB
+        // CPU Time (id): 1.859 s
+        // Memory Peak Physical (id): 46776.141 kB
+        // Memory Physical (id): 46523.827 kB
         measure(metrics: metrics) {
             testA2_appStartsAndDisplayRecords()
         }
