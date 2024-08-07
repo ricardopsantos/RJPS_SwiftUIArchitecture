@@ -61,7 +61,6 @@
 		146BE8D033F402E29908F912 /* GoogleService-Info-qa.com.ricardo.app.id.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4B9E32E0C65AB1EF92D0360F /* GoogleService-Info-qa.com.ricardo.app.id.plist */; };
 		14EFA1CF13CD527620FFAA7E /* UITestingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139B4C77884AA238FA355F93 /* UITestingManager.swift */; };
 		15DD6DCD7BFFD8B5FFE39E70 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E12D60C231BDD6E8D12578 /* KeyboardManager.swift */; };
-		16B254C70F3398067F899164 /* BackgroundServicesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFF5589C83DFB01B72B2780 /* BackgroundServicesManager.swift */; };
 		1746372F48F818D24D29E822 /* DataUSAService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4CE0B72272B214337D78FC /* DataUSAService.swift */; };
 		1843879E39FF253C9AFD6D8E /* V.ListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6437F3465F19104D336818B3 /* V.ListItemView.swift */; };
 		18801E6C1BFBE4E85CC58600 /* TinyConstraints+superview.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF18CDEF260638243A56235 /* TinyConstraints+superview.swift */; };
@@ -1028,7 +1027,6 @@
 		FDCCDB9181FC54F887C83384 /* SwiftUI+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+UIKit.swift"; sourceTree = "<group>"; };
 		FE74E76F26692F35481B73F9 /* TotalWidthPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalWidthPreferenceKey.swift; sourceTree = "<group>"; };
 		FEF4B34714CD51BF8724080E /* E.APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = E.APIError.swift; sourceTree = "<group>"; };
-		FEFF5589C83DFB01B72B2780 /* BackgroundServicesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundServicesManager.swift; sourceTree = "<group>"; };
 		FF3CB2295E5A5A41C260495D /* 1.NetworkAgentSampleNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 1.NetworkAgentSampleNamespace.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -2285,7 +2283,6 @@
 			isa = PBXGroup;
 			children = (
 				69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */,
-				FEFF5589C83DFB01B72B2780 /* BackgroundServicesManager.swift */,
 				98AC3B2903ABD0FD60EA5553 /* DepedenciesManager.swift */,
 				6DF6A6F954DFCBF9ECC56B6F /* ErrorsManager.swift */,
 				A81D5C7BB95F080191767C09 /* InterfaceStyleManager.swift */,
@@ -3038,7 +3035,6 @@
 				B58569C1AD6F14CA33AB056E /* AppErrors+Extensions.swift in Sources */,
 				AF1D7546AD4B9410E2FEB515 /* AppStateViewModel.swift in Sources */,
 				DC09B5F81FE5B487401B4741 /* AuthenticationViewModel.swift in Sources */,
-				16B254C70F3398067F899164 /* BackgroundServicesManager.swift in Sources */,
 				905A6EFBAA6B5CCA70B482EA /* BaseView+AlertView.swift in Sources */,
 				E64DCCA312BE0F122F5B4029 /* BaseView+BackgroundView.swift in Sources */,
 				2ACECB36E773A894CA0B7BDF /* BaseView+NavigationModel.swift in Sources */,

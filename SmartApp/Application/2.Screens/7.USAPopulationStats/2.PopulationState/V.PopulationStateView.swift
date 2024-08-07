@@ -61,14 +61,17 @@ struct PopulationStateView: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: PopulationStateViewModel
-    // MARK: - Usage Attributes
-    @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
-    private let onRouteBack: () -> Void
-    // MARK: - Constructor
     public init(dependencies: PopulationStateViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onRouteBack = dependencies.onRouteBack
     }
+
+    // MARK: - Usage Attributes
+    @Environment(\.dismiss) var dismiss
+    @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
+
+    // MARK: - Auxiliar Attributes
+    private let onRouteBack: () -> Void
 
     // MARK: - Body & View
     var body: some View {

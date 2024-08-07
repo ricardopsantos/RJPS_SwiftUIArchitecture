@@ -12,7 +12,7 @@ import Domain
 import Common
 import Core
 
-struct MainTabModel: Equatable, Hashable {
+struct MainTabModel: Equatable, Hashable, Sendable {
     let selectedTab: Tab
 
     init(selectedTab: Tab) {

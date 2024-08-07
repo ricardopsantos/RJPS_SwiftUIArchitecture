@@ -17,7 +17,7 @@ import DevTools
 // MARK: - Model
 //
 
-struct PopulationNationModel: Equatable, Hashable {
+struct PopulationNationModel: Equatable, Hashable, Sendable {
     let title: String
     let subTitle: String
     let year: String

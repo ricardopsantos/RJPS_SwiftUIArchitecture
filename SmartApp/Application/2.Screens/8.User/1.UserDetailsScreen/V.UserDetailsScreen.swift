@@ -59,7 +59,6 @@ struct UserDetailsView: View {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
     @StateObject private var viewModel: UserDetailsViewModel
-    private let onCompletion: (String) -> Void
     public init(
         dependencies: UserDetailsViewModel.Dependencies,
         onCompletion: @escaping (String) -> Void
@@ -69,12 +68,16 @@ struct UserDetailsView: View {
     }
 
     // MARK: - Usage Attributes
+    @Environment(\.dismiss) var dismiss
     @State var name: String = ""
     @State private var selectedGender: Gender = .male
     @State private var dateOfBirth = Date()
     @State private var showingDatePicker = false
     @State var selectedCountry: String = "Other"
-    var startDate = Calendar.current.date(
+
+    // MARK: - Auxiliar Attributes
+    private let onCompletion: (String) -> Void
+    private var startDate = Calendar.current.date(
         byAdding: .year,
         value: -35,
         to: Date()

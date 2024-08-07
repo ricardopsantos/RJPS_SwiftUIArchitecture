@@ -57,13 +57,18 @@ struct WeatherDetailsView: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: WeatherDetailsViewModel
-    // MARK: - Usage Attributes
-    let onRouteBack: () -> Void
-    // MARK: - Constructor
     public init(dependencies: WeatherDetailsViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onRouteBack = dependencies.onRouteBack
     }
+
+    // MARK: - Usage Attributes
+    @Environment(\.dismiss) var dismiss
+    // @State var someVar = 0
+    // @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
+
+    // MARK: - Auxiliar Attributes
+    private let onRouteBack: () -> Void
 
     // MARK: - Body & View
     var body: some View {
@@ -74,7 +79,7 @@ struct WeatherDetailsView: View, ViewProtocol {
         }
         BaseView.withLoading(
             sender: "\(Self.self)",
-            appScreen: .weatherDetailsWith(model: .init(weatherResponse: .mockLisbon14March2023!)),
+            appScreen: .weatherDetailsWith(model: .init(latitude: 0, longitude: 0)),
             navigationViewModel: .custom(onBackButtonTap: {
                 onRouteBack()
             }, title: "Weather Details".localizedMissing),
@@ -95,7 +100,7 @@ struct WeatherDetailsView: View, ViewProtocol {
         VStack(spacing: 0) {
             infoText(
                 text: "Temperature".localizedMissing,
-                value: viewModel.model.weatherResponse.currentWeather?.temperature,
+                value: 0,
                 unit: " °C"
             )
             Spacer()
@@ -124,7 +129,7 @@ fileprivate extension WeatherDetailsView {
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    WeatherDetailsViewCoordinator(model: .init(weatherResponse: .mockLisbon14March2023!))
+    WeatherDetailsViewCoordinator(model: .init())
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

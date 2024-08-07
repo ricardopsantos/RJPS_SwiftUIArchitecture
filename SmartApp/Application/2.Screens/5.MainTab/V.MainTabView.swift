@@ -25,18 +25,22 @@ struct MainTabView: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: MainTabViewModel
+    public init(dependencies: MainTabViewModel.Dependencies) {
+        _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
+    }
 
     // MARK: - Usage Attributes
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var tab1Router = RouterViewModel()
     @StateObject var tab2Router = RouterViewModel()
     @StateObject var tab3Router = RouterViewModel()
     @StateObject var tab4Router = RouterViewModel()
 
-    public init(dependencies: MainTabViewModel.Dependencies) {
-        _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-    }
+    // MARK: - Auxiliar Attributes
+    // private let cancelBag: CancelBag = .init()
 
+    // MARK: - Body & View
     var body: some View {
         content
     }

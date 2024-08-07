@@ -16,7 +16,7 @@ import Common
 // MARK: - Model
 //
 
-struct UserDetailsModel: Equatable, Hashable {
+struct UserDetailsModel: Equatable, Hashable, Sendable {
     let counter: Int
 
     init(counter: Int = 0) {

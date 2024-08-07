@@ -15,12 +15,13 @@ import Core
 //
 // MARK: - Model
 //
-
 public struct WeatherDetailsModel: Equatable, Hashable, Sendable {
-    let weatherResponse: ModelDto.GetWeatherResponse
+    let latitude: Double
+    let longitude: Double
 
-    init(weatherResponse: ModelDto.GetWeatherResponse) {
-        self.weatherResponse = weatherResponse
+    public init(latitude: Double = 38.71, longitude: Double = 9.14) {
+        self.latitude = latitude
+        self.longitude = longitude
     }
 }
 
@@ -68,10 +69,9 @@ class WeatherDetailsViewModel: BaseViewModel {
 //
 // MARK: - Preview
 //
-
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    WeatherDetailsViewCoordinator(model: .init(weatherResponse: .mockLisbon14March2023!))
+    WeatherDetailsViewCoordinator(model: .init(latitude: 38.71, longitude: -9.14))
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

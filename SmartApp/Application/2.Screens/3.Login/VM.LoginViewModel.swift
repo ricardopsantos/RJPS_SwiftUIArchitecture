@@ -16,7 +16,7 @@ import Common
 // MARK: - Model
 //
 
-struct LoginModel {
+struct LoginModel: Equatable, Hashable, Sendable {
     let some: Bool
     init(some: Bool = false) {
         self.some = some

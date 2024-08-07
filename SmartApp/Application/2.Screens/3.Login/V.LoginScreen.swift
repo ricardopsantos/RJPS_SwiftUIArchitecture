@@ -56,7 +56,12 @@ struct LoginView: View, ViewProtocol {
     }
 
     // MARK: - Usage Attributes
-    // @State private var password: String = ""
+    @Environment(\.dismiss) var dismiss
+    // @State var someVar = 0
+    // @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
+
+    // MARK: - Auxiliar Attributes
+    // private let cancelBag: CancelBag = .init()
 
     // MARK: - Body & View
     var body: some View {

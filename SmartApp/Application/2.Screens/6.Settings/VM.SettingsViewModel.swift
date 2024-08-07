@@ -16,7 +16,7 @@ import Core
 // MARK: - Model
 //
 
-struct SettingsModel {
+struct SettingsModel: Equatable, Hashable, Sendable {
     let some: Bool
     init(some: Bool = false) {
         self.some = some

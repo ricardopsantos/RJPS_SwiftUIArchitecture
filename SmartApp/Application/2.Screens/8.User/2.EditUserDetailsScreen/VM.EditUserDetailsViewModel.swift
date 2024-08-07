@@ -16,7 +16,7 @@ import Core
 // MARK: - Model
 //
 
-public struct EditUserDetailsModel: Equatable, Hashable {
+public struct EditUserDetailsModel: Equatable, Hashable, Sendable {
     let counter: Int
 
     public init(counter: Int = 0) {

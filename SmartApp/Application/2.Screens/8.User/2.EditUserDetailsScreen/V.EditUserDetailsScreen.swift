@@ -55,7 +55,6 @@ struct EditUserDetailsViewCoordinator: View, ViewCoordinatorProtocol {
 struct EditUserDetailsView: View {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    // @EnvironmentObject var router: RouterViewModel
     @StateObject var viewModel: EditUserDetailsViewModel
     public init(dependencies: EditUserDetailsViewModel.Dependencies) {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
@@ -66,6 +65,8 @@ struct EditUserDetailsView: View {
     @State private var showConfirmation: Bool = false
     @State private var isConfirmationGiven: Bool = false
     @State private var showingDatePicker: Bool = false
+
+    // MARK: - Auxiliar Attributes
     private var startDate = Calendar.current.date(byAdding: .year, value: -100, to: Date()) ?? Date()
 
     // MARK: - Body & View

@@ -273,6 +273,15 @@ public extension Common.CoreLocationManager {
 //
 
 public extension Common.CoreLocationManager {
+    static func getAddressFromAsync(latitude: Double, longitude: Double) async throws ->
+        (
+            String,
+            String,
+            CLPlacemarkAsJSON?
+        ) {
+        try await getAddressFrom(latitude: latitude, longitude: longitude).async()
+    }
+
     static func getAddressFrom(latitude: Double, longitude: Double) -> AnyPublisher<(
         String,
         String,
