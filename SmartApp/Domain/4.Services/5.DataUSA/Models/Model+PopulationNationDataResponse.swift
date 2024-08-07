@@ -78,23 +78,24 @@ public extension ModelDto {
 }
 
 public extension ModelDto.PopulationNationDataResponse {
-    static var mock2: Self? {
+    static var mockBigLoad: Self? {
         var data: [Datum] = []
         let popMin = 331097593
         let popMax = popMin * 2
         for year in 1980...2024 {
-            data.append(.init(idNation: .the01000Us,
-                              nation: .unitedStates,
-                              idYear: year,
-                              year: year.description,
-                              population: Int.random(in: popMin...popMax),
-                              slugNation: .unitedStates))
+            data.append(.init(
+                idNation: .the01000Us,
+                nation: .unitedStates,
+                idYear: year,
+                year: year.description,
+                population: Int.random(in: popMin...popMax),
+                slugNation: .unitedStates
+            ))
         }
-        var source: [Source] = []
-        return .init(data: data, source: source)
+        return .init(data: data, source: [])
     }
-    
-    static var mock1: Self? {
+
+    static var mockRegularLoad: Self? {
         let jsonString = """
         {
             "data": [

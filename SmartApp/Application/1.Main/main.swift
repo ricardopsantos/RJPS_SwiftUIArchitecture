@@ -21,6 +21,5 @@ struct EmptyApp: App {
 if NSClassFromString("XCTestCase") != nil { // Unit Testing
     EmptyApp.main()
 } else { // App
-    print("fazer testes de carga (ui) para o ecran do tempo")
     SmartApp.main()
 }

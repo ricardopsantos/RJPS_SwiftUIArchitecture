@@ -15,7 +15,7 @@ public extension UITestingManager {
         case shouldDisableAnimations
         case shouldResetAllPreferences
         case isAuthenticated
-        
+
         var enabled: Bool {
             switch self {
             case .onUITesting:
@@ -34,23 +34,22 @@ public enum UITestingManager {
     private static func enabled(option: UITestingManager.Options) -> Bool {
         CommandLine.arguments.contains(option.rawValue)
     }
-    
+
     public static func setup() {
-        
         guard enabled(option: .onUITesting) else {
             return
         }
-        
+
         if enabled(option: .shouldDisableAnimations) {
             UIView.setAnimationsEnabled(false)
         }
-        
+
         if enabled(option: .shouldResetAllPreferences) {
             DependenciesManager.Repository.nonSecureAppPreferences.deleteAll()
             DependenciesManager.Repository.secureAppPreferences.deleteAll()
             UserDefaults.resetStandardUserDefaults()
         }
-        
+
         if enabled(option: .isAuthenticated) {
             var nonSecureAppPreferences = DependenciesManager.Repository.nonSecureAppPreferences
             nonSecureAppPreferences.isAuthenticated = true

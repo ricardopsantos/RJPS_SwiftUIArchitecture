@@ -15,7 +15,7 @@ import Nimble
 //
 import Common
 
-final class NavigationAndStateTests: BaseUITests {
+final class AppNavigationAndStateConcistencyTests: BaseUITests {
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         false
     }
@@ -104,5 +104,29 @@ final class NavigationAndStateTests: BaseUITests {
         )
         waitFor(staticText: Constants.tab2DetailsTitle, on: app)
         tap(button: "backButton", andWaitForStaticText: Constants.tab2Title, on: app)
+    }
+
+    // When the user tap on the selected tab,
+    // the loaded screens should be dismissed
+    func testA3_doubleTabTapToCloseLoadedScreens() {
+        appLaunch(launchArguments: [
+            "shouldResetAllPreferences",
+            "isAuthenticated"
+        ])
+        tap(
+            tabBarIndex: 0,
+            andWaitForStaticText: Constants.tab1Title,
+            on: app
+        )
+        tap(
+            staticText: Constants.tab1ListItem,
+            andWaitForStaticText: Constants.tab1DetailsTitle,
+            on: app
+        )
+        tap(
+            tabBarIndex: 0,
+            andWaitForStaticText: Constants.tab1Title,
+            on: app
+        )
     }
 }

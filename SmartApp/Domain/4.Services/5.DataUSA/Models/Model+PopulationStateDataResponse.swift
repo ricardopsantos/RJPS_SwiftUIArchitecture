@@ -60,8 +60,7 @@ public extension ModelDto {
 }
 
 public extension ModelDto.PopulationStateDataResponse {
-    
-    static var mock2: Self? {
+    static var mockBigLoad: Self? {
         var data: [Datum] = []
         var population = 4000000
         let states = [
@@ -76,20 +75,21 @@ public extension ModelDto.PopulationStateDataResponse {
         states.forEach { state in
             for year in 1980...2024 {
                 population += 100000
-                data.append(.init(idState: "",
-                                  state: state,
-                                  idYear: year,
-                                  year: year.description,
-                                  population: population,
-                                  slugState: state.replace(" ", with: "".lowercased())))
+                data.append(.init(
+                    idState: "",
+                    state: state,
+                    idYear: year,
+                    year: year.description,
+                    population: population,
+                    slugState: state.replace(" ", with: "".lowercased())
+                ))
             }
         }
 
-        var source: [Source] = []
-        return .init(data: data, source: source)
+        return .init(data: data, source: [])
     }
-    
-    static var mock1: Self? {
+
+    static var mockRegularLoad: Self? {
         let jsonString = """
         {
             "data": [

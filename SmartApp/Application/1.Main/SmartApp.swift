@@ -21,7 +21,9 @@ struct SmartApp: App {
         let nonSecureAppPreferences = DependenciesManager.Repository.nonSecureAppPreferences
         let secureAppPreferences = DependenciesManager.Repository.secureAppPreferences
         let config: ConfigurationViewModel!
-        if UITestingManager.Options.onUITesting.enabled {
+
+        let onTesting = UITestingManager.Options.onUITesting.enabled || Common_Utils.onUnitTests
+        if onTesting {
             config = .init(
                 userService: userService,
                 weatherService: DependenciesManager.Services.weatherServiceMock,

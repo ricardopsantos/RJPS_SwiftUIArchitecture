@@ -20,6 +20,6 @@ extension WeatherServiceMock: WeatherServiceProtocol {
     public func getWeather(
         _ request: ModelDto.GetWeatherRequest,
         cachePolicy: ServiceCachePolicy) async throws -> ModelDto.GetWeatherResponse {
-            .mock!
+        .mockBigLoad!
     }
 }

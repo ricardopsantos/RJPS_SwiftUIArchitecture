@@ -42,8 +42,10 @@ final class FetchStatesScreenTests: BaseUITests {
             on: app
         )
         tap(staticText: Constants.tab2ListItem, on: app)
-        waitFor(staticText: Constants.tab2DetailsTitle,
-                on: app)
+        waitFor(
+            staticText: Constants.tab2DetailsTitle,
+            on: app
+        )
     }
 
     func testA2_appStartsAndRouteToStatesAndRouteBack() {
@@ -57,7 +59,6 @@ final class FetchStatesScreenTests: BaseUITests {
 // MARK: Performance
 //
 extension FetchStatesScreenTests {
-    
     func testA1_performance() {
         let metrics: [XCTMetric] = [
             XCTCPUMetric(application: app),
@@ -70,7 +71,7 @@ extension FetchStatesScreenTests {
             testA1_appStartsAndRouteToStates()
         }
     }
-    
+
     func testA2_performance() {
         let metrics: [XCTMetric] = [
             XCTCPUMetric(application: app),
