@@ -15,7 +15,7 @@ import Nimble
 //
 import Common
 
-final class FetchNationScreenTests: BaseUITests {
+final class FetchWeatherScreenTests: BaseUITests {
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         false
     }
@@ -37,33 +37,35 @@ final class FetchNationScreenTests: BaseUITests {
             "isAuthenticated"
         ])
         tap(
-            tabBarIndex: 1,
-            andWaitForStaticText: Constants.tab2Title,
+            tabBarIndex: 0,
+            andWaitForStaticText: Constants.tab1Title,
             on: app
         )
     }
 
     func testA2_appStartsAndDisplayRecords() {
         testA1_appStartsAndUpdatesNavigationBarTitle() // Re-use test A1
-        waitFor(
-            staticText: Constants.tab2ListItem,
+        tap(
+            staticText: Constants.tab1ListItem,
             on: app
         )
+        waitFor(staticText: Constants.tab1DetailsValue, on: app)
+        XCTAssert(true)
     }
 }
 
 //
 // MARK: Performance
 //
-extension FetchNationScreenTests {
+extension FetchWeatherScreenTests {
     func testA1_performance() {
         let metrics: [XCTMetric] = [
             XCTCPUMetric(application: app),
             XCTMemoryMetric(application: app)
         ]
-        // CPU Time (id): 1.778 s
-        // Memory Peak Physical (id): 46854.758 kB
-        // Memory Physical (id): 46553.306 kB
+        // CPU Time (id): 1.642 s
+        // Memory Peak Physical (id): 42440.922 kB
+        // Memory Physical (id): 42417.984 kB
         measure(metrics: metrics) {
             testA1_appStartsAndUpdatesNavigationBarTitle()
         }
@@ -74,9 +76,9 @@ extension FetchNationScreenTests {
             XCTCPUMetric(application: app),
             XCTMemoryMetric(application: app)
         ]
-        // CPU Time (id): 1.859 s
-        // Memory Peak Physical (id): 46776.141 kB
-        // Memory Physical (id): 46523.827 kB
+        // CPU Time (id): 1.922 s
+        // Memory Peak Physical (id): 45295.027 kB
+        // Memory Physical (id): 44747.802 kB
         measure(metrics: metrics) {
             testA2_appStartsAndDisplayRecords()
         }

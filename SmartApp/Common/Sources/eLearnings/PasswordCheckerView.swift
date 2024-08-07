@@ -8,8 +8,6 @@ import Foundation
 import SwiftUI
 import Combine
 
-// swiftlint:disable all
-
 // https://peterfriese.dev/swift-combine-love/
 
 extension SwiftUITipsAndTricks {
@@ -124,14 +122,11 @@ extension SwiftUITipsAndTricks {
                 .map { passwordIsEmpty, passwordsAreEqual, passwordIsStrongEnough in
                     if passwordIsEmpty {
                         .empty
-                    }
-                    else if !passwordsAreEqual {
+                    } else if !passwordsAreEqual {
                         .noMatch
-                    }
-                    else if !passwordIsStrongEnough {
+                    } else if !passwordIsStrongEnough {
                         .notStrongEnough
-                    }
-                    else {
+                    } else {
                         .valid
                     }
                 }

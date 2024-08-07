@@ -41,13 +41,47 @@ final class FetchStatesScreenTests: BaseUITests {
             andWaitForStaticText: Constants.tab2Title,
             on: app
         )
-        tap(staticText: Constants.tab2ListItem, on: app) // Tapped list item
-        waitFor(staticText: Constants.tab2DetailsTitle, on: app) // Should appear the next screen navigation title
+        tap(staticText: Constants.tab2ListItem, on: app)
+        waitFor(
+            staticText: Constants.tab2DetailsTitle,
+            on: app
+        )
     }
 
     func testA2_appStartsAndRouteToStatesAndRouteBack() {
         testA1_appStartsAndRouteToStates() // Re-use testA1
         // After tap back button, should appear previous screen navigation title
         tap(button: "backButton", andWaitForStaticText: Constants.tab2ListItem, on: app)
+    }
+}
+
+//
+// MARK: Performance
+//
+extension FetchStatesScreenTests {
+    func testA1_performance() {
+        let metrics: [XCTMetric] = [
+            XCTCPUMetric(application: app),
+            XCTMemoryMetric(application: app)
+        ]
+        // CPU Time (id): 2.446 s
+        // Memory Peak Physical (id): 58431.757 kB
+        // Memory Physical (id): 55286.029 kB
+        measure(metrics: metrics) {
+            testA1_appStartsAndRouteToStates()
+        }
+    }
+
+    func testA2_performance() {
+        let metrics: [XCTMetric] = [
+            XCTCPUMetric(application: app),
+            XCTMemoryMetric(application: app)
+        ]
+        // CPU Time (id): 2.771 s
+        // Memory Peak Physical (id): 59352.538 kB
+        // Memory Physical (id): 57324.211 kB
+        measure(metrics: metrics) {
+            testA2_appStartsAndRouteToStatesAndRouteBack()
+        }
     }
 }

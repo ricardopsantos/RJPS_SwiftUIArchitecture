@@ -22,10 +22,13 @@ var loadedAny: Any?
 enum Constants {
     static let tab1Title = "Current Weather"
     static let tab1DetailsTitle = "Weather Details"
+    static let tab1DetailsValue = "32 °C"
     static let tab1ListItem = "Lisbon"
-    static let tab2Title = "USA Population: Last 10 years"
-    static let tab2DetailsTitle = "USA States Population for 2022"
-    static let tab2ListItem = "Year: 2022"
+    //
+    static let tab2Title = "USA Population: Last 45 years"
+    static let tab2DetailsTitle = "USA States Population for 1980"
+    static let tab2ListItem = "Year: 1980"
+    //
     static let tab4Title = "Settings"
 }
 
@@ -36,7 +39,7 @@ class BaseUITests: XCTestCase {
     }()
 
     func appLaunch(launchArguments: [String]) {
-        app.launchArguments = launchArguments + ["shouldDisableAnimations"]
+        app.launchArguments = launchArguments + ["onUITesting", "shouldDisableAnimations"]
         app.launch()
     }
 }

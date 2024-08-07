@@ -358,6 +358,7 @@ public extension XCTestCase {
             evaluatedWith: app.staticTexts[staticText],
             handler: nil
         )
+
         wait(for: [expectation], timeout: timeout)
         app.staticTexts[staticText].tap()
         if !nextStaticText.isEmpty {

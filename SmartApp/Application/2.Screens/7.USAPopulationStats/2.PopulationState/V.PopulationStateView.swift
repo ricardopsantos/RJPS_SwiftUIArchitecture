@@ -112,7 +112,7 @@ struct PopulationStateView: View, ViewProtocol {
 //
 fileprivate extension PopulationStateView {
     var listView: some View {
-        VStack(spacing: SizeNames.defaultMarginSmall) {
+        LazyVStack(spacing: SizeNames.defaultMarginSmall) {
             ForEach(Array(viewModel.model.enumerated()), id: \.element) { _, item in
                 ListItemView(
                     title: item.title,

@@ -15,7 +15,7 @@ import Nimble
 //
 import Common
 
-final class PerformanceTests: BaseUITests {
+final class ApplicationLaunchPerformanceTests: BaseUITests {
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         false
     }

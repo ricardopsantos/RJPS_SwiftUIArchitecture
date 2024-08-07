@@ -16,6 +16,7 @@ public class DependenciesManager {
     enum Services {
         public static var userService: UserServiceProtocol { UserService.shared }
         public static var weatherService: WeatherServiceProtocol { WeatherService.shared }
+        public static var weatherServiceMock: WeatherServiceProtocol { WeatherServiceMock.shared }
         public static var sampleService: SampleServiceProtocol { SampleService.shared }
         public static var dataUSAService: DataUSAServiceProtocol { DataUSAService.shared }
         public static var dataUSAServiceMock: DataUSAServiceProtocol { DataUSAServiceMock.shared }

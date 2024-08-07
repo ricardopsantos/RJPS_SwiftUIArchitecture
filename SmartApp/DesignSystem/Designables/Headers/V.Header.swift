@@ -39,6 +39,7 @@ public struct Header: View {
                             .tint(ColorSemantic.primary.color)
                         Spacer()
                     }
+                    .accessibilityIdentifier(Accessibility.backButton.identifier)
                 }
             }
             Text(text)

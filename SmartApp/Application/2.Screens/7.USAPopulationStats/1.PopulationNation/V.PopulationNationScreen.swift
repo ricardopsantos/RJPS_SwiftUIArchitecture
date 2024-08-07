@@ -114,7 +114,7 @@ struct PopulationNationView: View, ViewProtocol {
 //
 fileprivate extension PopulationNationView {
     var listView: some View {
-        VStack(spacing: SizeNames.defaultMarginSmall) {
+        LazyVStack(spacing: SizeNames.defaultMarginSmall) {
             ForEach(Array(viewModel.model.enumerated()), id: \.element) { index, item in
                 ListItemView(
                     title: item.title,
