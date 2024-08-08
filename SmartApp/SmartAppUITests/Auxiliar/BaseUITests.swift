@@ -15,8 +15,6 @@ import Nimble
 //
 import Common
 
-
-
 class BaseUITests: XCTestCase {
     lazy var app: XCUIApplication = {
         let app = XCUIApplication()
@@ -24,8 +22,10 @@ class BaseUITests: XCTestCase {
     }()
 
     func appLaunch(launchArguments: [UITestingOptions]) {
-        app.launchArguments = launchArguments.map({ $0.rawValue }) + [UITestingOptions.onUITesting.rawValue,
-                                                                      UITestingOptions.shouldDisableAnimations.rawValue]
+        app.launchArguments = launchArguments.map(\.rawValue) + [
+            UITestingOptions.onUITesting.rawValue,
+            UITestingOptions.shouldDisableAnimations.rawValue
+        ]
         app.launch()
     }
 }

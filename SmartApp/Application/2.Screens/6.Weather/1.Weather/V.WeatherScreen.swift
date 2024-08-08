@@ -60,6 +60,7 @@ struct WeatherView: View, ViewProtocol {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: WeatherViewModel
     public init(dependencies: WeatherViewModel.Dependencies) {
+        DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onSelected = dependencies.onSelected
     }

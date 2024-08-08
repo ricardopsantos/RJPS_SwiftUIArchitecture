@@ -16,7 +16,6 @@ import Common
 //
 
 public extension XCTestCase {
-
     func tap(
         tabBarIndex: Int,
         andWaitForStaticText nextStaticText: String = "",
@@ -35,7 +34,7 @@ public extension XCTestCase {
             waitFor(staticText: nextStaticText, on: app, timeout: timeout)
         }
     }
-    
+
     func tap(
         tabBarText: String,
         andWaitForStaticText nextStaticText: String = "",
@@ -60,7 +59,6 @@ public extension XCTestCase {
 // MARK: - Button
 //
 public extension XCTestCase {
-    
     func tap(
         button: String,
         andWaitForStaticText nextStaticText: String = "",
@@ -115,7 +113,7 @@ public extension XCTestCase {
             )
         }
     }
-    
+
     func tap(
         textFieldXCUIElement: XCUIElement,
         andType text: String,
@@ -141,7 +139,7 @@ public extension XCTestCase {
             )
         }
     }
-    
+
     func tap(
         textFieldIndex: Int,
         andType text: String,
@@ -162,7 +160,7 @@ public extension XCTestCase {
             )
         }
     }
-    
+
     func tap(
         textField: String,
         andType text: String,
@@ -183,9 +181,9 @@ public extension XCTestCase {
     }
 }
 
-    //
-    // MARK: - Static Text
-    //
+//
+// MARK: - Static Text
+//
 public extension XCTestCase {
     func tap(
         staticText: String,
@@ -198,14 +196,13 @@ public extension XCTestCase {
             evaluatedWith: app.staticTexts[staticText],
             handler: nil
         )
-        
+
         wait(for: [expectation], timeout: timeout)
         app.staticTexts[staticText].tap()
         if !nextStaticText.isEmpty {
             waitFor(staticText: nextStaticText, on: app, timeout: timeout)
         }
     }
-    
 }
 
 //
@@ -233,4 +230,3 @@ public extension XCTestCase {
         }
     }
 }
-

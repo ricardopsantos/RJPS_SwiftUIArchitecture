@@ -30,7 +30,6 @@ enum Constants {
     static let tabBarUSAStats = 1
     static let tabBar3 = 2
     static let tabBarSettings = 3
-
 }
 
 //

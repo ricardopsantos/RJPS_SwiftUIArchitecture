@@ -34,7 +34,7 @@ final class AppNavigationAndStateConcistencyTests: BaseUITests {
     func testA1_appStartsAndUpdatesNavigationBarTitle() {
         appLaunch(launchArguments: [
             .shouldResetAllPreferences,
-                .isAuthenticated
+            .isAuthenticated
         ])
         tap(
             tabBarIndex: Constants.tabBarWeather,
@@ -118,7 +118,7 @@ final class AppNavigationAndStateConcistencyTests: BaseUITests {
     func testA3_doubleTabTapToCloseLoadedScreens() {
         appLaunch(launchArguments: [
             .shouldResetAllPreferences,
-                .isAuthenticated
+            .isAuthenticated
         ])
         tap(
             tabBarIndex: Constants.tabBarWeather,

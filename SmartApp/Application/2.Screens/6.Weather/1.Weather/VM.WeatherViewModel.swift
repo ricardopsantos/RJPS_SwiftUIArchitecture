@@ -106,8 +106,8 @@ class WeatherViewModel: BaseViewModel {
         case .getWeatherData(userLatitude: let userLatitude, userLongitude: let userLongitude):
             Task { @MainActor [weak self] in
                 guard let self = self else { return }
-                self.loadingModel = .loading(message: "Loading".localizedMissing)
-                model.removeAll()
+                loadingModel = .loading(message: "Loading".localizedMissing)
+                var newValueForModel: [WeatherModel] = [] // Use acc to avoid UI redraws
                 if let userLatitude = userLatitude, let userLongitude = userLongitude {
                     let modelDto = try await self.weatherService.getWeather(
                         .init(
@@ -119,7 +119,7 @@ class WeatherViewModel: BaseViewModel {
                         latitude: userLatitude,
                         longitude: userLongitude
                     )
-                    model.append(.init(
+                    newValueForModel.append(.init(
                         title: "User @ \(coordinates.adressMin)",
                         getWeatherResponse: modelDto
                     ))
@@ -135,7 +135,7 @@ class WeatherViewModel: BaseViewModel {
                                 longitude: longitude.description
                             ), cachePolicy: .cacheElseLoad
                         )
-                        model.append(.init(
+                        newValueForModel.append(.init(
                             title: city.city,
                             getWeatherResponse: modelDto
                         ))
@@ -143,6 +143,9 @@ class WeatherViewModel: BaseViewModel {
                     } catch {
                         handle(error: error, sender: "\(Self.self).\(action)")
                     }
+                }
+                if newValueForModel != model {
+                    model = newValueForModel
                 }
                 loadingModel = .notLoading
             }

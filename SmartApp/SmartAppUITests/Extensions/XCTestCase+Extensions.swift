@@ -42,4 +42,3 @@ public extension XCTestCase {
         Common.LogsManager.debug(result)
     }
 }
-

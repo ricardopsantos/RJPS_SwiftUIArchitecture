@@ -58,6 +58,7 @@ struct WeatherDetailsView: View, ViewProtocol {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: WeatherDetailsViewModel
     public init(dependencies: WeatherDetailsViewModel.Dependencies) {
+        DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onRouteBack = dependencies.onRouteBack
     }

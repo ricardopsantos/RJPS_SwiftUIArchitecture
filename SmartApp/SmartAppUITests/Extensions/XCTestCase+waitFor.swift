@@ -73,7 +73,6 @@ public extension XCTestCase {
     }
 }
 
-
 //
 // MARK: - genericWaitFor
 //
@@ -104,6 +103,4 @@ public extension XCTestCase {
             }
         }
     }
-
 }
-

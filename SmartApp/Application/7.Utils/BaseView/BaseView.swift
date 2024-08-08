@@ -21,7 +21,7 @@ enum BaseView {
     static func withLoading<Content: View>(
         sender: String,
         appScreen: AppScreen,
-        navigationViewModel: BaseView.NavigationViewModel,
+        navigationViewModel: BaseView.NavigationViewModel?,
         ignoresSafeArea: Bool = false,
         dismissKeyboardOnTap: Bool = false,
         background: BackgroundView.Background,
@@ -67,7 +67,7 @@ fileprivate extension BaseView {
     static func baseWith<Content: View>(
         sender: String,
         appScreen: AppScreen,
-        navigationViewModel: BaseView.NavigationViewModel,
+        navigationViewModel: BaseView.NavigationViewModel?,
         ignoresSafeArea: Bool,
         dismissKeyboardOnTap: Bool,
         background: BackgroundView.Background,
@@ -101,15 +101,17 @@ fileprivate extension BaseView {
                 $0.onTapDismissKeyboard()
             })
             .doIf(!(networkStatus?.existsInternetConnection ?? true), transform: {
-                $0.opacity(0.1).overlay(
-                    ZStack {
-                        ColorSemantic.warning.color.opacity(0.2)
-                        Text("No Internet connection.\n\nPlease try again latter...".localizedMissing)
-                            .fontSemantic(.callout)
-                            .textColor(ColorSemantic.danger.color)
-                            .multilineTextAlignment(.center)
-                    }
-                )
+                $0
+                    .blur(radius: 1)
+                    .overlay(
+                        ZStack {
+                            ColorSemantic.warning.color.opacity(0.2)
+                            Text("No Internet connection.\n\nPlease try again latter...".localizedMissing)
+                                .fontSemantic(.callout)
+                                .textColor(ColorSemantic.danger.color)
+                                .multilineTextAlignment(.center)
+                        }
+                    )
             })
             .onAppear {
                 DevTools.Log.debug(DevTools.Log.LogTemplate.screenIn(sender), .view)
@@ -120,27 +122,31 @@ fileprivate extension BaseView {
             }
 
         Group {
-            switch navigationViewModel.type {
-            case .disabled:
-                baseView
-            case .custom:
-                NavigationView {
+            if let navigationViewModel = navigationViewModel {
+                switch navigationViewModel.type {
+                case .disabled:
                     baseView
-                }.customBackButtonV1(action: {
-                    if let onBackButtonTap = navigationViewModel.onBackButtonTap {
-                        onBackButtonTap()
+                case .custom:
+                    NavigationView {
+                        baseView
+                    }.customBackButtonV1(action: {
+                        if let onBackButtonTap = navigationViewModel.onBackButtonTap {
+                            onBackButtonTap()
+                        }
+                    }, title: navigationViewModel.title)
+                case .default:
+                    NavigationView {
+                        baseView
                     }
-                }, title: navigationViewModel.title)
-            case .default:
-                NavigationView {
-                    baseView
+                    .navigationTitle(navigationViewModel.title)
+                case .defaultHidden:
+                    NavigationView {
+                        baseView
+                    }
+                    .hideNavigationBar()
                 }
-                .navigationTitle(navigationViewModel.title)
-            case .enabledHidden:
-                NavigationView {
-                    baseView
-                }
-                .hideNavigationBar()
+            } else {
+                baseView
             }
         }
     }

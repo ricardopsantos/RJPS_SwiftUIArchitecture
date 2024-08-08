@@ -9,6 +9,12 @@ import SwiftUI
 //
 import Common
 
+public extension Header {
+    static var defaultColor: UIColor { ColorSemantic.primary.uiColor }
+    static var defaultTitleFont: Font { FontSemantic.headline.font }
+    static var defaultLargeTitleFont: Font { FontSemantic.title2.font }
+}
+
 public struct Header: View {
     @Environment(\.colorScheme) var colorScheme
     private let text: String
@@ -36,7 +42,7 @@ public struct Header: View {
                             .resizable()
                             .scaledToFit()
                             .frame(SizeNames.defaultMarginSmall)
-                            .tint(ColorSemantic.primary.color)
+                            .tint(Color(Header.defaultColor))
                         Spacer()
                     }
                     .accessibilityIdentifier(Accessibility.backButton.identifier)
@@ -47,8 +53,8 @@ public struct Header: View {
                     maxWidth: screenWidth - 4 * SizeNames.defaultMargin,
                     alignment: .center
                 )
-                .font(FontSemantic.headline.font)
-                .foregroundColor(.primaryColor)
+                .font(Header.defaultTitleFont)
+                .foregroundColor(Color(Header.defaultColor))
             if hasCloseButton {
                 HStack {
                     Spacer()
@@ -57,7 +63,7 @@ public struct Header: View {
                             .resizable()
                             .scaledToFit()
                             .frame(SizeNames.defaultMarginSmall)
-                            .tint(ColorSemantic.primary.color)
+                            .tint(Color(Header.defaultColor))
                     }
                 }
             }

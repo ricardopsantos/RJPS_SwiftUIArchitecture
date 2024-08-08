@@ -5,6 +5,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 public extension UIFont {
     static func registerFontWithFilenameString(_ filenameString: String, _ bundleIdentifier: String) {

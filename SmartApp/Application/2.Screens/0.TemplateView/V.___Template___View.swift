@@ -58,6 +58,7 @@ struct ___Template___View: View, ViewProtocol {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: ___Template___ViewModel
     public init(dependencies: ___Template___ViewModel.Dependencies) {
+        DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
     }
 

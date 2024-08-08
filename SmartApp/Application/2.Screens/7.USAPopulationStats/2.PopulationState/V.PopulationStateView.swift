@@ -62,6 +62,7 @@ struct PopulationStateView: View, ViewProtocol {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: PopulationStateViewModel
     public init(dependencies: PopulationStateViewModel.Dependencies) {
+        DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onRouteBack = dependencies.onRouteBack
     }
@@ -69,7 +70,7 @@ struct PopulationStateView: View, ViewProtocol {
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
     @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
-
+    @State var isNavigationBarHidden = false
     // MARK: - Auxiliar Attributes
     private let onRouteBack: () -> Void
 
@@ -83,9 +84,8 @@ struct PopulationStateView: View, ViewProtocol {
         BaseView.withLoading(
             sender: "\(Self.self)",
             appScreen: .populationStates(year: "", model: []),
-            navigationViewModel: .custom(onBackButtonTap: {
-                onRouteBack()
-            }, title: viewModel.title),
+            navigationViewModel: navigationViewModel,
+            ignoresSafeArea: true,
             background: .linear,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
@@ -98,13 +98,35 @@ struct PopulationStateView: View, ViewProtocol {
         }.onDisappear {
             viewModel.send(action: .didDisappear)
         }
+        // .navigationBarHidden(isNavigationBarHidden)
     }
 
     var content: some View {
-        ScrollView {
-            listView
-        }
+        // NavigationView {
+        //ScrollViewReader { scrollViewProxy in
+            ScrollView {
+        //        GeometryReader { geometry in
+        //            let offset = geometry.frame(in: .global).minY
+        //            let isNavigationBarHiddenNewValue = offset < SizeNames.size_8.cgFloat
+        //            if isNavigationBarHiddenNewValue != isNavigationBarHidden {
+        //                withAnimation {
+        //                    isNavigationBarHidden.toggle()
+        //                }
+        //            }
+        //            return Color.clear
+        //        }
+                listView
+            }
+        //}
         .accessibility(identifier: Accessibility.scrollView.identifier)
+        // }
+        // .navigationTitle(viewModel.title)
+        // .navigationBarTitleDisplayMode(.inline)
+    }
+
+    var navigationViewModel: BaseView.NavigationViewModel? {
+        .custom(onBackButtonTap: onRouteBack, title: viewModel.title)
+//        isNavigationBarHidden ? .defaultHidden : .custom(onBackButtonTap: onRouteBack, title: viewModel.title)
     }
 }
 
@@ -139,3 +161,17 @@ fileprivate extension PopulationStateView {
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
 #endif
+
+struct NavigationConfigurator: UIViewControllerRepresentable {
+    var configure: (UINavigationController) -> Void
+    func makeUIViewController(context: Context) -> UIViewController {
+        let viewController = UIViewController()
+        return viewController
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+        if let navigationController = uiViewController.navigationController {
+            configure(navigationController)
+        }
+    }
+}

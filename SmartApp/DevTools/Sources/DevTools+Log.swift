@@ -27,6 +27,7 @@ public extension DevTools {
 
         public enum LogTemplate {
             case log(_ any: Any)
+            case viewInit(_ origin: String, function: String = #function)
             case appLifeCycle(_ message: Any)
             case warning(_ message: Any)
             case valueChanged(_ origin: String, _ key: String, _ value: String?)
@@ -44,6 +45,8 @@ public extension DevTools {
                     return "\n !! WARNING !!\n  \(message)\n !! WARNING !!\n"
                 case .log(let any):
                     return "\(any)"
+                case .viewInit(let origin, let function):
+                    return "👶🏻 \(origin) 👶🏻 \(function)"
                 case .appLifeCycle(let message):
                     return "🔀 🔀 App Life Cycle 🔀 🔀: \(message)"
                 case .screenIn(let origin):

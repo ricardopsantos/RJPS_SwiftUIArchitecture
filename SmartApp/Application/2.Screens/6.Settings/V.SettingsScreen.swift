@@ -63,6 +63,7 @@ struct SettingsScreen: View, ViewProtocol {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: SettingsViewModel
     public init(dependencies: SettingsViewModel.Dependencies) {
+        DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onShouldDisplayEditUserDetails = dependencies.onShouldDisplayEditUserDetails
     }

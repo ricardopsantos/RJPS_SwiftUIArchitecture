@@ -6,6 +6,14 @@ import Foundation
 import UIKit
 
 public extension UINavigationController {
+    func setNavigationBarTitleAttributes(font: UIFont, color: UIColor) {
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .foregroundColor: color
+        ]
+        navigationBar.titleTextAttributes = attributes
+    }
+
     func setNavigationBarColor(_ color: UIColor) {
         if color.extractAlpha != 1.0 {
             navigationBar.setBackgroundImage(UIImage(), for: .default)

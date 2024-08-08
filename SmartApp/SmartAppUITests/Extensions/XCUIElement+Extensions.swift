@@ -53,4 +53,3 @@ public extension XCUIElement {
         return description
     }
 }
-

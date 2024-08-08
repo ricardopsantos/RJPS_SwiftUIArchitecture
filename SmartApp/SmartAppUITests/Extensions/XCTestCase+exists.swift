@@ -20,4 +20,3 @@ public extension XCTestCase {
         XCTAssertTrue(app.staticTexts[staticText].waitForExistence(timeout: timeout))
     }
 }
-

@@ -75,18 +75,19 @@ class PopulationNationViewModel: BaseViewModel {
         case .getPopulationData(cachePolicy: let cachePolicy):
             Task { @MainActor in
                 loadingModel = .loading(message: "Loading".localized)
-                model = []
+                var newValueForModel: [PopulationNationModel] = []
                 do {
                     let modelDto = try await dataUSAService.requestPopulationNationData(
                         .init(),
                         cachePolicy: cachePolicy
                     )
-                    model = modelDto.data.map { .init(populationNationDataResponse: $0) }
+                    newValueForModel = modelDto.data.map { .init(populationNationDataResponse: $0) }
                     title = String(format: "PopulationNationViewTitleWithRecords".localized, model.count)
                     loadingModel = .notLoading
-                    if model.isEmpty {
+                    if newValueForModel.isEmpty {
                         alertModel = .init(type: .warning, message: "NoDataTryAgainLatter".localized)
                     }
+                    model = newValueForModel
                 } catch {
                     handle(error: error, sender: "\(Self.self).\(action)")
                 }

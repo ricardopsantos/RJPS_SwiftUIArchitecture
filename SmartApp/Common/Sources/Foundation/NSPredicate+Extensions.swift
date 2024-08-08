@@ -8,11 +8,10 @@ import UIKit
 import CoreData
 
 public extension NSPredicate {
-    
     static var exists: NSPredicate {
         NSPredicate(format: "exists == true")
     }
-    
+
     static func allFields(_ fields: [String], with value: String, caseSensitive: Bool = false) -> NSPredicate {
         guard !value.isEmpty else { return NSPredicate(value: false) }
         if caseSensitive {
