@@ -48,23 +48,28 @@ final class EditUserInfoTests: BaseUITests {
         let newName = "NewName" + Int.random(in: 1...100).description
         let newMail = newName + "@mail.com"
         tap(
-            textField: "txtUserName",
+            textField: Accessibility.txtUserName.identifier,
             andType: newName,
             dismissKeyboard: false,
-            on: app,
-            delayBeforeTap: 0,
-            delayBeforeType: 0
+            on: app
         )
         tap(
-            textField: "txtEmail",
+            textField: Accessibility.txtEmail.identifier,
             andType: newMail,
             dismissKeyboard: true,
-            on: app,
-            delayBeforeTap: 0,
-            delayBeforeType: 0
+            on: app
         )
-        tap(button: "Save", andWaitForStaticText: "SaveUserInfoBottomSheetTitle", on: app)
-        tap(button: "Yes", andWaitForStaticText: Constants.tab4Title, on: app)
+        tap(
+            button: "Save",
+
+            andWaitForStaticText: "SaveUserInfoBottomSheetTitle",
+            on: app
+        )
+        tap(
+            button: "Yes",
+            andWaitForStaticText: Constants.tab4Title,
+            on: app
+        )
 
         exists(staticText: newName, on: app)
         exists(staticText: newMail, on: app)

@@ -348,6 +348,8 @@
 		D5D5FAC3229B645CC7ED06A4 /* ASyncCoreDataManagerSavePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16429CFBAB85FB1C727FDC62 /* ASyncCoreDataManagerSavePublisher.swift */; };
 		D72FA2362C63EAD1009FC3D3 /* WeatherServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72FA2352C63EAD1009FC3D3 /* WeatherServiceMock.swift */; };
 		D72FA2392C640163009FC3D3 /* FetchWeaterScreenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72FA2382C640163009FC3D3 /* FetchWeaterScreenTests.swift */; };
+		D72FA23C2C64D43B009FC3D3 /* CoreLocationManager+AddressFromCoordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72FA23B2C64D43B009FC3D3 /* CoreLocationManager+AddressFromCoordinates.swift */; };
+		D72FA23E2C64D440009FC3D3 /* CoreLocationManager+LocationFromAdressa.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72FA23D2C64D440009FC3D3 /* CoreLocationManager+LocationFromAdressa.swift */; };
 		D77A251F685328CA88F7231E /* UIView+AnimationsBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6344864F30EC39BE520CCB /* UIView+AnimationsBase.swift */; };
 		D77DFB82549FEC2F91AD6C44 /* LoginAndSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8869CC081A4CE3C6D6BAC /* LoginAndSessionTests.swift */; };
 		D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */; };
@@ -973,6 +975,8 @@
 		D610E9C15F645141AA91565A /* GoogleService-Info-com.ricardo.app.id.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info-com.ricardo.app.id.plist"; sourceTree = "<group>"; };
 		D72FA2352C63EAD1009FC3D3 /* WeatherServiceMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherServiceMock.swift; sourceTree = "<group>"; };
 		D72FA2382C640163009FC3D3 /* FetchWeaterScreenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchWeaterScreenTests.swift; sourceTree = "<group>"; };
+		D72FA23B2C64D43B009FC3D3 /* CoreLocationManager+AddressFromCoordinates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoreLocationManager+AddressFromCoordinates.swift"; sourceTree = "<group>"; };
+		D72FA23D2C64D440009FC3D3 /* CoreLocationManager+LocationFromAdressa.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoreLocationManager+LocationFromAdressa.swift"; sourceTree = "<group>"; };
 		D73F950216792C50E6323F9C /* UIImageView+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Transform.swift"; sourceTree = "<group>"; };
 		D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDtoProtocol.swift; sourceTree = "<group>"; };
 		D8AB95F4DBCB362FB08BD60C /* V.PopulationStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.PopulationStateView.swift; sourceTree = "<group>"; };
@@ -2376,6 +2380,16 @@
 			path = 3.AppViewModels;
 			sourceTree = "<group>";
 		};
+		D72FA23A2C64D405009FC3D3 /* CoreLocationManager */ = {
+			isa = PBXGroup;
+			children = (
+				6AA7172783919D95BB358799 /* CoreLocationManager.swift */,
+				D72FA23D2C64D440009FC3D3 /* CoreLocationManager+LocationFromAdressa.swift */,
+				D72FA23B2C64D43B009FC3D3 /* CoreLocationManager+AddressFromCoordinates.swift */,
+			);
+			path = CoreLocationManager;
+			sourceTree = "<group>";
+		};
 		D7F45A3E0523BE258F0C1742 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -2543,13 +2557,13 @@
 		FAE19E79AF6410B1A86B65BD /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				D72FA23A2C64D405009FC3D3 /* CoreLocationManager */,
 				CBAB91DFA171CBD39275A1C1 /* CronometerManager */,
 				7595D2118FB49F4ED1F9F0A5 /* SimpleCacheManagerForCodable */,
 				386E5E14740D982C57B6A6A9 /* AuthManager.swift */,
 				948E3FE652C00238554EED69 /* CacheManager.swift */,
 				8C042C6DDB94FFB2797835CE /* CameraManager.swift */,
 				208A3A795B7C3199CD03B3E3 /* CoreBluetoothManager.swift */,
-				6AA7172783919D95BB358799 /* CoreLocationManager.swift */,
 				C6B7BE15DA67FE10C5A767D1 /* EncryptionManager.swift */,
 				8AD3CCCF803FFE9EDD5450E4 /* ExecutionControlManager.swift */,
 				596BE1FA4A42F0423122127F /* ImagesFileManager.swift */,
@@ -3174,6 +3188,7 @@
 				80E68E86CD8A087522FA451F /* CommonNetworking+JSONUtils.swift in Sources */,
 				FF00A0FF8C325C441ABAA831 /* CommonNetworking+NetworMonitor.swift in Sources */,
 				2BF788555B619C9AF1263977 /* CommonNetworking+Reachability.swift in Sources */,
+				D72FA23C2C64D43B009FC3D3 /* CoreLocationManager+AddressFromCoordinates.swift in Sources */,
 				82F0980E33B70AC39D48C7B5 /* CommonNetworking+Utils.swift in Sources */,
 				AEF970C2A44D3B18F5EBB8AB /* Common_XXXRepresentable.swift in Sources */,
 				8E639237FD10ED70229CD97A /* Constraints.swift in Sources */,
@@ -3215,6 +3230,7 @@
 				E12BD17BCA43B5C98B79A4F1 /* Int+Extensions.swift in Sources */,
 				7315A71849912D352325E299 /* JSONDecoder+Extensions.swift in Sources */,
 				53402196F40422F66147E6C5 /* Just+Extensions.swift in Sources */,
+				D72FA23E2C64D440009FC3D3 /* CoreLocationManager+LocationFromAdressa.swift in Sources */,
 				922E6F9C40C25A8613035F74 /* KeyPathStudy.swift in Sources */,
 				15DD6DCD7BFFD8B5FFE39E70 /* KeyboardManager.swift in Sources */,
 				DDD402B226D75792098A72A0 /* KeyboardState.swift in Sources */,

@@ -6,10 +6,56 @@
 import Foundation
 import CoreLocation
 
-public typealias CLPlacemarkAsJSON = (jsonString: String, jsonAsData: Data, jsonAsDic: [String: String])
+public extension CLPlacemark {
+    struct CoreLocationManagerAddressResponse: ModelProtocol {
+        public let adressMin: String
+        public let adressMax: String
+        public let jsonFormat: CLPlacemarkJSONFormat
+
+        public init(adressMin: String, adressMax: String, jsonFormat: CLPlacemarkJSONFormat) {
+            self.adressMin = adressMin
+            self.adressMax = adressMax
+            self.jsonFormat = jsonFormat
+        }
+
+        public static var noData: Self {
+            .init(
+                adressMin: "...",
+                adressMax: "...",
+                jsonFormat: .init(
+                    jsonString: "",
+                    jsonAsData: .init(),
+                    jsonAsDic: [:]
+                )
+            )
+        }
+    }
+
+    struct CLPlacemarkJSONFormat: ModelProtocol {
+        public let jsonString: String
+        public let jsonAsData: Data
+        public let jsonAsDic: [String: String]
+        public init(jsonString: String, jsonAsData: Data, jsonAsDic: [String: String]) {
+            self.jsonString = jsonString
+            self.jsonAsData = jsonAsData
+            self.jsonAsDic = jsonAsDic
+        }
+    }
+}
 
 public extension CLPlacemark {
-    var asJSON: CLPlacemarkAsJSON? {
+    var asCoreLocationManagerAddressResponse: CoreLocationManagerAddressResponse {
+        guard let asCLPlacemarkJSONFormat = asCLPlacemarkJSONFormat else {
+            return .noData
+        }
+        return .init(
+            adressMin: parsedLocation.addressMin,
+            adressMax: parsedLocation.addressFull,
+            jsonFormat: asCLPlacemarkJSONFormat
+        )
+    }
+
+    var asCLPlacemarkJSONFormat: CLPlacemarkJSONFormat? {
         var jsonAsDic: [String: String] = [:]
         if let some = name { jsonAsDic["name"] = some }
         if let some = thoroughfare { jsonAsDic["thoroughfare"] = some }
@@ -29,7 +75,11 @@ public extension CLPlacemark {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: jsonAsDic, options: .prettyPrinted)
             if let jsonString = String(data: jsonData, encoding: .utf8) {
-                return (jsonString, jsonData, jsonAsDic)
+                return .init(
+                    jsonString: jsonString,
+                    jsonAsData: jsonData,
+                    jsonAsDic: jsonAsDic
+                )
             }
         } catch {
             return nil

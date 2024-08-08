@@ -72,7 +72,11 @@ final class AppNavigationAndStateConcistencyTests: BaseUITests {
             on: app
         )
         // Dismiss details
-        tap(button: "backButton", andWaitForStaticText: Constants.tab1Title, on: app)
+        tap(
+            button: Accessibility.backButton.identifier,
+            andWaitForStaticText: Constants.tab1Title,
+            on: app
+        )
 
         // Check state
         exists(staticText: "Counter: 3", on: app)

@@ -104,6 +104,7 @@ struct PopulationStateView: View, ViewProtocol {
         ScrollView {
             listView
         }
+        .accessibility(identifier: Accessibility.scrollView.identifier)
     }
 }
 

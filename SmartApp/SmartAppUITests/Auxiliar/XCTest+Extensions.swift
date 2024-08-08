@@ -189,6 +189,48 @@ public extension XCTestCase {
 }
 
 //
+// MARK: - Scroll
+//
+
+public extension XCTestCase {
+    func swipe(
+        scrollView: String,
+        swipeUp: Bool = false,
+        swipeDown: Bool = false,
+        velocity: XCUIGestureVelocity = .default,
+        on app: XCUIApplication
+    ) {
+        let scrollview = app.scrollViews[scrollView]
+        let element = scrollview.children(matching: .other).element.children(matching: .other).element
+        if swipeUp {
+            element.swipeUp(velocity: velocity)
+        }
+        if swipeDown {
+            element.swipeDown(velocity: velocity)
+        }
+    }
+
+    func swipeUp(
+        scrollView: String,
+        staticTexts: String,
+        swipeUp: Bool = false,
+        swipeDown: Bool = false,
+        velocity: XCUIGestureVelocity = .default,
+        on app: XCUIApplication
+    ) {
+        let scrollview = app.scrollViews[scrollView]
+        if swipeUp {
+            scrollview.otherElements.staticTexts[staticTexts]
+                .swipeUp(velocity: velocity)
+        }
+        if swipeDown {
+            scrollview.otherElements.staticTexts[staticTexts]
+                .swipeDown(velocity: velocity)
+        }
+    }
+}
+
+//
 // MARK: - Tap
 //
 

@@ -101,6 +101,7 @@ struct PopulationNationView: View, ViewProtocol {
             ScrollView(showsIndicators: false) {
                 listView
             }
+            .accessibility(identifier: Accessibility.scrollView.identifier)
             .refreshable {
                 viewModel.send(action: .getPopulationData(cachePolicy: .load))
             }.padding()

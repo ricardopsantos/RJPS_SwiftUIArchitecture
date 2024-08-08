@@ -9,13 +9,14 @@ import SwiftUI
 public struct TextButton: View {
     @Environment(\.colorScheme) var colorScheme
 
-    public enum Style: CaseIterable {
+    public enum Style: String, CaseIterable, Equatable, Hashable {
         case primary, secondary, textOnly
     }
 
     // MARK: - Attributes
     private let onClick: () -> Void
     private let text: String
+    private let alignment: Alignment
     private let style: Style
     private let background: Color
     private let enabled: Bool
@@ -24,6 +25,7 @@ public struct TextButton: View {
     public init(
         onClick: @escaping () -> Void,
         text: String,
+        alignment: Alignment = .center,
         style: Style = .primary,
         background: Color = .primaryColor,
         enabled: Bool = true,
@@ -31,6 +33,7 @@ public struct TextButton: View {
     ) {
         self.onClick = onClick
         self.text = text
+        self.alignment = alignment
         self.style = style
         self.background = background
         self.enabled = enabled
@@ -50,7 +53,7 @@ public struct TextButton: View {
                     $0.foregroundColorSemantic(.labelSecondary)
                         .foregroundColor(style == .primary ? .labelPrimary : .labelSecondary)
                 })
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, alignment: alignment)
                 .padding(SizeNames.defaultMarginSmall)
                 .background(backgroundColor)
                 .cornerRadius(SizeNames.defaultButtonPrimaryHeight)
@@ -94,6 +97,7 @@ extension TextButton {
                 TextButton(
                     onClick: {},
                     text: "\(style)",
+                    alignment: .center,
                     style: style,
                     background: .primaryColor,
                     enabled: true,
@@ -102,6 +106,7 @@ extension TextButton {
                 TextButton(
                     onClick: {},
                     text: "\(style)",
+                    alignment: .center,
                     style: style,
                     background: .primaryColor,
                     enabled: false,

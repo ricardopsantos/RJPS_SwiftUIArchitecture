@@ -42,7 +42,7 @@ struct WeatherModel: Equatable, Hashable, Sendable {
         let temperatureAvg = (temperature2MMax + temperature2MMin) / 2
         let maxTemperature = "• Avg Temperature".localizedMissing + ": " + "\(temperatureAvg.localeString) °C \n"
         if let latitude = modelDto.latitude, let longitude = modelDto.longitude {
-            let location = "• Coords: \(latitude) | \(longitude)\n"
+            let location = "• Coords: \(latitude) | \(longitude)"
             self.subTitle = maxTemperature + location
         } else {
             self.subTitle = maxTemperature
@@ -87,12 +87,6 @@ class WeatherViewModel: BaseViewModel {
         send(action: .getWeatherData(userLatitude: nil, userLongitude: nil))
     }
 
-    private let otherLocations: [(city: String, coord: (lat: String, long: String))] = [
-        (city: "Lisbon", coord: (lat: "38.736946", long: "-9.142685")),
-        (city: "Paris", coord: (lat: "48.85661400", long: "2.35222190")),
-        (city: "New York", coord: (lat: "40.730610", long: "-73.935242"))
-    ]
-
     func send(action: Actions) {
         switch action {
         case .didAppear:
@@ -118,14 +112,14 @@ class WeatherViewModel: BaseViewModel {
                         longitude: userLongitude
                     )
                     model.append(.init(
-                        title: "User @ \(coordinates.0)",
+                        title: "User @ \(coordinates.adressMin)",
                         getWeatherResponse: modelDto
                     ))
                 }
-                for location in self.otherLocations {
+                for cities in AppConstants.worldCities {
                     do {
-                        let latitude = location.coord.lat
-                        let longitude = location.coord.long
+                        let latitude = cities.coord.lat
+                        let longitude = cities.coord.long
                         let modelDto = try await self.weatherService.getWeather(
                             .init(
                                 latitude: latitude.description,
@@ -133,7 +127,7 @@ class WeatherViewModel: BaseViewModel {
                             ), cachePolicy: .cacheElseLoad
                         )
                         model.append(.init(
-                            title: location.city,
+                            title: cities.city,
                             getWeatherResponse: modelDto
                         ))
 

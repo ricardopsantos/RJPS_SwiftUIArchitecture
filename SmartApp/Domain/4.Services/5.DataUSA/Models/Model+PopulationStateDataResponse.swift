@@ -72,8 +72,9 @@ public extension ModelDto.PopulationStateDataResponse {
             "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee",
             "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
         ]
-        states.forEach { state in
-            for year in 1980...2024 {
+        let year = ModelDto.PopulationNationDataResponse.mockBigLoad?.data.first?.idYear ?? 1980
+        for i in 1...5 {
+            states.forEach { state in
                 population += 100000
                 data.append(.init(
                     idState: "",
@@ -85,7 +86,6 @@ public extension ModelDto.PopulationStateDataResponse {
                 ))
             }
         }
-
         return .init(data: data, source: [])
     }
 

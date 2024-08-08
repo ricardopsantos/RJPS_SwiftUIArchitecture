@@ -26,6 +26,7 @@ public enum Accessibility: String, CaseIterable {
 
     // CheckBox
     case readTermsAndConditions
+    case scrollView
 
     // Not applied
     case undefined

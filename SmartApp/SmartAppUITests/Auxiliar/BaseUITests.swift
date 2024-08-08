@@ -32,6 +32,36 @@ enum Constants {
     static let tab4Title = "Settings"
 }
 
+// COPY OF THE APPLICATION `Accessibility` enum
+enum Accessibility: String, CaseIterable {
+    // Text Fields
+    case txtName
+    case txtUserName
+    case txtEmail
+    case txtPassword
+
+    // Buttons
+    case loginButton
+    case logoutButton
+    case deleteButton
+    case saveButton
+    case fwdButton
+    case backButton
+    case confirmButton
+    case cancelButton
+
+    // CheckBox
+    case readTermsAndConditions
+    case scrollView
+
+    // Not applied
+    case undefined
+
+    public var identifier: String {
+        rawValue
+    }
+}
+
 class BaseUITests: XCTestCase {
     lazy var app: XCUIApplication = {
         let app = XCUIApplication()
@@ -50,22 +80,18 @@ extension BaseUITests {
     func auxiliar_performLogin() {
         exists(staticText: "Welcome", on: app)
         tap(
-            textField: "txtEmail",
+            textField: Accessibility.txtEmail.identifier,
             andType: "mail@gmail.com",
             dismissKeyboard: false,
-            on: app,
-            delayBeforeTap: 0,
-            delayBeforeType: 0
+            on: app
         )
         tap(
-            secureTextField: "txtPassword",
+            secureTextField: Accessibility.txtPassword.identifier,
             andType: "123",
             dismissKeyboard: false,
-            on: app,
-            delayBeforeTap: 0,
-            delayBeforeType: 0
+            on: app
         )
-        tap(button: "loginButton", on: app)
+        tap(button: Accessibility.loginButton.identifier, on: app)
     }
 
     // Will perform the onboarding flow.
@@ -76,24 +102,26 @@ extension BaseUITests {
         //
         exists(staticText: "UserDetails", on: app)
         tap(
-            textField: "txtName",
+            textField: Accessibility.txtEmail.identifier,
             andType: "Testing Joe",
             dismissKeyboard: false,
-            on: app,
-            delayBeforeTap: 0,
-            delayBeforeType: 0
+            on: app
         )
-        tap(button: "fwdButton", andWaitForStaticText: "Terms & Conditions", on: app)
+        tap(
+            button: Accessibility.fwdButton.identifier,
+            andWaitForStaticText: "Terms & Conditions",
+            on: app
+        )
         //
         // Terms and Conditions screen
         //
-        tap(button: "readTermsAndConditions", on: app)
-        tap(button: "fwdButton", andWaitForStaticText: "Onboarding", on: app)
+        tap(button: Accessibility.readTermsAndConditions.identifier, on: app)
+        tap(button: Accessibility.fwdButton.identifier, andWaitForStaticText: "Onboarding", on: app)
 
         //
         // Onboarding screen
         //
-        tap(button: "fwdButton", on: app) // Second
-        tap(button: "fwdButton", andWaitForStaticText: Constants.tab1ListItem, on: app) // Third
+        tap(button: Accessibility.fwdButton.identifier, on: app) // Second
+        tap(button: Accessibility.fwdButton.identifier, andWaitForStaticText: Constants.tab1ListItem, on: app) // Third
     }
 }

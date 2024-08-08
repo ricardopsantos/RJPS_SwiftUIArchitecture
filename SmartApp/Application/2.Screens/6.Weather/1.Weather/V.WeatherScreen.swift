@@ -100,13 +100,14 @@ struct WeatherView: View, ViewProtocol {
     }
 
     var content: some View {
-        VStack {
+        VStack(spacing: 0, content: {
             ScrollView(showsIndicators: false) {
                 Header(text: "Current Weather")
                 counterView
                 listView
             }
-        }
+        })
+
         .frame(maxWidth: .infinity)
         .onChange(of: networkMonitorViewModel.networkStatus) { networkStatus in
             switch networkStatus {
@@ -128,20 +129,27 @@ struct WeatherView: View, ViewProtocol {
     }
 
     var counterView: some View {
-        HStack {
-            TextButton(onClick: {
-                viewModel.send(action: .incrementCounter)
-            }, text: "Increment", style: .textOnly, accessibility: .undefined)
-                .frame(maxWidth: screenWidth / 4)
+        HStack(spacing: 0) {
+            TextButton(
+                onClick: {
+                    viewModel.send(action: .incrementCounter)
+                },
+                text: "Increment",
+                alignment: .leading,
+                style: .textOnly,
+                accessibility: .undefined
+            )
+            .offset(.init(width: -SizeNames.defaultMarginSmall, height: 0))
             Spacer()
             Text("Counter: \(viewModel.counter.description)")
                 .fontSemantic(.callout)
         }
+        .background(Color.red)
         .padding(.horizontal, SizeNames.defaultMargin)
     }
 
     var listView: some View {
-        VStack(spacing: SizeNames.defaultMargin) {
+        VStack(spacing: SizeNames.defaultMarginSmall) {
             ForEach(viewModel.model, id: \.self) { item in
                 ListItemView(
                     title: item.title,
