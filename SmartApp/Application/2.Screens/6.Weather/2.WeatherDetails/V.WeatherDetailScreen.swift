@@ -65,7 +65,7 @@ struct WeatherDetailsView: View, ViewProtocol {
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
     // @State var someVar = 0
-    // @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
+    @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
 
     // MARK: - Auxiliar Attributes
     private let onRouteBack: () -> Void
@@ -86,7 +86,7 @@ struct WeatherDetailsView: View, ViewProtocol {
             background: .default,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
-            networkStatus: nil
+            networkStatus: networkMonitorViewModel.networkStatus
         ) {
             content
         }.onAppear {

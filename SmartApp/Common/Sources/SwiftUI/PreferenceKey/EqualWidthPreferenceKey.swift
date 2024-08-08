@@ -40,7 +40,7 @@ public extension Common {
 // MARK: - Test/Usage View
 //
 
-fileprivate func randomString() -> String {
+private func randomString() -> String {
     String.random(Int.random(in: 1...25))
 }
 

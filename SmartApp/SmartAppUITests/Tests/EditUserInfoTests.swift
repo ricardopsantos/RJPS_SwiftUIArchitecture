@@ -33,10 +33,10 @@ final class EditUserInfoTests: BaseUITests {
 
     func testA1_editUserNameAndMail() {
         appLaunch(launchArguments: [
-            "isAuthenticated"
+            .isAuthenticated
         ])
         tap(
-            tabBarIndex: 3,
+            tabBarIndex: Constants.tabBarSettings,
             andWaitForStaticText: Constants.tab4Title,
             on: app
         )

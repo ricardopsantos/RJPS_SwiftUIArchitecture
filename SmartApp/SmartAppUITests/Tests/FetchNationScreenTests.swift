@@ -33,11 +33,11 @@ final class FetchNationScreenTests: BaseUITests {
 
     func testA1_appStartsAndUpdatesNavigationBarTitle() {
         appLaunch(launchArguments: [
-            "shouldResetAllPreferences",
-            "isAuthenticated"
+            .shouldResetAllPreferences,
+            .isAuthenticated
         ])
         tap(
-            tabBarIndex: 1,
+            tabBarIndex: Constants.tabBarUSAStats,
             andWaitForStaticText: Constants.tab2Title,
             on: app
         )

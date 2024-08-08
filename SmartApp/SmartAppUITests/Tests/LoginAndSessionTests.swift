@@ -37,7 +37,7 @@ final class LoginAndSessionTests: BaseUITests {
 
     func testA1_welcomeScreen() {
         appLaunch(launchArguments: [
-            "shouldResetAllPreferences"
+            .shouldResetAllPreferences
         ])
         waitFor(staticText: "Welcome", on: app)
     }
@@ -48,14 +48,14 @@ final class LoginAndSessionTests: BaseUITests {
 
     func testB1_login() {
         appLaunch(launchArguments: [
-            "shouldResetAllPreferences"
+            .shouldResetAllPreferences
         ])
         auxiliar_performLogin()
     }
 
     func testB2_onBoarding() {
         appLaunch(launchArguments: [
-            "shouldResetAllPreferences"
+            .shouldResetAllPreferences
         ])
         auxiliar_performLogin()
         auxiliar_performOnBoarding()
@@ -67,10 +67,10 @@ final class LoginAndSessionTests: BaseUITests {
 
     func testC1_logoutCancel() {
         appLaunch(launchArguments: [
-            "isAuthenticated"
+            .isAuthenticated
         ])
         tap(
-            tabBarIndex: 3,
+            tabBarIndex: Constants.tabBarSettings,
             andWaitForStaticText: Constants.tab4Title,
             on: app
         )
@@ -88,10 +88,10 @@ final class LoginAndSessionTests: BaseUITests {
 
     func testC2_logoutConfirm() {
         appLaunch(launchArguments: [
-            "isAuthenticated"
+            .isAuthenticated
         ])
         tap(
-            tabBarIndex: 3,
+            tabBarIndex: Constants.tabBarSettings,
             andWaitForStaticText: Constants.tab4Title,
             on: app
         )
@@ -113,10 +113,10 @@ final class LoginAndSessionTests: BaseUITests {
 
     func testC1_deleteAccountCancel() {
         appLaunch(launchArguments: [
-            "isAuthenticated"
+            .isAuthenticated
         ])
         tap(
-            tabBarIndex: 3,
+            tabBarIndex: Constants.tabBarSettings,
             andWaitForStaticText: Constants.tab4Title,
             on: app
         )
@@ -134,10 +134,10 @@ final class LoginAndSessionTests: BaseUITests {
 
     func testC2_deleteAccountConfirm() {
         appLaunch(launchArguments: [
-            "isAuthenticated"
+            .isAuthenticated
         ])
         tap(
-            tabBarIndex: 3,
+            tabBarIndex: Constants.tabBarSettings,
             andWaitForStaticText: Constants.tab4Title,
             on: app
         )

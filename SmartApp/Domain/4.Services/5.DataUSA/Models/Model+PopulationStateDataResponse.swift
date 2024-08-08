@@ -73,7 +73,7 @@ public extension ModelDto.PopulationStateDataResponse {
             "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
         ]
         let year = ModelDto.PopulationNationDataResponse.mockBigLoad?.data.first?.idYear ?? 1980
-        for i in 1...5 {
+        for _ in 1...5 {
             states.forEach { state in
                 population += 100000
                 data.append(.init(

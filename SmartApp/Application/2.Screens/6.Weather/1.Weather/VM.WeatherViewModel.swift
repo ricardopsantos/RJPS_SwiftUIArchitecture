@@ -61,12 +61,12 @@ extension WeatherViewModel {
     enum Actions {
         case didAppear
         case didDisappear
-        case incrementCounter
+        case incrementCitiesCounter
         case getWeatherData(userLatitude: Double?, userLongitude: Double?)
     }
 
     struct Dependencies {
-        let counter: Int
+        let citiesCount: Int
         let model: WeatherModel
         let onSelected: (WeatherModel) -> Void
         let weatherService: WeatherServiceProtocol
@@ -76,13 +76,13 @@ extension WeatherViewModel {
 class WeatherViewModel: BaseViewModel {
     // MARK: - View Usage Attributes
     @Published var model: [WeatherModel] = []
-    @Published var counter: Int = 0
+    @Published var citiesCount: Int = 0
 
     // MARK: - Auxiliar Attributes
     private let weatherService: WeatherServiceProtocol
     public init(dependencies: Dependencies) {
         self.weatherService = dependencies.weatherService
-        self.counter = dependencies.counter
+        self.citiesCount = dependencies.citiesCount
         super.init()
         send(action: .getWeatherData(userLatitude: nil, userLongitude: nil))
     }
@@ -93,8 +93,16 @@ class WeatherViewModel: BaseViewModel {
             ()
         case .didDisappear:
             ()
-        case .incrementCounter:
-            counter += 1
+        case .incrementCitiesCounter:
+            guard AppConstants.worldCities.count > citiesCount else {
+                alertModel = .init(
+                    type: .information,
+
+                    message: "No more cities to display"
+                )
+                return
+            }
+            citiesCount += 1
         case .getWeatherData(userLatitude: let userLatitude, userLongitude: let userLongitude):
             Task { @MainActor [weak self] in
                 guard let self = self else { return }
@@ -116,10 +124,11 @@ class WeatherViewModel: BaseViewModel {
                         getWeatherResponse: modelDto
                     ))
                 }
-                for cities in AppConstants.worldCities {
+                let cities = AppConstants.worldCities.prefix(citiesCount)
+                for city in cities {
                     do {
-                        let latitude = cities.coord.lat
-                        let longitude = cities.coord.long
+                        let latitude = city.coord.lat
+                        let longitude = city.coord.long
                         let modelDto = try await self.weatherService.getWeather(
                             .init(
                                 latitude: latitude.description,
@@ -127,7 +136,7 @@ class WeatherViewModel: BaseViewModel {
                             ), cachePolicy: .cacheElseLoad
                         )
                         model.append(.init(
-                            title: cities.city,
+                            title: city.city,
                             getWeatherResponse: modelDto
                         ))
 

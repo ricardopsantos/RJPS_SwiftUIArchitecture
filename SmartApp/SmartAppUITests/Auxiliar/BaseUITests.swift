@@ -15,52 +15,7 @@ import Nimble
 //
 import Common
 
-let cancelBag = CancelBag()
-var timeout: Int = 5
-var loadedAny: Any?
 
-enum Constants {
-    static let tab1Title = "Current Weather"
-    static let tab1DetailsTitle = "Weather Details"
-    static let tab1DetailsValue = "32 °C"
-    static let tab1ListItem = "Lisbon"
-    //
-    static let tab2Title = "USA Population: Last 45 years"
-    static let tab2DetailsTitle = "USA States Population for 1980"
-    static let tab2ListItem = "Year: 1980"
-    //
-    static let tab4Title = "Settings"
-}
-
-// COPY OF THE APPLICATION `Accessibility` enum
-enum Accessibility: String, CaseIterable {
-    // Text Fields
-    case txtName
-    case txtUserName
-    case txtEmail
-    case txtPassword
-
-    // Buttons
-    case loginButton
-    case logoutButton
-    case deleteButton
-    case saveButton
-    case fwdButton
-    case backButton
-    case confirmButton
-    case cancelButton
-
-    // CheckBox
-    case readTermsAndConditions
-    case scrollView
-
-    // Not applied
-    case undefined
-
-    public var identifier: String {
-        rawValue
-    }
-}
 
 class BaseUITests: XCTestCase {
     lazy var app: XCUIApplication = {
@@ -68,8 +23,9 @@ class BaseUITests: XCTestCase {
         return app
     }()
 
-    func appLaunch(launchArguments: [String]) {
-        app.launchArguments = launchArguments + ["onUITesting", "shouldDisableAnimations"]
+    func appLaunch(launchArguments: [UITestingOptions]) {
+        app.launchArguments = launchArguments.map({ $0.rawValue }) + [UITestingOptions.onUITesting.rawValue,
+                                                                      UITestingOptions.shouldDisableAnimations.rawValue]
         app.launch()
     }
 }
@@ -102,7 +58,7 @@ extension BaseUITests {
         //
         exists(staticText: "UserDetails", on: app)
         tap(
-            textField: Accessibility.txtEmail.identifier,
+            textField: Accessibility.txtName.identifier,
             andType: "Testing Joe",
             dismissKeyboard: false,
             on: app
@@ -122,6 +78,6 @@ extension BaseUITests {
         // Onboarding screen
         //
         tap(button: Accessibility.fwdButton.identifier, on: app) // Second
-        tap(button: Accessibility.fwdButton.identifier, andWaitForStaticText: Constants.tab1ListItem, on: app) // Third
+        tap(button: Accessibility.fwdButton.identifier, andWaitForStaticText: Constants.tab1ListItem1, on: app) // Third
     }
 }

@@ -34,10 +34,9 @@ struct WeatherViewCoordinator: View {
         switch screen {
         case .weather:
             let dependencies: WeatherViewModel.Dependencies = .init(
-                counter: 0, model: .init(), onSelected: { model in
+                citiesCount: 1, model: .init(), onSelected: { model in
                     let detailsModel: WeatherDetailsModel = .init(
                         latitude: model.latitude,
-
                         longitude: model.longitude
                     )
                     coordinatorTab1.navigate(to: .weatherDetailsWith(model: detailsModel))
@@ -102,7 +101,7 @@ struct WeatherView: View, ViewProtocol {
     var content: some View {
         VStack(spacing: 0, content: {
             ScrollView(showsIndicators: false) {
-                Header(text: "Current Weather")
+                Header(text: "Current Weather".localizedMissing)
                 counterView
                 listView
             }
@@ -111,20 +110,13 @@ struct WeatherView: View, ViewProtocol {
         .frame(maxWidth: .infinity)
         .onChange(of: networkMonitorViewModel.networkStatus) { networkStatus in
             switch networkStatus {
-            case .unknown, .internetConnectionAvailable, .internetConnectionLost:
-                ()
             case .internetConnectionRecovered:
-                viewModel.send(action: .getWeatherData(
-                    userLatitude: locationViewModel.coordinates?.latitude,
-                    userLongitude: locationViewModel.coordinates?.longitude
-                ))
+                getWeatherData()
+            default: ()
             }
         }
-        .onChange(of: locationViewModel.coordinates) { coordinates in
-            viewModel.send(action: .getWeatherData(
-                userLatitude: coordinates?.latitude,
-                userLongitude: coordinates?.longitude
-            ))
+        .onChange(of: locationViewModel.coordinates) { _ in
+            getWeatherData()
         }
     }
 
@@ -132,19 +124,19 @@ struct WeatherView: View, ViewProtocol {
         HStack(spacing: 0) {
             TextButton(
                 onClick: {
-                    viewModel.send(action: .incrementCounter)
+                    viewModel.send(action: .incrementCitiesCounter)
+                    getWeatherData()
                 },
-                text: "Increment",
+                text: "Add more cities".localizedMissing,
                 alignment: .leading,
                 style: .textOnly,
                 accessibility: .undefined
             )
             .offset(.init(width: -SizeNames.defaultMarginSmall, height: 0))
             Spacer()
-            Text("Counter: \(viewModel.counter.description)")
+            Text("Cities: \(viewModel.citiesCount.description)".localizedMissing)
                 .fontSemantic(.callout)
         }
-        .background(Color.red)
         .padding(.horizontal, SizeNames.defaultMargin)
     }
 
@@ -173,7 +165,14 @@ fileprivate extension WeatherView {}
 //
 // MARK: - Private
 //
-fileprivate extension WeatherView {}
+fileprivate extension WeatherView {
+    func getWeatherData() {
+        viewModel.send(action: .getWeatherData(
+            userLatitude: locationViewModel.coordinates?.latitude,
+            userLongitude: locationViewModel.coordinates?.longitude
+        ))
+    }
+}
 
 //
 // MARK: - Preview

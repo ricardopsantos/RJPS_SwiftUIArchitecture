@@ -86,13 +86,15 @@ fileprivate extension BaseView {
                         .opacity(displayRenderedView ? 1 : 0)
                     Spacer()
                 }
-                content()
                 if let alertModel = alertModel {
+                    content().blur(radius: 1)
                     AlertView(model: alertModel)
                         .ignoresSafeArea(.keyboard, edges: .bottom)
                         .doIf(ignoresSafeArea, transform: {
                             $0.ignoresSafeArea()
                         })
+                } else {
+                    content()
                 }
             }
             .doIf(dismissKeyboardOnTap, transform: {
