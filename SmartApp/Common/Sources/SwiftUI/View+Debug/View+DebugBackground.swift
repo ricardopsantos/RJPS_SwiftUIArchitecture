@@ -6,7 +6,7 @@
 import Foundation
 import SwiftUI
 
-extension View {
+public extension View {
     
     func testListRowBackground() -> some View {
         #if DEBUG
@@ -33,23 +33,23 @@ extension View {
     }
 }
 
-struct AnimatedBackground: ViewModifier {
-    
-    @State private var isVisible: Bool = false
-    let linewidth: CGFloat = 5
-    
-    func body(content: Content) -> some View {
+public struct AnimatedBackground: ViewModifier {
+    @State private var isVisible: Bool
+    private let lineWidth: CGFloat = 5
+    public init(isVisible: Bool = false) {
+        self.isVisible = isVisible
+    }
+    public func body(content: Content) -> some View {
         content
             .overlay(content: {
-                
                 Rectangle()
                     .trim(from: isVisible ? 1 : 0, to: 1)
-                    .stroke(Color.red, lineWidth: linewidth)
-                    .padding(linewidth)
+                    .stroke(Color.red, lineWidth: lineWidth)
+                    .padding(lineWidth)
                  
                 Rectangle()
                     .trim(from: isVisible ? 1 : 0, to: 1)
-                    .stroke(Color.blue, lineWidth: linewidth)
+                    .stroke(Color.blue, lineWidth: lineWidth)
                     .rotationEffect(.degrees(180))
             })
             .onAppear(perform: {
@@ -71,10 +71,12 @@ fileprivate extension Common_Preview {
         public init() {}
         public var body: some View {
             VStack {
+                Text("View 1")
+                    .testAnimatedBackground()
                 debugPrint("123")
                 debugPrintOnReload(id: "id")
                 debugPrintOnReload(ifCondition: true, id: "id")
-            }.testAnimatedBackground()
+            }//
         }
     }
 }

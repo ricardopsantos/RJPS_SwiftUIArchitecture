@@ -16,36 +16,21 @@ import SwiftUI
 
 
 internal extension Common_Preview {
-    struct ViewsModifiersSampleView: View {
-        var body: some View {
-            Text("Hello World")
-        }
-    }
     struct ViewsModifiersTestView: View {
         public init() {}
-        @State var viewFrame: (CGRect, CGRect) = (.zero, .zero)
         public var body: some View {
-            VStack {
-                ViewsModifiersSampleView()
-                    .modifier(ShadowModifier())
+            VStack(spacing: 10) {
+                Text("ShadowModifier").modifier(ShadowModifier())
                 Divider()
-                ViewsModifiersSampleView()
-                    .modifier(BorderModifier(width: 2, color: .red))
+                Text("BorderModifier").modifier(BorderModifier(width: 2, color: .red))
                 Divider()
-                //ViewsModifiersTestView()
-                //    .modifier(ShadowModifier())
+                Text("AnimatedBackground").modifier(AnimatedBackground())
                 Divider()
-              //  ViewsModifiersTestView()
-               //     .modifier(LoaderViewModifier(isLoading: .true))
-                Divider()
-               // ViewsModifiersTestView()
-               //     .modifier(AnimatedBackground())
-                Divider()
-               // ViewsModifiersTestView()
-               //     .modifier(ResignKeyboardOnDragGesture())
-            }
+                Text("ResignKeyboardOnDragGesture").modifier(ResignKeyboardOnDragGesture())
+            }.modifier(LoaderViewModifier(isLoading: .false))
         }
     }
+
 }
 
 #if canImport(SwiftUI) && DEBUG

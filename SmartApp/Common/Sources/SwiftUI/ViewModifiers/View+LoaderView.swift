@@ -8,7 +8,10 @@ import SwiftUI
 
 public struct LoaderView: View {
     @Environment(\.colorScheme) var colorScheme
-    public var isLoading = true
+    private var isLoading = true
+    public init(isLoading: Bool = true) {
+        self.isLoading = isLoading
+    }
     public var body: some View {
         if isLoading {
             VStack {
@@ -29,9 +32,13 @@ public struct LoaderView: View {
 }
 
 public struct LoaderViewModifier: ViewModifier {
-    var isLoading: Bool
+    private var isLoading: Bool
+    public init(isLoading: Bool) {
+        self.isLoading = isLoading
+    }
     public func body(content: Content) -> some View {
         content
+            .doIf(isLoading, transform: { $0.blur(radius: 1) } )
             .overlay(LoaderView(isLoading: isLoading))
     }
 }

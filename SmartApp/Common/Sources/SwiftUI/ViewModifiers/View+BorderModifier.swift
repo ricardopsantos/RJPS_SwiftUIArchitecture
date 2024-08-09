@@ -10,8 +10,12 @@ import SwiftUI
 // MARK: - BorderModifier
 //
 public struct BorderModifier: ViewModifier {
-    let width: CGFloat
-    let color: Color
+    private let width: CGFloat
+    private let color: Color
+    public init(width: CGFloat, color: Color) {
+        self.width = width
+        self.color = color
+    }
     public func body(content: Content) -> some View {
         content.border(color, width: width)
     }

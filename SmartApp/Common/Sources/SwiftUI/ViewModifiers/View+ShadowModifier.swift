@@ -10,8 +10,9 @@ import SwiftUI
 // MARK: - ShadowModifier
 //
 
-struct ShadowModifier: ViewModifier {
-    func body(content: Content) -> some View {
+public struct ShadowModifier: ViewModifier {
+    public init () { }
+    public func body(content: Content) -> some View {
         content
             .shadow(color: .black, radius: 10)
     }

@@ -50,12 +50,6 @@ struct SmartApp: App {
             self.configuration = config
         }
         self.appState = .init()
-        /*
-         let appearance = UINavigationBarAppearance()
-         appearance.titleTextAttributes = [.foregroundColor: Header.defaultColor]
-         appearance.largeTitleTextAttributes = [.foregroundColor: Header.defaultColor]
-         UINavigationBar.appearance().standardAppearance = appearance
-         UINavigationBar.appearance().scrollEdgeAppearance = appearance*/
     }
 
     var body: some Scene {
