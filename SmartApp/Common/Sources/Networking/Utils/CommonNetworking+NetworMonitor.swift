@@ -37,7 +37,7 @@ public extension CommonNetworking {
         @Published public private(set) var networkStatus: NetworkStatus = .unknown
 
         private init() {
-            self.networkStatus = Common_Utils.existsInternetConnection ? .internetConnectionAvailable : .internetConnectionLost
+            self.networkStatus = Common_Utils.existsInternetConnection() ? .internetConnectionAvailable : .internetConnectionLost
             Self.networkMonitor.start { [weak self] newStatus in
                 self?.networkStatus = newStatus
             }

@@ -169,7 +169,7 @@ public extension CommonNetworking.NetworkAgent {
         let number = logger.number > 0 ? " #\(logger.number)" : ""
         let prefix = logger.prefix.isEmpty ? "" : "\(logger.prefix): "
 
-        if !Common_Utils.existsInternetConnection {
+        if !Common_Utils.existsInternetConnection() {
             Common.LogsManager.error("⤴️ Request\(number) ⤴️ \(prefix)\(request) : No Internet connection")
         }
 

@@ -32,7 +32,7 @@ extension DataUSAService: DataUSAServiceProtocol {
             return cached.model
         }
 
-        guard Common_Utils.existsInternetConnection else {
+        guard DevTools.existsInternetConnection else {
             throw AppErrors.noInternet
         }
 
@@ -58,7 +58,7 @@ extension DataUSAService: DataUSAServiceProtocol {
             return cached.model
         }
 
-        guard Common_Utils.existsInternetConnection else {
+        guard DevTools.existsInternetConnection else {
             throw AppErrors.noInternet
         }
 

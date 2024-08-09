@@ -11,6 +11,10 @@ public extension NSPredicate {
         NSPredicate(format: "exists == true")
     }
 
+    static var notExists: NSPredicate {
+        NSPredicate(format: "exists == false")
+    }
+    
     static func allFields(_ fields: [String], with value: String, caseSensitive: Bool = false) -> NSPredicate {
         guard !value.isEmpty else { return NSPredicate(value: false) }
         if caseSensitive {

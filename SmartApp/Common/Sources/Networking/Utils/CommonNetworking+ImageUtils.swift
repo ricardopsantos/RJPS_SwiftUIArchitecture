@@ -107,7 +107,7 @@ public extension CommonNetworking {
                               let cachedImage = Common.ImagesFileManager.imageWith(name: cachedImageName).image {
                         returnImage(cachedImage)
                         return
-                    } else if Common_Utils.existsInternetConnection, let data = try? Data(contentsOf: url) {
+                    } else if Common_Utils.existsInternetConnection(), let data = try? Data(contentsOf: url) {
                         var image = UIImage(data: data)
                         if image == nil {
                             // Failed? Maybe there is some encoding at start...

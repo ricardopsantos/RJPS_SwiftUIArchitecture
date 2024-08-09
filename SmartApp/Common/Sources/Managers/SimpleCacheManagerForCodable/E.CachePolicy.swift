@@ -13,7 +13,7 @@ public extension Common {
         case cacheDontLoad
 
         public var safeCachePolicyDueToInternetConnection: Self {
-            if Common_Utils.existsInternetConnection {
+            if Common_Utils.existsInternetConnection() {
                 self
             } else {
                 .cacheDontLoad

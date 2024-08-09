@@ -62,7 +62,7 @@ public extension Common.CoreLocationManager {
             return
         }
 
-        guard Common_Utils.existsInternetConnection else {
+        guard Common_Utils.existsInternetConnection() else {
             completion(nil)
             return
         }
