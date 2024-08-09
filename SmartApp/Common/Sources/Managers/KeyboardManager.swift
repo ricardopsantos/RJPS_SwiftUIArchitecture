@@ -173,22 +173,3 @@ public extension View {
     }
 }
 
-//
-// MARK: - ResignKeyboardOnDragGesture
-//
-
-public struct ResignKeyboardOnDragGesture: ViewModifier {
-    var gesture = DragGesture().onChanged { _ in
-        UIApplication.shared.dismissKeyboard()
-    }
-
-    public func body(content: Content) -> some View {
-        content.gesture(gesture)
-    }
-}
-
-public extension View {
-    func onDragDismissKeyboardV1() -> some View {
-        modifier(ResignKeyboardOnDragGesture())
-    }
-}

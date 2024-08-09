@@ -13,16 +13,23 @@ import SwiftUI
 //
 
 public extension View {
+
+    // Executes a closure and returns the original view.
+    // Useful for side effects that don't alter the view structure.
     func performAndReturnSelf(_ block: () -> Void) -> some View {
         block()
         return self
     }
 
+    // Executes a closure and returns an empty view.
+    // Can be used when you need to trigger some side effects without displaying any content.
     func performAndReturnEmpty(_ block: () -> Void) -> some View {
         block()
         return EmptyView()
     }
 
+    // Executes a closure if the condition is true, then returns an empty view.
+    // Useful when you want to conditionally trigger side effects without rendering content.
     func performAndReturnEmpty(if condition: Bool, _ block: () -> Void) -> some View {
         if condition {
             block()
@@ -30,15 +37,21 @@ public extension View {
         return EmptyView()
     }
 
+    // Executes a closure and returns an empty view if running on a simulator.
+    // This is handy for code that should only run during simulator testing.
     func performAndReturnEmptyIfSimulator(_ block: () -> Void) -> some View {
         performAndReturnEmpty(if: Common_Utils.onSimulator, block)
     }
 
+    // Applies a transformation to the view if running on a simulator, otherwise returns the original view.
+    // Useful for applying simulator-specific modifications to views.
     func ifOnSimulator(then transform: (Self) -> some View) -> some View {
         Common_Utils.onSimulator ? transform(self).erasedToAnyView : erasedToAnyView
     }
 
-    @ViewBuilder // @ViewBuilder: A custom parameter attribute that constructs views from closures.
+    // Conditionally applies one of two transformations to the view based on a condition.
+    // The trueContent transformation is applied if the condition is true, else falseContent is applied.
+    @ViewBuilder
     func ifElseCondition(
         _ condition: @autoclosure () -> Bool,
         then trueContent: (Self) -> some View,
@@ -51,7 +64,9 @@ public extension View {
         }
     }
 
-    @ViewBuilder // @ViewBuilder: A custom parameter attribute that constructs views from closures.
+    // Conditionally applies a transformation to the view if the condition is true.
+    // If the condition is false, the original view is returned.
+    @ViewBuilder
     func ifCondition(
         _ condition: Bool,
         then trueContent: (Self) -> some View
@@ -59,6 +74,9 @@ public extension View {
         ifElseCondition(condition, then: trueContent, else: { _ in self })
     }
 
+    // Applies a transformation to the view based on a condition.
+    // If the condition is false, the original view is returned.
+    // This method also erases the view type to AnyView, providing flexibility in the view's return type.
     @ViewBuilder
     func doIf(
         _ condition: @autoclosure () -> Bool,
@@ -67,11 +85,14 @@ public extension View {
         ifCondition(condition(), then: transform).erased
     }
 
+    // A backwards-compatible wrapper around the `onChange` modifier.
+    // Triggers a callback whenever the specified value changes.
     @ViewBuilder
     func onChangeBackwardsCompatible<T: Equatable>(of value: T, perform completion: @escaping (T) -> Void) -> some View {
         onChange(of: value, perform: completion)
     }
 }
+
 
 //
 // MARK: - Preview

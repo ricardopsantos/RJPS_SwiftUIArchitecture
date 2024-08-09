@@ -92,7 +92,7 @@ public extension View {
 
 #if canImport(SwiftUI) && DEBUG
 fileprivate extension Common_Preview {
-    struct SampleViewsDebug: View {
+    struct DebugPrintTestView: View {
         public init() {}
         public var body: some View {
             VStack {
@@ -105,7 +105,7 @@ fileprivate extension Common_Preview {
 }
 
 #Preview {
-    Common_Preview.SampleViewsDebug()
+    Common_Preview.DebugPrintTestView()
 }
 
 #endif

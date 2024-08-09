@@ -7,55 +7,6 @@ import Foundation
 import SwiftUI
 
 //
-// MARK: - View (Animation)
-//
-
-public extension View {
-    func customBackButton(action: @escaping () -> Void) -> some View {
-        navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        action()
-                    } label: {
-                        Image(systemName: "arrow.backward")
-                            .tint(.secondary)
-                    }
-                }
-            }
-    }
-
-    @inlinable func easeInOutAnimation() -> some View {
-        animation(
-            .easeInOut(duration: Common.Constants.defaultAnimationsTime)
-                .repeatForever(autoreverses: false),
-            value: 1.5
-        )
-    }
-
-    @inlinable func springAnimation() -> some View {
-        animation(
-            .spring,
-            value: 1.5
-        )
-    }
-
-    @inlinable func linearAnimation() -> some View {
-        animation(
-            .linear(duration: Common.Constants.defaultAnimationsTime),
-            value: 1.5
-        )
-    }
-
-    @inlinable func defaultAnimation() -> some View {
-        animation(
-            .linear(duration: Common.Constants.defaultAnimationsTime),
-            value: 1.5
-        )
-    }
-}
-
-//
 // MARK: - View (Padding)
 //
 
@@ -155,6 +106,20 @@ public extension View {
 
     func alpha(_ some: Double) -> some View {
         opacity(some)
+    }
+    
+    func customBackButton(action: @escaping () -> Void) -> some View {
+        navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        action()
+                    } label: {
+                        Image(systemName: "arrow.backward")
+                            .tint(.secondary)
+                    }
+                }
+            }
     }
 }
 
