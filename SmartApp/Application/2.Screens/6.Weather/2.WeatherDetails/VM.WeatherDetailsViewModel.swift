@@ -97,7 +97,7 @@ class WeatherDetailsViewModel: BaseViewModel {
                         longitude: longitude,
                         temperatureMax: temperatureMax,
                         temperatureMin: temperatureMin,
-                        location: coordinates.adressMin
+                        location: coordinates.addressMin
                     )
                     self.loadingModel = .notLoading
                 }

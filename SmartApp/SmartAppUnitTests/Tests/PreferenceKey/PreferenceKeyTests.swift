@@ -25,7 +25,7 @@ class PreferenceKeyTests: XCTestCase {
         RunLoop.main.run(until: Date())
 
         // Check initial total width
-        XCTAssertEqual(rootView.totalWidth, 0)
+        XCTAssert(rootView.totalWidth == 0)
 
         // Check updated total width
         RunLoop.main.run(until: Date())

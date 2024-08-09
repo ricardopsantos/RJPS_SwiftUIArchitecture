@@ -103,21 +103,21 @@ struct PopulationStateView: View, ViewProtocol {
 
     var content: some View {
         // NavigationView {
-        //ScrollViewReader { scrollViewProxy in
-            ScrollView {
-        //        GeometryReader { geometry in
-        //            let offset = geometry.frame(in: .global).minY
-        //            let isNavigationBarHiddenNewValue = offset < SizeNames.size_8.cgFloat
-        //            if isNavigationBarHiddenNewValue != isNavigationBarHidden {
-        //                withAnimation {
-        //                    isNavigationBarHidden.toggle()
-        //                }
-        //            }
-        //            return Color.clear
-        //        }
-                listView
-            }
-        //}
+        // ScrollViewReader { scrollViewProxy in
+        ScrollView {
+            //        GeometryReader { geometry in
+            //            let offset = geometry.frame(in: .global).minY
+            //            let isNavigationBarHiddenNewValue = offset < SizeNames.size_8.cgFloat
+            //            if isNavigationBarHiddenNewValue != isNavigationBarHidden {
+            //                withAnimation {
+            //                    isNavigationBarHidden.toggle()
+            //                }
+            //            }
+            //            return Color.clear
+            //        }
+            listView
+        }
+        // }
         .accessibility(identifier: Accessibility.scrollView.identifier)
         // }
         // .navigationTitle(viewModel.title)

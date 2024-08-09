@@ -47,8 +47,6 @@ public extension Common_PropertyWrappers {
             self.value = wrappedValue
         }
 
-        // MARK: Public
-
         public var projectedValue: ThreadSafeV2<T> { self }
 
         // swiftlint:disable implicit_getter

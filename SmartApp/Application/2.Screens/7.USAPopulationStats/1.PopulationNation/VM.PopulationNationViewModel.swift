@@ -82,7 +82,7 @@ class PopulationNationViewModel: BaseViewModel {
                         cachePolicy: cachePolicy
                     )
                     newValueForModel = modelDto.data.map { .init(populationNationDataResponse: $0) }
-                    title = String(format: "PopulationNationViewTitleWithRecords".localized, model.count)
+                    title = String(format: "PopulationNationViewTitleWithRecords".localized, newValueForModel.count)
                     loadingModel = .notLoading
                     if newValueForModel.isEmpty {
                         alertModel = .init(type: .warning, message: "NoDataTryAgainLatter".localized)

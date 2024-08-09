@@ -12,11 +12,3 @@ public extension PassthroughSubject where Output == Void, Failure: Error {
         send(())
     }
 }
-
-public extension PassthroughSubject {
-    func sendOnMainTread(_ input: Output) {
-        Common_Utils.executeInMainTread { [weak self] in
-            self?.send(input)
-        }
-    }
-}

@@ -120,7 +120,7 @@ class WeatherViewModel: BaseViewModel {
                         longitude: userLongitude
                     )
                     newValueForModel.append(.init(
-                        title: "User @ \(coordinates.adressMin)",
+                        title: "User @ \(coordinates.addressMin)",
                         getWeatherResponse: modelDto
                     ))
                 }

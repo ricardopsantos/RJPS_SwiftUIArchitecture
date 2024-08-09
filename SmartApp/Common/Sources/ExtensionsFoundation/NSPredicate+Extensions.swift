@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import UIKit
 import CoreData
 
 public extension NSPredicate {

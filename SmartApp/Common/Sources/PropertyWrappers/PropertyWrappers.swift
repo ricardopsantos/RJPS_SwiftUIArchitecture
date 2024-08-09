@@ -29,6 +29,8 @@ import Foundation
 public typealias PWKeyboardState = Common_PropertyWrappers.KeyboardState
 public typealias PWThreadSafe = Common_PropertyWrappers.ThreadSafeV1
 public typealias PWUserDefaults = Common_PropertyWrappers.UserDefaults
+public typealias PWKeychainStorageV1 = Common_PropertyWrappers.KeychainStorageV1
+public typealias PWKeychainStorageV2 = Common_PropertyWrappers.KeychainStorageV2
 public typealias PWBundleFile = Common_PropertyWrappers.BundleFile
 public typealias PWProjectedOnChange = Common_PropertyWrappers.ProjectedOnChange
 public typealias PWProjectedOnChangeWithCodingKey = Common_PropertyWrappers.ProjectedOnChangeWithCodingKey
@@ -65,7 +67,10 @@ private extension Common.PropertyWrappers {
 
     static func example() {
         let myStruct = MyStruct()
-        Common.LogsManager.debug(myStruct.myString) // prints "Hello, world!"
-        Common.LogsManager.debug(myStruct.$myString) // prints the projected value, which is 13 (the length of "Hello, world!")
+        // prints "Hello, world!"
+        Common.LogsManager.debug(myStruct.myString)
+
+        // prints the projected value, which is 13 (the length of "Hello, world!")
+        Common.LogsManager.debug(myStruct.$myString)
     }
 }

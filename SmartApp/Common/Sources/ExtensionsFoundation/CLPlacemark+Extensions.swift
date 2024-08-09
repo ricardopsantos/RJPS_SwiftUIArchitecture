@@ -8,20 +8,20 @@ import CoreLocation
 
 public extension CLPlacemark {
     struct CoreLocationManagerAddressResponse: ModelProtocol {
-        public let adressMin: String
-        public let adressMax: String
+        public let addressMin: String
+        public let addressMax: String
         public let jsonFormat: CLPlacemarkJSONFormat
 
-        public init(adressMin: String, adressMax: String, jsonFormat: CLPlacemarkJSONFormat) {
-            self.adressMin = adressMin
-            self.adressMax = adressMax
+        public init(addressMin: String, addressMax: String, jsonFormat: CLPlacemarkJSONFormat) {
+            self.addressMin = addressMin
+            self.addressMax = addressMax
             self.jsonFormat = jsonFormat
         }
 
         public static var noData: Self {
             .init(
-                adressMin: "...",
-                adressMax: "...",
+                addressMin: "...",
+                addressMax: "...",
                 jsonFormat: .init(
                     jsonString: "",
                     jsonAsData: .init(),
@@ -49,8 +49,8 @@ public extension CLPlacemark {
             return .noData
         }
         return .init(
-            adressMin: parsedLocation.addressMin,
-            adressMax: parsedLocation.addressFull,
+            addressMin: parsedLocation.addressMin,
+            addressMax: parsedLocation.addressFull,
             jsonFormat: asCLPlacemarkJSONFormat
         )
     }

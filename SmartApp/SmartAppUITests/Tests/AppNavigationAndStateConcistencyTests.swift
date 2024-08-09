@@ -55,7 +55,11 @@ final class AppNavigationAndStateConcistencyTests: BaseUITests {
 
         // Push details and go back...
         tap(staticText: Constants.tab1ListItem1, andWaitForStaticText: Constants.tab1DetailsTitle, on: app)
-        tap(button: "backButton", andWaitForStaticText: Constants.tab1Title, on: app)
+        tap(
+            button: Accessibility.backButton.identifier,
+            andWaitForStaticText: Constants.tab1Title,
+            on: app
+        )
 
         // Increment counter and push details again
         tap(button: "Add more cities", andWaitForStaticText: "Cities: 4", on: app)
@@ -110,7 +114,11 @@ final class AppNavigationAndStateConcistencyTests: BaseUITests {
             on: app
         )
         waitFor(staticText: Constants.tab2DetailsTitle, on: app)
-        tap(button: "backButton", andWaitForStaticText: Constants.tab2Title, on: app)
+        tap(
+            button: Accessibility.backButton.identifier,
+            andWaitForStaticText: Constants.tab2Title,
+            on: app
+        )
     }
 
     // When the user tap on the selected tab,

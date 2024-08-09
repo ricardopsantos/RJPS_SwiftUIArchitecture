@@ -5,44 +5,6 @@
 
 import Foundation
 
-public extension Common {
-    struct WrapEncodable<T: Encodable>: Encodable {
-        public let t: T
-        public init(t: T) {
-            self.t = t
-        }
-    }
-
-    struct WrapDecodable<T: Decodable>: Decodable {
-        public let t: T
-        public init(t: T) {
-            self.t = t
-        }
-    }
-
-    enum JSONDecoderErrors: Error {
-        case decodeFail
-    }
-
-    func perfectMapperThrows<B: Decodable>(inValue: some Encodable, outValue: B.Type) throws -> B {
-        do {
-            let encoded = try JSONEncoder().encode(inValue)
-            let decoded = try JSONDecoder().decodeFriendly(B.self, from: encoded)
-            return decoded
-        } catch {
-            throw error
-        }
-    }
-
-    func perfectMapper<B: Decodable>(inValue: some Encodable, outValue: B.Type) -> B? {
-        do {
-            return try perfectMapperThrows(inValue: inValue, outValue: outValue)
-        } catch {
-            return nil
-        }
-    }
-}
-
 //
 // MARK: - Safe decoder
 //
@@ -135,5 +97,43 @@ public extension JSONDecoder {
         if #available(iOS 13.0, *) {
             return try JSONDecoder().decodeFriendly(type, from: data)
         } else {}
+    }
+}
+
+public extension Common {
+    struct WrapEncodable<T: Encodable>: Encodable {
+        public let t: T
+        public init(t: T) {
+            self.t = t
+        }
+    }
+
+    struct WrapDecodable<T: Decodable>: Decodable {
+        public let t: T
+        public init(t: T) {
+            self.t = t
+        }
+    }
+
+    enum JSONDecoderErrors: Error {
+        case decodeFail
+    }
+
+    func perfectMapperThrows<B: Decodable>(inValue: some Encodable, outValue: B.Type) throws -> B {
+        do {
+            let encoded = try JSONEncoder().encode(inValue)
+            let decoded = try JSONDecoder().decodeFriendly(B.self, from: encoded)
+            return decoded
+        } catch {
+            throw error
+        }
+    }
+
+    func perfectMapper<B: Decodable>(inValue: some Encodable, outValue: B.Type) -> B? {
+        do {
+            return try perfectMapperThrows(inValue: inValue, outValue: outValue)
+        } catch {
+            return nil
+        }
     }
 }

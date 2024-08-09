@@ -61,29 +61,17 @@ public extension CommonNetworking {
             monitor.pathUpdateHandler = { [weak self] path in
                 Common_Utils.executeInMainTread { [weak self] in
                     guard let self = self else { return }
-                    let newStatusV1: Status
-                    if Common_Utils.existsInternetConnection {
-                        if self.isInternetConnectionAvailable == nil {
-                            newStatusV1 = .internetConnectionAvailable
-                        } else {
-                            newStatusV1 = .internetConnectionRecovered
-                        }
-                    } else {
-                        newStatusV1 = .internetConnectionLost
-                    }
-
-                    let newStatusV2: Status
+                    let newStatus: Status
                     if path.status == .satisfied {
                         if self.isInternetConnectionAvailable == nil {
-                            newStatusV2 = .internetConnectionAvailable
+                            newStatus = .internetConnectionAvailable
                         } else {
-                            newStatusV2 = .internetConnectionRecovered
+                            newStatus = .internetConnectionRecovered
                         }
                     } else {
-                        newStatusV2 = .internetConnectionLost
+                        newStatus = .internetConnectionLost
                     }
 
-                    let newStatus = newStatusV2
                     if self.statusHistory.last != newStatus {
                         self.statusHistory.append(newStatus)
                         statusUpdate(newStatus)
