@@ -95,7 +95,7 @@ public extension Common {
             } else {
                 print(logMessage.prefix(maxLogSize) + "\n")
             }
-            if false {
+            if Common_Utils.false {
                 StorageUtils.appendToFileEnd(String(logMessage.prefix(maxLogSize)))
             }
             #endif
@@ -114,7 +114,7 @@ public extension Common.LogsManager {
         @PWThreadSafe fileprivate static var dispatchQueue = DispatchQueue(label: "\(logFilePrefix)", qos: .background)
         @PWThreadSafe fileprivate static var fileManager: FileManager = Common.FileManager.default
         @PWThreadSafe fileprivate static var _logFile: URL?
-        fileprivate static var logFilePrefix = "\(Common.self).\(Common.LogsManager.self)"
+        fileprivate static var logFilePrefix = "\(Common.self).\(Common_Logs.self)"
         fileprivate static var logsFolder: URL? = fileManager.urls(
             for: Common.FileManager.defaultSearchPath,
             in: .userDomainMask

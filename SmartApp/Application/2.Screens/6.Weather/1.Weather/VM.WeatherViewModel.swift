@@ -42,7 +42,7 @@ struct WeatherModel: Equatable, Hashable, Sendable {
         let temperatureAvg = (temperature2MMax + temperature2MMin) / 2
         let maxTemperature = "• Avg Temperature".localizedMissing + ": " + "\(temperatureAvg.localeString) °C \n"
         if let latitude = modelDto.latitude, let longitude = modelDto.longitude {
-            let location = "• Coords: \(latitude) | \(longitude)\n"
+            let location = "• Coords: \(latitude) | \(longitude)"
             self.subTitle = maxTemperature + location
         } else {
             self.subTitle = maxTemperature
@@ -61,12 +61,12 @@ extension WeatherViewModel {
     enum Actions {
         case didAppear
         case didDisappear
-        case incrementCounter
+        case incrementCitiesCounter
         case getWeatherData(userLatitude: Double?, userLongitude: Double?)
     }
 
     struct Dependencies {
-        let counter: Int
+        let citiesCount: Int
         let model: WeatherModel
         let onSelected: (WeatherModel) -> Void
         let weatherService: WeatherServiceProtocol
@@ -76,22 +76,16 @@ extension WeatherViewModel {
 class WeatherViewModel: BaseViewModel {
     // MARK: - View Usage Attributes
     @Published var model: [WeatherModel] = []
-    @Published var counter: Int = 0
+    @Published var citiesCount: Int = 0
 
     // MARK: - Auxiliar Attributes
     private let weatherService: WeatherServiceProtocol
     public init(dependencies: Dependencies) {
         self.weatherService = dependencies.weatherService
-        self.counter = dependencies.counter
+        self.citiesCount = dependencies.citiesCount
         super.init()
         send(action: .getWeatherData(userLatitude: nil, userLongitude: nil))
     }
-
-    private let otherLocations: [(city: String, coord: (lat: String, long: String))] = [
-        (city: "Lisbon", coord: (lat: "38.736946", long: "-9.142685")),
-        (city: "Paris", coord: (lat: "48.85661400", long: "2.35222190")),
-        (city: "New York", coord: (lat: "40.730610", long: "-73.935242"))
-    ]
 
     func send(action: Actions) {
         switch action {
@@ -99,13 +93,21 @@ class WeatherViewModel: BaseViewModel {
             ()
         case .didDisappear:
             ()
-        case .incrementCounter:
-            counter += 1
+        case .incrementCitiesCounter:
+            guard AppConstants.worldCities.count > citiesCount else {
+                alertModel = .init(
+                    type: .information,
+
+                    message: "No more cities to display"
+                )
+                return
+            }
+            citiesCount += 1
         case .getWeatherData(userLatitude: let userLatitude, userLongitude: let userLongitude):
             Task { @MainActor [weak self] in
                 guard let self = self else { return }
-                self.loadingModel = .loading(message: "Loading".localizedMissing)
-                model.removeAll()
+                loadingModel = .loading(message: "Loading".localizedMissing)
+                var newValueForModel: [WeatherModel] = [] // Use acc to avoid UI redraws
                 if let userLatitude = userLatitude, let userLongitude = userLongitude {
                     let modelDto = try await self.weatherService.getWeather(
                         .init(
@@ -117,29 +119,33 @@ class WeatherViewModel: BaseViewModel {
                         latitude: userLatitude,
                         longitude: userLongitude
                     )
-                    model.append(.init(
-                        title: "User @ \(coordinates.0)",
+                    newValueForModel.append(.init(
+                        title: "User @ \(coordinates.addressMin)",
                         getWeatherResponse: modelDto
                     ))
                 }
-                for location in self.otherLocations {
+                let cities = AppConstants.worldCities.prefix(citiesCount)
+                for city in cities {
                     do {
-                        let latitude = location.coord.lat
-                        let longitude = location.coord.long
+                        let latitude = city.coord.lat
+                        let longitude = city.coord.long
                         let modelDto = try await self.weatherService.getWeather(
                             .init(
                                 latitude: latitude.description,
                                 longitude: longitude.description
                             ), cachePolicy: .cacheElseLoad
                         )
-                        model.append(.init(
-                            title: location.city,
+                        newValueForModel.append(.init(
+                            title: city.city,
                             getWeatherResponse: modelDto
                         ))
 
                     } catch {
                         handle(error: error, sender: "\(Self.self).\(action)")
                     }
+                }
+                if newValueForModel != model {
+                    model = newValueForModel
                 }
                 loadingModel = .notLoading
             }

@@ -6,7 +6,10 @@
 //
 
 import SwiftUI
+//
+import Domain
 import Common
+import DesignSystem
 
 // @main
 struct SmartApp: App {

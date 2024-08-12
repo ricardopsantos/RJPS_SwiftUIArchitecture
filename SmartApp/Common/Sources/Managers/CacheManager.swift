@@ -199,7 +199,7 @@ extension CacheManager {
 
         // Retrieve a value for a key
         if let answer = cache.value(forKey: "answer") {
-            Common.LogsManager.debug("The answer is \(answer)")
+            Common_Logs.debug("The answer is \(answer)")
         }
 
         // Update a value for a key
@@ -210,7 +210,7 @@ extension CacheManager {
 
         // Use the subscript to retrieve a value
         if let value = cache["newKey"] {
-            Common.LogsManager.debug("The value for newKey is \(value)")
+            Common_Logs.debug("The value for newKey is \(value)")
         }
 
         // Use the subscript to remove a value
@@ -220,7 +220,7 @@ extension CacheManager {
         do {
             try cache.saveToDisk(with: "myCache")
         } catch {
-            Common.LogsManager.debug("Error saving cache to disk: \(error)")
+            Common_Logs.debug("Error saving cache to disk: \(error)")
         }
 
         // Load a cache from disk
@@ -230,9 +230,9 @@ extension CacheManager {
             let fileURL = folderURLs[0].appendingPathComponent("myCache.cache")
             let data = try Data(contentsOf: fileURL)
             let decodedCache = try JSONDecoder().decodeFriendly(CacheManager<String, Int>.self, from: data)
-            Common.LogsManager.debug("Loaded cache from disk: \(decodedCache)")
+            Common_Logs.debug("Loaded cache from disk: \(decodedCache)")
         } catch {
-            Common.LogsManager.debug("Error loading cache from disk: \(error)")
+            Common_Logs.debug("Error loading cache from disk: \(error)")
         }
     }
 }

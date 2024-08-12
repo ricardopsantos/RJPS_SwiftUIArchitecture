@@ -30,6 +30,7 @@ public enum DevTools {
     public static var onTargetProduction: Bool { targetEnv.lowercased() == "production" }
     public static var onSimulator: Bool { Common_Utils.onSimulator }
     public static var onUnitTests: Bool { Common_Utils.onUnitTests }
+    public static var existsInternetConnection: Bool { Common_Utils.existsInternetConnection() }
 }
 
 public extension DevTools {

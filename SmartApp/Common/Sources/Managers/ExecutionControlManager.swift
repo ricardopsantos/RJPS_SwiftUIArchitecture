@@ -3,6 +3,12 @@ import UIKit
 
 public extension Common {
     enum ExecutionControlManager {
+        public static func reset() {
+            throttleTimestamps.removeAll()
+            debounceTimers.forEach { $0.value.invalidate() }
+            debounceTimers.removeAll()
+        }
+
         // Thread-safe storage for throttle timestamps
         @PWThreadSafe private static var throttleTimestamps: [String: TimeInterval] = [:]
         // Thread-safe storage for debounce timers
@@ -45,15 +51,21 @@ public extension Common {
             operationId: String,
             closure: @escaping () -> Void
         ) {
-            // Invalidate any existing timer for the given operation ID
-            debounceTimers[operationId]?.invalidate()
+            if let scheduledTimer = debounceTimers[operationId] {
+                // Invalidate any existing timer for the given operation ID
+                scheduledTimer.invalidate()
+            }
+
             // Schedule a new timer to execute the closure after the specified time interval
             let timer = Timer.scheduledTimer(
                 withTimeInterval: timeInterval,
                 repeats: false
             ) { _ in
                 closure()
-                debounceTimers[operationId] = nil
+                if let scheduledTimer = debounceTimers[operationId] {
+                    scheduledTimer.invalidate()
+                    debounceTimers[operationId] = nil
+                }
             }
 
             // Store the new timer
@@ -67,11 +79,11 @@ extension Common.ExecutionControlManager {
      Sample usage of the throttle and debounce functions.
      */
     static func sampleUsage() {
-        print("do tests")
         // Throttle usage: the closure will only be executed if at least 1 second has passed since the last execution
         Common.ExecutionControlManager.throttle(1, operationId: "myClosure") {
             // "Executing closure..."
         }
+        
         // Debounce usage: the closure will only be executed 1 second after the last call to debounce with this operation ID
         Common.ExecutionControlManager.debounce(1.0, operationId: "myDebouncedClosure") {
             // "Executing debounced closure..."

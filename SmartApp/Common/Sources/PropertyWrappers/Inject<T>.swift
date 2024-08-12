@@ -22,7 +22,6 @@ public extension Common_PropertyWrappers {
             lock.lock()
             defer { lock.unlock() }
             factoryDict[String(describing: type.self)] = factory
-            // Common.LogsManager.debug("\(Self.self) - Registered [\(type.self)]")
         }
 
         public func resolve<Service>(_ type: Service.Type) -> Service? {
@@ -31,7 +30,7 @@ public extension Common_PropertyWrappers {
             let sDescribing = String(describing: type.self)
             let isResolved = factoryDict.keys.filter { $0 == sDescribing }.count == 1
             if !isResolved {
-                Common.LogsManager.error("\(Self.self) - Will fail resolving [\(type)] using [\(factoryDict.keys)]")
+                Common_Logs.error("\(Self.self) - Will fail resolving [\(type)] using [\(factoryDict.keys)]")
             }
             let block = factoryDict[sDescribing]
             return block?() as? Service

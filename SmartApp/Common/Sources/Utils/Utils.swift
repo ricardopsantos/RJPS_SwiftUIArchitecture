@@ -127,8 +127,8 @@ public extension Common {
             return sender
         }
 
-        public static var existsInternetConnection: Bool {
-            CommonNetworking.Reachability.isConnectedToNetwork
+        public static func existsInternetConnection(_ method: CommonNetworking.Reachability.Method = .default) -> Bool {
+            CommonNetworking.Reachability.isConnectedToNetwork(method)
         }
 
         // https://www.swiftbysundell.com/posts/under-the-hood-of-assertions-in-swift

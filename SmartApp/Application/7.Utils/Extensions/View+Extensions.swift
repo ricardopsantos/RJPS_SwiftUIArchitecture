@@ -32,7 +32,7 @@ public extension View {
                         Header(text: title)
                     }
                 }
-            }
+            }.background(Color.red)
     }
 
     func customBackButtonV2(

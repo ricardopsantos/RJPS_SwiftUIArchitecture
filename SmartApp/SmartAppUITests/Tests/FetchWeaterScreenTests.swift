@@ -33,11 +33,11 @@ final class FetchWeatherScreenTests: BaseUITests {
 
     func testA1_appStartsAndUpdatesNavigationBarTitle() {
         appLaunch(launchArguments: [
-            "shouldResetAllPreferences",
-            "isAuthenticated"
+            .shouldResetAllPreferences,
+            .isAuthenticated
         ])
         tap(
-            tabBarIndex: 0,
+            tabBarIndex: Constants.tabBarWeather,
             andWaitForStaticText: Constants.tab1Title,
             on: app
         )
@@ -46,7 +46,7 @@ final class FetchWeatherScreenTests: BaseUITests {
     func testA2_appStartsAndDisplayRecords() {
         testA1_appStartsAndUpdatesNavigationBarTitle() // Re-use test A1
         tap(
-            staticText: Constants.tab1ListItem,
+            staticText: Constants.tab1ListItem1,
             on: app
         )
         waitFor(staticText: Constants.tab1DetailsValue, on: app)

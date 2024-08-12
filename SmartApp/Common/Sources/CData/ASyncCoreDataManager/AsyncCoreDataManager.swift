@@ -28,7 +28,6 @@ public extension CommonCoreDataNameSpace {
 
         public convenience init(
             dbName: String,
-
             in storageType: CommonCoreDataNameSpace.StorageType = .persistent,
             dbBundle: String
         ) {

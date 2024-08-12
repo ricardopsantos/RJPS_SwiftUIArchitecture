@@ -15,31 +15,17 @@ import Nimble
 //
 import Common
 
-let cancelBag = CancelBag()
-var timeout: Int = 5
-var loadedAny: Any?
-
-enum Constants {
-    static let tab1Title = "Current Weather"
-    static let tab1DetailsTitle = "Weather Details"
-    static let tab1DetailsValue = "32 °C"
-    static let tab1ListItem = "Lisbon"
-    //
-    static let tab2Title = "USA Population: Last 45 years"
-    static let tab2DetailsTitle = "USA States Population for 1980"
-    static let tab2ListItem = "Year: 1980"
-    //
-    static let tab4Title = "Settings"
-}
-
 class BaseUITests: XCTestCase {
     lazy var app: XCUIApplication = {
         let app = XCUIApplication()
         return app
     }()
 
-    func appLaunch(launchArguments: [String]) {
-        app.launchArguments = launchArguments + ["onUITesting", "shouldDisableAnimations"]
+    func appLaunch(launchArguments: [UITestingOptions]) {
+        app.launchArguments = launchArguments.map(\.rawValue) + [
+            UITestingOptions.onUITesting.rawValue,
+            UITestingOptions.shouldDisableAnimations.rawValue
+        ]
         app.launch()
     }
 }
@@ -50,22 +36,18 @@ extension BaseUITests {
     func auxiliar_performLogin() {
         exists(staticText: "Welcome", on: app)
         tap(
-            textField: "txtEmail",
+            textField: Accessibility.txtEmail.identifier,
             andType: "mail@gmail.com",
             dismissKeyboard: false,
-            on: app,
-            delayBeforeTap: 0,
-            delayBeforeType: 0
+            on: app
         )
         tap(
-            secureTextField: "txtPassword",
+            secureTextField: Accessibility.txtPassword.identifier,
             andType: "123",
             dismissKeyboard: false,
-            on: app,
-            delayBeforeTap: 0,
-            delayBeforeType: 0
+            on: app
         )
-        tap(button: "loginButton", on: app)
+        tap(button: Accessibility.loginButton.identifier, on: app)
     }
 
     // Will perform the onboarding flow.
@@ -76,24 +58,26 @@ extension BaseUITests {
         //
         exists(staticText: "UserDetails", on: app)
         tap(
-            textField: "txtName",
+            textField: Accessibility.txtName.identifier,
             andType: "Testing Joe",
             dismissKeyboard: false,
-            on: app,
-            delayBeforeTap: 0,
-            delayBeforeType: 0
+            on: app
         )
-        tap(button: "fwdButton", andWaitForStaticText: "Terms & Conditions", on: app)
+        tap(
+            button: Accessibility.fwdButton.identifier,
+            andWaitForStaticText: "Terms & Conditions",
+            on: app
+        )
         //
         // Terms and Conditions screen
         //
-        tap(button: "readTermsAndConditions", on: app)
-        tap(button: "fwdButton", andWaitForStaticText: "Onboarding", on: app)
+        tap(button: Accessibility.readTermsAndConditions.identifier, on: app)
+        tap(button: Accessibility.fwdButton.identifier, andWaitForStaticText: "Onboarding", on: app)
 
         //
         // Onboarding screen
         //
-        tap(button: "fwdButton", on: app) // Second
-        tap(button: "fwdButton", andWaitForStaticText: Constants.tab1ListItem, on: app) // Third
+        tap(button: Accessibility.fwdButton.identifier, on: app) // Second
+        tap(button: Accessibility.fwdButton.identifier, andWaitForStaticText: Constants.tab1ListItem1, on: app) // Third
     }
 }

@@ -31,10 +31,10 @@ public extension CommonCoreDataNameSpace.Utils {
                 let fileAttributes = try FileManager.default.attributesOfItem(atPath: persistentStoreURL.path)
                 if let fileSize = fileAttributes[.size] as? Int64 {
                     let fileSizeInMB = Double(fileSize) / (1024 * 1024)
-                    Common.LogsManager.debug("Loaded DB with size: \(fileSizeInMB) MB")
+                    Common_Logs.debug("Loaded DB with size: \(fileSizeInMB) MB")
                 }
             } catch {
-                Common.LogsManager.error(error.localizedDescription)
+                Common_Logs.error(error.localizedDescription)
             }
         }
         return context
@@ -53,12 +53,12 @@ public extension CommonCoreDataNameSpace.Utils {
 
     static func privateViewContext(storeContainer: NSPersistentContainer) -> NSManagedObjectContext {
         let mainViewContext = mainViewContext(storeContainer: storeContainer)
+        mainViewContext.automaticallyMergesChangesFromParent = true
         return privateViewContext(parentContext: mainViewContext)
     }
 
     static func managedObjectModelWith(
         dbName: String,
-
         dbBundle: String
     ) -> NSManagedObjectModel? {
         guard let bundle = Bundle(identifier: dbBundle),
@@ -71,7 +71,6 @@ public extension CommonCoreDataNameSpace.Utils {
 
     static func storeContainer(
         dbName: String,
-
         managedObjectModel: NSManagedObjectModel,
         storeInMemory: Bool
     ) -> NSPersistentContainer {
@@ -83,7 +82,9 @@ public extension CommonCoreDataNameSpace.Utils {
         }
         container.loadPersistentStores { _, error in
             if let error {
-                Common.LogsManager.error("Unresolved error \(error), \(error.localizedDescription)")
+                Common_Logs.error("Unresolved error \(error), \(error.localizedDescription)")
+            } else {
+                Common_Logs.debug("Loaded DB [\(dbName)]")
             }
         }
         return container
@@ -101,7 +102,7 @@ public extension CommonCoreDataNameSpace.Utils {
             batchDeleteRequest.resultType = .resultTypeCount
             try viewContext.execute(batchDeleteRequest)
         } catch {
-            Common.LogsManager.error("Couldn't delete the entities " + error.localizedDescription)
+            Common_Logs.error("Couldn't delete the entities " + error.localizedDescription)
         }
     }
 
@@ -142,7 +143,7 @@ public extension CommonCoreDataNameSpace.Utils {
                 } catch {
                     viewContext?.rollback()
                     let nserror = error as NSError
-                    Common.LogsManager.error("Unresolved error \(nserror), \(nserror.userInfo)")
+                    Common_Logs.error("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
             }
         case .mainQueueConcurrencyType:
@@ -155,13 +156,13 @@ public extension CommonCoreDataNameSpace.Utils {
             } catch {
                 viewContext.rollback()
                 let nserror = error as NSError
-                Common.LogsManager.error("Unresolved error \(nserror), \(nserror.userInfo)")
+                Common_Logs.error("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         @unknown default:
             ()
         }
         if logsEnabled, !changes.isEmpty, !Common.Utils.onUITests, !Common.Utils.onUnitTests {
-            Common.LogsManager.debug(" 💾 \(Self.logNumber) - \(changes) @ \(threadInfo)")
+            Common_Logs.debug(" 💾 \(Self.logNumber) - \(changes) @ \(threadInfo)")
             Self.logNumber += 1
         }
         return saveSuccess

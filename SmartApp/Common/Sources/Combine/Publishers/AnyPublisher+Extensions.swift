@@ -256,7 +256,7 @@ public extension Publisher {
     func onErrorCompleteV1(_ onError: ((Error) -> Void)? = nil) -> AnyPublisher<Output, Never> {
         self
             .catch { error -> AnyPublisher<Output, Never> in
-                Common.LogsManager.error("\(error)")
+                Common_Logs.error("\(error)")
                 onError?(error)
                 return .empty()
             }
@@ -266,7 +266,7 @@ public extension Publisher {
     func onErrorCompleteV2(withClosure: @escaping () -> Void = {}) -> AnyPublisher<Output, Never> {
         self
             .catch { error -> AnyPublisher<Output, Never> in
-                Common.LogsManager.error("\(error)")
+                Common_Logs.error("\(error)")
                 withClosure()
                 return .empty()
             }.eraseToAnyPublisher()

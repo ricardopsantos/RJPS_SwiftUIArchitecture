@@ -8,7 +8,7 @@
 import Foundation
 import Common
 
-public enum Tab: String, CaseIterable, Equatable {
+public enum Tab: String, CaseIterable, Equatable, Sendable {
     case tab1
     case tab2
     case tab3

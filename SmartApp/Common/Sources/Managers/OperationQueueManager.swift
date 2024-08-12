@@ -42,7 +42,7 @@ public class Common_BaseOperationManager {
             return
         }
         if operationQueue.operations.count > 10 {
-            Common.LogsManager.warning("Too many operations: \(operationQueue.operations.count)")
+            Common_Logs.warning("Too many operations: \(operationQueue.operations.count)")
         }
         operationQueue.addOperations([operation], waitUntilFinished: false)
     }

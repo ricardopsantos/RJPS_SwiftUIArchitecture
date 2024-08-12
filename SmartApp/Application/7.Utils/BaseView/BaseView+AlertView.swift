@@ -85,10 +85,13 @@ struct AlertModelTestView: View {
             content: {
                 VStack {
                     Text("\(Model.AlertModel.AlertType.self)")
+                        .fontSemantic(.bodyBold)
                     SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
                     ForEach(Model.AlertModel.AlertType.allCases, id: \.self) { type in
                         Button("\(type)") {
-                            alertModel = .init(type: type, message: type.rawValue)
+                            alertModel = .init(type: type, message: type.rawValue, onUserDismissAlert: {
+                                alertModel = nil
+                            })
                         }
                     }
                 }

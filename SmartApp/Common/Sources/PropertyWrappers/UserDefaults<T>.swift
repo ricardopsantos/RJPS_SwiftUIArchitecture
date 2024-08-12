@@ -40,7 +40,7 @@ public extension Common_PropertyWrappers {
         }
 
         private let synchronizedQueue = DispatchQueue(
-            label: "\(Common.self)_\(T.self)_\(UUID().uuidString)",
+            label: "\(Common.self)_\(Self.self)_\(UUID().uuidString)",
             attributes: .concurrent
         )
 

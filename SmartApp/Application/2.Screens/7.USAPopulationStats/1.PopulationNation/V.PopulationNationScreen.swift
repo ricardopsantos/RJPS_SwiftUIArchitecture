@@ -57,6 +57,7 @@ struct PopulationNationView: View, ViewProtocol {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: PopulationNationViewModel
     public init(dependencies: PopulationNationViewModel.Dependencies) {
+        DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onSelected = dependencies.onSelected
     }
@@ -74,7 +75,7 @@ struct PopulationNationView: View, ViewProtocol {
             sender: "\(Self.self)",
             appScreen: .populationNation,
             navigationViewModel: .disabled,
-            background: .default,
+            background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
             networkStatus: networkMonitorViewModel.networkStatus
@@ -101,6 +102,7 @@ struct PopulationNationView: View, ViewProtocol {
             ScrollView(showsIndicators: false) {
                 listView
             }
+            .accessibility(identifier: Accessibility.scrollView.identifier)
             .refreshable {
                 viewModel.send(action: .getPopulationData(cachePolicy: .load))
             }.padding()

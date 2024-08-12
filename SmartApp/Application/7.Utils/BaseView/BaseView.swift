@@ -21,7 +21,7 @@ enum BaseView {
     static func withLoading<Content: View>(
         sender: String,
         appScreen: AppScreen,
-        navigationViewModel: BaseView.NavigationViewModel,
+        navigationViewModel: BaseView.NavigationViewModel?,
         ignoresSafeArea: Bool = false,
         dismissKeyboardOnTap: Bool = false,
         background: BackgroundView.Background,
@@ -43,9 +43,11 @@ enum BaseView {
             networkStatus: networkStatus
         ) {
             Group {
-                if let loadingModel = loadingModel {
+                if let loadingModel = loadingModel, loadingModel != .notLoading {
                     ZStack {
-                        content().opacity(loadingModel.isLoading ? 0.1 : 1)
+                        content()
+                            // .testAnimatedBackground()
+                            .opacity(loadingModel.isLoading ? 0.1 : 1)
                         LoadingIndicator(
                             isLoading: loadingModel.isLoading,
                             loadingMessage: loadingModel.message
@@ -53,6 +55,7 @@ enum BaseView {
                     }
                 } else {
                     content()
+                    // .testAnimatedBackground()
                 }
             }
         }
@@ -67,7 +70,7 @@ fileprivate extension BaseView {
     static func baseWith<Content: View>(
         sender: String,
         appScreen: AppScreen,
-        navigationViewModel: BaseView.NavigationViewModel,
+        navigationViewModel: BaseView.NavigationViewModel?,
         ignoresSafeArea: Bool,
         dismissKeyboardOnTap: Bool,
         background: BackgroundView.Background,
@@ -76,6 +79,7 @@ fileprivate extension BaseView {
         networkStatus: CommonNetworking.NetworkStatus?,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
+        let networkStatus = networkStatus ?? .internetConnectionAvailable
         let baseView =
             ZStack {
                 BackgroundView(background: background)
@@ -86,28 +90,35 @@ fileprivate extension BaseView {
                         .opacity(displayRenderedView ? 1 : 0)
                     Spacer()
                 }
-                content()
                 if let alertModel = alertModel {
+                    content().blur(radius: 1)
                     AlertView(model: alertModel)
                         .ignoresSafeArea(.keyboard, edges: .bottom)
                         .doIf(ignoresSafeArea, transform: {
                             $0.ignoresSafeArea()
                         })
+                } else {
+                    content()
                 }
             }
             .doIf(dismissKeyboardOnTap, transform: {
                 $0.onTapDismissKeyboard()
             })
-            .doIf(!(networkStatus?.existsInternetConnection ?? true), transform: {
-                $0.opacity(0.1).overlay(
-                    ZStack {
-                        ColorSemantic.warning.color.opacity(0.2)
-                        Text("No Internet connection.\n\nPlease try again latter...".localizedMissing)
-                            .fontSemantic(.callout)
-                            .textColor(ColorSemantic.danger.color)
-                            .multilineTextAlignment(.center)
-                    }
-                )
+            .doIf(!networkStatus.existsInternetConnection, transform: {
+                $0
+                    .blur(radius: 1)
+                    .overlay(
+                        ZStack {
+                            ColorSemantic.warning.color.opacity(0.2)
+                            Text("No Internet connection.\n\nPlease try again latter...".localizedMissing)
+                                .fontSemantic(.headlineBold)
+                                .textColor(ColorSemantic.labelPrimary.color)
+                                .padding()
+                                .background(ColorSemantic.warning.color.opacity(1))
+                                .multilineTextAlignment(.center)
+                                .cornerRadius2(SizeNames.cornerRadius)
+                        }
+                    )
             })
             .onAppear {
                 DevTools.Log.debug(DevTools.Log.LogTemplate.screenIn(sender), .view)
@@ -118,27 +129,32 @@ fileprivate extension BaseView {
             }
 
         Group {
-            switch navigationViewModel.type {
-            case .disabled:
-                baseView
-            case .custom:
-                NavigationView {
+            if let navigationViewModel = navigationViewModel {
+                switch navigationViewModel.type {
+                case .disabled:
                     baseView
-                }.customBackButtonV1(action: {
-                    if let onBackButtonTap = navigationViewModel.onBackButtonTap {
-                        onBackButtonTap()
+                case .custom:
+                    NavigationView {
+                        baseView
+                    }.customBackButtonV1(action: {
+                        if let onBackButtonTap = navigationViewModel.onBackButtonTap {
+                            onBackButtonTap()
+                        }
+                    }, title: navigationViewModel.title)
+                case .default:
+                    NavigationView {
+                        baseView
                     }
-                }, title: navigationViewModel.title)
-            case .default:
-                NavigationView {
-                    baseView
+                    .navigationTitle(navigationViewModel.title)
+                case .defaultHidden:
+                    NavigationView {
+                        baseView
+                    }
+                    .hideNavigationBar()
                 }
-                .navigationTitle(navigationViewModel.title)
-            case .enabledHidden:
-                NavigationView {
-                    baseView
-                }
-                .hideNavigationBar()
+            } else {
+                baseView
+                //  .testAnimatedBackground()
             }
         }
     }

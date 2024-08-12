@@ -33,11 +33,11 @@ final class AppNavigationAndStateConcistencyTests: BaseUITests {
 
     func testA1_appStartsAndUpdatesNavigationBarTitle() {
         appLaunch(launchArguments: [
-            "shouldResetAllPreferences",
-            "isAuthenticated"
+            .shouldResetAllPreferences,
+            .isAuthenticated
         ])
         tap(
-            tabBarIndex: 0,
+            tabBarIndex: Constants.tabBarWeather,
             andWaitForStaticText: Constants.tab1Title,
             on: app
         )
@@ -46,40 +46,51 @@ final class AppNavigationAndStateConcistencyTests: BaseUITests {
     func testA2_counterStateIsNotLostOnNavigation() {
         testA1_appStartsAndUpdatesNavigationBarTitle() // Re-use test A1
 
+        exists(staticText: Constants.tab1ListItem1, on: app)
         // Increment Counter...
-        tap(button: "Increment", andWaitForStaticText: "Counter: 1", on: app)
-        tap(button: "Increment", andWaitForStaticText: "Counter: 2", on: app)
+        tap(button: "Add more cities", andWaitForStaticText: "Cities: 2", on: app)
+        exists(staticText: Constants.tab1ListItem2, on: app)
+        tap(button: "Add more cities", andWaitForStaticText: "Cities: 3", on: app)
+        exists(staticText: Constants.tab1ListItem3, on: app)
 
         // Push details and go back...
-        tap(staticText: Constants.tab1ListItem, andWaitForStaticText: Constants.tab1DetailsTitle, on: app)
-        tap(button: "backButton", andWaitForStaticText: Constants.tab1Title, on: app)
+        tap(staticText: Constants.tab1ListItem1, andWaitForStaticText: Constants.tab1DetailsTitle, on: app)
+        tap(
+            button: Accessibility.backButton.identifier,
+            andWaitForStaticText: Constants.tab1Title,
+            on: app
+        )
 
         // Increment counter and push details again
-        tap(button: "Increment", andWaitForStaticText: "Counter: 3", on: app)
-        tap(staticText: Constants.tab1ListItem, andWaitForStaticText: Constants.tab1DetailsTitle, on: app)
+        tap(button: "Add more cities", andWaitForStaticText: "Cities: 4", on: app)
+        tap(staticText: Constants.tab1ListItem1, andWaitForStaticText: Constants.tab1DetailsTitle, on: app)
 
         // Change to usa stats tab
         tap(
-            tabBarIndex: 1,
+            tabBarIndex: Constants.tabBarUSAStats,
             andWaitForStaticText: Constants.tab2Title,
             on: app
         )
 
         // Go back to original tab
         tap(
-            tabBarIndex: 0,
+            tabBarIndex: Constants.tabBarWeather,
             andWaitForStaticText: Constants.tab1DetailsTitle,
             on: app
         )
         // Dismiss details
-        tap(button: "backButton", andWaitForStaticText: Constants.tab1Title, on: app)
+        tap(
+            button: Accessibility.backButton.identifier,
+            andWaitForStaticText: Constants.tab1Title,
+            on: app
+        )
 
         // Check state
-        exists(staticText: "Counter: 3", on: app)
+        exists(staticText: "Cities: 4", on: app)
 
         // Increment counter and push details again
-        tap(button: "Increment", andWaitForStaticText: "Counter: 4", on: app)
-        tap(staticText: Constants.tab1ListItem, andWaitForStaticText: Constants.tab1DetailsTitle, on: app)
+        tap(button: "Add more cities", andWaitForStaticText: "Cities: 5", on: app)
+        tap(staticText: Constants.tab1ListItem1, andWaitForStaticText: Constants.tab1DetailsTitle, on: app)
 
         // Change tab and push details for Tab 2
         tap(
@@ -92,39 +103,43 @@ final class AppNavigationAndStateConcistencyTests: BaseUITests {
 
         // Go back to original tab
         tap(
-            tabBarIndex: 0,
+            tabBarIndex: Constants.tabBarWeather,
             andWaitForStaticText: Constants.tab1DetailsTitle,
             on: app
         )
 
         tap(
-            tabBarIndex: 1,
+            tabBarIndex: Constants.tabBarUSAStats,
             andWaitForStaticText: Constants.tab2DetailsTitle,
             on: app
         )
         waitFor(staticText: Constants.tab2DetailsTitle, on: app)
-        tap(button: "backButton", andWaitForStaticText: Constants.tab2Title, on: app)
+        tap(
+            button: Accessibility.backButton.identifier,
+            andWaitForStaticText: Constants.tab2Title,
+            on: app
+        )
     }
 
     // When the user tap on the selected tab,
     // the loaded screens should be dismissed
     func testA3_doubleTabTapToCloseLoadedScreens() {
         appLaunch(launchArguments: [
-            "shouldResetAllPreferences",
-            "isAuthenticated"
+            .shouldResetAllPreferences,
+            .isAuthenticated
         ])
         tap(
-            tabBarIndex: 0,
+            tabBarIndex: Constants.tabBarWeather,
             andWaitForStaticText: Constants.tab1Title,
             on: app
         )
         tap(
-            staticText: Constants.tab1ListItem,
+            staticText: Constants.tab1ListItem1,
             andWaitForStaticText: Constants.tab1DetailsTitle,
             on: app
         )
         tap(
-            tabBarIndex: 0,
+            tabBarIndex: Constants.tabBarWeather,
             andWaitForStaticText: Constants.tab1Title,
             on: app
         )

@@ -4,7 +4,7 @@
 //
 import Foundation
 //
-// MARK: - Regular NetWork Clients (works with completionHandlers)
+// MARK: - Regular NetWork Clients
 //
 public class CommonNetworking: NSObject {
     override private init() {}

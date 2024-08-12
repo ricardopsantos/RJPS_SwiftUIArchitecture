@@ -16,6 +16,16 @@ enum APIEndpoints {
 }
 
 extension APIEndpoints {
+    var name: String {
+        switch self {
+        case .getWeather: "getWeather"
+        case .updateUser: "updateUser"
+        case .requestEmployees: "requestEmployees"
+        case .getPopulationNationData: "getPopulationNationData"
+        case .getPopulationStateData: "getPopulationStateData"
+        }
+    }
+
     var urlParameters: [String: String?] {
         switch self {
         case .getWeather(let request):

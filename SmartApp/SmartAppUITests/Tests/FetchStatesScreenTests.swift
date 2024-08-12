@@ -33,11 +33,11 @@ final class FetchStatesScreenTests: BaseUITests {
 
     func testA1_appStartsAndRouteToStates() {
         appLaunch(launchArguments: [
-            "shouldResetAllPreferences",
-            "isAuthenticated"
+            .shouldResetAllPreferences,
+            .isAuthenticated
         ])
         tap(
-            tabBarIndex: 1,
+            tabBarIndex: Constants.tabBarUSAStats,
             andWaitForStaticText: Constants.tab2Title,
             on: app
         )
@@ -51,7 +51,11 @@ final class FetchStatesScreenTests: BaseUITests {
     func testA2_appStartsAndRouteToStatesAndRouteBack() {
         testA1_appStartsAndRouteToStates() // Re-use testA1
         // After tap back button, should appear previous screen navigation title
-        tap(button: "backButton", andWaitForStaticText: Constants.tab2ListItem, on: app)
+        tap(
+            button: Accessibility.backButton.identifier,
+            andWaitForStaticText: Constants.tab2ListItem,
+            on: app
+        )
     }
 }
 
@@ -64,9 +68,9 @@ extension FetchStatesScreenTests {
             XCTCPUMetric(application: app),
             XCTMemoryMetric(application: app)
         ]
-        // CPU Time (id): 2.446 s
-        // Memory Peak Physical (id): 58431.757 kB
-        // Memory Physical (id): 55286.029 kB
+        // CPU Time (id): 2.175 s
+        // Memory Peak Physical (id): 52340.147 kB
+        // Memory Physical (id): 51016.320 kB
         measure(metrics: metrics) {
             testA1_appStartsAndRouteToStates()
         }
@@ -77,11 +81,53 @@ extension FetchStatesScreenTests {
             XCTCPUMetric(application: app),
             XCTMemoryMetric(application: app)
         ]
-        // CPU Time (id): 2.771 s
-        // Memory Peak Physical (id): 59352.538 kB
-        // Memory Physical (id): 57324.211 kB
+        // CPU Time (id): 2.415 s
+        // Memory Peak Physical (id): 52985.715 kB
+        // Memory Physical (id): 51042.586 kB
         measure(metrics: metrics) {
             testA2_appStartsAndRouteToStatesAndRouteBack()
+        }
+    }
+
+    func testA2_scroll1xPerformance() {
+        let metrics: [XCTMetric] = [
+            XCTCPUMetric(application: app),
+            XCTMemoryMetric(application: app)
+        ]
+
+        // CPU Time (id): 2.688 s
+        // Memory Peak Physical (id): 52245.133 kB
+        // Memory Physical (id): 52022.310 kB
+        measure(metrics: metrics) {
+            testA1_appStartsAndRouteToStates()
+            swipe(
+                scrollView: Accessibility.scrollView.identifier,
+                swipeUp: true,
+                velocity: .fast,
+                on: app
+            )
+        }
+    }
+
+    func testA2_scroll5xPerformance() {
+        let metrics: [XCTMetric] = [
+            XCTCPUMetric(application: app),
+            XCTMemoryMetric(application: app)
+        ]
+
+        // CPU Time (id): 5.182 s
+        // Memory Peak Physical (id): 52966.042 kB
+        // Memory Physical (id): 52936.550 kB
+        measure(metrics: metrics) {
+            testA1_appStartsAndRouteToStates()
+            for _ in 1...5 {
+                swipe(
+                    scrollView: Accessibility.scrollView.identifier,
+                    swipeUp: true,
+                    velocity: .fast,
+                    on: app
+                )
+            }
         }
     }
 }

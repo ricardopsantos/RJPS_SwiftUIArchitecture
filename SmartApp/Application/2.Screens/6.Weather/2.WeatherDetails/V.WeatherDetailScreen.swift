@@ -58,6 +58,7 @@ struct WeatherDetailsView: View, ViewProtocol {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: WeatherDetailsViewModel
     public init(dependencies: WeatherDetailsViewModel.Dependencies) {
+        DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onRouteBack = dependencies.onRouteBack
     }
@@ -65,7 +66,7 @@ struct WeatherDetailsView: View, ViewProtocol {
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
     // @State var someVar = 0
-    // @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
+    @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
 
     // MARK: - Auxiliar Attributes
     private let onRouteBack: () -> Void
@@ -83,10 +84,10 @@ struct WeatherDetailsView: View, ViewProtocol {
             navigationViewModel: .custom(onBackButtonTap: {
                 onRouteBack()
             }, title: "Weather Details".localizedMissing),
-            background: .default,
+            background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
-            networkStatus: nil
+            networkStatus: networkMonitorViewModel.networkStatus
         ) {
             content
         }.onAppear {

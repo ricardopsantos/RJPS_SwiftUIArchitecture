@@ -52,6 +52,7 @@ struct LoginView: View, ViewProtocol {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: LoginViewModel
     public init(dependencies: LoginViewModel.Dependencies) {
+        DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
     }
 
@@ -69,7 +70,7 @@ struct LoginView: View, ViewProtocol {
             sender: "\(Self.self)",
             appScreen: .login,
             navigationViewModel: .disabled,
-            background: .default,
+            background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
             networkStatus: nil

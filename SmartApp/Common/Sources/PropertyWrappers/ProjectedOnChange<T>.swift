@@ -89,10 +89,10 @@ public extension Common_PropertyWrappers {
     static func projectedOnChange_sampleUsage() {
         let cancelBag = CancelBag()
         $myPropertyA.sink { value in
-            Common.LogsManager.debug("myPropertyA value changed to: \(value)")
+            Common_Logs.debug("myPropertyA value changed to: \(value)")
         }.store(in: cancelBag)
         $myPropertyB.sink { some in
-            Common.LogsManager.debug("myPropertyB value changed to: \(some.key) | \(some.value)")
+            Common_Logs.debug("myPropertyB value changed to: \(some.key) | \(some.value)")
         }.store(in: cancelBag)
         Self.myPropertyA = 1
         Self.myPropertyA = 2

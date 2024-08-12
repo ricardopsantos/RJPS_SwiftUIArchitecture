@@ -34,10 +34,9 @@ struct WeatherViewCoordinator: View {
         switch screen {
         case .weather:
             let dependencies: WeatherViewModel.Dependencies = .init(
-                counter: 0, model: .init(), onSelected: { model in
+                citiesCount: 1, model: .init(), onSelected: { model in
                     let detailsModel: WeatherDetailsModel = .init(
                         latitude: model.latitude,
-
                         longitude: model.longitude
                     )
                     coordinatorTab1.navigate(to: .weatherDetailsWith(model: detailsModel))
@@ -61,6 +60,7 @@ struct WeatherView: View, ViewProtocol {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: WeatherViewModel
     public init(dependencies: WeatherViewModel.Dependencies) {
+        DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onSelected = dependencies.onSelected
     }
@@ -84,7 +84,7 @@ struct WeatherView: View, ViewProtocol {
             sender: "\(Self.self)",
             appScreen: .weather,
             navigationViewModel: .disabled,
-            background: .default,
+            background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
             networkStatus: networkMonitorViewModel.networkStatus
@@ -100,48 +100,49 @@ struct WeatherView: View, ViewProtocol {
     }
 
     var content: some View {
-        VStack {
+        VStack(spacing: 0, content: {
             ScrollView(showsIndicators: false) {
-                Header(text: "Current Weather")
+                Header(text: "Current Weather".localizedMissing)
                 counterView
                 listView
             }
-        }
+        })
+
         .frame(maxWidth: .infinity)
         .onChange(of: networkMonitorViewModel.networkStatus) { networkStatus in
             switch networkStatus {
-            case .unknown, .internetConnectionAvailable, .internetConnectionLost:
-                ()
             case .internetConnectionRecovered:
-                viewModel.send(action: .getWeatherData(
-                    userLatitude: locationViewModel.coordinates?.latitude,
-                    userLongitude: locationViewModel.coordinates?.longitude
-                ))
+                getWeatherData()
+            default: ()
             }
         }
-        .onChange(of: locationViewModel.coordinates) { coordinates in
-            viewModel.send(action: .getWeatherData(
-                userLatitude: coordinates?.latitude,
-                userLongitude: coordinates?.longitude
-            ))
+        .onChange(of: locationViewModel.coordinates) { _ in
+            getWeatherData()
         }
     }
 
     var counterView: some View {
-        HStack {
-            TextButton(onClick: {
-                viewModel.send(action: .incrementCounter)
-            }, text: "Increment", style: .textOnly, accessibility: .undefined)
-                .frame(maxWidth: screenWidth / 4)
+        HStack(spacing: 0) {
+            TextButton(
+                onClick: {
+                    viewModel.send(action: .incrementCitiesCounter)
+                    getWeatherData()
+                },
+                text: "Add more cities".localizedMissing,
+                alignment: .leading,
+                style: .textOnly,
+                accessibility: .undefined
+            )
+            .offset(.init(width: -SizeNames.defaultMarginSmall, height: 0))
             Spacer()
-            Text("Counter: \(viewModel.counter.description)")
+            Text("Cities: \(viewModel.citiesCount.description)".localizedMissing)
                 .fontSemantic(.callout)
         }
         .padding(.horizontal, SizeNames.defaultMargin)
     }
 
     var listView: some View {
-        VStack(spacing: SizeNames.defaultMargin) {
+        VStack(spacing: SizeNames.defaultMarginSmall) {
             ForEach(viewModel.model, id: \.self) { item in
                 ListItemView(
                     title: item.title,
@@ -165,7 +166,14 @@ fileprivate extension WeatherView {}
 //
 // MARK: - Private
 //
-fileprivate extension WeatherView {}
+fileprivate extension WeatherView {
+    func getWeatherData() {
+        viewModel.send(action: .getWeatherData(
+            userLatitude: locationViewModel.coordinates?.latitude,
+            userLongitude: locationViewModel.coordinates?.longitude
+        ))
+    }
+}
 
 //
 // MARK: - Preview

@@ -36,8 +36,8 @@ struct ___Template___ViewCoordinator: View, ViewCoordinatorProtocol {
         switch screen {
         case .templateWith(model: let model):
             let dependencies: ___Template___ViewModel.Dependencies = .init(
-                model: model, onCompletion: { some in
-                    Common.LogsManager.debug("Completed with \(some)")
+                model: model, onCompletion: { _ in
+
                 },
                 sampleService: configuration.sampleService)
             ___Template___View(dependencies: dependencies)
@@ -58,6 +58,7 @@ struct ___Template___View: View, ViewProtocol {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: ___Template___ViewModel
     public init(dependencies: ___Template___ViewModel.Dependencies) {
+        DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
     }
 
@@ -76,7 +77,7 @@ struct ___Template___View: View, ViewProtocol {
             appScreen: .templateWith(model: .init()),
             navigationViewModel: .disabled,
             ignoresSafeArea: true,
-            background: .default,
+            background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
             networkStatus: nil) {
