@@ -36,7 +36,7 @@ struct ___Template___ViewCoordinator: View, ViewCoordinatorProtocol {
         switch screen {
         case .templateWith(model: let model):
             let dependencies: ___Template___ViewModel.Dependencies = .init(
-                model: model, onCompletion: { some in
+                model: model, onCompletion: { _ in
 
                 },
                 sampleService: configuration.sampleService)

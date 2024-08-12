@@ -22,7 +22,6 @@ public extension Common_PropertyWrappers {
             lock.lock()
             defer { lock.unlock() }
             factoryDict[String(describing: type.self)] = factory
-            // Common_Logs.debug("\(Self.self) - Registered [\(type.self)]")
         }
 
         public func resolve<Service>(_ type: Service.Type) -> Service? {

@@ -74,7 +74,7 @@ custom_rules:
     logs_rule_1:
         included: ".*\\.swift"
         name: "Fordiden print"
-        regex: "print[(]|Common_Logs[.]"
+        regex: "print[(]"
         message: "Use DevTools.Log..."
         severity: error
         

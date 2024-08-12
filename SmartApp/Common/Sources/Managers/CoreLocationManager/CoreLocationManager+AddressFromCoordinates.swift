@@ -22,7 +22,7 @@ public extension Common.CoreLocationManager {
     }
 
     private static var cachedAddressFromCoords: UserDefaults? {
-        UserDefaults(suiteName: "\(Self.self).cache.AddressFromCoords")
+        Common.userDefaults
     }
 
     static func getAddressFromAsync(latitude: Double, longitude: Double) async throws -> CLPlacemark.CoreLocationManagerAddressResponse {

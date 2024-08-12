@@ -13,16 +13,12 @@ import Combine
 
 public extension Common.CoreLocationManager {
     static func cachedLocationFromAddressClean() {
-        let defaults = cachedLocationFromAddress
+        let defaults = Common.userDefaults
         let dictionary = defaults?.dictionaryRepresentation()
         dictionary?.keys.forEach { key in
             defaults?.removeObject(forKey: key)
         }
         defaults?.synchronize()
-    }
-
-    private static var cachedLocationFromAddress: UserDefaults? {
-        UserDefaults(suiteName: "\(Self.self).cache.LocationFromAddress")
     }
 
     struct LocationForAddress: Codable {
@@ -56,7 +52,7 @@ public extension Common.CoreLocationManager {
             return
         }
         let cacheKey = "\(Self.self)_\(#function)_cacheFor:\(addressEscaped)"
-        if let data = cachedLocationFromAddress?.data(forKey: cacheKey),
+        if let data = Common.userDefaults?.data(forKey: cacheKey),
            let locationForAddress = try? JSONDecoder().decodeFriendly(LocationForAddress.self, from: data) {
             completion(locationForAddress)
             return
@@ -82,7 +78,7 @@ public extension Common.CoreLocationManager {
 
             // Cache response for performance and offline mode support
             if let data = try? JSONEncoder().encode(locationForAddress) {
-                cachedLocationFromAddress?.set(data, forKey: cacheKey)
+                Common.userDefaults?.set(data, forKey: cacheKey)
             }
             completion(locationForAddress)
         })

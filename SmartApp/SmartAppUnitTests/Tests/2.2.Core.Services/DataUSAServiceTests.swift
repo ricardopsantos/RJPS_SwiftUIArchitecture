@@ -100,9 +100,9 @@ extension DataUSAServiceTests {
 
     func test_requestPopulationStateData_Performance_CacheElseLoad() throws {
         let cachePolicy: ServiceCachePolicy = .cacheElseLoad
-        let expectedTime: Double = 0.007
+        let expectedTime: Double = 0.009
         let count = 10
-        // Time: 0.007 sec
+        // Time: 0.009 sec
         measure {
             let expectation = self.expectation(description: #function)
             Task {

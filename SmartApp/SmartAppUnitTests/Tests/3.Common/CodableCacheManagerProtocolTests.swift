@@ -15,9 +15,9 @@ import Domain
 import Core
 import Common
 
-final class Common_Tests: XCTestCase {
+final class CodableCacheManagerProtocolTests: XCTestCase {
     var enabled: Bool = true
-    private let cacheManagerV1 = Common.CacheManagerForCodableUserDefaultsRepository.shared
+    private let userDefaultsRepository = Common.CacheManagerForCodableUserDefaultsRepository.shared
     private let coreDataRepository = Common.CacheManagerForCodableCoreDataRepository.shared
 
     override func setUp() {
@@ -32,23 +32,64 @@ final class Common_Tests: XCTestCase {
 // MARK: - Tests
 //
 
-extension Common_Tests {
-
-
-    func test_testSyncCacheManageCRUD() {
-        //testSyncCacheManageCRUD(cacheManager: cacheManagerV1)
+extension CodableCacheManagerProtocolTests {
+    func testA_testSyncCacheManageCRUD() {
+        testSyncCacheManageCRUD(cacheManager: userDefaultsRepository)
         testSyncCacheManageCRUD(cacheManager: coreDataRepository)
     }
-    
-    func test_testAsyncCacheManageCRUD() async {
-        //await testAsyncCacheManageCRUD(cacheManager: cacheManagerV1)
-         await testAsyncCacheManageCRUD(cacheManager: coreDataRepository)
+
+    func testB_testAsyncCacheManageCRUD() async {
+        await testAsyncCacheManageCRUD(cacheManager: userDefaultsRepository)
+        await testAsyncCacheManageCRUD(cacheManager: coreDataRepository)
+    }
+
+    func testC_userDefaultsRepositoryWritePerformance() {
+        let expectedTime = 0.6
+        let repository = userDefaultsRepository
+        let count = 1000
+        measure {
+            repository.syncClearAll()
+            let expectation = self.expectation(description: #function)
+            for i in 1...count {
+                repository.syncStore(
+                    ModelDto.GetWeatherResponse.mockBigLoad,
+                    key: "key_\(i)",
+                    params: [],
+                    timeToLiveMinutes: nil
+                )
+            }
+            expectation.fulfill()
+            wait(for: [expectation], timeout: expectedTime * 1.25 * Double(count))
+        }
+        XCTAssert(repository.syncAllCachedKeys().count == count)
+    }
+
+    func testD_coreDataRepositoryWritePerformance() {
+        let expectedTime = 1.6
+        let repository = coreDataRepository
+        let count = 1000
+        measure {
+            repository.syncClearAll()
+            let expectation = self.expectation(description: #function)
+            for i in 1...count {
+                repository.syncStore(
+                    ModelDto.GetWeatherResponse.mockBigLoad,
+                    key: "key_\(i)",
+                    params: [],
+                    timeToLiveMinutes: nil
+                )
+            }
+            expectation.fulfill()
+            wait(for: [expectation], timeout: expectedTime * 1.25 * Double(count))
+        }
+        XCTAssert(repository.syncAllCachedKeys().count == count)
     }
 }
 
-extension Common_Tests {
+extension CodableCacheManagerProtocolTests {
     func testSyncCacheManageCRUD(cacheManager: CodableCacheManagerProtocol) {
         let key = String.random(50)
+
         let toStore = ModelDto.GetWeatherResponse.mockBigLoad
         cacheManager.syncClearAll()
 
