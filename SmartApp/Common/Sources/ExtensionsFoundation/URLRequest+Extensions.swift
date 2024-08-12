@@ -21,7 +21,7 @@ public extension URLRequest {
     func curlCommand(
         doPrint: Bool,
         // prefixCount: Int = Int.max,
-        maxLogSize: Int = Common.LogsManager.maxLogSize
+        maxLogSize: Int = Common_Logs.maxLogSize
     ) -> String? {
         guard let url else {
             return nil
@@ -67,7 +67,7 @@ public extension URLRequest {
         headerValues: [String: String]?
     ) -> URLRequest? {
         guard let theURL = URL(string: "\(urlString)") else {
-            Common.LogsManager.warning("Invalid url [\(urlString)]")
+            Common_Logs.warning("Invalid url [\(urlString)]")
             return nil
         }
         var request = URLRequest(url: theURL)
@@ -84,7 +84,7 @@ public extension URLRequest {
             } else if !httpBody.keys.isEmpty {
                 request.httpBody = try? JSONSerialization.data(withJSONObject: httpBody, options: .prettyPrinted)
                 if !httpBody.isEmpty, request.httpBody == nil {
-                    Common.LogsManager.error("Fail to serialize httpBody:\n\n\(httpBody)")
+                    Common_Logs.error("Fail to serialize httpBody:\n\n\(httpBody)")
                 }
             }
         }

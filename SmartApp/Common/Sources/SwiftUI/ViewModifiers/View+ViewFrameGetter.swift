@@ -23,7 +23,7 @@ struct ViewFrameGetter: ViewModifier {
         let result2 = Text("").overlay(
             GeometryReader { proxy in
                 Color.clear.onAppear {
-                    Common.LogsManager.debug("First HEIGHT: \(proxy.size.height)")
+                    Common_Logs.debug("First HEIGHT: \(proxy.size.height)")
                 }
             })
         // p rint(viewFrame)

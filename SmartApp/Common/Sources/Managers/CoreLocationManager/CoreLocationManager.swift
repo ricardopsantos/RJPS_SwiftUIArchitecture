@@ -33,12 +33,12 @@ public extension Common {
         @Published public private(set) var locationIsAuthorized: Bool = true
         @Published public private(set) var coordinates: CoreLocationManagerViewModel.Coordinate?
         public func stop() {
-            Common.LogsManager.debug("\(Self.self) stoped")
+            Common_Logs.debug("\(Self.self) stoped")
             CoreLocationManager.shared.stopUpdatingLocation()
         }
 
         public func start() {
-            Common.LogsManager.debug("\(Self.self) started")
+            Common_Logs.debug("\(Self.self) started")
             let onLocationLost = { [weak self] in
                 self?.coordinates = nil
             }
@@ -222,15 +222,15 @@ extension CLAuthorizationStatus {
 private extension Common.CoreLocationManager {
     static func sampleUsage() {
         Common.CoreLocationManager.shared.startUpdatingLocation {
-            Common.LogsManager.debug("User location start updating")
+            Common_Logs.debug("User location start updating")
         } onDidUpdateLocation: { location in
             if let location {
-                Common.LogsManager.debug("User location updated to \(location)")
+                Common_Logs.debug("User location updated to \(location)")
             } else {
-                Common.LogsManager.debug("User location lost?")
+                Common_Logs.debug("User location lost?")
             }
         } onLocationLost: {
-            Common.LogsManager.debug("User location lost")
+            Common_Logs.debug("User location lost")
         }
     }
 }

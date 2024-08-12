@@ -59,7 +59,7 @@ public enum FontSemantic: CaseIterable {
     case title1
     case title2
 
-    case headline
+    case headline, headlineBold
 
     case body, bodyBold
     case callout, calloutBold
@@ -94,7 +94,7 @@ public enum FontSemantic: CaseIterable {
             }
 
             Common_Utils.executeOnce(token: "\(Self.self)_\(#function)") {
-                Common.LogsManager.debug("TextSizeCategory: \(trait) -> \(multiplier)")
+                Common_Logs.debug("TextSizeCategory: \(trait) -> \(multiplier)")
             }
         }
 
@@ -105,6 +105,7 @@ public enum FontSemantic: CaseIterable {
         case .title1: Font.custom(FontsName.bold.name, size: bodyFontSize * 2)
         case .title2: Font.custom(FontsName.regular.name, size: bodyFontSize * 1.6)
         case .headline: Font.custom(FontsName.regular.name, size: bodyFontSize * 1.2)
+        case .headlineBold: Font.custom(FontsName.bold.name, size: bodyFontSize * 1.2)
         case .body: Font.custom(FontsName.regular.name, size: bodyFontSize)
         case .bodyBold: Font.custom(FontsName.bold.name, size: bodyFontSize)
         case .callout: Font.custom(FontsName.regular.name, size: bodyFontSize * 0.9)

@@ -94,10 +94,10 @@ public extension DevTools {
             }
         }
 
-        public static func deleteLogs() { Common.LogsManager.StorageUtils.deleteAllLogs() }
+        public static func deleteLogs() { Common_Logs.StorageUtils.deleteAllLogs() }
         public static func retrieveLogs(full: Bool = true) -> String {
             var logs = ""
-            var allLogs = Common.LogsManager.StorageUtils.allLogs
+            var allLogs = Common_Logs.StorageUtils.allLogs
             allLogs = allLogs.sorted(by: { a, b in
                 if let date1 = Date.with(a.logId), let date2 = Date.with(b.logId) {
                     return date1 > date2
@@ -126,7 +126,7 @@ public extension DevTools {
             return logs
         }
 
-        private static func store(log: String) { Common.LogsManager.StorageUtils.appendToFileStart(log) }
+        private static func store(log: String) { Common_Logs.StorageUtils.appendToFileStart(log) }
 
         /// Things that must be fixed and shouldn't happen. This logs will always be printed (unless Prod apps)
         public static func error(

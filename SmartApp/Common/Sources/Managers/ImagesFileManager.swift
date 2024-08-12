@@ -39,7 +39,7 @@ public extension Common {
                 result = fileURLs.map(\.lastPathComponent)
                     .filter { $0.hasSuffix(".png") }
             } catch {
-                Common.LogsManager.error("\(error)")
+                Common_Logs.error("\(error)")
             }
             return result
         }
@@ -85,7 +85,7 @@ public extension Common {
             if let data = image.pngData() {
                 let operation: ()? = try? data.write(to: urlPath, options: [.atomic])
                 if operation == nil {
-                    Common.LogsManager.error("Fail saving \(image) using urlPath [\(urlPath)]")
+                    Common_Logs.error("Fail saving \(image) using urlPath [\(urlPath)]")
                 }
                 result = (operation != nil, urlPath)
             }

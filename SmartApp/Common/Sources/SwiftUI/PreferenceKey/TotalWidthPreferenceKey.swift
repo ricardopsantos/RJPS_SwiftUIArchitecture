@@ -72,7 +72,7 @@ struct TotalWidthPreferenceKeyTestView: View {
             Text("Total Width: \(totalWidth)")
         }
         .onPreferenceChange(Common.TotalWidthPreferenceKey.self) { value in
-            Common.LogsManager.debug("\(Common.TotalWidthPreferenceKey.self): \(value)")
+            Common_Logs.debug("\(Common.TotalWidthPreferenceKey.self): \(value)")
             totalWidth = value
         }
     }

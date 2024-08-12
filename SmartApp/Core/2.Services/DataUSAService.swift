@@ -15,7 +15,7 @@ public class DataUSAService {
     private init() {}
     public static let shared = DataUSAService()
 
-    private let cacheManager = Common.SimpleCacheManagerForCodable.shared
+    private let cacheManager = Common.CacheManagerForCodableUserDefaultsRepository.shared
 }
 
 extension DataUSAService: DataUSAServiceProtocol {

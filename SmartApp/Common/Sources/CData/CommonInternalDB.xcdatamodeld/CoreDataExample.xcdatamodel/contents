@@ -1,65 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F66" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="Version_1">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23A344" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="Version_1">
     <entity name="CDataCRUDEntity" representedClassName="CDataCRUDEntity" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="String" regularExpressionString="^.+$"/>
         <attribute name="name" attributeType="String" regularExpressionString="^.+$"/>
         <attribute name="recordDate" attributeType="Date" usesScalarValueType="NO"/>
-    </entity>
-    <entity name="CDataDeepomaticAnalyzesEntity" representedClassName="CDataDeepomaticAnalyzesEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="failResponseDto" optional="YES" attributeType="Binary"/>
-        <attribute name="imageName" optional="YES" attributeType="String"/>
-        <attribute name="numberOfTries" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="requestDate" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="requestDto" attributeType="Binary"/>
-        <attribute name="successResponseDto" optional="YES" attributeType="Binary"/>
-        <attribute name="taskGroupID" attributeType="String" regularExpressionString="^.+$"/>
-        <attribute name="workOrderID" attributeType="String" regularExpressionString="^.+$"/>
-    </entity>
-    <entity name="CDataDeepomaticMetadataEntity" representedClassName="CDataDeepomaticMetadataEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="id" attributeType="String"/>
-        <attribute name="order" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="type" attributeType="String" regularExpressionString="^.+$"/>
-        <attribute name="value" attributeType="String" regularExpressionString="^.+$"/>
-        <relationship name="workOrder" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDataDeepomaticWorkOrderEntity" inverseName="metadatas" inverseEntity="CDataDeepomaticWorkOrderEntity"/>
-    </entity>
-    <entity name="CDataDeepomaticTaskEntity" representedClassName="CDataDeepomaticTaskEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="dbAuxiliarParentTaskGroupID" attributeType="String" regularExpressionString="^.+$"/>
-        <attribute name="dbAuxiliarParentWorkOrderID" attributeType="String" regularExpressionString="^.+$"/>
-        <attribute name="id" attributeType="String" regularExpressionString="^.+$"/>
-        <attribute name="label" attributeType="String" regularExpressionString="^.+$"/>
-        <attribute name="name" attributeType="String" regularExpressionString="^.+$"/>
-        <attribute name="type" attributeType="String" regularExpressionString="^.+$"/>
-        <relationship name="taskGroup" maxCount="1" deletionRule="Nullify" destinationEntity="CDataDeepomaticTaskGroupEntity" inverseName="tasks" inverseEntity="CDataDeepomaticTaskGroupEntity"/>
-    </entity>
-    <entity name="CDataDeepomaticTaskGroupEntity" representedClassName="CDataDeepomaticTaskGroupEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="dbAuxiliarHistoryImagesDto" optional="YES" attributeType="Binary"/>
-        <attribute name="dbAuxiliarOnDetailsDto" optional="YES" attributeType="Binary"/>
-        <attribute name="dbAuxiliarParentWorkOrderID" attributeType="String"/>
-        <attribute name="details" attributeType="String"/>
-        <attribute name="displayName" attributeType="String" regularExpressionString="^.+$"/>
-        <attribute name="id" attributeType="String"/>
-        <attribute name="name" attributeType="String" regularExpressionString="^.+$"/>
-        <attribute name="order" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDataDeepomaticTaskEntity" inverseName="taskGroup" inverseEntity="CDataDeepomaticTaskEntity"/>
-        <relationship name="workOrder" maxCount="1" deletionRule="Cascade" destinationEntity="CDataDeepomaticWorkOrderEntity" inverseName="taskGroups" inverseEntity="CDataDeepomaticWorkOrderEntity"/>
-    </entity>
-    <entity name="CDataDeepomaticWorkOrderEntity" representedClassName="CDataDeepomaticWorkOrderEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="createDate" optional="YES" attributeType="String"/>
-        <attribute name="dbAuxiliarAppType" attributeType="String" regularExpressionString="^.+$"/>
-        <attribute name="dbAuxiliarDeleted" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="dbAuxiliarID" attributeType="String" regularExpressionString="^.+$"/>
-        <attribute name="dbAuxiliarOnCreateDto" optional="YES" attributeType="Binary"/>
-        <attribute name="dbAuxiliarOnReceiveDetailsDto" optional="YES" attributeType="Binary"/>
-        <attribute name="dbAuxiliarWorkOrderType" attributeType="String" regularExpressionString="^.+$"/>
-        <attribute name="id" attributeType="String"/>
-        <attribute name="name" attributeType="String"/>
-        <attribute name="progressScore" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="reviewDate" optional="YES" attributeType="String"/>
-        <attribute name="typeID" attributeType="String"/>
-        <attribute name="typeName" attributeType="String"/>
-        <attribute name="updateDate" optional="YES" attributeType="String"/>
-        <relationship name="metadatas" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDataDeepomaticMetadataEntity" inverseName="workOrder" inverseEntity="CDataDeepomaticMetadataEntity"/>
-        <relationship name="taskGroups" toMany="YES" deletionRule="Cascade" destinationEntity="CDataDeepomaticTaskGroupEntity" inverseName="workOrder" inverseEntity="CDataDeepomaticTaskGroupEntity"/>
     </entity>
     <entity name="CDataExpiringKeyValueEntity" representedClassName="CDataExpiringKeyValueEntity" syncable="YES" codeGenerationType="class">
         <attribute name="encoding" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -68,11 +12,5 @@
         <attribute name="object" attributeType="Binary"/>
         <attribute name="objectType" attributeType="String"/>
         <attribute name="recordDate" attributeType="Date" usesScalarValueType="NO"/>
-    </entity>
-    <entity name="CDataSparkUserEntity" representedClassName="CDataSparkUserEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="dbAuxiliarOnDetailsDto" optional="YES" attributeType="Binary"/>
-        <attribute name="email" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="String" regularExpressionString="^.+$"/>
-        <attribute name="name" attributeType="String" regularExpressionString="^.+$"/>
     </entity>
 </model>

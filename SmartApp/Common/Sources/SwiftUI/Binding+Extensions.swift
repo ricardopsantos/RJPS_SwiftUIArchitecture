@@ -41,7 +41,7 @@ fileprivate extension Common_Preview {
                 Slider(value: $doubleValue.onChange(doubleValueChanged), in: 0...100, step: 1)
                 Toggle("Hi", isOn: $boolValue.didSet { state in
                     // swiftlint:disable logs_rule_1
-                    Common.LogsManager.debug("\(state)")
+                    Common_Logs.debug("\(state)")
                     // swiftlint:enable logs_rule_1
                 })
             }
@@ -49,7 +49,7 @@ fileprivate extension Common_Preview {
 
         func doubleValueChanged(to value: Double) {
             // swiftlint:disable logs_rule_1
-            Common.LogsManager.debug("Changed to \(value)!")
+            Common_Logs.debug("Changed to \(value)!")
             // swiftlint:enable logs_rule_1
         }
     }

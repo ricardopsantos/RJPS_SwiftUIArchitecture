@@ -159,10 +159,18 @@ public extension String {
 //
 
 public extension String {
+    // Generates a deterministic hash value for the string.
+    // This method uses a custom hashing algorithm by combining UTF-8 values of the characters
+    // with a sequence of multipliers. The zip function pairs each UTF-8 character with a multiplier
+    // in the sequence, then maps and reduces the results to produce a final hash value.
     var deterministicHashValue: Int {
         zip(utf8.map(numericCast), Swift.sequence(first: 1, next: { $0 &* 589836 })).map(&*).reduce(0, &+)
     }
 
+    // Computes the SHA-1 hash of the string.
+    // This method converts the string into a UTF-8 data representation, then computes the SHA-1
+    // hash of the data. The resulting digest is an array of bytes, which is then converted to a
+    // hexadecimal string.
     var sha1: String {
         let data = Data(utf8)
         var digest = [UInt8](repeating: 0, count: Int(CC_SHA1_DIGEST_LENGTH))
@@ -429,7 +437,7 @@ public extension String {
                 documentAttributes: nil
             )
         } catch {
-            Common.LogsManager.error("\(error)")
+            Common_Logs.error("\(error)")
             return nil
         }
         /**

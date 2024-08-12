@@ -26,6 +26,17 @@ public extension Data {
         String(data: self, encoding: .utf8)
     }
 
+    var jsonString: String? {
+        guard let json = try? JSONSerialization.jsonObject(with: self, options: []) else {
+            return nil
+        }
+        if let jsonData = try? JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted),
+           let jsonString = String(data: jsonData, encoding: .utf8) {
+            return jsonString
+        }
+        return nil
+    }
+
     func toObject<D: Decodable>() throws -> D {
         try JSONDecoder().decodeFriendly(D.self, from: self)
     }

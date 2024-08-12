@@ -14,7 +14,6 @@ import SwiftUI
  `modifier` suffix, and they can be chained together to create complex and reusable views.
  */
 
-
 internal extension Common_Preview {
     struct ViewsModifiersTestView: View {
         public init() {}
@@ -30,7 +29,6 @@ internal extension Common_Preview {
             }.modifier(LoaderViewModifier(isLoading: .false))
         }
     }
-
 }
 
 #if canImport(SwiftUI) && DEBUG

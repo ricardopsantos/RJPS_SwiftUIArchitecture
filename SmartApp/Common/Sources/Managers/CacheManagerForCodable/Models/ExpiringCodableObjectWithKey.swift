@@ -76,23 +76,6 @@ public extension Common {
 }
 
 //
-// MARK: - fileprivate
-//
-
-fileprivate extension Common.ExpiringCodableObjectWithKey {
-    var toData: Data? { try? JSONEncoder().encode(self) }
-    static var referenceDate: Date { Date.utcNow }
-    static var defaultMinutesTTL: Int { 60 * 24 }
-    static func ttlUsing(base: Date, with ttl: Int?) -> Date {
-        if let ttl {
-            base.add(minutes: ttl)
-        } else {
-            base.add(minutes: defaultMinutesTTL)
-        }
-    }
-}
-
-//
 // MARK: - Public
 //
 
@@ -128,6 +111,23 @@ public extension Common.ExpiringCodableObjectWithKey {
         switch valueEncoding {
         case .dataPlain: return object
         case .dataAES: return Common.EncryptionManager.decrypt(secretData: object)
+        }
+    }
+}
+
+//
+// MARK: - fileprivate
+//
+
+fileprivate extension Common.ExpiringCodableObjectWithKey {
+    var toData: Data? { try? JSONEncoder().encode(self) }
+    static var referenceDate: Date { Date.utcNow }
+    static var defaultMinutesTTL: Int { 60 * 24 }
+    static func ttlUsing(base: Date, with ttl: Int?) -> Date {
+        if let ttl {
+            base.add(minutes: ttl)
+        } else {
+            base.add(minutes: defaultMinutesTTL)
         }
     }
 }

@@ -11,7 +11,7 @@ import SwiftUI
 //
 
 public struct ShadowModifier: ViewModifier {
-    public init () { }
+    public init() {}
     public func body(content: Content) -> some View {
         content
             .shadow(color: .black, radius: 10)

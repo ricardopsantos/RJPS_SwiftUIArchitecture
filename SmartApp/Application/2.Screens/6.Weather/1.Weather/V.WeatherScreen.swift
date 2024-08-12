@@ -84,7 +84,7 @@ struct WeatherView: View, ViewProtocol {
             sender: "\(Self.self)",
             appScreen: .weather,
             navigationViewModel: .disabled,
-            background: .default,
+            background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
             networkStatus: networkMonitorViewModel.networkStatus

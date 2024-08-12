@@ -13,7 +13,6 @@ import SwiftUI
 //
 
 public extension View {
-
     // Executes a closure and returns the original view.
     // Useful for side effects that don't alter the view structure.
     func performAndReturnSelf(_ block: () -> Void) -> some View {
@@ -93,7 +92,6 @@ public extension View {
     }
 }
 
-
 //
 // MARK: - Preview
 //
@@ -127,9 +125,9 @@ fileprivate extension Common_Preview {
                 }
                 VStack {
                     // swiftlint:disable logs_rule_1
-                    performAndReturnEmptyIfSimulator { Common.LogsManager.debug("perfomed_1") }
-                    performAndReturnEmpty { Common.LogsManager.debug("perfomed_2") }
-                    performAndReturnEmpty(if: condition) { Common.LogsManager.debug("perfomed_3") }
+                    performAndReturnEmptyIfSimulator { Common_Logs.debug("perfomed_1") }
+                    performAndReturnEmpty { Common_Logs.debug("perfomed_2") }
+                    performAndReturnEmpty(if: condition) { Common_Logs.debug("perfomed_3") }
                     // swiftlint:enable logs_rule_1
                 }
                 Divider()

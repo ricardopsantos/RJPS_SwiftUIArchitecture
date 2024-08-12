@@ -7,15 +7,15 @@ import Foundation
 import Combine
 
 //
-// MARK: - SimpleCacheManagerForCodable
+// MARK: - CacheManagerForCodableUserDefaultsRepository
 //
 
 public extension Common {
-    class SimpleCacheManagerForCodable: CodableCacheManagerProtocol {
+    class CacheManagerForCodableUserDefaultsRepository: CodableCacheManagerProtocol {
         private init() {}
-        public static let shared = SimpleCacheManagerForCodable()
+        public static let shared = CacheManagerForCodableUserDefaultsRepository()
         private lazy var userDefaults: UserDefaults = {
-            .init(suiteName: "\(SimpleCacheManagerForCodable.self)") ?? .standard
+            .init(suiteName: "\(CacheManagerForCodableUserDefaultsRepository.self)") ?? .standard
         }()
 
         public func syncStore(
@@ -38,6 +38,13 @@ public extension Common {
                 userDefaults.synchronize()
             } else {
                 Common_Utils.assert(false, message: "Not predicted")
+            }
+        }
+
+        public func aSyncRetrieve<T: Codable>(_ type: T.Type, key: String, params: [any Hashable]) async -> (model: T, recordDate: Date)? {
+            try? await withCheckedThrowingContinuation { continuation in
+                let result = syncRetrieve(type, key: key, params: params)
+                continuation.resume(with: .success(result))
             }
         }
 
@@ -64,10 +71,11 @@ public extension Common {
 //
 // MARK: Sample Usage
 //
-public extension Common.SimpleCacheManagerForCodable {
-    
-    typealias ResponseCachedRequest = AnyPublisher<NetworkAgentSampleNamespace.ResponseDto.EmployeeServiceAvailability,
-                                                   CommonNetworking.APIError>
+public extension Common.CacheManagerForCodableUserDefaultsRepository {
+    typealias ResponseCachedRequest = AnyPublisher<
+        NetworkAgentSampleNamespace.ResponseDto.EmployeeServiceAvailability,
+        CommonNetworking.APIError
+    >
     static func sampleUsage() -> ResponseCachedRequest {
         NetworkAgentSampleNamespace.cachedRequest(cachePolicy: .cacheAndLoad)
     }

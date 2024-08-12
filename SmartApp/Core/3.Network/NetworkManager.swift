@@ -41,11 +41,15 @@ extension NetworkManager {
                 serverURL: api.data.serverURL,
                 responseType: .json
             )
+            let cronometerAverageMetricsKey: String = api.name
+            CronometerAverageMetrics.shared.start(key: cronometerAverageMetricsKey)
             return try await runAsync(
                 request: request.urlRequest!,
                 decoder: .defaultForWebAPI,
                 logger: logger,
-                responseType: request.responseFormat
+                responseType: request.responseFormat, onCompleted: {
+                    CronometerAverageMetrics.shared.end(key: cronometerAverageMetricsKey)
+                }
             )
         }
     }

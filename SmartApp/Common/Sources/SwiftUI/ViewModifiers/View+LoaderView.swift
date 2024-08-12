@@ -12,6 +12,7 @@ public struct LoaderView: View {
     public init(isLoading: Bool = true) {
         self.isLoading = isLoading
     }
+
     public var body: some View {
         if isLoading {
             VStack {
@@ -36,9 +37,10 @@ public struct LoaderViewModifier: ViewModifier {
     public init(isLoading: Bool) {
         self.isLoading = isLoading
     }
+
     public func body(content: Content) -> some View {
         content
-            .doIf(isLoading, transform: { $0.blur(radius: 1) } )
+            .doIf(isLoading, transform: { $0.blur(radius: 1) })
             .overlay(LoaderView(isLoading: isLoading))
     }
 }

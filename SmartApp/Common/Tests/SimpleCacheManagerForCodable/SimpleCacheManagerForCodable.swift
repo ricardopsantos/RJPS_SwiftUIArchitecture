@@ -6,27 +6,16 @@ import Nimble
 
 @testable import Common
 
-struct MyStruct: Codable {
-    let name: String
-    let age: Int
-    let height: Double
-
-    static var random: MyStruct {
-        let randomName = UUID().uuidString
-        let randomAge = Int.random(in: 18...40)
-        let randomHeight = Double.random(in: 150...200)
-        return MyStruct(name: randomName, age: randomAge, height: randomHeight)
-    }
-}
-
 final class SimpleCacheManagerForCodable_Tests: XCTestCase {
     var enabled: Bool = true
-    private var service: NetworkAgentSampleAPIProtocol {
-        SimpleNetworkAgentSampleAPI(session: .defaultForNetworkAgent)
+
+    var codableCacheManager: CodableCacheManagerProtocol {
+        Common.CacheManagerForCodableUserDefaultsRepository.shared
+        // Common.CacheManagerForCodableDBRepository.shared
     }
 
-    private var codableCacheManager: CodableCacheManagerProtocol {
-        Common_SimpleCacheManagerForCodable.shared
+    private var service: NetworkAgentSampleAPIProtocol {
+        SimpleNetworkAgentSampleAPI(session: .defaultForNetworkAgent)
     }
 
     override func setUp() {
@@ -37,40 +26,6 @@ final class SimpleCacheManagerForCodable_Tests: XCTestCase {
     }
 
     // Create a function to generate random values for the struct
-
-    private func store(count: Int) {
-        for i in 0...count {
-            codableCacheManager.syncStore(
-                MyStruct.random,
-                key: "cachedKey_\(i)",
-                params: [],
-                timeToLiveMinutes: nil
-            )
-        }
-    }
-
-    private func auxiliar_fetchFirst() {
-        if codableCacheManager.syncRetrieve(
-            MyStruct.self,
-            key: "cachedKey_0",
-            params: []
-        ) != nil {
-        } else {
-            XCTAssert(false)
-        }
-    }
-
-    private func auxiliar_deleteAllRecords() {
-        codableCacheManager.clearAll()
-    }
-
-    private func auxiliar_cachedRequest(cachePolicy: Common.CachePolicy) -> AnyPublisher<
-        NetworkAgentSampleNamespace.ResponseDto.EmployeeServiceAvailability,
-        Never
-    >? {
-        let requestDto = NetworkAgentSampleNamespace.RequestDto.Employee(someParam: "aaa")
-        return service.sampleRequestJSON(requestDto).errorToNever()
-    }
 
     func test_cachePolicy_ignoringCache() {
         guard enabled else {
@@ -179,5 +134,58 @@ final class SimpleCacheManagerForCodable_Tests: XCTestCase {
         measure {
             auxiliar_fetchFirst()
         }
+    }
+}
+
+//
+// MARK: Auxiliar
+//
+
+struct MyStruct: Codable {
+    let name: String
+    let age: Int
+    let height: Double
+
+    static var random: MyStruct {
+        let randomName = UUID().uuidString
+        let randomAge = Int.random(in: 18...40)
+        let randomHeight = Double.random(in: 150...200)
+        return MyStruct(name: randomName, age: randomAge, height: randomHeight)
+    }
+}
+
+private extension SimpleCacheManagerForCodable_Tests {
+    func store(count: Int) {
+        for i in 0...count {
+            codableCacheManager.syncStore(
+                MyStruct.random,
+                key: "cachedKey_\(i)",
+                params: [],
+                timeToLiveMinutes: nil
+            )
+        }
+    }
+
+    func auxiliar_fetchFirst() {
+        if codableCacheManager.syncRetrieve(
+            MyStruct.self,
+            key: "cachedKey_0",
+            params: []
+        ) != nil {
+        } else {
+            XCTAssert(false)
+        }
+    }
+
+    func auxiliar_deleteAllRecords() {
+        codableCacheManager.clearAll()
+    }
+
+    func auxiliar_cachedRequest(cachePolicy: Common.CachePolicy) -> AnyPublisher<
+        NetworkAgentSampleNamespace.ResponseDto.EmployeeServiceAvailability,
+        Never
+    >? {
+        let requestDto = NetworkAgentSampleNamespace.RequestDto.Employee(someParam: "aaa")
+        return service.sampleRequestJSON(requestDto).errorToNever()
     }
 }

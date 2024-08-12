@@ -57,10 +57,10 @@ struct PreferenceKeyStudyTestView: View {
         }
         .onPreferenceChange(Common.ColorSchemePreferenceKey.self) { value in
             colorScheme = value ?? .light
-            Common.LogsManager.debug("\(Common.ColorSchemePreferenceKey.self): \(String(describing: value))")
+            Common_Logs.debug("\(Common.ColorSchemePreferenceKey.self): \(String(describing: value))")
         }
         .onPreferenceChange(Common.IntSumPreferenceKey.self) { value in
-            Common.LogsManager.debug("\(Common.IntSumPreferenceKey.self): \(value)")
+            Common_Logs.debug("\(Common.IntSumPreferenceKey.self): \(value)")
         }
     }
 }

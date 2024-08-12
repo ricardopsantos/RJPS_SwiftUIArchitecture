@@ -121,7 +121,7 @@ public extension UIStackView {
         } else if let view = any as? AnyView {
             addArranged(view: view, id: id)
         } else {
-            Common.LogsManager.error("Not predicted for [\(any)]")
+            Common_Logs.error("Not predicted for [\(any)]")
         }
     }
 

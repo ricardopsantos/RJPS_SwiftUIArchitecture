@@ -7,26 +7,36 @@ import Foundation
 import SwiftUI
 
 public extension View {
-    
     func testListRowBackground() -> some View {
         #if DEBUG
-        self.listRowBackground(Color.random)
+        listRowBackground(Color.random)
         #else
         self
         #endif
     }
-    
+
     func testBackground() -> some View {
         #if DEBUG
-        self.background(Color.random)
+        background(Color.random)
         #else
         self
         #endif
     }
-    
+
     func testAnimatedBackground() -> some View {
+        testAnimatedBackground(.red, .blue)
+    }
+
+    func testAnimatedBackgroundRandom() -> some View {
+        testAnimatedBackground(.random, .random)
+    }
+
+    func testAnimatedBackground(
+        _ color1: Color = .red,
+        _ color2: Color = .blue
+    ) -> some View {
         #if DEBUG
-        self.modifier(AnimatedBackground())
+        modifier(AnimatedBackground(color1: color1, color2: color2))
         #else
         self
         #endif
@@ -36,20 +46,30 @@ public extension View {
 public struct AnimatedBackground: ViewModifier {
     @State private var isVisible: Bool
     private let lineWidth: CGFloat = 5
-    public init(isVisible: Bool = false) {
+    private let color1: Color
+    private let color2: Color
+    public init(
+        isVisible: Bool = false,
+
+        color1: Color = .red,
+        color2: Color = .blue
+    ) {
         self.isVisible = isVisible
+        self.color1 = color1
+        self.color2 = color2
     }
+
     public func body(content: Content) -> some View {
         content
             .overlay(content: {
                 Rectangle()
                     .trim(from: isVisible ? 1 : 0, to: 1)
-                    .stroke(Color.red, lineWidth: lineWidth)
+                    .stroke(color1, lineWidth: lineWidth)
                     .padding(lineWidth)
-                 
+
                 Rectangle()
                     .trim(from: isVisible ? 1 : 0, to: 1)
-                    .stroke(Color.blue, lineWidth: lineWidth)
+                    .stroke(color2, lineWidth: lineWidth)
                     .rotationEffect(.degrees(180))
             })
             .onAppear(perform: {
@@ -59,7 +79,6 @@ public struct AnimatedBackground: ViewModifier {
             })
     }
 }
-
 
 //
 // MARK: - Preview
@@ -71,12 +90,12 @@ fileprivate extension Common_Preview {
         public init() {}
         public var body: some View {
             VStack {
-                Text("View 1")
-                    .testAnimatedBackground()
-                debugPrint("123")
-                debugPrintOnReload(id: "id")
-                debugPrintOnReload(ifCondition: true, id: "id")
-            }//
+                Text("testAnimatedBackground").padding().testAnimatedBackground()
+                SwiftUIUtils.FixedVerticalSpacer(height: 5)
+                Text("testAnimatedBackground").padding().testAnimatedBackground(.blue, .blue)
+                SwiftUIUtils.FixedVerticalSpacer(height: 5)
+                Text("testAnimatedBackground").padding().testAnimatedBackgroundRandom()
+            }
         }
     }
 }

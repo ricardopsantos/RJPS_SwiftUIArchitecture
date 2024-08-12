@@ -26,7 +26,7 @@ public extension Common {
                         value: proxy.size.width
                     )
                 }).onPreferenceChange(Common.EqualWidthPreferenceKey.self) { value in
-                    Common.LogsManager.debug("\(Common.EqualWidthPreferenceKey.self): \(value)")
+                    Common_Logs.debug("\(Common.EqualWidthPreferenceKey.self): \(value)")
                     let newValue = max(width.wrappedValue ?? 0, value)
                     if newValue != width.wrappedValue {
                         width.wrappedValue = newValue

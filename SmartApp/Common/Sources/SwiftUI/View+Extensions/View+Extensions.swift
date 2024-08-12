@@ -107,7 +107,7 @@ public extension View {
     func alpha(_ some: Double) -> some View {
         opacity(some)
     }
-    
+
     func customBackButton(action: @escaping () -> Void) -> some View {
         navigationBarBackButtonHidden(true)
             .toolbar {

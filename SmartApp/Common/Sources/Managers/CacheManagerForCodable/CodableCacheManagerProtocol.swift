@@ -6,7 +6,7 @@
 import Foundation
 import Combine
 
-public typealias Common_SimpleCacheManagerForCodable = Common.SimpleCacheManagerForCodable
+public typealias Common_SimpleCacheManagerForCodable = Common.CacheManagerForCodableUserDefaultsRepository
 public typealias Commom_ExpiringCodableObjectWithKey = Common.ExpiringCodableObjectWithKey
 
 //
@@ -16,5 +16,6 @@ public typealias Commom_ExpiringCodableObjectWithKey = Common.ExpiringCodableObj
 public protocol CodableCacheManagerProtocol {
     func syncStore<T: Codable>(_ codable: T, key: String, params: [any Hashable], timeToLiveMinutes: Int?)
     func syncRetrieve<T: Codable>(_ type: T.Type, key: String, params: [any Hashable]) -> (model: T, recordDate: Date)?
+    func aSyncRetrieve<T: Codable>(_ type: T.Type, key: String, params: [any Hashable]) async -> (model: T, recordDate: Date)?
     func clearAll()
 }

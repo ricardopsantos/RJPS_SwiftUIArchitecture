@@ -115,13 +115,13 @@ fileprivate extension Common_Preview {
                     .onDragDismissKeyboardV1()
                     .onTapDismissKeyboard()
                     .onChange(of: keyboardManagerV1.keyboardHeight, perform: { newValue in
-                        Common.LogsManager.debug("keyboardHeightV1: \(newValue)")
+                        Common_Logs.debug("keyboardHeightV1: \(newValue)")
                         withAnimation {
                             keyboardHeight = newValue
                         }
                     })
                     .onChange(of: keyboardManagerV2.keyboardHeight, perform: { newValue in
-                        Common.LogsManager.debug("keyboardHeightV2: \(newValue)")
+                        Common_Logs.debug("keyboardHeightV2: \(newValue)")
                     })
                 }
             }
@@ -172,4 +172,3 @@ public extension View {
         }
     }
 }
-

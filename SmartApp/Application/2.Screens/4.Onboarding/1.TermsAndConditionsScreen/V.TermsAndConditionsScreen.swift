@@ -27,7 +27,7 @@ struct TermsAndConditionsScreen: View {
             sender: "\(Self.self)",
             appScreen: .termsAndConditions,
             navigationViewModel: .disabled,
-            background: .default,
+            background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
             networkStatus: nil

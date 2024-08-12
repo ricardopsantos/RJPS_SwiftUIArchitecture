@@ -15,7 +15,7 @@ extension BaseView.BackgroundView {
         case clear
         case linear
         case gradient
-        static var `default`: Self {
+        static var defaultBackground: Self {
             .linear
         }
     }
@@ -23,7 +23,11 @@ extension BaseView.BackgroundView {
 
 extension BaseView {
     struct BackgroundView: View {
-        var background: Background = .gradient
+        private let background: Background
+        public init(background: Background) {
+            self.background = background
+        }
+
         @Environment(\.colorScheme) var colorScheme
         public var body: some View {
             Group {
@@ -53,4 +57,14 @@ extension BaseView {
             ).ignoresSafeArea()
         }
     }
+}
+
+#Preview("Preview") {
+    HStack(spacing: 0) {
+        BaseView.BackgroundView(background: .clear)
+        Divider()
+        BaseView.BackgroundView(background: .linear)
+        Divider()
+        BaseView.BackgroundView(background: .gradient)
+    }.background(Color.random)
 }

@@ -39,6 +39,6 @@ public extension XCTestCase {
         if !buttons.isEmpty {
             result += "# buttons[\(buttons.count)]: \(buttons)" + "\n"
         }
-        Common.LogsManager.debug(result)
+        Common_Logs.debug(result)
     }
 }

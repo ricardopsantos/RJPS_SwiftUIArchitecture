@@ -58,7 +58,7 @@ public extension Common {
                 // Schedule an unlock task after the specified time
                 let unlockTask = DispatchWorkItem { [weak self] in
                     if let strongSelf = self, let lockInfo = strongSelf.lockInfoDictionary[key], lockInfo.referenceCount > 0 {
-                        Common.LogsManager.debug("🔓 \(Self.self): Will auto unlock [\(key)]")
+                        Common_Logs.debug("🔓 \(Self.self): Will auto unlock [\(key)]")
                         strongSelf.unlock(key: key)
                     }
                 }
@@ -104,7 +104,7 @@ public extension Common {
 
         public func unlockAll() {
             if !lockDictionary.isEmpty {
-                Common.LogsManager.debug("🔓 \(Self.self): Will unlock \(lockDictionary.count) locks. \(lockDictionary). [\(lockDictionary.keys)]")
+                Common_Logs.debug("🔓 \(Self.self): Will unlock \(lockDictionary.count) locks. \(lockDictionary). [\(lockDictionary.keys)]")
                 lockDictionary.forEach { lock in
                     unlock(key: lock.key)
                 }

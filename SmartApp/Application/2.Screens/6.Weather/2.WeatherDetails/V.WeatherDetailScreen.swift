@@ -84,7 +84,7 @@ struct WeatherDetailsView: View, ViewProtocol {
             navigationViewModel: .custom(onBackButtonTap: {
                 onRouteBack()
             }, title: "Weather Details".localizedMissing),
-            background: .default,
+            background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
             networkStatus: networkMonitorViewModel.networkStatus

@@ -16,6 +16,7 @@ public struct BorderModifier: ViewModifier {
         self.width = width
         self.color = color
     }
+
     public func body(content: Content) -> some View {
         content.border(color, width: width)
     }

@@ -15,7 +15,7 @@ import SystemConfiguration
 public extension CommonNetworking {
     struct Reachability {
         private init() {}
-        
+
         private static var defaultReachability: SCNetworkReachability? {
             var zeroAddress = sockaddr()
             zeroAddress.sa_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
@@ -34,12 +34,12 @@ public extension CommonNetworking {
             case v1 //
             case v2
             case v3
-            
+
             public static var `default`: Self {
                 .v2
             }
         }
-        
+
         public static func isConnectedToNetwork(_ method: CommonNetworking.Reachability.Method) -> Bool {
             switch method {
             case .v1: return isConnectedToNetworkV1
@@ -100,7 +100,6 @@ public extension CommonNetworking {
             return false
         }
 
-
         @PWThreadSafe private static var isConnected = false
         @PWThreadSafe private static var isFetching = false
         @PWThreadSafe private static var semaphore = DispatchSemaphore(value: 1)
@@ -111,7 +110,7 @@ public extension CommonNetworking {
         private static var isConnectedToNetworkV3: Bool {
             // Acquire the semaphore to ensure thread-safe access to the network status check
             semaphore.wait()
-            
+
             // Ensure the semaphore is released regardless of how the function exits
             defer { semaphore.signal() }
 
@@ -152,6 +151,5 @@ public extension CommonNetworking {
                 return isConnected
             }
         }
-
     }
 }

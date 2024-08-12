@@ -82,7 +82,7 @@ struct SettingsScreen: View, ViewProtocol {
             sender: "\(Self.self)",
             appScreen: .settings,
             navigationViewModel: .disabled,
-            background: .default,
+            background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
             networkStatus: nil

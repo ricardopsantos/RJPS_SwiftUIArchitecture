@@ -43,9 +43,11 @@ enum BaseView {
             networkStatus: networkStatus
         ) {
             Group {
-                if let loadingModel = loadingModel {
+                if let loadingModel = loadingModel, loadingModel != .notLoading {
                     ZStack {
-                        content().opacity(loadingModel.isLoading ? 0.1 : 1)
+                        content()
+                            // .testAnimatedBackground()
+                            .opacity(loadingModel.isLoading ? 0.1 : 1)
                         LoadingIndicator(
                             isLoading: loadingModel.isLoading,
                             loadingMessage: loadingModel.message
@@ -53,6 +55,7 @@ enum BaseView {
                     }
                 } else {
                     content()
+                    // .testAnimatedBackground()
                 }
             }
         }
@@ -76,6 +79,7 @@ fileprivate extension BaseView {
         networkStatus: CommonNetworking.NetworkStatus?,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
+        let networkStatus = networkStatus ?? .internetConnectionAvailable
         let baseView =
             ZStack {
                 BackgroundView(background: background)
@@ -100,16 +104,19 @@ fileprivate extension BaseView {
             .doIf(dismissKeyboardOnTap, transform: {
                 $0.onTapDismissKeyboard()
             })
-            .doIf(!(networkStatus?.existsInternetConnection ?? true), transform: {
+            .doIf(!networkStatus.existsInternetConnection, transform: {
                 $0
                     .blur(radius: 1)
                     .overlay(
                         ZStack {
                             ColorSemantic.warning.color.opacity(0.2)
                             Text("No Internet connection.\n\nPlease try again latter...".localizedMissing)
-                                .fontSemantic(.callout)
-                                .textColor(ColorSemantic.danger.color)
+                                .fontSemantic(.headlineBold)
+                                .textColor(ColorSemantic.labelPrimary.color)
+                                .padding()
+                                .background(ColorSemantic.warning.color.opacity(1))
                                 .multilineTextAlignment(.center)
+                                .cornerRadius2(SizeNames.cornerRadius)
                         }
                     )
             })
@@ -147,6 +154,7 @@ fileprivate extension BaseView {
                 }
             } else {
                 baseView
+                //  .testAnimatedBackground()
             }
         }
     }

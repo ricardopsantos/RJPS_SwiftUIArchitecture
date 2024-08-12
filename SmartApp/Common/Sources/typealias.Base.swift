@@ -12,6 +12,7 @@ public class Common_Preview {}
 // MARK: - Main
 
 public typealias Common_Utils = Common.Utils
+public typealias Common_Logs = Common.LogsManager
 
 // MARK: - Utils SwiftUI
 

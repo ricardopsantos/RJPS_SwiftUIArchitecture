@@ -43,7 +43,7 @@ public extension AnyPublisher {
         // - Concurrency: Detached tasks can run concurrently, and the program flow does not wait for their completion.
         //   They operate independently and asynchronously from the code that spawned them.
         try await Task.detached {
-            try await self.async()
+            try await async()
         }.value
     }
 
@@ -57,7 +57,7 @@ public extension AnyPublisher {
                     switch result {
                     case .finished:
                         if finishedWithoutValue {
-                            Common.LogsManager.error("\(sender) : Finish without value - \(continuation)")
+                            Common_Logs.error("\(sender) : Finish without value - \(continuation)")
                             continuation.resume(throwing: AsyncError.finishedWithoutValue)
                         }
                     case let .failure(error):

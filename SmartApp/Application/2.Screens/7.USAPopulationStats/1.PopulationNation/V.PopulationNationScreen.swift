@@ -75,7 +75,7 @@ struct PopulationNationView: View, ViewProtocol {
             sender: "\(Self.self)",
             appScreen: .populationNation,
             navigationViewModel: .disabled,
-            background: .default,
+            background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
             networkStatus: networkMonitorViewModel.networkStatus

@@ -68,9 +68,9 @@ private extension Common.PropertyWrappers {
     static func example() {
         let myStruct = MyStruct()
         // prints "Hello, world!"
-        Common.LogsManager.debug(myStruct.myString)
+        Common_Logs.debug(myStruct.myString)
 
         // prints the projected value, which is 13 (the length of "Hello, world!")
-        Common.LogsManager.debug(myStruct.$myString)
+        Common_Logs.debug(myStruct.$myString)
     }
 }

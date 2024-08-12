@@ -55,7 +55,7 @@ private func sampleUsageNotificationCenter() {
             for try await value in observer {
                 if let myObject = value {
                     // Do something with myObject
-                    Common.LogsManager.debug("Received notification with object: \(myObject)")
+                    Common_Logs.debug("Received notification with object: \(myObject)")
                 }
             }
         }

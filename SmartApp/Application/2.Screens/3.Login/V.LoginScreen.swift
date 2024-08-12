@@ -70,7 +70,7 @@ struct LoginView: View, ViewProtocol {
             sender: "\(Self.self)",
             appScreen: .login,
             navigationViewModel: .disabled,
-            background: .default,
+            background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
             networkStatus: nil
