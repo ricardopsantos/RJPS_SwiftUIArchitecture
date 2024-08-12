@@ -5,20 +5,6 @@
 
 import Foundation
 import Combine
-//
-
-public typealias Common_SimpleCacheManagerForCodable = Common.SimpleCacheManagerForCodable
-public typealias Commom_ExpiringCodableObjectWithKey = Common.ExpiringCodableObjectWithKey
-
-//
-// MARK: - CodableCacheManagerProtocol
-//
-
-public protocol CodableCacheManagerProtocol {
-    func syncStore<T: Codable>(_ codable: T, key: String, params: [any Hashable], timeToLiveMinutes: Int?)
-    func syncRetrieve<T: Codable>(_ type: T.Type, key: String, params: [any Hashable]) -> (model: T, recordDate: Date)?
-    func clearAll()
-}
 
 //
 // MARK: - SimpleCacheManagerForCodable
@@ -72,5 +58,17 @@ public extension Common {
             }
             userDefaults.synchronize()
         }
+    }
+}
+
+//
+// MARK: Sample Usage
+//
+public extension Common.SimpleCacheManagerForCodable {
+    
+    typealias ResponseCachedRequest = AnyPublisher<NetworkAgentSampleNamespace.ResponseDto.EmployeeServiceAvailability,
+                                                   CommonNetworking.APIError>
+    static func sampleUsage() -> ResponseCachedRequest {
+        NetworkAgentSampleNamespace.cachedRequest(cachePolicy: .cacheAndLoad)
     }
 }

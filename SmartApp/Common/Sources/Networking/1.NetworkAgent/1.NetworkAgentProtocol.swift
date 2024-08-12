@@ -14,7 +14,8 @@ public protocol NetworkAgentProtocol {
         request: URLRequest,
         decoder: JSONDecoder,
         logger: CommonNetworking.NetworkLogger,
-        responseType: CommonNetworking.ResponseFormat
+        responseType: CommonNetworking.ResponseFormat,
+        onCompleted: () -> ()
     ) -> AnyPublisher<
         CommonNetworking.Response<T>,
         CommonNetworking.APIError
@@ -24,7 +25,8 @@ public protocol NetworkAgentProtocol {
         request: URLRequest,
         decoder: JSONDecoder,
         logger: CommonNetworking.NetworkLogger,
-        responseType: CommonNetworking.ResponseFormat
+        responseType: CommonNetworking.ResponseFormat,
+        onCompleted: ()->()
     ) async throws -> T
 }
 
@@ -33,7 +35,8 @@ public extension NetworkAgentProtocol {
         request: URLRequest,
         decoder: JSONDecoder = .defaultForWebAPI,
         logger: CommonNetworking.NetworkLogger,
-        responseType: CommonNetworking.ResponseFormat
+        responseType: CommonNetworking.ResponseFormat,
+        onCompleted: @escaping () -> ()
     ) -> AnyPublisher<
         CommonNetworking.Response<T>,
         CommonNetworking.APIError
@@ -44,11 +47,9 @@ public extension NetworkAgentProtocol {
             logger,
             responseType
         )
-        // .runBlockAndContinue { response in
-        //    if logger.dumpResponse, let asEncodable = response as? Encodable {
-        //        CommonNetworking.handleResponse(request: request, response: asEncodable)
-        //    }
-        // }
+         .runBlockAndContinue { response in
+             onCompleted()
+         }
         .eraseToAnyPublisher()
     }
 
@@ -56,13 +57,15 @@ public extension NetworkAgentProtocol {
         request: URLRequest,
         decoder: JSONDecoder = .defaultForWebAPI,
         logger: CommonNetworking.NetworkLogger,
-        responseType: CommonNetworking.ResponseFormat
+        responseType: CommonNetworking.ResponseFormat,
+        onCompleted:@escaping ()->()
     ) async throws -> T {
         try await client.runAsync(
             request,
             decoder,
             logger,
-            responseType
+            responseType,
+            onCompleted
         )
     }
 }

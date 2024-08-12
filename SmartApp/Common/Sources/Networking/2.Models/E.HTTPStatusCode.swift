@@ -14,7 +14,7 @@ import CommonCrypto
 
 public extension CommonNetworking {
     enum HTTPStatusCode: Int {
-        case unknow = -1
+        case unknown = -1
 
         // Informational
         case continueRequest = 100

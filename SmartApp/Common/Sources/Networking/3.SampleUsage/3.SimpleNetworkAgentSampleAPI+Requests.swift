@@ -88,7 +88,8 @@ public extension SimpleNetworkAgentSampleAPI {
             request: request.urlRequest!,
             decoder: .defaultForWebAPI,
             logger: logger,
-            responseType: request.responseFormat
+            responseType: request.responseFormat,
+            onCompleted: { }
         )
     }
 }

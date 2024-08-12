@@ -10,76 +10,8 @@ import CommonCrypto
 
 public extension CommonNetworking {
     //
-    // MARK: - NetworkLogger
-    //
-    struct NetworkLogger {
-        public let dumpRequest: Bool
-        public let dumpResponse: Bool
-        public let logError: Bool
-        public let logOperationTime: Bool
-        public var prefix: String = ""
-        public var number: Int
-
-        public init(
-            dumpRequest: Bool,
-            dumpResponse: Bool,
-            logError: Bool,
-            logOperationTime: Bool,
-            number: Int) {
-            self.dumpRequest = dumpRequest
-            self.dumpResponse = dumpResponse
-            self.logError = logError
-            self.logOperationTime = logOperationTime
-            self.number = number
-        }
-
-        public static var allOn: Self {
-            Self(dumpRequest: true, dumpResponse: true, logError: true, logOperationTime: true, number: 0)
-        }
-
-        public static var requestAndResponses: Self {
-            Self(dumpRequest: true, dumpResponse: true, logError: true, logOperationTime: false, number: 0)
-        }
-
-        public static var allOff: Self {
-            Self(dumpRequest: false, dumpResponse: false, logError: false, logOperationTime: false, number: 0)
-        }
-    }
-
-    //
-    // MARK: - Response
-    //
-
-    struct Response<T: Decodable> {
-        public let modelDto: T
-        public let response: Any
-
-        public init(modelDto: T, response: Any) {
-            self.modelDto = modelDto
-            self.response = response
-        }
-
-        public var statusCode: Int? {
-            if let urlResponse = response as? HTTPURLResponse {
-                return urlResponse.statusCode
-            }
-            return nil
-        }
-
-        public var httpStatusCode: HTTPStatusCode {
-            guard let statusCode else {
-                return .unknow
-            }
-            return HTTPStatusCode(rawValue: statusCode) ?? .unknow
-        }
-    }
-}
-
-public extension CommonNetworking {
-    //
     // MARK: - NetworkAgent
     //
-
     class NetworkAgent: NSObject, URLSessionDelegate {
         private let urlSession: URLSession
         private let authenticationHandler = CommonNetworking.AuthenticationHandler()
@@ -147,7 +79,7 @@ public extension CommonNetworking {
         if let response {
             message += "\(String(describing: response.toDictionary))"
         }
-        Common.LogsManager.debug(message)
+        Common_Logs.debug(message)
         return message
     }
 }
@@ -170,7 +102,7 @@ public extension CommonNetworking.NetworkAgent {
         let prefix = logger.prefix.isEmpty ? "" : "\(logger.prefix): "
 
         if !Common_Utils.existsInternetConnection() {
-            Common.LogsManager.error("⤴️ Request\(number) ⤴️ \(prefix)\(request) : No Internet connection")
+            Common_Logs.error("⤴️ Request\(number) ⤴️ \(prefix)\(request) : No Internet connection")
         }
 
         let requestDebug = "\(request) -> \(T.self).type"
@@ -182,7 +114,7 @@ public extension CommonNetworking.NetworkAgent {
                     Common.CronometerManager.startTimerWith(identifier: cronometerId)
                 }
                 if logger.dumpRequest {
-                    Common.LogsManager.debug("⤴️ Request\(number) ⤴️ \(prefix)\(request)")
+                    Common_Logs.debug("⤴️ Request\(number) ⤴️ \(prefix)\(request)")
                     request.curlCommand(doPrint: true)
                 }
             })
@@ -193,7 +125,7 @@ public extension CommonNetworking.NetworkAgent {
                 }
 
                 let statusCode = (result.response as? HTTPURLResponse)?.statusCode ?? -1
-                let httpStatusCode = CommonNetworking.HTTPStatusCode(rawValue: statusCode) ?? .unknow
+                let httpStatusCode = CommonNetworking.HTTPStatusCode(rawValue: statusCode) ?? .unknown
 
                 if logger.dumpResponse {
                     let number = logger.number > 0 ? " #\(logger.number)" : ""
@@ -201,7 +133,7 @@ public extension CommonNetworking.NetworkAgent {
                     let status = "Status: \(statusCode), \(httpStatusCode)"
                     let responseDebug = String(decoding: result.data, as: UTF8.self)
                     let logMessage = "# ⤵️ Response\(number) ⤵️ \(status) | \(prefix) [\(requestDebug)]\n# \(responseDebug)"
-                    Common.LogsManager.debug(logMessage)
+                    Common_Logs.debug(logMessage)
                 }
 
                 //
@@ -267,7 +199,8 @@ public extension CommonNetworking.NetworkAgent {
         _ request: URLRequest,
         _ decoder: JSONDecoder,
         _ logger: CommonNetworking.NetworkLogger,
-        _ responseFormat: CommonNetworking.ResponseFormat) async throws -> T {
+        _ responseFormat: CommonNetworking.ResponseFormat,
+        _ onCompleted:@escaping ()->())async throws -> T {
         let apiCall: AnyPublisher<
             T,
             CommonNetworking.APIError
@@ -277,7 +210,9 @@ public extension CommonNetworking.NetworkAgent {
             logger,
             responseFormat).flatMap { response in
             Just(response.modelDto).setFailureType(to: CommonNetworking.APIError.self).eraseToAnyPublisher()
-        }.eraseToAnyPublisher()
+            }.runBlockAndContinue { response in
+                onCompleted() // Do something before returns
+            }.eraseToAnyPublisher()
         return try await apiCall.async()
     }
 }
@@ -327,18 +262,5 @@ fileprivate extension CommonNetworking.NetworkAgent {
             let data = try CommonNetworking.Utils.parseCSV(data: data ?? Data())
             return try decoder.decodeFriendly(T.self, from: data)
         }
-    }
-}
-
-fileprivate extension Data {
-    var jsonString: String? {
-        guard let json = try? JSONSerialization.jsonObject(with: self, options: []) else {
-            return nil
-        }
-        if let jsonData = try? JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted),
-           let jsonString = String(data: jsonData, encoding: .utf8) {
-            return jsonString
-        }
-        return nil
     }
 }

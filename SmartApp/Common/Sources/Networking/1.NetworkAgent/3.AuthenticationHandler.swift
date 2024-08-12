@@ -23,7 +23,7 @@ public extension CommonNetworking {
             //
             if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodHTTPBasic {
                 guard let credential else {
-                    Common.LogsManager.error("No credentials provided for challenge \(challenge)")
+                    Common_Logs.error("No credentials provided for challenge \(challenge)")
                     completionHandler(.cancelAuthenticationChallenge, nil)
                     return
                 }
@@ -43,8 +43,8 @@ public extension CommonNetworking {
             }
 
             func cancelAuthenticationChallengeWithLog(key: String, value: String) {
-                Common.LogsManager.debug("ServerPublicKey: \(serverPublicKey)\nServerPublicKeyData: \(serverPublicKeyData)")
-                Common.LogsManager.error("Unexpected \(key): [\(value)]")
+                Common_Logs.debug("ServerPublicKey: \(serverPublicKey)\nServerPublicKeyData: \(serverPublicKeyData)")
+                Common_Logs.error("Unexpected \(key): [\(value)]")
                 completionHandler(.cancelAuthenticationChallenge, nil)
             }
 
@@ -95,7 +95,7 @@ public extension CommonNetworking {
                     return
                 } else {
                     cancelAuthenticationChallengeWithLog(key: "remoteCertificateData", value: "\(Data(remoteCertificateData).base64EncodedString())")
-                    //  Common.LogsManager.error("Unexpected remoteCertificateData: [\(Data(remoteCertificateData).base64EncodedString())]")
+                    //  Common_Logs.error("Unexpected remoteCertificateData: [\(Data(remoteCertificateData).base64EncodedString())]")
                 }
             }
 
