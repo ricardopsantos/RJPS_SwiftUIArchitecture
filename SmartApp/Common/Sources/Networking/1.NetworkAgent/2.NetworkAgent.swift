@@ -200,7 +200,7 @@ public extension CommonNetworking.NetworkAgent {
         _ decoder: JSONDecoder,
         _ logger: CommonNetworking.NetworkLogger,
         _ responseFormat: CommonNetworking.ResponseFormat,
-        _ onCompleted:@escaping ()->())async throws -> T {
+        _ onCompleted: @escaping () -> Void) async throws -> T {
         let apiCall: AnyPublisher<
             T,
             CommonNetworking.APIError
@@ -210,9 +210,9 @@ public extension CommonNetworking.NetworkAgent {
             logger,
             responseFormat).flatMap { response in
             Just(response.modelDto).setFailureType(to: CommonNetworking.APIError.self).eraseToAnyPublisher()
-            }.runBlockAndContinue { response in
-                onCompleted() // Do something before returns
-            }.eraseToAnyPublisher()
+        }.runBlockAndContinue { response in
+            onCompleted() // Do something before returns
+        }.eraseToAnyPublisher()
         return try await apiCall.async()
     }
 }

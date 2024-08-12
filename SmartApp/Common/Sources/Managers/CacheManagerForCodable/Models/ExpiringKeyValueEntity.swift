@@ -11,7 +11,7 @@ import Combine
 //
 
 public extension Common {
-    class ExpiringCodableObjectWithKey: Codable {
+    class ExpiringKeyValueEntity: Codable {
         public private(set) var key: String! // Cache key (built using api request name and parameters)
         public private(set) var object: Data? // Value to be stored
         public private(set) var expireDate: Date! // The limit date in witch we can retried the object
@@ -49,7 +49,7 @@ public extension Common {
             encoding: ValueEncoding = .dataPlain
         ) {
             self.init(
-                key: ExpiringCodableObjectWithKey.composedKey(key, params),
+                key: Self.composedKey(key, params),
                 expireDate: Self.ttlUsing(base: Self.referenceDate, with: timeToLiveMinutes ?? Self.defaultMinutesTTL),
                 object: object,
                 objectType: "\(String(describing: type(of: object)))",
@@ -65,7 +65,7 @@ public extension Common {
             encoding: ValueEncoding = .dataPlain
         ) {
             self.init(
-                key: ExpiringCodableObjectWithKey.composedKey(key, params),
+                key: Self.composedKey(key, params),
                 expireDate: Self.ttlUsing(base: Self.referenceDate, with: timeToLiveMinutes ?? Self.defaultMinutesTTL),
                 object: try? JSONEncoder().encode(codable),
                 objectType: "\(String(describing: type(of: codable)))",
@@ -79,14 +79,14 @@ public extension Common {
 // MARK: - Public
 //
 
-public extension Common.ExpiringCodableObjectWithKey {
+public extension Common.ExpiringKeyValueEntity {
     enum ValueEncoding: Int {
         case dataPlain = 0
         case dataAES
     }
 
     static var composedKeyPrefix: String {
-        "\(Common.ExpiringCodableObjectWithKey.self)"
+        "\(Common.ExpiringKeyValueEntity.self)"
     }
 
     static func composedKey(_ key: String, _ keyParams: [any Hashable]) -> String {
@@ -119,7 +119,7 @@ public extension Common.ExpiringCodableObjectWithKey {
 // MARK: - fileprivate
 //
 
-fileprivate extension Common.ExpiringCodableObjectWithKey {
+fileprivate extension Common.ExpiringKeyValueEntity {
     var toData: Data? { try? JSONEncoder().encode(self) }
     static var referenceDate: Date { Date.utcNow }
     static var defaultMinutesTTL: Int { 60 * 24 }

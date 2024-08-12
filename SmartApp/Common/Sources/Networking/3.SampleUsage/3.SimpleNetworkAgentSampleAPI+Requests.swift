@@ -42,7 +42,7 @@ public extension SimpleNetworkAgentSampleAPI {
             decoder: .defaultForWebAPI,
             logger: logger,
             responseType: request.responseFormat,
-            onCompleted: { 
+            onCompleted: {
                 CronometerAverageMetrics.shared.start(key: cronometerAverageMetricsKey)
             }
         )
@@ -72,7 +72,7 @@ public extension SimpleNetworkAgentSampleAPI {
             request: request.urlRequest!,
             decoder: .defaultForWebAPI,
             logger: logger,
-            responseType: request.responseFormat, onCompleted: { 
+            responseType: request.responseFormat, onCompleted: {
                 CronometerAverageMetrics.shared.end(key: #function)
             }
         )
@@ -100,7 +100,7 @@ public extension SimpleNetworkAgentSampleAPI {
             decoder: .defaultForWebAPI,
             logger: logger,
             responseType: request.responseFormat,
-            onCompleted: { 
+            onCompleted: {
                 CronometerAverageMetrics.shared.end(key: cronometerAverageMetricsKey)
             }
         )

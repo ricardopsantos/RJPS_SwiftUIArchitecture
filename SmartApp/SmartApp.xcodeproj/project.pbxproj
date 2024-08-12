@@ -432,7 +432,7 @@
 		FB85D09E7B9C9AF456B3772E /* UISearchTextField+CombineCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FAE6F8946B2E531CBC6F92 /* UISearchTextField+CombineCompatible.swift */; };
 		FC697892790D4D0A8DEB30B0 /* CDataExpiringKeyValueEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA015481A6F412FAF6B2C3C /* CDataExpiringKeyValueEntity+Extensions.swift */; };
 		FD29E9F1F219C77FB000F53A /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E9E77CBCB289260F99F61F /* UITextField+Extensions.swift */; };
-		FDEEC0F23096C221C1E3F2A7 /* ExpiringCodableObjectWithKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121C747D72E04E3561AA0B9E /* ExpiringCodableObjectWithKey.swift */; };
+		FDEEC0F23096C221C1E3F2A7 /* ExpiringKeyValueEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121C747D72E04E3561AA0B9E /* ExpiringKeyValueEntity.swift */; };
 		FF00A0FF8C325C441ABAA831 /* CommonNetworking+NetworMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D49D8F32182CD6C807AEF65 /* CommonNetworking+NetworMonitor.swift */; };
 		FF4BE01D7E3B2A5A014891D2 /* V.OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAB6D76F76BED885166B648 /* V.OnboardingScreen.swift */; };
 		FF634173991B5FEA093831D6 /* Model+PopulationNationDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204181BEDC8428FA8BCB0C3 /* Model+PopulationNationDataRequest.swift */; };
@@ -660,7 +660,7 @@
 		0FB2F58E9249995F88C73F45 /* PopulationNationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationNationViewModelTests.swift; sourceTree = "<group>"; };
 		0FB5D883E028EDFD83FA1D5F /* Host.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Host.png; sourceTree = "<group>"; };
 		1075C777CEF25248D25A4169 /* SyncCoreDataManagerSaveProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncCoreDataManagerSaveProtocol.swift; sourceTree = "<group>"; };
-		121C747D72E04E3561AA0B9E /* ExpiringCodableObjectWithKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiringCodableObjectWithKey.swift; sourceTree = "<group>"; };
+		121C747D72E04E3561AA0B9E /* ExpiringKeyValueEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiringKeyValueEntity.swift; sourceTree = "<group>"; };
 		12CCB3B23B3463BC52EF3457 /* View+BorderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+BorderModifier.swift"; sourceTree = "<group>"; };
 		134B36F44B7F980A6B5DACA8 /* Model+LoadingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model+LoadingModel.swift"; sourceTree = "<group>"; };
 		139B4C77884AA238FA355F93 /* UITestingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestingManager.swift; sourceTree = "<group>"; };
@@ -1387,7 +1387,7 @@
 			children = (
 				07FE2E44C1612DB7D55C08AC /* E.CachePolicy.swift */,
 				3173462E30E795607A88F866 /* E.RepositoryAvailabilityState.swift */,
-				121C747D72E04E3561AA0B9E /* ExpiringCodableObjectWithKey.swift */,
+				121C747D72E04E3561AA0B9E /* ExpiringKeyValueEntity.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1671,9 +1671,9 @@
 		5122359C84D40EECD0FDEFDB /* 1.Main */ = {
 			isa = PBXGroup;
 			children = (
-				CBB5C00220D1A54C3FC6CCF0 /* AppDelegate.swift */,
 				47E2C891BF7C181B08C093CF /* main.swift */,
 				EEE9C69438C3A48D62EA7E6B /* SmartApp.swift */,
+				CBB5C00220D1A54C3FC6CCF0 /* AppDelegate.swift */,
 			);
 			path = 1.Main;
 			sourceTree = "<group>";
@@ -3354,7 +3354,7 @@
 				3307341D8A5EBF464B7A14B3 /* EqualWidthPreferenceKey.swift in Sources */,
 				851359A7F10923D6B512F8FC /* Error+Extensions.swift in Sources */,
 				1D5E95916BE014FA5D54823D /* ExecutionControlManager.swift in Sources */,
-				FDEEC0F23096C221C1E3F2A7 /* ExpiringCodableObjectWithKey.swift in Sources */,
+				FDEEC0F23096C221C1E3F2A7 /* ExpiringKeyValueEntity.swift in Sources */,
 				01D8DD7CA82C9543F8483173 /* Future+Extensions.swift in Sources */,
 				E3651A36AAAD5B6B0EEC4EA2 /* GenericChangesPublisher.swift in Sources */,
 				C24A9AA13AB740771FDBCF9A /* GenericHashableObservableObject.swift in Sources */,

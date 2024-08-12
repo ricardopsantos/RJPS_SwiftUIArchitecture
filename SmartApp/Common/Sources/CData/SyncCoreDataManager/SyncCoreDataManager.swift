@@ -12,7 +12,10 @@ public extension CommonCoreDataNameSpace {
         private let managedObjectModel: NSManagedObjectModel!
 
         public init(dbName: String, dbBundle: String) {
-            self.managedObjectModel = Utils.managedObjectModelWith(dbName: dbName, dbBundle: dbBundle)
+            self.managedObjectModel = Utils.managedObjectModelWith(
+                dbName: dbName,
+                dbBundle: dbBundle
+            )
             self.dbName = dbName
         }
 
@@ -21,7 +24,7 @@ public extension CommonCoreDataNameSpace {
         }()
 
         public lazy var viewContext: NSManagedObjectContext = {
-            mainViewContext
+            Utils.mainViewContext(storeContainer: storeContainer)
         }()
 
         public lazy var mainViewContext: NSManagedObjectContext = {

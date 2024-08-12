@@ -35,6 +35,7 @@ public extension CDataExpiringKeyValueEntity {
     static func fetchRequestWith(key: String) -> NSFetchRequest<DBEntity> {
         let request = NSFetchRequest<DBEntity>(entityName: DBEntity.entityName)
         request.predicate = NSPredicate.anyField(DBEntity.idFields, with: key)
+        request.fetchLimit = 1
         return request
     }
 }

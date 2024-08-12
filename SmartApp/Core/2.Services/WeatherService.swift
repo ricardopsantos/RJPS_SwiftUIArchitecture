@@ -39,8 +39,14 @@ extension WeatherService: WeatherServiceProtocol {
             .getWeather(request),
             type: responseType)
 
-        cacheManager.syncStore(result, key: cacheKey, params: cacheParams)
+        await cacheManager.aSyncStore(result, key: cacheKey, params: cacheParams)
 
+        if let cached = await cacheManager.aSyncRetrieve(responseType, key: cacheKey, params: cacheParams) {
+            DevTools.Log.debug(.log("Returned cache for \(#function)"), .business)
+            return cached.model
+        }
+
+        print(cacheManager.codableCacheManager_allCachedKeys.count)
         return result
     }
 }

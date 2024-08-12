@@ -15,7 +15,7 @@ public protocol NetworkAgentProtocol {
         decoder: JSONDecoder,
         logger: CommonNetworking.NetworkLogger,
         responseType: CommonNetworking.ResponseFormat,
-        onCompleted: @escaping () -> ()
+        onCompleted: @escaping () -> Void
     ) -> AnyPublisher<
         CommonNetworking.Response<T>,
         CommonNetworking.APIError
@@ -26,7 +26,7 @@ public protocol NetworkAgentProtocol {
         decoder: JSONDecoder,
         logger: CommonNetworking.NetworkLogger,
         responseType: CommonNetworking.ResponseFormat,
-        onCompleted: @escaping ()->()
+        onCompleted: @escaping () -> Void
     ) async throws -> T
 }
 
@@ -36,7 +36,7 @@ public extension NetworkAgentProtocol {
         decoder: JSONDecoder = .defaultForWebAPI,
         logger: CommonNetworking.NetworkLogger,
         responseType: CommonNetworking.ResponseFormat,
-        onCompleted: @escaping () -> ()
+        onCompleted: @escaping () -> Void
     ) -> AnyPublisher<
         CommonNetworking.Response<T>,
         CommonNetworking.APIError
@@ -47,9 +47,9 @@ public extension NetworkAgentProtocol {
             logger,
             responseType
         )
-         .runBlockAndContinue { response in
-             onCompleted()
-         }
+        .runBlockAndContinue { response in
+            onCompleted()
+        }
         .eraseToAnyPublisher()
     }
 
@@ -58,7 +58,7 @@ public extension NetworkAgentProtocol {
         decoder: JSONDecoder = .defaultForWebAPI,
         logger: CommonNetworking.NetworkLogger,
         responseType: CommonNetworking.ResponseFormat,
-        onCompleted: @escaping ()->()
+        onCompleted: @escaping () -> Void
     ) async throws -> T {
         try await client.runAsync(
             request,

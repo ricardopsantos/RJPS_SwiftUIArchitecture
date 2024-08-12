@@ -53,12 +53,12 @@ public extension CommonCoreDataNameSpace.Utils {
 
     static func privateViewContext(storeContainer: NSPersistentContainer) -> NSManagedObjectContext {
         let mainViewContext = mainViewContext(storeContainer: storeContainer)
+        mainViewContext.automaticallyMergesChangesFromParent = true
         return privateViewContext(parentContext: mainViewContext)
     }
 
     static func managedObjectModelWith(
         dbName: String,
-
         dbBundle: String
     ) -> NSManagedObjectModel? {
         guard let bundle = Bundle(identifier: dbBundle),
@@ -71,7 +71,6 @@ public extension CommonCoreDataNameSpace.Utils {
 
     static func storeContainer(
         dbName: String,
-
         managedObjectModel: NSManagedObjectModel,
         storeInMemory: Bool
     ) -> NSPersistentContainer {
@@ -84,6 +83,8 @@ public extension CommonCoreDataNameSpace.Utils {
         container.loadPersistentStores { _, error in
             if let error {
                 Common_Logs.error("Unresolved error \(error), \(error.localizedDescription)")
+            } else {
+                Common_Logs.debug("Loaded DB [\(dbName)]")
             }
         }
         return container
