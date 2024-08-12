@@ -121,7 +121,7 @@ public extension AnyPublisher where Failure == Never {
                     case .finished:
                         continuation.finish()
                     case let .failure(never):
-                        if false {
+                        if Common_Utils.false {
                             continuation.yield(with: .failure(never))
                         } else {
                             continuation.finish() // Treat the error as completion

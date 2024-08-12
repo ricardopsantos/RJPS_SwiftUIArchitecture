@@ -20,6 +20,7 @@ public protocol CodableCacheManagerProtocol {
     func syncStore<T: Codable>(_ codable: T, key: String, params: [any Hashable], timeToLiveMinutes: Int?)
     func syncRetrieve<T: Codable>(_ type: T.Type, key: String, params: [any Hashable]) -> (model: T, recordDate: Date)?
     func syncClearAll()
+    func syncAllCachedKeys() -> [(String, Date)]
 
     //
     // MARK: - Async
@@ -27,9 +28,5 @@ public protocol CodableCacheManagerProtocol {
     func aSyncStore<T: Codable>(_ codable: T, key: String, params: [any Hashable], timeToLiveMinutes: Int?) async
     func aSyncRetrieve<T: Codable>(_ type: T.Type, key: String, params: [any Hashable]) async -> (model: T, recordDate: Date)?
     func aSyncClearAll() async
-
-    //
-    // MARK: - Utils
-    //
-    var codableCacheManager_allCachedKeys: [(String, Date)] { get }
+    func aSyncAllCachedKeys() async -> [(String, Date)]
 }

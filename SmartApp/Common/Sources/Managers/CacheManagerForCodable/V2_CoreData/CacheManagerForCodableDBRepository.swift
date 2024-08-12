@@ -8,11 +8,11 @@ import CoreData
 import Combine
 
 public extension Common {
-    class CoreDataStack {
+    class CacheManagerForCodableCoreDataRepository {
         fileprivate let cancelBag = CancelBag()
         private let managedObjectModel: NSManagedObjectModel!
         private let persistentContainer: NSPersistentContainer!
-        public static var shared = CoreDataStack(
+        public static var shared = CacheManagerForCodableCoreDataRepository(
             dbName: Common.internalDB,
             dbBundle: Common.bundleIdentifier
         )
@@ -47,7 +47,7 @@ public extension Common {
 //
 // MARK: - CodableCacheManagerProtocol
 //
-extension Common.CoreDataStack: CodableCacheManagerProtocol {
+extension Common.CacheManagerForCodableCoreDataRepository: CodableCacheManagerProtocol {
     //
     // MARK: - Sync
     //
@@ -116,7 +116,22 @@ extension Common.CoreDataStack: CodableCacheManagerProtocol {
             context.rollback()
         }
     }
-    
+
+    public func syncAllCachedKeys() -> [(String, Date)] {
+        let context = viewContext
+        let fetchRequest: NSFetchRequest<CDataExpiringKeyValueEntity> = CDataExpiringKeyValueEntity.fetchRequest()
+        do {
+            let records = try context.fetch(fetchRequest)
+            return records.compactMap { ($0.key!, $0.recordDate!) }.sorted(by: { $0.0 > $1.0 })
+        } catch {
+            return []
+        }
+    }
+
+    //
+    // MARK: - Async
+    //
+
     public func aSyncClearAll() async {
         await withCheckedContinuation { continuation in
             // Use the background context to perform the delete operation
@@ -144,12 +159,8 @@ extension Common.CoreDataStack: CodableCacheManagerProtocol {
                 }
             }
         }
-
     }
 
-    //
-    // MARK: - Async
-    //
     public func aSyncRetrieve<T: Codable>(_ type: T.Type, key: String, params: [any Hashable]) async -> (model: T, recordDate: Date)? {
         await withCheckedContinuation { continuation in
             // Perform the fetch operation asynchronously on the viewContext
@@ -207,64 +218,41 @@ extension Common.CoreDataStack: CodableCacheManagerProtocol {
                 guard let context = context else {
                     return
                 }
-      
-                    // Create a new instance of the entity
-                    let newInstance = CDataExpiringKeyValueEntity(context: context)
-                    newInstance.key = toStore.key
-                    newInstance.recordDate = toStore.recordDate
-                    newInstance.expireDate = toStore.expireDate
-                    newInstance.encoding = Int16(toStore.encoding)
-                    newInstance.object = toStore.object
-                    newInstance.objectType = toStore.objectType
 
-                    if context.hasChanges {
-                        do {
-                            try context.save()
-                            try context.parent?.save()
-                        } catch {
-                            Common_Logs.error("Failed to save changes in viewContext: \(error.localizedDescription)")
-                        }
+                // Create a new instance of the entity
+                let newInstance = CDataExpiringKeyValueEntity(context: context)
+                newInstance.key = toStore.key
+                newInstance.recordDate = toStore.recordDate
+                newInstance.expireDate = toStore.expireDate
+                newInstance.encoding = Int16(toStore.encoding)
+                newInstance.object = toStore.object
+                newInstance.objectType = toStore.objectType
+
+                if context.hasChanges {
+                    do {
+                        try context.save()
+                        try context.parent?.save()
+                    } catch {
+                        Common_Logs.error("Failed to save changes in viewContext: \(error.localizedDescription)")
                     }
-                
-                    // Notify that the save operation is complete
-                    continuation.resume()
-                
+                }
+
+                continuation.resume()
             }
         }
     }
 
-
-
-    //
-    // MARK: - Utils
-    //
-
-    public var codableCacheManager_allCachedKeys: [(String, Date)] {
-        fatalError()
-        /*
-         let manager = syncInstance
-         if Thread.isMainThread {
-             let fetchRequest: NSFetchRequest<CDataExpiringKeyValueEntity> = CDataExpiringKeyValueEntity.fetchRequest()
-             do {
-                 let records = try manager.mainViewContext.fetch(fetchRequest)
-                 return records.compactMap { ($0.key!, $0.recordDate!) }.sorted(by: { $0.0 > $1.0 })
-             } catch {
-                 return []
-             }
-         } else {
-             var keys: [(String, Date)] = []
-             // let privateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-             // privateContext.parent = manager.mainViewContext
-             let privateContext = manager.privateViewContext
-             privateContext.performAndWait {
-                 let fetchRequest: NSFetchRequest<CDataExpiringKeyValueEntity> = CDataExpiringKeyValueEntity.fetchRequest()
-                 do {
-                     let records = try privateContext.fetch(fetchRequest)
-                     keys = records.compactMap { ($0.key!, $0.recordDate!) }
-                 } catch {}
-             }
-             return keys.sorted(by: { $0.0 > $1.0 })
-         }*/
+    public func aSyncAllCachedKeys() async -> [(String, Date)] {
+        let context = backgroundContext
+        var keys: [(String, Date)] = []
+        context.performAndWait {
+            let fetchRequest: NSFetchRequest<CDataExpiringKeyValueEntity> = CDataExpiringKeyValueEntity.fetchRequest()
+            do {
+                let records = try context.fetch(fetchRequest)
+                keys = records.compactMap { ($0.key!, $0.recordDate!) }
+            } catch {}
+        }
+        return keys.sorted(by: { $0.0 > $1.0 })
     }
 }
 

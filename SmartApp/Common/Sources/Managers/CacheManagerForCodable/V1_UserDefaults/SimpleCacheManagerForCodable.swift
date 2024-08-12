@@ -53,13 +53,27 @@ public extension Common {
             return (cachedRecord, expiringCodableObjectWithKey.recordDate)
         }
 
-        public func syncClearAll() {
-            let allKeys = userDefaults.dictionaryRepresentation().keys
-            let keysToDelete = allKeys.filter { $0.hasPrefix(Common.ExpiringKeyValueEntity.composedKeyPrefix) }
-            for key in keysToDelete {
-                userDefaults.removeObject(forKey: key)
+        public func syncAllCachedKeys() -> [(String, Date)] {
+            let keys = userDefaults.dictionaryRepresentation().keys.filter { $0.hasPrefix(Common.ExpiringKeyValueEntity.composedKeyPrefix) }
+            var result: [(String, Date)] = []
+            keys.forEach { key in
+                if let data = userDefaults.data(forKey: key) {
+                    if let expiringCodableObjectWithKey = try? JSONDecoder().decodeFriendly(Common.ExpiringKeyValueEntity.self, from: data) {
+                        result.append((key, expiringCodableObjectWithKey.recordDate))
+                    }
+                }
             }
-            userDefaults.synchronize()
+            return result
+        }
+
+        public func syncClearAll() {
+            let keys = userDefaults.dictionaryRepresentation().keys.filter { $0.hasPrefix(Common.ExpiringKeyValueEntity.composedKeyPrefix) }
+            for key in keys {
+                userDefaults.set(nil, forKey: key)
+                //userDefaults.removeObject(forKey: key)
+                userDefaults.synchronize()
+            }
+ //           userDefaults.synchronize()
         }
 
         //
@@ -86,12 +100,14 @@ public extension Common {
             }
         }
 
-        //
-        // MARK: - Utils
-        //
-
-        public var codableCacheManager_allCachedKeys: [(String, Date)] {
-            fatalError()
+        public func aSyncAllCachedKeys() async -> [(String, Date)] {
+            do {
+                return try await withCheckedThrowingContinuation { continuation in
+                    let result = syncAllCachedKeys()
+                    continuation.resume(with: .success(result))
+                }
+            } catch {}
+            return []
         }
     }
 }

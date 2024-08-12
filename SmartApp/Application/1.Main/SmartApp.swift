@@ -49,64 +49,6 @@ struct SmartApp: App {
             )
             self.configuration = config
         }
-
-        let model: ModelDto.GetWeatherResponse = .mockBigLoad!
-        let key = "xxxxx"
-
-        Common.CoreDataStack.shared.syncClearAll()
-
-      //  Common.CoreDataStack.shared.syncStore(model, key: key, params: [])
-/*
-        print(Common.CoreDataStack.shared.syncRetrieve(
-            ModelDto.GetWeatherResponse.self,
-            key: key,
-            params: []
-        ))*/
-        Task {
-            
-            await Common.CoreDataStack.shared.aSyncClearAll()
-
-            await Common.CoreDataStack.shared.aSyncStore(model, key: key, params: [])
-            
-            if let record = await Common.CoreDataStack.shared.aSyncRetrieve(
-                ModelDto.GetWeatherResponse.self,
-                key: key,
-                params: []
-            ) {
-                print(record.recordDate)
-            } else {
-                print("fail")
-            }
-            
-            await Common.CoreDataStack.shared.aSyncClearAll()
-
-            if let record = await Common.CoreDataStack.shared.aSyncRetrieve(
-                ModelDto.GetWeatherResponse.self,
-                key: key,
-                params: []
-            ) {
-                print("fail")
-            } else {
-                print("sucess")
-            }
-            
-        }
-
-        /*
-          let model: ModelDto.GetWeatherResponse = .mockBigLoad!
-          let key = "xxxxx"
-          Common.CoreDataStack.shared.syncStore(model, key: key, params: [])
-
-          print(Common.CoreDataStack.shared.syncRetrieve(ModelDto.GetWeatherResponse.self,
-                                                         key: key,
-                                                         params: []))
-
-         Common.CoreDataStack.shared.syncClearAll()
-
-         print(Common.CoreDataStack.shared.syncRetrieve(ModelDto.GetWeatherResponse.self,
-                                                        key: key,
-                                                        params: []))
-         */
         self.appState = .init()
     }
 

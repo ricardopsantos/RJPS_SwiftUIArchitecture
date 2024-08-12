@@ -22,6 +22,9 @@ let package = Package(
             name: "Common",
             dependencies: [
                 //    .product(name: "NukeUI", package: "Nuke"),
+            ],
+            resources: [
+                .process("CData/CommonInternalDB.xcdatamodeld")
             ]
         ),
         .testTarget(
@@ -29,6 +32,9 @@ let package = Package(
             dependencies: [
                 "Common",
                 .product(name: "Nimble", package: "Nimble")
+            ],
+            resources: [
+                .process("CData/CommonInternalDB.xcdatamodeld")
             ]
         )
     ]

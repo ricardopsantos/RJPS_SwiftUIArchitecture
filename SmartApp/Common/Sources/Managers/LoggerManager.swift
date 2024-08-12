@@ -95,7 +95,7 @@ public extension Common {
             } else {
                 print(logMessage.prefix(maxLogSize) + "\n")
             }
-            if false {
+            if Common_Utils.false {
                 StorageUtils.appendToFileEnd(String(logMessage.prefix(maxLogSize)))
             }
             #endif

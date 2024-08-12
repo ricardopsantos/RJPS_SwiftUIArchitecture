@@ -15,7 +15,7 @@ public class WeatherService {
     private init() {}
     public static let shared = WeatherService()
 //    private let cacheManager = Common.CacheManagerForCodableUserDefaultsRepository.shared
-    private let cacheManager = Common.CoreDataStack.shared
+    private let cacheManager = Common.CacheManagerForCodableCoreDataRepository.shared
 }
 
 extension WeatherService: WeatherServiceProtocol {
@@ -41,12 +41,6 @@ extension WeatherService: WeatherServiceProtocol {
 
         await cacheManager.aSyncStore(result, key: cacheKey, params: cacheParams)
 
-        if let cached = await cacheManager.aSyncRetrieve(responseType, key: cacheKey, params: cacheParams) {
-            DevTools.Log.debug(.log("Returned cache for \(#function)"), .business)
-            return cached.model
-        }
-
-        print(cacheManager.codableCacheManager_allCachedKeys.count)
         return result
     }
 }

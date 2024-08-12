@@ -15,7 +15,8 @@ public class DataUSAService {
     private init() {}
     public static let shared = DataUSAService()
 
-    private let cacheManager = Common.CacheManagerForCodableUserDefaultsRepository.shared
+    //    private let cacheManager = Common.CacheManagerForCodableUserDefaultsRepository.shared
+    private let cacheManager = Common.CacheManagerForCodableCoreDataRepository.shared
 }
 
 extension DataUSAService: DataUSAServiceProtocol {
@@ -27,7 +28,7 @@ extension DataUSAService: DataUSAServiceProtocol {
         let cacheParams: [any Hashable] = [request.year, request.drilldowns, request.measures]
         let responseType = ModelDto.PopulationStateDataResponse.self
 
-        if let cached = cacheManager.syncRetrieve(responseType, key: cacheKey, params: cacheParams), cachePolicy == .cacheElseLoad {
+        if let cached = await cacheManager.aSyncRetrieve(responseType, key: cacheKey, params: cacheParams), cachePolicy == .cacheElseLoad {
             DevTools.Log.debug(.log("Returned cache for \(#function)"), .business)
             return cached.model
         }
@@ -41,7 +42,7 @@ extension DataUSAService: DataUSAServiceProtocol {
             type: responseType
         )
 
-        cacheManager.syncStore(result, key: cacheKey, params: cacheParams)
+        await cacheManager.aSyncStore(result, key: cacheKey, params: cacheParams)
 
         return result
     }
@@ -53,7 +54,7 @@ extension DataUSAService: DataUSAServiceProtocol {
         let cacheKey = "\(#function)"
         let cacheParams: [any Hashable] = [request.drilldowns, request.measures]
         let responseType = ModelDto.PopulationNationDataResponse.self
-        if let cached = cacheManager.syncRetrieve(responseType, key: cacheKey, params: cacheParams), cachePolicy == .cacheElseLoad {
+        if let cached = await cacheManager.aSyncRetrieve(responseType, key: cacheKey, params: cacheParams), cachePolicy == .cacheElseLoad {
             DevTools.Log.debug(.log("Returned cache for \(#function)"), .business)
             return cached.model
         }
@@ -66,7 +67,7 @@ extension DataUSAService: DataUSAServiceProtocol {
             .getPopulationNationData(request),
             type: responseType
         )
-        cacheManager.syncStore(result, key: cacheKey, params: cacheParams)
+        await cacheManager.aSyncStore(result, key: cacheKey, params: cacheParams)
         return result
     }
 }
