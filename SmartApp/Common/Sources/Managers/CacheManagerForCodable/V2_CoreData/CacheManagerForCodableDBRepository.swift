@@ -8,38 +8,15 @@ import CoreData
 import Combine
 
 public extension Common {
-    class CacheManagerForCodableCoreDataRepository {
+    class CacheManagerForCodableCoreDataRepository: CommonCoreDataNameSpace.BaseCoreDataManager {
         fileprivate let cancelBag = CancelBag()
-        private let managedObjectModel: NSManagedObjectModel!
-        private let persistentContainer: NSPersistentContainer!
         public static var shared = CacheManagerForCodableCoreDataRepository(
             dbName: Common.internalDB,
             dbBundle: Common.bundleIdentifier
         )
 
-        public init(dbName: String, dbBundle: String) {
-            let nsManagedObjectModel = CommonCoreDataNameSpace.Utils.managedObjectModelWith(
-                dbName: dbName,
-                dbBundle: dbBundle
-            )!
-            self.managedObjectModel = nsManagedObjectModel
-            self.persistentContainer = CommonCoreDataNameSpace.Utils.storeContainer(
-                dbName: dbName,
-                managedObjectModel: nsManagedObjectModel,
-                storeInMemory: false
-            )
-        }
-
-        var viewContext: NSManagedObjectContext {
-            let context = persistentContainer.viewContext
-            context.automaticallyMergesChangesFromParent = true
-            return context
-        }
-
-        var backgroundContext: NSManagedObjectContext {
-            let context = persistentContainer.newBackgroundContext()
-            context.automaticallyMergesChangesFromParent = true
-            return context
+        public override init(dbName: String, dbBundle: String) {
+            super.init(dbName: dbName, dbBundle: dbBundle)
         }
     }
 }

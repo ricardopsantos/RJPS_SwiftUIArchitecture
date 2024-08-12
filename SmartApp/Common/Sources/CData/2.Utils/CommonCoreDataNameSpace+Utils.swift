@@ -22,10 +22,13 @@ public extension CommonCoreDataNameSpace.Utils {
     /// mainQueue: __This property returns an instance of NSManagedObjectContext that is configured to operate on the main queue.__
     /// It means any operations performed using this context will be executed on the main thread. The main queue context is used for user interface
     /// interactions since UIKit and other UI frameworks require UI updates to be done on the main thread.
-    static func mainViewContext(storeContainer: NSPersistentContainer) -> NSManagedObjectContext {
+    static func mainViewContext(storeContainer: NSPersistentContainer,
+                                automaticallyMergesChangesFromParent: Bool) -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         context.persistentStoreCoordinator = storeContainer.viewContext.persistentStoreCoordinator
-        context.automaticallyMergesChangesFromParent = true
+        if automaticallyMergesChangesFromParent {
+            context.automaticallyMergesChangesFromParent = true
+        }
         if let persistentStoreURL = context.persistentStoreCoordinator?.persistentStores.first?.url {
             do {
                 let fileAttributes = try FileManager.default.attributesOfItem(atPath: persistentStoreURL.path)
@@ -44,17 +47,25 @@ public extension CommonCoreDataNameSpace.Utils {
     /// It means any operations performed using this context will be executed on a background queue (not the main queue). This is typically used for performing
     /// data processing tasks or background updates without blocking the main thread. It is important to use private queue contexts for heavy or time-consuming
     /// operations to keep the main user interface responsive.
-    static func privateViewContext(parentContext: NSManagedObjectContext) -> NSManagedObjectContext {
+    static func privateViewContext(parentContext: NSManagedObjectContext,
+                                   automaticallyMergesChangesFromParent: Bool) -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        context.automaticallyMergesChangesFromParent = true
+        if automaticallyMergesChangesFromParent {
+            context.automaticallyMergesChangesFromParent = automaticallyMergesChangesFromParent
+        }
         context.parent = parentContext
         return context
     }
 
-    static func privateViewContext(storeContainer: NSPersistentContainer) -> NSManagedObjectContext {
-        let mainViewContext = mainViewContext(storeContainer: storeContainer)
-        mainViewContext.automaticallyMergesChangesFromParent = true
-        return privateViewContext(parentContext: mainViewContext)
+    static func privateViewContext(storeContainer: NSPersistentContainer,
+                                   automaticallyMergesChangesFromParent: Bool) -> NSManagedObjectContext {
+        let mainViewContext = mainViewContext(storeContainer: storeContainer, 
+                                              automaticallyMergesChangesFromParent: automaticallyMergesChangesFromParent)
+        if automaticallyMergesChangesFromParent {
+            mainViewContext.automaticallyMergesChangesFromParent = true
+        }
+        return privateViewContext(parentContext: mainViewContext,
+                                  automaticallyMergesChangesFromParent: automaticallyMergesChangesFromParent)
     }
 
     static func managedObjectModelWith(
@@ -75,6 +86,8 @@ public extension CommonCoreDataNameSpace.Utils {
         storeInMemory: Bool
     ) -> NSPersistentContainer {
         let container = NSPersistentContainer(name: dbName, managedObjectModel: managedObjectModel)
+        let tables = container.managedObjectModel.entitiesByName.keys.description
+        let version = managedObjectModel.versionIdentifiers.description.replace("AnyHashable", with: "")
         if storeInMemory {
             let description = NSPersistentStoreDescription()
             description.url = URL(fileURLWithPath: "/dev/null")
@@ -84,7 +97,24 @@ public extension CommonCoreDataNameSpace.Utils {
             if let error {
                 Common_Logs.error("Unresolved error \(error), \(error.localizedDescription)")
             } else {
-                Common_Logs.debug("Loaded DB [\(dbName)]")
+                if let persistentStoreURL = container.persistentStoreCoordinator.persistentStores.first?.url {
+                    do {
+                        let fileAttributes = try FileManager.default.attributesOfItem(atPath: persistentStoreURL.path)
+                        if let fileSize = fileAttributes[.size] as? Int64 {
+                            let fileSizeInMB = Double(fileSize) / (1024 * 1024)
+                            let report = """
+Loaded DataBase \(dbName)
+  • name: \(dbName)
+  • version: \(version)
+  • tables: \(tables)
+  • size: \(fileSizeInMB) MB
+"""
+                            Common_Logs.debug(report)
+                        }
+                    } catch {
+                        Common_Logs.error(error.localizedDescription)
+                    }
+                }
             }
         }
         return container
@@ -96,7 +126,8 @@ public extension CommonCoreDataNameSpace.Utils {
 //
 
 public extension CommonCoreDataNameSpace.Utils {
-    static func delete(viewContext: NSManagedObjectContext, request: NSFetchRequest<NSFetchRequestResult>) {
+    static func delete(viewContext: NSManagedObjectContext,
+                       request: NSFetchRequest<NSFetchRequestResult>) {
         do {
             let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: request)
             batchDeleteRequest.resultType = .resultTypeCount

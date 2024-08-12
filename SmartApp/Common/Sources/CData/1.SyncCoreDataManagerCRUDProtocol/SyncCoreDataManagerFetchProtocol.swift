@@ -15,7 +15,7 @@ private var mainQueueFetchDispatchSemaphore = DispatchSemaphore(value: 1)
 
 public protocol SyncCoreDataManagerFetchProtocol {
     var viewContext: NSManagedObjectContext { get }
-    var privateViewContext: NSManagedObjectContext { get }
+    var backgroundContext: NSManagedObjectContext { get }
     func fetch<T: NSManagedObject>(
         predicate: NSPredicate?,
         sortDescriptors: [NSSortDescriptor]?,
@@ -48,7 +48,7 @@ public extension SyncCoreDataManagerFetchProtocol {
                 sortDescriptors: sortDescriptors,
                 limit: limit,
                 batchSize: batchSize,
-                privateViewContext: context
+                backgroundContext: context
             )
         case .confinementConcurrencyType, .mainQueueConcurrencyType:
             return fetchUsingMainQueue(
@@ -85,7 +85,7 @@ public extension SyncCoreDataManagerFetchProtocol {
                 sortDescriptors: sortDescriptors,
                 limit: limit,
                 batchSize: batchSize,
-                privateViewContext: privateViewContext
+                backgroundContext: backgroundContext
             )
         }
     }
@@ -126,10 +126,10 @@ public extension SyncCoreDataManagerFetchProtocol {
         sortDescriptors: [NSSortDescriptor]? = nil,
         limit: Int? = nil,
         batchSize: Int? = nil,
-        privateViewContext: NSManagedObjectContext
+        backgroundContext: NSManagedObjectContext
     ) -> [T] {
         var fetchedItems: [T] = []
-        privateViewContext.performAndWait {
+        backgroundContext.performAndWait {
             let request = NSFetchRequest<T>(entityName: T.entityName)
             request.predicate = predicate
             request.sortDescriptors = sortDescriptors
@@ -140,7 +140,7 @@ public extension SyncCoreDataManagerFetchProtocol {
                 request.fetchBatchSize = batchSize
             }
             do {
-                fetchedItems = try privateViewContext.fetch(request)
+                fetchedItems = try backgroundContext.fetch(request)
             } catch {
                 fetchedItems = []
             }
