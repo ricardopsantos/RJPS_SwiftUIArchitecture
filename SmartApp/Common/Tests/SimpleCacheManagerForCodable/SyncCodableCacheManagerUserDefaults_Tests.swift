@@ -13,7 +13,6 @@ final class SyncCodableCacheManagerUserDefaults_Tests: SyncCodableCacheManagerBa
 
     override func codableCacheManager() -> CodableCacheManagerProtocol {
         Common.CacheManagerForCodableUserDefaultsRepository.shared
-        // Common.CacheManagerForCodableDBRepository.shared
     }
 }
 

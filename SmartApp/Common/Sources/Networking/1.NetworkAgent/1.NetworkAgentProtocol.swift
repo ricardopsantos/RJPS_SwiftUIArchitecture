@@ -47,7 +47,7 @@ public extension NetworkAgentProtocol {
             logger,
             responseType
         )
-        .runBlockAndContinue { response in
+        .runBlockAndContinue { _ in
             onCompleted()
         }
         .eraseToAnyPublisher()

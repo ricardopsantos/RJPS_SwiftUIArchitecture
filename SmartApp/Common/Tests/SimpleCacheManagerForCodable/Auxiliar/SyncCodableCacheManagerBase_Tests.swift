@@ -228,9 +228,6 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
 private extension SyncCodableCacheManagerBase_Tests {
     func syncStore(count: Int) {
         for i in 0...count {
-            if i % 100 == 0 {
-                print("Stored \(i) of \(count)")
-            }
             codableCacheManager().syncStore(
                 SampleCodableStruct.random,
                 key: "cachedKey_\(i)",

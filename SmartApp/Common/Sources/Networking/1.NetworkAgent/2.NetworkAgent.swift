@@ -210,7 +210,7 @@ public extension CommonNetworking.NetworkAgent {
             logger,
             responseFormat).flatMap { response in
             Just(response.modelDto).setFailureType(to: CommonNetworking.APIError.self).eraseToAnyPublisher()
-        }.runBlockAndContinue { response in
+        }.runBlockAndContinue { _ in
             onCompleted() // Do something before returns
         }.eraseToAnyPublisher()
         return try await apiCall.async()
