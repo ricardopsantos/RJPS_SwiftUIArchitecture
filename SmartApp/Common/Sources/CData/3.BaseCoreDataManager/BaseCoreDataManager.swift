@@ -6,25 +6,25 @@
 import Foundation
 import CoreData
 
-public extension CommonCoreDataNameSpace {
+public extension CommonCoreData {
     class BaseCoreDataManager: SyncCoreDataManagerCRUDProtocol {
         let managedObjectModel: NSManagedObjectModel
         let dbName: String
         let persistentContainer: NSPersistentContainer
         public init(dbName: String, dbBundle: String) {
-            let nsManagedObjectModel = CommonCoreDataNameSpace.Utils.managedObjectModelWith(
+            let nsManagedObjectModel = CommonCoreData.Utils.managedObjectModelWith(
                 dbName: dbName,
                 dbBundle: dbBundle
             )!
             self.dbName = dbName
             self.managedObjectModel = nsManagedObjectModel
-            self.persistentContainer = CommonCoreDataNameSpace.Utils.storeContainer(
+            self.persistentContainer = CommonCoreData.Utils.storeContainer(
                 dbName: dbName,
                 managedObjectModel: nsManagedObjectModel,
                 storeInMemory: false
             )
         }
-        
+
         public var viewContext: NSManagedObjectContext {
             if Common_Utils.false {
                 return Utils.mainViewContext(storeContainer: persistentContainer, automaticallyMergesChangesFromParent: true)
@@ -40,6 +40,5 @@ public extension CommonCoreDataNameSpace {
             context.automaticallyMergesChangesFromParent = true
             return context
         }
-    
     }
 }

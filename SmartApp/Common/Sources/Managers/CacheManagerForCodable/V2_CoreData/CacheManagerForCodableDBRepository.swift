@@ -8,14 +8,14 @@ import CoreData
 import Combine
 
 public extension Common {
-    class CacheManagerForCodableCoreDataRepository: CommonCoreDataNameSpace.BaseCoreDataManager {
+    class CacheManagerForCodableCoreDataRepository: CommonCoreData.BaseCoreDataManager {
         fileprivate let cancelBag = CancelBag()
         public static var shared = CacheManagerForCodableCoreDataRepository(
             dbName: Common.internalDB,
             dbBundle: Common.bundleIdentifier
         )
 
-        public override init(dbName: String, dbBundle: String) {
+        override public init(dbName: String, dbBundle: String) {
             super.init(dbName: dbName, dbBundle: dbBundle)
         }
     }
@@ -84,14 +84,19 @@ extension Common.CacheManagerForCodableCoreDataRepository: CodableCacheManagerPr
         guard recordCount ?? 0 > 0 else {
             return
         }
-        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        do {
-            try context.execute(batchDeleteRequest)
-            try context.save()
-        } catch {
-            Common_Logs.error("Failed to delete \(CDataExpiringKeyValueEntity.self) records: \(error.localizedDescription)")
-            context.rollback()
+        let success = CommonCoreData.Utils.delete(context: context, request: fetchRequest)
+        if !success {
+            Common_Logs.error("Failed to delete \(CDataExpiringKeyValueEntity.self) records")
         }
+        /*
+         let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+         do {
+             try context.execute(batchDeleteRequest)
+             try context.save()
+         } catch {
+             Common_Logs.error("Failed to delete \(CDataExpiringKeyValueEntity.self) records: \(error.localizedDescription)")
+             context.rollback()
+         }*/
     }
 
     public func syncAllCachedKeys() -> [(String, Date)] {

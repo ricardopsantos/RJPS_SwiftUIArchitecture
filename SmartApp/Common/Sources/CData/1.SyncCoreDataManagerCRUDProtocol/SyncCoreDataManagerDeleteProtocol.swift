@@ -18,6 +18,6 @@ public protocol SyncCoreDataManagerDeleteProtocol {
 
 public extension SyncCoreDataManagerDeleteProtocol {
     func delete(request: NSFetchRequest<NSFetchRequestResult>) {
-        CommonCoreDataNameSpace.Utils.delete(viewContext: viewContext, request: request)
+        CommonCoreData.Utils.delete(context: viewContext, request: request)
     }
 }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public extension CommonCoreDataNameSpace {
+public extension CommonCoreData {
     enum StorageType {
         case persistent
         case inMemory

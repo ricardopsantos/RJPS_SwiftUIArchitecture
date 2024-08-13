@@ -13,6 +13,6 @@ public protocol SyncCoreDataManagerSaveProtocol {
 
 public extension SyncCoreDataManagerSaveProtocol {
     func saveContext() {
-        CommonCoreDataNameSpace.Utils.save(viewContext: viewContext)
+        CommonCoreData.Utils.save(viewContext: viewContext)
     }
 }
