@@ -18,7 +18,7 @@ final class SyncCodableCacheManagerUserDefaults_Tests: SyncCodableCacheManagerBa
 
 final class SyncCodableCacheManagerCoreData_Tests: SyncCodableCacheManagerBase_Tests {
     override func enabled() -> Bool {
-        false
+        true
     }
 
     override func codableCacheManager() -> CodableCacheManagerProtocol {

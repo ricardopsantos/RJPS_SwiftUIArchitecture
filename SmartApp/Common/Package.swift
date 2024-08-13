@@ -24,7 +24,7 @@ let package = Package(
                 //    .product(name: "NukeUI", package: "Nuke"),
             ],
             resources: [
-                .process("CData/CommonInternalDB.xcdatamodeld")
+                .process("Resources/CommonInternalDB.xcdatamodeld")
             ]
         ),
         .testTarget(
@@ -34,7 +34,7 @@ let package = Package(
                 .product(name: "Nimble", package: "Nimble")
             ],
             resources: [
-                .process("CData/CommonInternalDB.xcdatamodeld")
+             //   .process("Resources/CommonInternalDBTestTwin.xcdatamodeld") // Twin copy of CommonInternalDB
             ]
         )
     ]

@@ -10,19 +10,25 @@ public extension CommonCoreData {
     class BaseCoreDataManager: SyncCoreDataManagerCRUDProtocol {
         let managedObjectModel: NSManagedObjectModel
         let dbName: String
-        let persistentContainer: NSPersistentContainer
+        let persistentContainer: NSPersistentContainer!
         public init(dbName: String, dbBundle: String) {
-            let nsManagedObjectModel = CommonCoreData.Utils.managedObjectModelWith(
-                dbName: dbName,
-                dbBundle: dbBundle
-            )!
+            if let nsManagedObjectModel = CommonCoreData.Utils.managedObjectModelV1(dbName: dbName, dbBundle: dbBundle) {
+                self.managedObjectModel = nsManagedObjectModel
+            } else if let nsManagedObjectModel = CommonCoreData.Utils.managedObjectModelV2(dbName: dbName) {
+                self.managedObjectModel = nsManagedObjectModel
+            } else {
+                fatalError("fail to load managedObjectModel")
+            }
             self.dbName = dbName
-            self.managedObjectModel = nsManagedObjectModel
-            self.persistentContainer = CommonCoreData.Utils.storeContainer(
+            if let persistentContainer = CommonCoreData.Utils.buildPersistentContainer(
                 dbName: dbName,
-                managedObjectModel: nsManagedObjectModel,
+                managedObjectModel: self.managedObjectModel,
                 storeInMemory: false
-            )
+            ) {
+                self.persistentContainer = persistentContainer
+            } else {
+                fatalError("fail to load persistentContainer")
+            }
         }
 
         public var viewContext: NSManagedObjectContext {

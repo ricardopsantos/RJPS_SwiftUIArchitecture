@@ -11,7 +11,7 @@ import CoreData
 //
 
 public extension CommonCoreData.Utils {
-    static func managedObjectModelWith(
+    static func managedObjectModelV1(
         dbName: String,
         dbBundle: String
     ) -> NSManagedObjectModel? {
@@ -21,5 +21,19 @@ public extension CommonCoreData.Utils {
             return nil
         }
         return managedObjectModel
+    }
+    
+    // When using SwiftPackage Manager
+    static func managedObjectModelV2(
+        dbName: String
+    ) -> NSManagedObjectModel? {
+        print("fix")
+        /*
+        guard let modelURL = Bundle.module.url(forResource: dbName, withExtension: "momd"),
+              let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL) else {
+            return  nil
+    }
+        return managedObjectModel*/
+        return nil
     }
 }

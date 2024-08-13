@@ -50,7 +50,7 @@ class EmployeeService: EmployeeServiceProtocol {
          */
         requestEmployeesAsPublisher(requestDto, cachePolicy: cachePolicy)
             .errorToNever()
-            .stream
+            .stream()
     }
 }
 

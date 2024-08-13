@@ -335,7 +335,7 @@ public struct Attributes {
     public var accessControl: SecAccessControl? {
         if #available(macOS 10.10, *) {
             if let accessControl = attributes[AttributeAccessControl] {
-                return accessControl as! SecAccessControl
+                return (accessControl as! SecAccessControl)
             }
             return nil
         } else {

@@ -55,7 +55,7 @@ public extension CommonCoreData.Utils.Sample {
 //
 // MARK: - CRUDEntityDBRepository / Sync Methods
 //
-extension CommonCoreData.Utils.Sample.CRUDEntityDBRepository {
+public extension CommonCoreData.Utils.Sample.CRUDEntityDBRepository {
     func syncStore(_ model: CommonCoreData.Utils.Sample.CRUDEntity) {
         typealias DBEntity = CDataCRUDEntity
         let context = viewContext

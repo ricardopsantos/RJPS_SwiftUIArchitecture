@@ -13,8 +13,8 @@ class ExecutionControlManagerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
-        loadedAny = nil
-        cancelBag.cancel()
+        TestsGlobal.loadedAny = nil
+        TestsGlobal.cancelBag.cancel()
         Common.ExecutionControlManager.reset()
     }
 

@@ -13,7 +13,7 @@ import Nimble
 class SyncCodableCacheManagerBase_Tests: XCTestCase {
     func enabled() -> Bool {
         // Override with implementation
-        fatalError()
+        false
     }
 
     func codableCacheManager() -> CodableCacheManagerProtocol {
@@ -28,8 +28,8 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
-        loadedAny = nil
-        cancelBag.cancel()
+        TestsGlobal.loadedAny = nil
+        TestsGlobal.cancelBag.cancel()
     }
 
     func test_aSyncCRUD() async {
@@ -124,8 +124,8 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
                     counter += 1
                 case .failure: ()
                 }
-            }.store(in: cancelBag)
-        expect(counter == 1).toEventually(beTrue(), timeout: .seconds(timeout))
+            }.store(in: TestsGlobal.cancelBag)
+        expect(counter == 1).toEventually(beTrue(), timeout: .seconds(TestsGlobal.timeout))
     }
 
     func test_cacheElseLoad() {
@@ -142,8 +142,8 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
                     counter += 1
                 case .failure: ()
                 }
-            }.store(in: cancelBag)
-        expect(counter == 1).toEventually(beTrue(), timeout: .seconds(timeout))
+            }.store(in: TestsGlobal.cancelBag)
+        expect(counter == 1).toEventually(beTrue(), timeout: .seconds(TestsGlobal.timeout))
     }
 
     func test_cacheDontLoad() {
@@ -160,8 +160,8 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
                     counter += 1
                 case .failure: ()
                 }
-            }.store(in: cancelBag)
-        expect(counter == 0).toEventually(beTrue(), timeout: .seconds(timeout))
+            }.store(in: TestsGlobal.cancelBag)
+        expect(counter == 0).toEventually(beTrue(), timeout: .seconds(TestsGlobal.timeout))
     }
 
     func test_cacheAndLoadT1() {
@@ -178,8 +178,8 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
                     counter += 1
                 case .failure: ()
                 }
-            }.store(in: cancelBag)
-        expect(counter == 1).toEventually(beTrue(), timeout: .seconds(timeout))
+            }.store(in: TestsGlobal.cancelBag)
+        expect(counter == 1).toEventually(beTrue(), timeout: .seconds(TestsGlobal.timeout))
     }
 
     func test_cacheAndLoadT2() {
@@ -200,11 +200,11 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
                                 counter += 1
                             case .failure: ()
                             }
-                        }.store(in: cancelBag)
+                        }.store(in: TestsGlobal.cancelBag)
                 case .failure: ()
                 }
-            }.store(in: cancelBag)
-        expect(counter == 2).toEventually(beTrue(), timeout: .seconds(timeout))
+            }.store(in: TestsGlobal.cancelBag)
+        expect(counter == 2).toEventually(beTrue(), timeout: .seconds(TestsGlobal.timeout))
     }
 
     func test_fetchingRecordFrom_10000Records() {
