@@ -1,16 +1,16 @@
 //
-//  TypingEffectView.swift
-//  Common
-//
-//  Created by Ricardo Santos on 07/08/2024.
+//  Created by Ricardo Santos on 01/01/2023.
+//  Copyright © 2024 - 2019 Ricardo Santos. All rights reserved.
 //
 
+import UIKit
 import Foundation
 import SwiftUI
+import Combine
 
 // https://blog.devgenius.io/swiftui-5-crafting-onboarding-screens-with-animated-transitions-from-scratch-fd25882cf9a5
 
-extension SwiftUITipsAndTricks {
+extension CommonLearnings {
     struct TypingEffectView: View {
         @State private var displayedText = ""
         var fulltext: String
@@ -53,6 +53,6 @@ extension SwiftUITipsAndTricks {
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    SwiftUITipsAndTricks.TypingEffectView(fulltext: String.randomWithSpaces(500))
+    CommonLearnings.TypingEffectView(fulltext: String.randomWithSpaces(500))
 }
 #endif

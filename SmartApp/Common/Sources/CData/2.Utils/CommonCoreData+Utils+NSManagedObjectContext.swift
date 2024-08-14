@@ -28,7 +28,7 @@ public extension CommonCoreData.Utils {
                 let fileAttributes = try FileManager.default.attributesOfItem(atPath: persistentStoreURL.path)
                 if let fileSize = fileAttributes[.size] as? Int64 {
                     let fileSizeInMB = Double(fileSize) / (1024 * 1024)
-                    Common_Logs.debug("Loaded DB with size: \(fileSizeInMB) MB")
+                    Common_Logs.debug("Log_\(Self.logNumber += 1): Loaded DB with size: \(fileSizeInMB) MB")
                 }
             } catch {
                 Common_Logs.error(error.localizedDescription)

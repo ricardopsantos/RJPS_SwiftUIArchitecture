@@ -25,6 +25,9 @@ let package = Package(
             ],
             resources: [
                 .process("Resources/CommonInternalDB.xcdatamodeld")
+            ],
+            swiftSettings: [
+                .define("IN_PACKAGE_CODE") // Compiler flag
             ]
         ),
         .testTarget(
@@ -32,9 +35,6 @@ let package = Package(
             dependencies: [
                 "Common",
                 .product(name: "Nimble", package: "Nimble")
-            ],
-            resources: [
-             //   .process("Resources/CommonInternalDBTestTwin.xcdatamodeld") // Twin copy of CommonInternalDB
             ]
         )
     ]

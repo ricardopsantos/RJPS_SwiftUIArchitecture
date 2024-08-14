@@ -50,8 +50,6 @@ struct SmartApp: App {
             self.configuration = config
         }
         self.appState = .init()
-
-        CommonCoreData.Utils.Sample.test()
     }
 
     var body: some Scene {

@@ -10,7 +10,7 @@ import Combine
 
 // https://peterfriese.dev/swift-combine-love/
 
-extension SwiftUITipsAndTricks {
+extension CommonLearnings {
     //
     // MARK: - ViewModel
     //
@@ -145,7 +145,7 @@ extension SwiftUITipsAndTricks {
     //
 
     struct PasswordCheckerView: View {
-        @ObservedObject var vm = SwiftUITipsAndTricks.PasswordCheckerViewModel()
+        @ObservedObject var vm = CommonLearnings.PasswordCheckerViewModel()
         @State var presentAlert = false
 
         var body: some View {
@@ -162,7 +162,7 @@ extension SwiftUITipsAndTricks {
                 }
             }
             .sheet(isPresented: $presentAlert) {
-                SwiftUITipsAndTricks.WelcomeView()
+                CommonLearnings.WelcomeView()
             }
         }
     }
@@ -179,6 +179,6 @@ extension SwiftUITipsAndTricks {
 //
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    SwiftUITipsAndTricks.PasswordCheckerView()
+    CommonLearnings.PasswordCheckerView()
 }
 #endif

@@ -10,7 +10,7 @@ import SwiftUI
 
 // https://blog.stackademic.com/async-and-await-in-swift-advanced-guide-for-senior-ios-developers-f753ce9a6cb0
 
-public extension SwiftUITipsAndTricks {
+public extension CommonLearnings {
     struct AsyncAwaitTestView: View {
         let url1 = "https://jsonplaceholder.typicode.com/todos/1"
         let url2 = "https://jsonplaceholder.typicode.com/todos/2"
@@ -132,6 +132,6 @@ public extension SwiftUITipsAndTricks {
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    SwiftUITipsAndTricks.AsyncAwaitTestView()
+    CommonLearnings.AsyncAwaitTestView()
 }
 #endif

@@ -10,8 +10,12 @@ import CoreData
 // MARK: - NSManagedObjectModel
 //
 
+extension Bundle {
+    static let spmBundle = Bundle(path: "\(Bundle.main.bundlePath)/resource/bundle")
+}
+
 public extension CommonCoreData.Utils {
-    static func managedObjectModelV1(
+    static func managedObjectModel(
         dbName: String,
         dbBundle: String
     ) -> NSManagedObjectModel? {
@@ -22,18 +26,20 @@ public extension CommonCoreData.Utils {
         }
         return managedObjectModel
     }
-    
-    // When using SwiftPackage Manager
-    static func managedObjectModelV2(
+
+    /// When using SwiftPackage Manager
+    /// Bundle.module is automatically generated for any package target that includes at least one resource.
+    static func managedObjectModelForSPM(
         dbName: String
     ) -> NSManagedObjectModel? {
-        print("fix")
-        /*
+        #if IN_PACKAGE_CODE
         guard let modelURL = Bundle.module.url(forResource: dbName, withExtension: "momd"),
               let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL) else {
-            return  nil
-    }
-        return managedObjectModel*/
+            return nil
+        }
+        return managedObjectModel
+        #else
         return nil
+        #endif
     }
 }

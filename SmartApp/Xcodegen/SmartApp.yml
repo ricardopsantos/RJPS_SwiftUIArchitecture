@@ -26,6 +26,7 @@ packages:
     url: https://github.com/firebase/firebase-ios-sdk.git
     revision: "888f0b6026e2441a69e3ee2ad5293c7a92031e62"
     
+  # Replacement for Apple's Reachability sample, re-written in Swift with closures.
   Reachability:
     url: https://github.com/ashleymills/Reachability.swift
     revision: "7b7018a69c84ea94ac2a38dff626e16ea81d1db9"
@@ -34,6 +35,11 @@ packages:
   Nimble:
     url: https://github.com/Quick/Nimble
     branch: main
+    
+ # ViewInspector is a library for unit testing SwiftUI views
+  ViewInspector:
+    url: https://github.com/nalexn/ViewInspector
+    revision: "7b1732802ffe30e6a67754bda6c7819e5cb0eb70"
     
 ####################### Documents #######################
 ####################### Documents #######################
@@ -299,7 +305,10 @@ targets:
       - package: Nimble
         product: Nimble
         link: true
-           
+      - package: ViewInspector
+        product: ViewInspector
+        link: true
+        
   SmartAppUITests:
     templates:
       - UITest
@@ -315,4 +324,7 @@ targets:
               
       - package: Nimble
         product: Nimble
+        link: true
+      - package: ViewInspector
+        product: ViewInspector
         link: true

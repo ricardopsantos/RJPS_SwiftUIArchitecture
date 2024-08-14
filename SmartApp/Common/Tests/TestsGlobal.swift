@@ -14,7 +14,7 @@ import Common
 
 internal class CommonBundleFinder {}
 
-public struct TestsGlobal {
+public enum TestsGlobal {
     static let cancelBag = CancelBag()
     static var timeout: Int = 5
     static var loadedAny: Any?

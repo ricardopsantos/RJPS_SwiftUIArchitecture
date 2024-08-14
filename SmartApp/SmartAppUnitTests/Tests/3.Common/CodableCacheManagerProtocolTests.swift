@@ -49,7 +49,7 @@ extension CodableCacheManagerProtocolTests {
         let count = 1000
         measure {
             repository.syncClearAll()
-            let expectation = self.expectation(description: #function)
+            let expectation = expectation(description: #function)
             for i in 1...count {
                 repository.syncStore(
                     ModelDto.GetWeatherResponse.mockBigLoad,
@@ -70,7 +70,7 @@ extension CodableCacheManagerProtocolTests {
         let count = 1000
         measure {
             repository.syncClearAll()
-            let expectation = self.expectation(description: #function)
+            let expectation = expectation(description: #function)
             for i in 1...count {
                 repository.syncStore(
                     ModelDto.GetWeatherResponse.mockBigLoad,

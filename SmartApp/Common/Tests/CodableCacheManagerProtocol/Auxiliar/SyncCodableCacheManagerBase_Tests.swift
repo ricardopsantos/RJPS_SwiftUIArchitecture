@@ -273,29 +273,5 @@ private extension SyncCodableCacheManagerBase_Tests {
             60 * 24 * 30, // 1 month
             codableCacheManager()
         ).eraseToAnyPublisher()
-
-        /*
-         let requestDto = NetworkAgentSampleNamespace.RequestDto.Employee(someParam: "aaa")
-         return service.sampleRequestJSON(requestDto).errorToNever()
-
-         let codableCacheManager = Common_SimpleCacheManagerForCodable.shared
-         let defaultForNetworkAgent: NetworkAgentSampleAPIProtocol = SimpleNetworkAgentSampleAPI(session: .defaultForNetworkAgent)
-         //
-         let serviceKey = #function
-         let requestDto = NetworkAgentSampleNamespace.RequestDto.Employee(someParam: "aaa")
-         let apiRequest = defaultForNetworkAgent.sampleRequestJSON(requestDto)
-         let serviceParams: [any Hashable] = [requestDto.someParam]
-         let apiResponseType = NetworkAgentSampleNamespace.ResponseDto.EmployeeServiceAvailability.self
-         //
-         return Common.GenericRequestWithCodableCache.perform(
-             apiRequest,
-             apiResponseType,
-             cachePolicy,
-             serviceKey,
-             serviceParams,
-             60 * 24 * 30, // 1 month
-             codableCacheManager
-         ).eraseToAnyPublisher()
-         */
     }
 }

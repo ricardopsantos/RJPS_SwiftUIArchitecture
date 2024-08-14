@@ -14,11 +14,6 @@ public struct AlertAction {
 }
 
 public extension UIViewController {
-    var printableMemoryAddress: String {
-        // https://stackoverflow.com/questions/24058906/printing-a-variable-memory-address-in-swift
-        "\(Unmanaged.passUnretained(self).toOpaque())"
-    }
-
     var swiftUIView: AnyView { asAnyView }
     var asAnyView: AnyView { Common_ViewControllerRepresentable { self }.erased }
 

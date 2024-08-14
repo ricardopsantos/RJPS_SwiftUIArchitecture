@@ -7,31 +7,61 @@ import Foundation
 import CoreData
 
 public extension CommonCoreData {
-    class BaseCoreDataManager: SyncCoreDataManagerCRUDProtocol {
+    class BaseCoreDataManager: NSObject, SyncCoreDataManagerCRUDProtocol {
+        //
+        // MARK: - Usage Propertyes
+        //
         let managedObjectModel: NSManagedObjectModel
-        let dbName: String
         let persistentContainer: NSPersistentContainer!
+
+        //
+        // MARK: - Config
+        //
+        func viewContextIsShared() -> Bool {
+            // Can be overridden
+            false
+        }
+
+        func startFetchedResultsController() {
+            // Can be overridden
+        }
+
         public init(dbName: String, dbBundle: String) {
-            if let nsManagedObjectModel = CommonCoreData.Utils.managedObjectModelV1(dbName: dbName, dbBundle: dbBundle) {
+            if let nsManagedObjectModel = CommonCoreData.Utils.managedObjectModel(dbName: dbName, dbBundle: dbBundle) {
                 self.managedObjectModel = nsManagedObjectModel
-            } else if let nsManagedObjectModel = CommonCoreData.Utils.managedObjectModelV2(dbName: dbName) {
+            } else if let nsManagedObjectModel = CommonCoreData.Utils.managedObjectModelForSPM(dbName: dbName) {
                 self.managedObjectModel = nsManagedObjectModel
             } else {
                 fatalError("fail to load managedObjectModel")
             }
-            self.dbName = dbName
             if let persistentContainer = CommonCoreData.Utils.buildPersistentContainer(
                 dbName: dbName,
-                managedObjectModel: self.managedObjectModel,
+                managedObjectModel: managedObjectModel,
                 storeInMemory: false
             ) {
                 self.persistentContainer = persistentContainer
             } else {
                 fatalError("fail to load persistentContainer")
             }
+            super.init()
+            startFetchedResultsController()
         }
 
+        /// Default View Context
         public var viewContext: NSManagedObjectContext {
+            viewContextIsShared() ? lazyViewContext : newViewContextInstance
+        }
+
+        public var backgroundContext: NSManagedObjectContext {
+            let context = persistentContainer.newBackgroundContext()
+            context.automaticallyMergesChangesFromParent = true
+            return context
+        }
+
+        //
+        // MARK: - Private
+        //
+        private var newViewContextInstance: NSManagedObjectContext {
             if Common_Utils.false {
                 return Utils.mainViewContext(storeContainer: persistentContainer, automaticallyMergesChangesFromParent: true)
             } else {
@@ -41,10 +71,14 @@ public extension CommonCoreData {
             }
         }
 
-        public var backgroundContext: NSManagedObjectContext {
-            let context = persistentContainer.newBackgroundContext()
-            context.automaticallyMergesChangesFromParent = true
-            return context
-        }
+        private lazy var lazyViewContext: NSManagedObjectContext = {
+            if Common_Utils.false {
+                return Utils.mainViewContext(storeContainer: persistentContainer, automaticallyMergesChangesFromParent: true)
+            } else {
+                let context = persistentContainer.viewContext
+                context.automaticallyMergesChangesFromParent = true
+                return context
+            }
+        }()
     }
 }

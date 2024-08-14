@@ -9,7 +9,7 @@ import Combine
 import Nimble
 
 @testable import Common
-class ExecutionControlManagerTests: XCTestCase {
+class ExecutionControlManager_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
         continueAfterFailure = false

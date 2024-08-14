@@ -25,7 +25,7 @@ public extension CommonCoreData.Utils {
             return true
         } catch {
             context.rollback()
-            Common_Logs.error("Couldn't delete the entities " + error.localizedDescription)
+            Common_Logs.error("Log_\(Self.logNumber += 1): Couldn't delete the entities " + error.localizedDescription)
             return false
         }
     }
