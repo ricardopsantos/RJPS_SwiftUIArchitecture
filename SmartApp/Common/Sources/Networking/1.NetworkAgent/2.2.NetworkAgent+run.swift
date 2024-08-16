@@ -8,82 +8,6 @@ import Combine
 import Security
 import CommonCrypto
 
-public extension CommonNetworking {
-    //
-    // MARK: - NetworkAgent
-    //
-    class NetworkAgent: NSObject, URLSessionDelegate {
-        private let urlSession: URLSession
-        private let authenticationHandler = CommonNetworking.AuthenticationHandler()
-
-        /// No authentication at all
-        public init(session: URLSession = URLSession.defaultForNetworkAgent) {
-            self.urlSession = URLSession(
-                configuration: session.configuration,
-                delegate: nil,
-                delegateQueue: nil)
-        }
-
-        /// Basic authentication with user and password,
-        public init(
-            session: URLSession = URLSession.defaultForNetworkAgent,
-            credential: URLCredential) {
-            authenticationHandler.credential = credential
-            self.urlSession = URLSession(
-                configuration: session.configuration,
-                delegate: authenticationHandler,
-                delegateQueue: nil)
-        }
-
-        /// SSL Pinning - Using local Public Keys
-        public init(
-            session: URLSession = URLSession.defaultForNetworkAgent,
-            serverPublicHashKeys: [String]) {
-            authenticationHandler.serverPublicHashKeys = serverPublicHashKeys
-            self.urlSession = URLSession(
-                configuration: session.configuration,
-                delegate: authenticationHandler,
-                delegateQueue: nil)
-        }
-
-        /// SSL Pinning - Using local stored Certificates
-        public init(
-            session: URLSession = URLSession.defaultForNetworkAgent,
-            pathToCertificates: [String]) {
-            authenticationHandler.pathToCertificates = pathToCertificates
-            self.urlSession = URLSession(
-                configuration: session.configuration,
-                delegate: authenticationHandler,
-                delegateQueue: nil)
-        }
-
-        public var client: CommonNetworking.NetworkAgent {
-            CommonNetworking.NetworkAgent(session: urlSession)
-        }
-    }
-}
-
-//
-// MARK: - WebAPIErrorHandler
-//
-
-public extension CommonNetworking {
-    @discardableResult
-    static func handleResponse(
-        request: URLRequest?,
-        response: Encodable?) -> String {
-        var message: String = ""
-        if let url = request?.url {
-            message += "ServerURL: \(url.absoluteString)" + "\n"
-        }
-        if let response {
-            message += "\(String(describing: response.toDictionary))"
-        }
-        Common_Logs.debug(message)
-        return message
-    }
-}
-
 //
 // MARK: - Run
 //
@@ -217,39 +141,7 @@ public extension CommonNetworking.NetworkAgent {
     }
 }
 
-//
-// MARK: Private shared code
-//
-
 fileprivate extension CommonNetworking.NetworkAgent {
-    func debugStringWith(_ requestDebugDump: String, _ error: Error) -> String {
-        let result = """
-        # Request failed
-        # \(requestDebugDump)
-        # [\(error.localizedDescription)]
-        # [\(error)]
-        """
-        return result
-    }
-
-    static func extractFieldMaybe(field: String, data: Data) -> String? {
-        if let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: AnyObject] {
-            if let value = json[field] {
-                return "\(value)"
-            }
-            if let value = json[field.capitalised] {
-                return "\(value)"
-            }
-            if let value = json[field.uppercased()] {
-                return "\(value)"
-            }
-            if let value = json[field.lowercased()] {
-                return "\(value)"
-            }
-        }
-        return nil
-    }
-
     static func decode<T: Decodable>(
         _ data: Data?,
         _ decoder: JSONDecoder,
