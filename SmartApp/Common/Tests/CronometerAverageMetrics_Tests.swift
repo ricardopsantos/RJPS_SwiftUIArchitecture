@@ -72,8 +72,6 @@ final class CronometerAverageMetrics_Tests: XCTestCase {
         // Generate reportV1
         let report = CronometerAverageMetrics.shared.reportV1
 
-        print(report)
-
         // Check the report contents
         let key1Metrics = report[key1] as? [String: String]
         let key1MetricsAverageTime: Double = key1Metrics?["avg"]?.doubleValue ?? 0.0

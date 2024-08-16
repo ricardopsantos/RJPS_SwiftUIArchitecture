@@ -21,15 +21,13 @@ class Common_BaseOperationTests: XCTestCase {
 
     func test_operationPriority() {
         let operation = Common_BaseOperation(priority: .high)
-        XCTAssertEqual(operation.queuePriority, .high, "The operation priority should be set to high.")
+        XCTAssert(operation.queuePriority == .high, "The operation priority should be set to high.")
 
         operation.setPriority(.low)
-        XCTAssertEqual(operation.queuePriority, .low, "The operation priority should be set to low.")
-
-        print("After setting to low: \(operation.queuePriority.rawValue)")
+        XCTAssert(operation.queuePriority == .low, "The operation priority should be set to low.")
 
         operation.setPriority(.high)
-        XCTAssertEqual(operation.queuePriority, .high, "The operation priority should be set back to high.")
+        XCTAssert(operation.queuePriority == .high, "The operation priority should be set back to high.")
     }
 
     func test_OperationManagerAddOperationWithPriority() {
@@ -41,8 +39,8 @@ class Common_BaseOperationTests: XCTestCase {
         manager.add(highPriorityOperation)
         manager.add(lowPriorityOperation)
 
-        XCTAssertEqual(highPriorityOperation.queuePriority, .high, "High priority operation should retain its priority.")
-        XCTAssertEqual(lowPriorityOperation.queuePriority, .low, "Low priority operation should retain its priority.")
+        XCTAssert(highPriorityOperation.queuePriority == .high, "High priority operation should retain its priority.")
+        XCTAssert(lowPriorityOperation.queuePriority == .low, "Low priority operation should retain its priority.")
     }
 
     // Test that operation states update correctly
@@ -73,9 +71,9 @@ class Common_BaseOperationTests: XCTestCase {
         let expectation2 = expectation(description: "normal priority operation finish")
         let expectation3 = expectation(description: "high priority operation finish")
 
-        lowPriorityOperation.operationWork = { print("# lowPriorityOperation work") }
-        normalPriorityOperation.operationWork = { print("# normalPriorityOperation work") }
-        highPriorityOperation.operationWork = { print("# highPriorityOperation work") }
+        lowPriorityOperation.operationWork = { Common_Logs.debug("# lowPriorityOperation work") }
+        normalPriorityOperation.operationWork = { Common_Logs.debug("# normalPriorityOperation work") }
+        highPriorityOperation.operationWork = { Common_Logs.debug("# highPriorityOperation work") }
 
         lowPriorityOperation.completionBlock = {
             operationsOrder.append(lowPriorityOperation.operationName)

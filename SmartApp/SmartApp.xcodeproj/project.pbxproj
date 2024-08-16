@@ -385,6 +385,7 @@
 		D72D7B1C2C6E9ABA00900562 /* MasteringLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72D7B1B2C6E9ABA00900562 /* MasteringLists.swift */; };
 		D72D7B1E2C6EA9CD00900562 /* Maps.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72D7B1D2C6EA9CD00900562 /* Maps.swift */; };
 		D73463012C6F613E000F867D /* TwoViewSameSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73463002C6F613E000F867D /* TwoViewSameSize.swift */; };
+		D73463032C6FA365000F867D /* AnimationComprehensiveGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73463022C6FA365000F867D /* AnimationComprehensiveGuide.swift */; };
 		D77DFB82549FEC2F91AD6C44 /* LoginAndSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8869CC081A4CE3C6D6BAC /* LoginAndSessionTests.swift */; };
 		D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */; };
 		D8FC857887AF7D20A3D14826 /* ModelDtoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */; };
@@ -1043,6 +1044,7 @@
 		D72D7B1B2C6E9ABA00900562 /* MasteringLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteringLists.swift; sourceTree = "<group>"; };
 		D72D7B1D2C6EA9CD00900562 /* Maps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maps.swift; sourceTree = "<group>"; };
 		D73463002C6F613E000F867D /* TwoViewSameSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoViewSameSize.swift; sourceTree = "<group>"; };
+		D73463022C6FA365000F867D /* AnimationComprehensiveGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationComprehensiveGuide.swift; sourceTree = "<group>"; };
 		D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDtoProtocol.swift; sourceTree = "<group>"; };
 		D7F63A8944886705347BFA87 /* UIScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extensions.swift"; sourceTree = "<group>"; };
 		D8AB95F4DBCB362FB08BD60C /* V.PopulationStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.PopulationStateView.swift; sourceTree = "<group>"; };
@@ -2662,6 +2664,7 @@
 				DCD6DCB95A3248B5947F9EE0 /* TypingEffectView.swift */,
 				BBA472C4A57110A7E11D8B82 /* UseDrawingGroupToSpeedUpView.swift */,
 				D72D7B1D2C6EA9CD00900562 /* Maps.swift */,
+				D73463022C6FA365000F867D /* AnimationComprehensiveGuide.swift */,
 			);
 			path = ShowCaseViews;
 			sourceTree = "<group>";
@@ -3369,6 +3372,7 @@
 				9E9279740901D1AA867178DA /* 1.Sample.swift in Sources */,
 				8FE0DABB4A9ADBEFD1696DE8 /* 2.NetworkAgent.swift in Sources */,
 				42C875957985C330B05543EE /* 2.SimpleNetworkAgentSampleAPI.swift in Sources */,
+				D73463032C6FA365000F867D /* AnimationComprehensiveGuide.swift in Sources */,
 				237333D08E5622F5F701EFD3 /* 3.AuthenticationHandler.swift in Sources */,
 				74130C24AD76A44CDEE5E0D3 /* 3.SimpleNetworkAgentSampleAPI+Requests.swift in Sources */,
 				8C32673021865528A700D647 /* 4.SimpleNetworkAgentSampleAPI+Usage.swift in Sources */,

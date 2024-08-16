@@ -74,9 +74,8 @@ public extension CommonLearnings.Maps.MapSample {
         request.naturalLanguageQuery = searchKeyword
         request.region = region
         let search = MKLocalSearch(request: request)
-        search.start { response, error in
+        search.start { response, _ in
             guard let response = response else {
-                print("test log Error: \(error?.localizedDescription ?? "Unknown error").")
                 return
             }
             completion(response.mapItems)

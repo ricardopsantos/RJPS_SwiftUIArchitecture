@@ -97,13 +97,11 @@ public extension CommonLearnings.MasteringLists {
                                 .id(i)
                                 .onAppear {
                                     if i == list.count - 1 {
-                                        print("last visible row")
                                         Task {
                                             let newItemsList = (list.count...list.count + 30).map { "New Item: Index\($0)" }
                                             list.append(contentsOf: newItemsList)
                                         }
                                     } else if i == 0 {
-                                        print("first visible row")
                                         if canPrependItems {
                                             Task {
                                                 let newItemsList = (0...10).map { "Previous Item: Index\($0)" }

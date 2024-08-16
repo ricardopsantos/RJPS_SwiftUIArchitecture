@@ -37,7 +37,7 @@ public extension Common {
             case .dataPlain:
                 self.object = object
             case .dataAES:
-                self.object = Common.EncryptionManager.encrypt(plainData: object)
+                self.object = Common.EncryptionManager.encrypt(data: object, method: .default)
             }
         }
 
@@ -110,7 +110,7 @@ public extension Common.ExpiringKeyValueEntity {
         }
         switch valueEncoding {
         case .dataPlain: return object
-        case .dataAES: return Common.EncryptionManager.decrypt(secretData: object)
+        case .dataAES: return Common.EncryptionManager.decrypt(data: object, method: .default)
         }
     }
 }

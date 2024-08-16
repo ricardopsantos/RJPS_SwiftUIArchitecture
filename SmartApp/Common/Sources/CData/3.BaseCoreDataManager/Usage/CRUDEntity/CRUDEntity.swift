@@ -5,7 +5,7 @@
 import Foundation
 
 public extension CommonCoreData.Utils.Sample {
-    struct CRUDEntity: Equatable {
+    struct CRUDEntity: Equatable, Codable {
         public let id: String
         public var name: String
         public var recordDate: Date
