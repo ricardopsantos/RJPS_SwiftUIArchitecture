@@ -7,8 +7,9 @@ import Foundation
 import Combine
 
 public protocol NetworkAgentProtocol {
-    var client: CommonNetworking.NetworkAgent { get }
-
+    var client: CommonNetworking.NetworkAgentClient { get }
+    var logger: CommonNetworking.NetworkLogger { get }
+    
     /// Returns `CommonNetworking.Response(modelDto: Decodable, response: Any)`
     func run<T: Decodable>(
         request: URLRequest,
@@ -42,10 +43,10 @@ public extension NetworkAgentProtocol {
         CommonNetworking.APIError
     > where T: Decodable {
         client.run(
-            request,
-            decoder,
-            logger,
-            responseType
+            request: request,
+            decoder: decoder,
+            logger: logger,
+            responseFormat: responseType
         )
         .runBlockAndContinue { _ in
             onCompleted()
@@ -61,11 +62,11 @@ public extension NetworkAgentProtocol {
         onCompleted: @escaping () -> Void
     ) async throws -> T {
         try await client.runAsync(
-            request,
-            decoder,
-            logger,
-            responseType,
-            onCompleted
+            request: request,
+            decoder: decoder,
+            logger: logger,
+            responseFormat: responseType,
+            onCompleted: onCompleted
         )
     }
 }

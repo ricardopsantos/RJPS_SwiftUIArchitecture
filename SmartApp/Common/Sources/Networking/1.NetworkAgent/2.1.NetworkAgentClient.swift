@@ -9,10 +9,10 @@ import Security
 import CommonCrypto
 
 public extension CommonNetworking {
-    class NetworkAgent: NSObject, URLSessionDelegate {
+    class NetworkAgentClient: NSObject, URLSessionDelegate {
         let urlSession: URLSession
         private var authenticationHandler: CommonNetworking.AuthenticationHandler?
-        
+
         /// No authentication at all
         public init(session: URLSession) {
             self.urlSession = URLSession(
@@ -25,8 +25,8 @@ public extension CommonNetworking {
         public init(
             session: URLSession,
             credential: URLCredential) {
-                authenticationHandler = .init()
-                authenticationHandler?.credential = credential
+            self.authenticationHandler = .init()
+            authenticationHandler?.credential = credential
             self.urlSession = URLSession(
                 configuration: session.configuration,
                 delegate: authenticationHandler,
@@ -37,7 +37,7 @@ public extension CommonNetworking {
         public init(
             session: URLSession,
             serverPublicHashKeys: [String]) {
-                authenticationHandler = .init()
+            self.authenticationHandler = .init()
             authenticationHandler?.serverPublicHashKeys = serverPublicHashKeys
             self.urlSession = URLSession(
                 configuration: session.configuration,
@@ -49,15 +49,12 @@ public extension CommonNetworking {
         public init(
             session: URLSession,
             pathToCertificates: [String]) {
-                authenticationHandler = .init()
-                authenticationHandler?.pathToCertificates = pathToCertificates
+            self.authenticationHandler = .init()
+            authenticationHandler?.pathToCertificates = pathToCertificates
             self.urlSession = URLSession(
                 configuration: session.configuration,
                 delegate: authenticationHandler,
                 delegateQueue: nil)
         }
-
-
     }
 }
-

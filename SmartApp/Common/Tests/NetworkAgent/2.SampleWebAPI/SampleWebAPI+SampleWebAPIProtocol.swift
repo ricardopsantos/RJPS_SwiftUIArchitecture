@@ -6,17 +6,19 @@
 import Foundation
 import Combine
 import CryptoKit
+@testable import Common
 
 //
 // MARK: - NetworkAgentSampleNamespace
 //
 
-public extension SimpleNetworkAgentSampleAPI {
-    typealias SampleRequestJSONResponse = AnyPublisher<
-        NetworkAgentSampleNamespace.ResponseDto.EmployeeServiceAvailability,
+extension SampleWebAPI: SampleWebAPIProtocol {
+
+    public typealias SampleRequestJSONResponse = AnyPublisher<
+        ResponseDto.EmployeeServiceAvailability,
         CommonNetworking.APIError
     >
-    func sampleRequestJSON(_ requestDto: NetworkAgentSampleNamespace.RequestDto.Employee) -> SampleRequestJSONResponse {
+    public func sampleRequestJSON(_ requestDto: RequestDto.Employee) -> SampleRequestJSONResponse {
         // swiftlint:disable redundant_discardable_let
         let /* httpBody */ _ = [
             "publicKey": requestDto.someParam
@@ -52,11 +54,11 @@ public extension SimpleNetworkAgentSampleAPI {
         .eraseToAnyPublisher()
     }
 
-    typealias SampleRequestPinningGoogleResponse = AnyPublisher<
-        NetworkAgentSampleNamespace.ResponseDto.Pinning,
+    public typealias SampleRequestPinningGoogleResponse = AnyPublisher<
+        ResponseDto.Pinning,
         CommonNetworking.APIError
     >
-    func sampleRequestPinningGoogle(_ requestDto: NetworkAgentSampleNamespace.RequestDto.Pinning) -> SampleRequestPinningGoogleResponse {
+    public func sampleRequestPinningGoogle(_ requestDto: RequestDto.Pinning) -> SampleRequestPinningGoogleResponse {
         let request = CommonNetworking.NetworkAgentRequest(
             path: "",
             queryItems: nil,
@@ -82,8 +84,8 @@ public extension SimpleNetworkAgentSampleAPI {
         .eraseToAnyPublisher()
     }
 
-    typealias SampleRequestCVSAsyncResponse = NetworkAgentSampleNamespace.ResponseDto.EmployeeServiceAvailability
-    func sampleRequestCVSAsync(_ requestDto: NetworkAgentSampleNamespace.RequestDto.Employee) async throws -> SampleRequestCVSAsyncResponse {
+    public typealias SampleRequestCVSAsyncResponse = ResponseDto.EmployeeServiceAvailability
+    public func sampleRequestCVSAsync(_ requestDto: RequestDto.Employee) async throws -> SampleRequestCVSAsyncResponse {
         let request = CommonNetworking.NetworkAgentRequest(
             path: "codigos_postais.csv",
             queryItems: nil,

@@ -4,8 +4,9 @@
 //
 
 import Foundation
+@testable import Common
 
-public extension NetworkAgentSampleNamespace.ResponseDto {
+public extension ResponseDto {
     struct Pinning: Codable, Hashable {
         public let codConcelho: String?
 

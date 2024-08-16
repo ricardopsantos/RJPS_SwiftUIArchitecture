@@ -5,9 +5,9 @@ import Combine
 import Nimble
 
 //
-// Dont run directly! Run in SubClasses
-// Dont run directly! Run SubClasses
-// Dont run directly! Run SubClasses
+// Don't run directly! Run in SubClasses
+// Don't run directly! Run in SubClasses
+// Don't run directly! Run in SubClasses
 //
 @testable import Common
 class SyncCodableCacheManagerBase_Tests: XCTestCase {
@@ -21,10 +21,10 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
         fatalError()
     }
 
-    private var service: NetworkAgentSampleAPIProtocol {
-        SimpleNetworkAgentSampleAPI(session: .defaultForNetworkAgent)
+    private var sampleWebAPIUseCase: SampleWebAPIUseCase {
+        SampleWebAPIUseCase()
     }
-
+    
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
@@ -117,7 +117,7 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
         }
         var counter = 0
         syncClearAll()
-        cachedRequest(cachePolicy: .ignoringCache)?
+        sampleWebAPIUseCase.cachedRequest(cachePolicy: .ignoringCache)
             .sinkToReceiveValue { some in
                 switch some {
                 case .success:
@@ -135,7 +135,7 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
         }
         var counter = 0
         syncClearAll()
-        cachedRequest(cachePolicy: .cacheElseLoad)?
+        sampleWebAPIUseCase.cachedRequest(cachePolicy: .cacheElseLoad)
             .sinkToReceiveValue { some in
                 switch some {
                 case .success:
@@ -153,7 +153,7 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
         }
         var counter = 0
         syncClearAll()
-        cachedRequest(cachePolicy: .cacheDontLoad)?
+        sampleWebAPIUseCase.cachedRequest(cachePolicy: .cacheDontLoad)
             .sinkToReceiveValue { some in
                 switch some {
                 case .success:
@@ -171,7 +171,7 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
         }
         var counter = 0
         syncClearAll()
-        cachedRequest(cachePolicy: .cacheAndLoad)?
+        sampleWebAPIUseCase.cachedRequest(cachePolicy: .cacheAndLoad)
             .sinkToReceiveValue { some in
                 switch some {
                 case .success:
@@ -189,11 +189,11 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
         }
         var counter = 0
         syncClearAll()
-        cachedRequest(cachePolicy: .ignoringCache)?
+        sampleWebAPIUseCase.cachedRequest(cachePolicy: .ignoringCache)
             .sinkToReceiveValue { some in
                 switch some {
                 case .success:
-                    self.cachedRequest(cachePolicy: .cacheAndLoad)?
+                    self.sampleWebAPIUseCase.cachedRequest(cachePolicy: .cacheAndLoad)
                         .sinkToReceiveValue { some in
                             switch some {
                             case .success:
@@ -250,28 +250,5 @@ private extension SyncCodableCacheManagerBase_Tests {
 
     func syncClearAll() {
         codableCacheManager().syncClearAll()
-    }
-
-    func cachedRequest(cachePolicy: Common.CachePolicy) -> AnyPublisher<
-        NetworkAgentSampleNamespace.ResponseDto.EmployeeServiceAvailability,
-        Never
-    >? {
-        let defaultForNetworkAgent: NetworkAgentSampleAPIProtocol = SimpleNetworkAgentSampleAPI(session: .defaultForNetworkAgent)
-        //
-        let serviceKey = #function
-        let requestDto = NetworkAgentSampleNamespace.RequestDto.Employee(someParam: "aaa")
-        let apiRequest = defaultForNetworkAgent.sampleRequestJSON(requestDto)
-        let serviceParams: [any Hashable] = [requestDto.someParam]
-        let apiResponseType = NetworkAgentSampleNamespace.ResponseDto.EmployeeServiceAvailability.self
-        //
-        return Common.GenericRequestWithCodableCache.perform(
-            apiRequest,
-            apiResponseType,
-            cachePolicy,
-            serviceKey,
-            serviceParams,
-            60 * 24 * 30, // 1 month
-            codableCacheManager()
-        ).eraseToAnyPublisher()
     }
 }

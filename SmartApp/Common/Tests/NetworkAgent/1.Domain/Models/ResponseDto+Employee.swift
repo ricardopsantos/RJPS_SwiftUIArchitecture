@@ -4,8 +4,9 @@
 //
 
 import Foundation
+@testable import Common
 
-public extension NetworkAgentSampleNamespace.ResponseDto {
+public extension ResponseDto {
     struct EmployeeServiceAvailability: Codable, Hashable {
         public let status: String
         public let data: [Employee]

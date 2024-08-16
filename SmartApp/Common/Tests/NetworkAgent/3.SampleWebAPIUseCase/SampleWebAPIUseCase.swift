@@ -5,26 +5,30 @@
 
 import Foundation
 import Combine
-
+@testable import Common
 //
 // MARK: - Usage
 //
 
-private let cancelBag = CancelBag()
-public extension NetworkAgentSampleNamespace {
+public class SampleWebAPIUseCase {
+    
+    let webAPI: SampleWebAPIProtocol = SampleWebAPI(session: .defaultForNetworkAgent)
+
+    //
+    // MARK: - Default
+    //
     typealias ResponseCachedRequest = AnyPublisher<
-        NetworkAgentSampleNamespace.ResponseDto.EmployeeServiceAvailability,
+        ResponseDto.EmployeeServiceAvailability,
         CommonNetworking.APIError
     >
-    static func cachedRequest(cachePolicy: Common.CachePolicy) -> ResponseCachedRequest {
+    func cachedRequest(cachePolicy: Common.CachePolicy) -> ResponseCachedRequest {
         let codableCacheManager = Common_SimpleCacheManagerForCodable.shared
-        let defaultForNetworkAgent: NetworkAgentSampleAPIProtocol = SimpleNetworkAgentSampleAPI(session: .defaultForNetworkAgent)
         //
         let serviceKey = #function
-        let requestDto = NetworkAgentSampleNamespace.RequestDto.Employee(someParam: "aaa")
-        let apiRequest = defaultForNetworkAgent.sampleRequestJSON(requestDto)
+        let requestDto = RequestDto.Employee(someParam: "aaa")
+        let apiRequest = webAPI.sampleRequestJSON(requestDto)
         let serviceParams: [any Hashable] = [requestDto.someParam]
-        let apiResponseType = NetworkAgentSampleNamespace.ResponseDto.EmployeeServiceAvailability.self
+        let apiResponseType = ResponseDto.EmployeeServiceAvailability.self
         //
         return Common.GenericRequestWithCodableCache.perform(
             apiRequest,
@@ -37,25 +41,27 @@ public extension NetworkAgentSampleNamespace {
         ).eraseToAnyPublisher()
     }
 
-    func jsonExample() {
-        //
-        // JSON
-        //
-        let defaultForNetworkAgent: NetworkAgentSampleAPIProtocol = SimpleNetworkAgentSampleAPI(session: .defaultForNetworkAgent)
-        let requestDto = NetworkAgentSampleNamespace.RequestDto.Employee(someParam: "aaa")
-        defaultForNetworkAgent.sampleRequestJSON(requestDto).sink { _ in } receiveValue: { response in
+    //
+    // MARK: - JSON
+    //
+    
+    func jsonExample(completion:()->(String)) {
+        let requestDto = RequestDto.Employee(someParam: "aaa")
+        webAPI.sampleRequestJSON(requestDto).sink { _ in } receiveValue: { response in
             Common_Logs.debug(response.data.prefix(3))
-        }.store(in: cancelBag)
+        }.store(in: TestsGlobal.cancelBag)
     }
 
+    //
+    // MARK: - Task await
+    //
     func taskAwait() {
         //
         // Task + wait with CSV result
         Task(priority: .background) {
             do {
-                let defaultForNetworkAgent: NetworkAgentSampleAPIProtocol = SimpleNetworkAgentSampleAPI(session: .defaultForNetworkAgent)
-                let requestAsyncDto = NetworkAgentSampleNamespace.RequestDto.Employee(someParam: "aaa")
-                let response = try await defaultForNetworkAgent.sampleRequestCVSAsync(requestAsyncDto)
+                let requestAsyncDto = RequestDto.Employee(someParam: "aaa")
+                let response = try await webAPI.sampleRequestCVSAsync(requestAsyncDto)
                 Common_Logs.debug("\(response)")
             } catch {
                 Common_Logs.error(error)
@@ -63,36 +69,35 @@ public extension NetworkAgentSampleNamespace {
         }
     }
 
+    //
+    // MARK: - SSL Pinning
+    //
     static func sslPining() {
-        //
-        // SSL Pinning
-        //
-
         /// https://www.ssllabs.com/ssltest/analyze.html?d=www.google.co.uk&s=2607%3af8b0%3a4007%3a815%3a0%3a0%3a0%3a2003
         let serverPublicHashKey1 = "jr9L2wQM+Sxb3eq5qlk85ZtmrdNwW5qAbGFweZfG6Zw="
         let serverPublicHashKey2 = "2PC8qER2ONKfBHNYFULYdQPSRSjkgxY/eoB5nes/qS4="
         let serverPublicHashKeys = [serverPublicHashKey1, serverPublicHashKey2]
-        let apiPinningV1 = SimpleNetworkAgentSampleAPI(
+        let networkAgent = SampleWebAPI(
             session: .defaultForNetworkAgent,
             serverPublicHashKeys: serverPublicHashKeys
         )
 
         let pathToCertificates = [Bundle.main.path(forResource: "google", ofType: "cer")!]
-        let apiPinningV2 = SimpleNetworkAgentSampleAPI(
+        let apiPinningV2 = SampleWebAPI(
             session: .defaultForNetworkAgent,
             pathToCertificates: pathToCertificates
         )
 
-        let requestAsyncDto = NetworkAgentSampleNamespace.RequestDto.Pinning(someParam: "aaa")
+        let requestAsyncDto = RequestDto.Pinning(someParam: "aaa")
 
-        apiPinningV1.sampleRequestPinningGoogle(requestAsyncDto)
+        networkAgent.sampleRequestPinningGoogle(requestAsyncDto)
             .sink { _ in } receiveValue: { response in
                 Common_Logs.debug(response)
-            }.store(in: cancelBag)
+            }.store(in: TestsGlobal.cancelBag)
 
         apiPinningV2.sampleRequestPinningGoogle(requestAsyncDto)
             .sink { _ in } receiveValue: { response in
                 Common_Logs.debug(response)
-            }.store(in: cancelBag)
+            }.store(in: TestsGlobal.cancelBag)
     }
 }

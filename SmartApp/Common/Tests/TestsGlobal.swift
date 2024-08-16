@@ -14,6 +14,14 @@ import Common
 
 internal class CommonBundleFinder {}
 
+public struct ResponseDto {
+    private init() {}
+}
+
+public struct RequestDto {
+    private init() {}
+}
+
 public enum TestsGlobal {
     static let cancelBag = CancelBag()
     static var timeout: Int = 5

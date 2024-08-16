@@ -12,12 +12,12 @@ import CommonCrypto
 // MARK: - Run
 //
 
-public extension CommonNetworking.NetworkAgent {
+public extension CommonNetworking.NetworkAgentClient {
     func run<T>(
-        _ request: URLRequest,
-        _ decoder: JSONDecoder,
-        _ logger: CommonNetworking.NetworkLogger,
-        _ responseFormat: CommonNetworking.ResponseFormat) -> AnyPublisher<
+        request: URLRequest,
+        decoder: JSONDecoder,
+        logger: CommonNetworking.NetworkLogger,
+        responseFormat: CommonNetworking.ResponseFormat) -> AnyPublisher<
         CommonNetworking.Response<T>,
         CommonNetworking.APIError
     > where T: Decodable {
@@ -120,19 +120,19 @@ public extension CommonNetworking.NetworkAgent {
     }
 
     func runAsync<T: Decodable>(
-        _ request: URLRequest,
-        _ decoder: JSONDecoder,
-        _ logger: CommonNetworking.NetworkLogger,
-        _ responseFormat: CommonNetworking.ResponseFormat,
-        _ onCompleted: @escaping () -> Void) async throws -> T {
+        request: URLRequest,
+        decoder: JSONDecoder,
+        logger: CommonNetworking.NetworkLogger,
+        responseFormat: CommonNetworking.ResponseFormat,
+        onCompleted: @escaping () -> Void) async throws -> T {
         let apiCall: AnyPublisher<
             T,
             CommonNetworking.APIError
         > = run(
-            request,
-            decoder,
-            logger,
-            responseFormat).flatMap { response in
+            request: request,
+            decoder: decoder,
+            logger: logger,
+            responseFormat: responseFormat).flatMap { response in
             Just(response.modelDto).setFailureType(to: CommonNetworking.APIError.self).eraseToAnyPublisher()
         }.runBlockAndContinue { _ in
             onCompleted() // Do something before returns
@@ -141,7 +141,7 @@ public extension CommonNetworking.NetworkAgent {
     }
 }
 
-fileprivate extension CommonNetworking.NetworkAgent {
+fileprivate extension CommonNetworking.NetworkAgentClient {
     static func decode<T: Decodable>(
         _ data: Data?,
         _ decoder: JSONDecoder,

@@ -7,9 +7,11 @@ import Foundation
 import Network
 
 public extension URLSessionConfiguration {
-    static func defaultForNetworkAgent(waitsForConnectivity: Bool = false,
-                                       cacheEnabled: Bool = false,
-                                       timeoutIntervalForResource: TimeInterval = URLSession.defaultTimeoutIntervalForResource) -> URLSessionConfiguration {
+    static func defaultForNetworkAgent(
+        waitsForConnectivity: Bool = false,
+        cacheEnabled: Bool = false,
+        timeoutIntervalForResource: TimeInterval = URLSession.defaultTimeoutIntervalForResource
+    ) -> URLSessionConfiguration {
         let config = URLSessionConfiguration.default
         config.waitsForConnectivity = waitsForConnectivity
         if cacheEnabled {
@@ -44,9 +46,11 @@ public extension URLSession {
         timeoutIntervalForResource: TimeInterval = defaultTimeoutIntervalForResource,
         cacheEnabled: Bool = true
     ) -> URLSession {
-        let config = URLSessionConfiguration.defaultForNetworkAgent(waitsForConnectivity: waitsForConnectivity,
-                                                                    cacheEnabled: cacheEnabled,
-                                                                    timeoutIntervalForResource: timeoutIntervalForResource)
+        let config = URLSessionConfiguration.defaultForNetworkAgent(
+            waitsForConnectivity: waitsForConnectivity,
+            cacheEnabled: cacheEnabled,
+            timeoutIntervalForResource: timeoutIntervalForResource
+        )
         return URLSession(configuration: config)
     }
 }

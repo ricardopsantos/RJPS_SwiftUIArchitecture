@@ -86,10 +86,10 @@ private extension EmployeeService {
             CommonNetworking.APIError
         >
         let apiCall: APIResponseType = NetworkManager.shared.client.run(
-            request.urlRequest!,
-            .defaultForWebAPI,
-            .allOn,
-            request.responseFormat
+            request: request.urlRequest!,
+            decoder: .defaultForWebAPI,
+            logger: .allOn,
+            responseFormat: request.responseFormat
         ).flatMap { response in
             Just(response.modelDto).setFailureType(to: CommonNetworking.APIError.self).eraseToAnyPublisher()
         }

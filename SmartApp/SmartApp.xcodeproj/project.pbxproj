@@ -209,7 +209,7 @@
 		71EAD2521A7636F53ADCC144 /* UserDefaults<T>.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241398B652DF07F9A2D1C4CF /* UserDefaults<T>.swift */; };
 		7257454D76C472990086FDDD /* UIStackView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6845F20346B463C801B373 /* UIStackView+Extensions.swift */; };
 		728C22721AA2DE612DE7E0C0 /* NonSecureAppPreferencesProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B596EE404CD2F5C43477100B /* NonSecureAppPreferencesProtocol.swift */; };
-		74130C24AD76A44CDEE5E0D3 /* 3.SimpleNetworkAgentSampleAPI+Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764460D89C665952F5EB59B2 /* 3.SimpleNetworkAgentSampleAPI+Requests.swift */; };
+		74130C24AD76A44CDEE5E0D3 /* 3.SimpleNetworkAgentSampleAPI+RequestsImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764460D89C665952F5EB59B2 /* 3.SimpleNetworkAgentSampleAPI+RequestsImp.swift */; };
 		74674960CE1D52064B715F58 /* VM.PopulationStateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6CDA2B8DDD168A209FCF6A /* VM.PopulationStateViewModel.swift */; };
 		74F1D8FF4B402A7ADD74ECEC /* SampleCounterV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3622F5EABC3B6D51C2BE448 /* SampleCounterV1.swift */; };
 		7579FCE308A46CA01148B428 /* E.SyncCoreDataManagerOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62609D49A74B98FAEA0CED7F /* E.SyncCoreDataManagerOperationQueue.swift */; };
@@ -854,7 +854,7 @@
 		755A4CDD0710B4DD8099584C /* qa-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "qa-debug.xcconfig"; sourceTree = "<group>"; };
 		760EC25F699ECAD327491B0F /* loading2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading2.png; sourceTree = "<group>"; };
 		7629FECD9AC907F2E492A93A /* pullDonwRefresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pullDonwRefresh.png; sourceTree = "<group>"; };
-		764460D89C665952F5EB59B2 /* 3.SimpleNetworkAgentSampleAPI+Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "3.SimpleNetworkAgentSampleAPI+Requests.swift"; sourceTree = "<group>"; };
+		764460D89C665952F5EB59B2 /* 3.SimpleNetworkAgentSampleAPI+RequestsImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "3.SimpleNetworkAgentSampleAPI+RequestsImp.swift"; sourceTree = "<group>"; };
 		7667E01BE584E44327596CD2 /* E.ColorScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = E.ColorScheme.swift; sourceTree = "<group>"; };
 		76F2ADF90C96461A0596FD24 /* SCNNode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNNode+Extensions.swift"; sourceTree = "<group>"; };
 		786CDBBEA24C9285FB0A2907 /* PassthroughSubject+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PassthroughSubject+Extensions.swift"; sourceTree = "<group>"; };
@@ -1360,7 +1360,7 @@
 				C70652F2ABC5F5AD9E79B9E8 /* Models */,
 				E74039D3237950ED8667039B /* 1.NetworkAgentSampleNamespace.swift */,
 				910860503CF18BE52FA1A5AF /* 2.SimpleNetworkAgentSampleAPI.swift */,
-				764460D89C665952F5EB59B2 /* 3.SimpleNetworkAgentSampleAPI+Requests.swift */,
+				764460D89C665952F5EB59B2 /* 3.SimpleNetworkAgentSampleAPI+RequestsImp.swift */,
 				B7B7D71F7100A7BD2777AD1B /* 4.SimpleNetworkAgentSampleAPI+Usage.swift */,
 			);
 			path = 3.SampleUsage;
@@ -3378,7 +3378,7 @@
 				42C875957985C330B05543EE /* 2.SimpleNetworkAgentSampleAPI.swift in Sources */,
 				D73463032C6FA365000F867D /* AnimationComprehensiveGuide.swift in Sources */,
 				237333D08E5622F5F701EFD3 /* 3.AuthenticationHandler.swift in Sources */,
-				74130C24AD76A44CDEE5E0D3 /* 3.SimpleNetworkAgentSampleAPI+Requests.swift in Sources */,
+				74130C24AD76A44CDEE5E0D3 /* 3.SimpleNetworkAgentSampleAPI+RequestsImp.swift in Sources */,
 				8C32673021865528A700D647 /* 4.SimpleNetworkAgentSampleAPI+Usage.swift in Sources */,
 				77BE831D569654C0D38D77C2 /* AnyPublisher+Async.swift in Sources */,
 				5199973EB283B7B33CAAF148 /* AnyPublisher+Extensions.swift in Sources */,

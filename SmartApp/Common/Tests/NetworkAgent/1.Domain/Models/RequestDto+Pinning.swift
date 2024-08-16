@@ -4,8 +4,9 @@
 //
 
 import Foundation
+@testable import Common
 
-public extension NetworkAgentSampleNamespace.RequestDto {
+public extension RequestDto {
     struct Pinning {
         public let someParam: String
         public init(someParam: String = "") {

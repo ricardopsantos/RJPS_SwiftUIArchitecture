@@ -17,11 +17,11 @@ protocol SomeVsAnyShapeProtocol {
 public extension CommonLearnings {
     struct SomeVsAny {
         /**
-        __TLDR__
-        `any`:   is used to work with values of any type that conforms to a protocol, providing a more flexible approach where the exact type can vary.
-        `some` : is used to provide an abstract type while hiding the specific implementation details, ensuring that the type conforms to a protocol but keeping it opaque.
-         */
-        
+         __TLDR__
+         `any`:   is used to work with values of any type that conforms to a protocol, providing a more flexible approach where the exact type can vary.
+         `some` : is used to provide an abstract type while hiding the specific implementation details, ensuring that the type conforms to a protocol but keeping it opaque.
+          */
+
         struct Circle: SomeVsAnyShapeProtocol {
             func draw() {
                 print("Drawing a circle")
@@ -35,13 +35,11 @@ public extension CommonLearnings {
         }
 
         func makeShape() -> some SomeVsAnyShapeProtocol {
-            return Circle() // or return Square()
+            Circle() // or return Square()
         }
-        
+
         func printShape(_ shape: any SomeVsAnyShapeProtocol) {
             shape.draw()
         }
-        
     }
 }
-

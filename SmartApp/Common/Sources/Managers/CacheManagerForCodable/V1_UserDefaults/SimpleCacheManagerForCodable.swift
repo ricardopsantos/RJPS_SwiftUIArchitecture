@@ -112,15 +112,3 @@ public extension Common {
     }
 }
 
-//
-// MARK: Sample Usage
-//
-public extension Common.CacheManagerForCodableUserDefaultsRepository {
-    typealias ResponseCachedRequest = AnyPublisher<
-        NetworkAgentSampleNamespace.ResponseDto.EmployeeServiceAvailability,
-        CommonNetworking.APIError
-    >
-    static func sampleUsage() -> ResponseCachedRequest {
-        NetworkAgentSampleNamespace.cachedRequest(cachePolicy: .cacheAndLoad)
-    }
-}

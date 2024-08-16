@@ -15,10 +15,10 @@ public extension CommonNetworking {
     class AuthenticationHandler: NSObject, URLSessionDelegate {
         // Holds user credentials for HTTP Basic Authentication.
         var credential: URLCredential?
-        
+
         // Array of server public key hashes for SSL pinning.
         var serverPublicHashKeys: [String]?
-        
+
         // Array of file paths to local certificates for SSL pinning.
         var pathToCertificates: [String]?
 
@@ -30,7 +30,7 @@ public extension CommonNetworking {
         ) {
             // Handle HTTP Basic Authentication challenges.
             if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodHTTPBasic {
-                guard let credential = self.credential else {
+                guard let credential = credential else {
                     Common_Logs.error("No credentials provided for challenge \(challenge)")
                     completionHandler(.cancelAuthenticationChallenge, nil)
                     return
@@ -61,7 +61,7 @@ public extension CommonNetworking {
             }
 
             // Handle SSL Pinning with public key hashes.
-            if let serverPublicHashKeys = self.serverPublicHashKeys, !serverPublicHashKeys.isEmpty {
+            if let serverPublicHashKeys = serverPublicHashKeys, !serverPublicHashKeys.isEmpty {
                 func sha256(data: Data) -> String {
                     // Add ASN.1 header for RSA 2048 public key.
                     let rsa2048Asn1Header: [UInt8] = [
@@ -76,7 +76,7 @@ public extension CommonNetworking {
                     }
                     return Data(hash).base64EncodedString()
                 }
-                
+
                 // Compute the hash of the server's public key.
                 let serverPublicKeyDataHash = sha256(data: serverPublicKeyData as Data)
                 if serverPublicHashKeys.contains(serverPublicKeyDataHash) {
@@ -90,23 +90,23 @@ public extension CommonNetworking {
             }
 
             // Handle SSL Pinning with local certificates.
-            if let pathToCertificates = self.pathToCertificates, !pathToCertificates.isEmpty {
+            if let pathToCertificates = pathToCertificates, !pathToCertificates.isEmpty {
                 // Load local certificates from file paths.
                 let localCertificatesData: [Data] = pathToCertificates.compactMap { NSData(contentsOfFile: $0) } as [Data]
-                
+
                 // Create SSL policy for the remote server.
                 let policy = NSMutableArray()
                 policy.add(SecPolicyCreateSSL(true, challenge.protectionSpace.host as CFString))
-                
+
                 // Evaluate if the server trust is valid.
                 let isServerTrusted = SecTrustEvaluateWithError(serverTrust, nil)
-                
+
                 // Get the server's certificate data.
                 let remoteCertificateData: NSData = SecCertificateCopyData(serverCertificate)
-                
+
                 // Check if the server's certificate matches any of the local certificates.
                 let existsMatchingLocalCer = localCertificatesData.contains { remoteCertificateData.isEqual(to: $0) }
-                
+
                 if isServerTrusted, existsMatchingLocalCer {
                     // Certificate matches, authentication successful.
                     let credential: URLCredential = URLCredential(trust: serverTrust)
@@ -121,7 +121,6 @@ public extension CommonNetworking {
             completionHandler(.cancelAuthenticationChallenge, nil)
         }
     }
-
 }
 
 //
@@ -129,7 +128,6 @@ public extension CommonNetworking {
 //
 
 extension CommonNetworking.AuthenticationHandler {
-    
     static var sampleAuthenticationHandler: CommonNetworking.AuthenticationHandler {
         let authenticationHandler = CommonNetworking.AuthenticationHandler()
 
@@ -138,8 +136,8 @@ extension CommonNetworking.AuthenticationHandler {
 
         // Example server public key hashes (you would replace these with actual values)
         authenticationHandler.serverPublicHashKeys = [
-            "base64EncodedPublicKeyHash1",
-            "base64EncodedPublicKeyHash2"
+            "jr9L2wQM+Sxb3eq5qlk85ZtmrdNwW5qAbGFweZfG6Zw=",
+            "2PC8qER2ONKfBHNYFULYdQPSRSjkgxY/eoB5nes/qS4="
         ]
 
         // Example paths to local certificates (ensure these paths are valid)
@@ -147,18 +145,20 @@ extension CommonNetworking.AuthenticationHandler {
             "/path/to/certificate1.pem",
             "/path/to/certificate2.pem"
         ]
+        authenticationHandler.pathToCertificates = [Bundle.main.path(forResource: "google", ofType: "cer")!]
         return authenticationHandler
     }
-    
-    static func sample() {
 
+    static func sample2() {
         // Create an instance of AuthenticationHandler
         let authenticationHandler = CommonNetworking.AuthenticationHandler.sampleAuthenticationHandler
 
         // Create a URLSession with the authentication handler as its delegate
-        let urlSession = URLSession(configuration: .defaultForNetworkAgent(),
-                                    delegate: authenticationHandler,
-                                    delegateQueue: nil)
+        let urlSession = URLSession(
+            configuration: .defaultForNetworkAgent(),
+            delegate: authenticationHandler,
+            delegateQueue: nil
+        )
 
         // Create a URL request
         guard let url = URL(string: "https://example.com/api/resource") else {
@@ -178,6 +178,5 @@ extension CommonNetworking.AuthenticationHandler {
 
         // Start the data task
         dataTask.resume()
-
     }
 }
