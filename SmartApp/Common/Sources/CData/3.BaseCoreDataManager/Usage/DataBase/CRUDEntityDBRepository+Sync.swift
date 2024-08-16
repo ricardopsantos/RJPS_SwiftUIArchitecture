@@ -19,6 +19,27 @@ public extension CommonCoreData.Utils.Sample.CRUDEntityDBRepository {
         try? context.save()
     }
 
+    func syncUpdate(_ model: CommonCoreData.Utils.Sample.CRUDEntity) {
+        typealias DBEntity = CDataCRUDEntity
+        let context = viewContext
+        let instances = try? context.fetch(DBEntity.fetchRequestWith(id: model.id))
+        if let existingEntity = instances?.first {
+            existingEntity.name = model.name
+            existingEntity.recordDate = model.recordDate
+            try? context.save()
+        }
+    }
+
+    func syncDelete(_ model: CommonCoreData.Utils.Sample.CRUDEntity) {
+        typealias DBEntity = CDataCRUDEntity
+        let context = viewContext
+        let instances = try? context.fetch(DBEntity.fetchRequestWith(id: model.id))
+        if let existingEntity = instances?.first {
+            context.delete(existingEntity)
+            try? context.save()
+        }
+    }
+
     func syncRecordCount() -> Int {
         typealias DBEntity = CDataCRUDEntity
         let context = viewContext

@@ -8,6 +8,8 @@
 import SwiftUI
 //
 import DesignSystem
+import DevTools
+import Common
 
 struct TermsAndConditionsScreen: View {
     @Environment(\.colorScheme) var colorScheme
@@ -61,7 +63,7 @@ struct TermsAndConditionsScreen: View {
     }
 
     func startTypingEffect() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        Common_Utils.delay(1) {
             currentCharacterIndex = termsAndConditions.startIndex
             Timer.scheduledTimer(withTimeInterval: 0.03, repeats: true) { timer in
                 displayedText.append(termsAndConditions[currentCharacterIndex])

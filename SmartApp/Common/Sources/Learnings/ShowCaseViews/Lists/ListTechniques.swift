@@ -44,7 +44,7 @@ public extension CommonLearnings.ListTechniques {
                         .font(.headline)
                     Spacer()
                     Button(action: {
-                        //("\(item) selected")
+                        // ("\(item) selected")
                     }) {
                         Image(systemName: "info.circle")
                     }
@@ -198,9 +198,11 @@ public extension CommonLearnings.ListTechniques {
                 CommonLearnings.ListTechniques.ReorderableListView()
             }, title: "ReorderableListView")
         }
-        CommonLearnings.ListTechniques.DisplayView(content: {
-            CommonLearnings.ListTechniques.SearchableListView()
-        }, title: "SearchableListView")
+        if Common_Utils.false {
+            CommonLearnings.ListTechniques.DisplayView(content: {
+                CommonLearnings.ListTechniques.SearchableListView()
+            }, title: "SearchableListView")
+        }
     }
 }
 #endif

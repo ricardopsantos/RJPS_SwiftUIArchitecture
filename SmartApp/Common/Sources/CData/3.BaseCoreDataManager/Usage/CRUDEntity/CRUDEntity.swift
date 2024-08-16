@@ -7,8 +7,8 @@ import Foundation
 public extension CommonCoreData.Utils.Sample {
     struct CRUDEntity: Equatable {
         public let id: String
-        public let name: String
-        public let recordDate: Date
+        public var name: String
+        public var recordDate: Date
         public init(id: String, name: String, recordDate: Date) {
             self.id = id
             self.name = name

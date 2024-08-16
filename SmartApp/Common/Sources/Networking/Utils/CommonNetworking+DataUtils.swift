@@ -29,10 +29,10 @@ public extension CommonNetworking {
                       error == nil
                 else {
                     assertionFailure("\(String(describing: error))")
-                    DispatchQueue.main.async { completion(nil, false) }
+                    DispatchQueue.executeInMainTread { completion(nil, false) }
                     return
                 }
-                DispatchQueue.main.async { completion(data, true) }
+                DispatchQueue.executeInMainTread { completion(data, true) }
             }).resume()
         }
     }

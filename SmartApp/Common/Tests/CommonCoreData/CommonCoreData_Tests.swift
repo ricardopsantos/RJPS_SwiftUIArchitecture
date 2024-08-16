@@ -33,16 +33,40 @@ extension CommonCoreData_Tests {
             XCTAssert(true)
             return
         }
+
+        // Records count
         bd.syncClearAll()
         XCTAssert(bd.syncRecordCount() == 0)
 
-        let toStore: CommonCoreData.Utils.Sample.CRUDEntity = .random
+        // Insert
+        var toStore: CommonCoreData.Utils.Sample.CRUDEntity = .random
         bd.syncStore(toStore)
         XCTAssert(bd.syncRecordCount() == 1)
         XCTAssert(bd.syncRecordCount() == bd.syncAllIds().count)
 
-        let stored = bd.syncRetrieve(key: toStore.id)
+        // Get
+        var stored = bd.syncRetrieve(key: toStore.id)
         XCTAssert(stored == toStore)
+
+        // Update
+        toStore.name = "NewName"
+        bd.syncUpdate(toStore)
+
+        stored = bd.syncRetrieve(key: toStore.id)
+        XCTAssert(stored?.name == "NewName")
+
+        // Delete
+        if let stored = stored {
+            bd.syncDelete(stored)
+            let some = bd.syncRetrieve(key: toStore.id)
+            XCTAssert(some == nil)
+            let count1 = bd.syncRecordCount()
+            let count2 = bd.syncAllIds().count
+            XCTAssert(count1 == 0)
+            XCTAssert(count1 == count2)
+        } else {
+            XCTAssert(false)
+        }
     }
 
     func test_aSyncCRUD() async {
@@ -50,20 +74,45 @@ extension CommonCoreData_Tests {
             XCTAssert(true)
             return
         }
+
+        // Records count
         await bd.aSyncClearAll()
         let count1 = await bd.aSyncRecordCount()
         let count2 = await bd.aSyncAllIds().count
         XCTAssert(count1 == 0)
         XCTAssert(count1 == count2)
 
-        let toStore: CommonCoreData.Utils.Sample.CRUDEntity = .random
+        // Insert
+        var toStore: CommonCoreData.Utils.Sample.CRUDEntity = .random
         await bd.aSyncStore(toStore)
 
+        // Records count
         let count3 = await bd.aSyncRecordCount()
         XCTAssert(count3 == 1)
 
-        let stored = await bd.aSyncRetrieve(key: toStore.id)
+        // Get
+        var stored = await bd.aSyncRetrieve(key: toStore.id)
         XCTAssert(stored == toStore)
+
+        // Update
+        toStore.name = "NewName"
+        await bd.aSyncUpdate(toStore)
+
+        stored = await bd.aSyncRetrieve(key: toStore.id)
+        XCTAssert(stored?.name == "NewName")
+
+        // Delete
+        if let stored = stored {
+            await bd.aSyncDelete(stored)
+            let some = await bd.aSyncRetrieve(key: toStore.id)
+            XCTAssert(some == nil)
+            let count1 = await bd.aSyncRecordCount()
+            let count2 = await bd.aSyncAllIds().count
+            XCTAssert(count1 == 0)
+            XCTAssert(count1 == count2)
+        } else {
+            XCTAssert(false)
+        }
     }
 }
 

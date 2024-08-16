@@ -27,6 +27,43 @@ extension CommonCoreData.Utils.Sample.CRUDEntityDBRepository {
         }
     }
 
+    func aSyncUpdate(_ model: CommonCoreData.Utils.Sample.CRUDEntity) async {
+        typealias DBEntity = CDataCRUDEntity
+        let context = backgroundContext // Use a background context to perform the operation asynchronously
+        await withCheckedContinuation { [weak context] continuation in
+            context?.performAndWait { [weak context] in
+                guard let context = context else {
+                    return
+                }
+                let instances = try? context.fetch(DBEntity.fetchRequestWith(id: model.id))
+                if let existingEntity = instances?.first {
+                    existingEntity.name = model.name
+                    existingEntity.recordDate = model.recordDate
+                    try? context.save()
+                }
+                continuation.resume()
+            }
+        }
+    }
+
+    func aSyncDelete(_ model: CommonCoreData.Utils.Sample.CRUDEntity) async {
+        typealias DBEntity = CDataCRUDEntity
+        let context = backgroundContext // Use a background context to perform the operation asynchronously
+        await withCheckedContinuation { [weak context] continuation in
+            context?.performAndWait { [weak context] in
+                guard let context = context else {
+                    return
+                }
+                let instances = try? context.fetch(DBEntity.fetchRequestWith(id: model.id))
+                if let existingEntity = instances?.first {
+                    context.delete(existingEntity)
+                    try? context.save()
+                }
+                continuation.resume()
+            }
+        }
+    }
+
     func aSyncRecordCount() async -> Int {
         typealias DBEntity = CDataCRUDEntity
         let context = backgroundContext // Use a background context to perform the operation asynchronously

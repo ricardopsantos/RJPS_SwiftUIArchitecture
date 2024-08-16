@@ -10,7 +10,7 @@ public extension UIImageView {
     func load(url: URL, downsample: Bool = true) {
         if let data = try? Data(contentsOf: url) {
             if let image = UIImage(data: data) {
-                DispatchQueue.main.async { [weak self] in
+                DispatchQueue.executeInMainTread { [weak self] in
                     guard let self else {
                         return
                     }
