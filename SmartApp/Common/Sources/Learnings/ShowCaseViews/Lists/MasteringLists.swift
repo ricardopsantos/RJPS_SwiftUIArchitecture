@@ -16,7 +16,7 @@ public extension CommonLearnings {
 
 public extension CommonLearnings.MasteringLists {
     struct ListDemoV1: View {
-        @State var list: Array<String> = (0...30).map { "Index\($0)" }
+        @State var list: [String] = (0...30).map { "Index\($0)" }
         public var body: some View {
             List {
                 ForEach(0..<list.count, id: \.self) { i in
@@ -40,7 +40,7 @@ public extension CommonLearnings.MasteringLists {
             self.setInitialIndex = setInitialIndex
         }
 
-        @State var list: Array<String> = (0...30).map { "Index\($0)" }
+        @State var list: [String] = (0...30).map { "Index\($0)" }
         public var body: some View {
             ScrollViewReader { proxy in
                 VStack {
@@ -70,7 +70,7 @@ public extension CommonLearnings.MasteringLists {
 
 public extension CommonLearnings.MasteringLists {
     struct ListDemoV3: View {
-        @State var list: Array<String> = (0...30).map { "Index\($0)" }
+        @State var list: [String] = (0...30).map { "Index\($0)" }
         let setInitialIndex: Int?
         let canPrependItems: Bool
         public init(setInitialIndex: Int?, canPrependItems: Bool) {

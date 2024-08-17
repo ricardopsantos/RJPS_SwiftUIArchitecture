@@ -44,7 +44,6 @@
 		03AE3A0ECBC8C751E7049998 /* VM.RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E50F92908D7C6556DA1C2 /* VM.RootViewModel.swift */; };
 		0494F999BE0E91360FB56E7A /* Text+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15C93599242F0356B1983D2 /* Text+Extentions.swift */; };
 		04C5CB1F6AE2272E0CA0B86C /* V.WeatherScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B955A74DCF998256D965909 /* V.WeatherScreen.swift */; };
-		0577E47AF3211BCD2CBCF55D /* CodableCacheManagerProtocolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFEEF38E8013CCB4BF31C3D /* CodableCacheManagerProtocolTests.swift */; };
 		05FCBC2938103BF9D0DB5998 /* SampleCounterV4.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C781108F7472F46C66F5 /* SampleCounterV4.swift */; };
 		08CCD5C782B81DA7F76DCB30 /* PointFreeFunctions+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9DC7A2963CC9DA80BBC02B /* PointFreeFunctions+UIKit.swift */; };
 		09BB4A24D3C46B787E9F07EA /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B07DF2097C0DACE22F8A142 /* Bundle+Extensions.swift */; };
@@ -914,7 +913,6 @@
 		99FBA414AF387DEF3283D786 /* SyncCoreDataManagerCRUDProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncCoreDataManagerCRUDProtocol.swift; sourceTree = "<group>"; };
 		9A9DC7A2963CC9DA80BBC02B /* PointFreeFunctions+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointFreeFunctions+UIKit.swift"; sourceTree = "<group>"; };
 		9AE25C2F540C24DC8E845AC5 /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
-		9AFEEF38E8013CCB4BF31C3D /* CodableCacheManagerProtocolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableCacheManagerProtocolTests.swift; sourceTree = "<group>"; };
 		9B4D0B2A5047E1AC26388B02 /* CLPlacemark+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLPlacemark+Extensions.swift"; sourceTree = "<group>"; };
 		9CFAF2EF5FFD9E8D8304BFBB /* typealias.Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = typealias.Networking.swift; sourceTree = "<group>"; };
 		9D9218FDB69B5749A12C0810 /* CRUDEntityDBRepository+Sync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CRUDEntityDBRepository+Sync.swift"; sourceTree = "<group>"; };
@@ -1023,7 +1021,7 @@
 		CE9108BD9C5C9CE0977370F2 /* GenericChangesPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericChangesPublisher.swift; sourceTree = "<group>"; };
 		CF25B8E8319FADB2D8FD9C44 /* UIView+SubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+SubViews.swift"; sourceTree = "<group>"; };
 		CF72C5AA1B0659553892A26B /* V.UserDetailsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.UserDetailsScreen.swift; sourceTree = "<group>"; };
-		CF9D6C93CE5A73F4A17612DC /* SmartAppUnitTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SmartAppUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF9D6C93CE5A73F4A17612DC /* SmartAppUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartAppUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFBDACDBAABBA43D6E727E40 /* Graph.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Graph.json; sourceTree = "<group>"; };
 		CFCB1B30D9A58AFA7EB41C65 /* github.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = github.png; sourceTree = "<group>"; };
 		CFDA9EF825DA18F8FAB90681 /* GenericRequestWithCodableCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericRequestWithCodableCache.swift; sourceTree = "<group>"; };
@@ -1395,9 +1393,7 @@
 				B1658B9B7FBBB326B1903C0D /* 1.Application.ViewModels */,
 				8DDAA46C7C289D7194839D27 /* 2.1.Core.Repositories */,
 				C6A7972A84BAAF05FE59C910 /* 2.2.Core.Services */,
-				4F53A4B02EFA64A839157133 /* 3.Common */,
-				88907C7A08B965A60D2BF800 /* PreferenceKey */,
-				16028C1685FE13B93D1A4C15 /* CommonLearningsTests.swift */,
+				88907C7A08B965A60D2BF800 /* 3.Misc */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1654,14 +1650,6 @@
 				CB6B7109C3412020C260A033 /* xcodegen.png */,
 			);
 			path = features;
-			sourceTree = "<group>";
-		};
-		4F53A4B02EFA64A839157133 /* 3.Common */ = {
-			isa = PBXGroup;
-			children = (
-				9AFEEF38E8013CCB4BF31C3D /* CodableCacheManagerProtocolTests.swift */,
-			);
-			path = 3.Common;
 			sourceTree = "<group>";
 		};
 		4FE00C264BD32322C83CC755 /* UIViewController */ = {
@@ -2043,13 +2031,14 @@
 			path = 4.Onboarding;
 			sourceTree = "<group>";
 		};
-		88907C7A08B965A60D2BF800 /* PreferenceKey */ = {
+		88907C7A08B965A60D2BF800 /* 3.Misc */ = {
 			isa = PBXGroup;
 			children = (
+				16028C1685FE13B93D1A4C15 /* CommonLearningsTests.swift */,
 				0A3331FBE052B778ADFEF69A /* PreferenceKeyTests.swift */,
 				BD6E291DF2F7381AAF942B1E /* TotalWidthKey.swift */,
 			);
-			path = PreferenceKey;
+			path = 3.Misc;
 			sourceTree = "<group>";
 		};
 		8C5AE61371C38826F4A9EF89 /* View+Debug */ = {
@@ -2971,6 +2960,9 @@
 					5AAC81C2F85D7CDB5793F1A7 = {
 						TestTargetID = CD8F2FFD550D622D2C2B8BA9;
 					};
+					A3D315A882F4852842A3D0EA = {
+						TestTargetID = CD8F2FFD550D622D2C2B8BA9;
+					};
 					CD8F2FFD550D622D2C2B8BA9 = {
 						DevelopmentTeam = EP8XQ3ZY9V;
 					};
@@ -3146,7 +3138,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A4C6D39882AF6C9C13FA8D8 /* BaseViewModelsTests.swift in Sources */,
-				0577E47AF3211BCD2CBCF55D /* CodableCacheManagerProtocolTests.swift in Sources */,
 				BE6F6D8C7AA2B7550E4D8F69 /* CommonLearningsTests.swift in Sources */,
 				1B3CEB542495DB6DB3F05C0E /* CoreRepositoriesTests.swift in Sources */,
 				F6D5749C67A415A15FD8BCFF /* DataUSAServiceTests.swift in Sources */,
@@ -3937,7 +3928,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
 			};
 			name = "QA Debug";
 		};
@@ -4309,7 +4300,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
 			};
 			name = "Dev Debug";
 		};
@@ -4479,7 +4470,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
 			};
 			name = "Dev Release";
 		};
@@ -4722,7 +4713,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
 			};
 			name = "Production Debug";
 		};
@@ -4791,7 +4782,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
 			};
 			name = "Production Release";
 		};
@@ -5206,7 +5197,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
 			};
 			name = "QA Release";
 		};

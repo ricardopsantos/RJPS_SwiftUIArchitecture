@@ -1,9 +1,13 @@
+//
+//  Created by Ricardo Santos on 12/08/2024.
+//
+
 import XCTest
 import Foundation
 import Combine
 //
 import Nimble
-
+//
 @testable import Common
 class CommonCoreData_Tests: XCTestCase {
     let stressLoadValue = 1_000
@@ -28,7 +32,7 @@ class CommonCoreData_Tests: XCTestCase {
 // MARK: - CRUD
 //
 extension CommonCoreData_Tests {
-    func test_syncCRUD() {
+    func testA1_syncCRUD() {
         guard enabled() else {
             XCTAssert(true)
             return
@@ -69,7 +73,7 @@ extension CommonCoreData_Tests {
         }
     }
 
-    func test_aSyncCRUD() async {
+    func testA2_aSyncCRUD() async {
         guard enabled() else {
             XCTAssert(true)
             return
@@ -120,7 +124,7 @@ extension CommonCoreData_Tests {
 // MARK: - OverLoad
 //
 extension CommonCoreData_Tests {
-    func test_syncOverLoad() {
+    func testB1_syncOverLoad() {
         guard enabled() else {
             XCTAssert(true)
             return
@@ -133,7 +137,7 @@ extension CommonCoreData_Tests {
         XCTAssert(stored == stressLoadValue)
     }
 
-    func test_aSyncOverLoad() async {
+    func testB2_aSyncOverLoad() async {
         guard enabled() else {
             XCTAssert(true)
             return
@@ -151,7 +155,7 @@ extension CommonCoreData_Tests {
 // MARK: - Others
 //
 extension CommonCoreData_Tests {
-    func test_mergeContext1() async {
+    func testC1_mergeContext1() async {
         guard enabled() else {
             XCTAssert(true)
             return
@@ -164,7 +168,7 @@ extension CommonCoreData_Tests {
         XCTAssert(stored == 1)
     }
 
-    func test_mergeContext2() async {
+    func testC2_mergeContext2() async {
         guard enabled() else {
             XCTAssert(true)
             return
@@ -177,7 +181,11 @@ extension CommonCoreData_Tests {
         XCTAssert(stored == 1)
     }
 
-    func test_emitEventOnDataBaseInsert_test1() {
+    func testC3_emitEventOnDataBaseInsert_test1() {
+        guard enabled() else {
+            XCTAssert(true)
+            return
+        }
         var didInsertedContent = (value: false, id: "")
         var didChangedContent = 0
         var didFinishChangeContent = 0
@@ -222,7 +230,7 @@ extension CommonCoreData_Tests {
         )
     }
 
-    func test_emitEventOnDataBaseInsert_test2() {
+    func testC4_emitEventOnDataBaseInsert_test2() {
         var didInsertedContent = 0
         var didChangedContent = 0
         var didFinishChangeContent = 0

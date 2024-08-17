@@ -17,6 +17,7 @@ public class DataUSAService {
 
     //    private let cacheManager = Common.CacheManagerForCodableUserDefaultsRepository.shared
     private let cacheManager = Common.CacheManagerForCodableCoreDataRepository.shared
+    private let webAPI: NetworkManager = .shared
 }
 
 extension DataUSAService: DataUSAServiceProtocol {
@@ -37,9 +38,8 @@ extension DataUSAService: DataUSAServiceProtocol {
             throw AppErrors.noInternet
         }
 
-        let result = try await NetworkManager.shared.request(
-            .getPopulationStateData(request),
-            type: responseType
+        let result: ModelDto.PopulationStateDataResponse = try await webAPI.requestAsync(
+            .getPopulationStateData(request)
         )
 
         await cacheManager.aSyncStore(result, key: cacheKey, params: cacheParams)
@@ -63,9 +63,8 @@ extension DataUSAService: DataUSAServiceProtocol {
             throw AppErrors.noInternet
         }
 
-        let result = try await NetworkManager.shared.request(
-            .getPopulationNationData(request),
-            type: responseType
+        let result: ModelDto.PopulationNationDataResponse = try await webAPI.requestAsync(
+            .getPopulationNationData(request)
         )
         await cacheManager.aSyncStore(result, key: cacheKey, params: cacheParams)
         return result

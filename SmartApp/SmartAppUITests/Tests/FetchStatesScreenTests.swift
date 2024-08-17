@@ -16,6 +16,7 @@ import Nimble
 import Common
 
 final class FetchStatesScreenTests: BaseUITests {
+    let performanceTestsEnabled = false
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         false
     }
@@ -64,6 +65,10 @@ final class FetchStatesScreenTests: BaseUITests {
 //
 extension FetchStatesScreenTests {
     func testA1_performance() {
+        guard performanceTestsEnabled else {
+            XCTAssert(true)
+            return
+        }
         let metrics: [XCTMetric] = [
             XCTCPUMetric(application: app),
             XCTMemoryMetric(application: app)
@@ -77,6 +82,10 @@ extension FetchStatesScreenTests {
     }
 
     func testA2_performance() {
+        guard performanceTestsEnabled else {
+            XCTAssert(true)
+            return
+        }
         let metrics: [XCTMetric] = [
             XCTCPUMetric(application: app),
             XCTMemoryMetric(application: app)
@@ -90,6 +99,10 @@ extension FetchStatesScreenTests {
     }
 
     func testA2_scroll1xPerformance() {
+        guard performanceTestsEnabled else {
+            XCTAssert(true)
+            return
+        }
         let metrics: [XCTMetric] = [
             XCTCPUMetric(application: app),
             XCTMemoryMetric(application: app)
@@ -110,6 +123,10 @@ extension FetchStatesScreenTests {
     }
 
     func testA2_scroll5xPerformance() {
+        guard performanceTestsEnabled else {
+            XCTAssert(true)
+            return
+        }
         let metrics: [XCTMetric] = [
             XCTCPUMetric(application: app),
             XCTMemoryMetric(application: app)

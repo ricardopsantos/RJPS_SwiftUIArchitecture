@@ -24,7 +24,7 @@ public extension CommonLearnings {
 
         struct Circle: SomeVsAnyShapeProtocol {
             func draw() {
-                print("Drawing a circle")
+                Common_Logs.debug("Drawing a circle")
             }
         }
 

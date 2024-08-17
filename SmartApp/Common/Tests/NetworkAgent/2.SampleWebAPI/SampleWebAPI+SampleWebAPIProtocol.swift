@@ -9,28 +9,19 @@ import CryptoKit
 @testable import Common
 
 //
-// MARK: - NetworkAgentSampleNamespace
+// MARK: - SampleWebAPIProtocol
 //
 extension SampleWebAPI: SampleWebAPIProtocol {
-
     //
     // MARK: - Generic api calls
     //
-    public func requestAsync<T: Decodable>(_ api: SampleWebAPIMethods, type: T.Type) async throws -> T {
+    public func requestAsync<T: Decodable>(_ api: SampleWebAPIMethods) async throws -> T {
         switch api {
         case .updateEmployee:
             // Custom implementation (if needed)
             fatalError("Not implemented")
         default:
-            let request = CommonNetworking.NetworkAgentRequest(
-                path: api.data.path,
-                queryItems: api.queryItems.map { URLQueryItem(name: $0.key, value: $0.value) },
-                httpMethod: api.data.httpMethod,
-                httpBody: api.httpBody,
-                headerValues: api.headerValues,
-                serverURL: api.data.serverURL,
-                responseType: api.responseType
-            )
+            let request = buildRequest(api: api)
             let cronometerAverageMetricsKey: String = api.name
             CronometerAverageMetrics.shared.start(key: cronometerAverageMetricsKey)
             return try await runAsync(
@@ -43,22 +34,14 @@ extension SampleWebAPI: SampleWebAPIProtocol {
             )
         }
     }
-    
-    public func requestPublisher<T: Decodable>(_ api: SampleWebAPIMethods, type: T.Type) -> AnyPublisher<T, CommonNetworking.APIError> {
+
+    public func requestPublisher<T: Decodable>(_ api: SampleWebAPIMethods) -> AnyPublisher<T, CommonNetworking.APIError> {
         switch api {
         case .updateEmployee:
             // Custom implementation (if needed)
             fatalError("Not implemented")
         default:
-            let request = CommonNetworking.NetworkAgentRequest(
-                path: api.data.path,
-                queryItems: api.queryItems.map { URLQueryItem(name: $0.key, value: $0.value) },
-                httpMethod: api.data.httpMethod,
-                httpBody: api.httpBody,
-                headerValues: api.headerValues,
-                serverURL: api.data.serverURL,
-                responseType: api.responseType
-            )
+            let request = buildRequest(api: api)
             let cronometerAverageMetricsKey: String = api.name
             CronometerAverageMetrics.shared.start(key: cronometerAverageMetricsKey)
             return run(
@@ -76,7 +59,7 @@ extension SampleWebAPI: SampleWebAPIProtocol {
             .eraseToAnyPublisher()
         }
     }
-    
+
     //
     // MARK: - Verbose/Custom api calls
     //
@@ -109,5 +92,22 @@ extension SampleWebAPI: SampleWebAPIProtocol {
             Just(response.modelDto).setFailureType(to: CommonNetworking.APIError.self).eraseToAnyPublisher()
         }
         .eraseToAnyPublisher()
+    }
+}
+
+//
+// MARK: - SampleWebAPIProtocol
+//
+fileprivate extension SampleWebAPI {
+    private func buildRequest(api: SampleWebAPIMethods) -> CommonNetworking.NetworkAgentRequest {
+        .init(
+            path: api.data.path,
+            queryItems: api.queryItems.map { URLQueryItem(name: $0.key, value: $0.value) },
+            httpMethod: api.data.httpMethod,
+            httpBody: api.httpBody,
+            headerValues: api.headerValues,
+            serverURL: api.data.serverURL,
+            responseType: api.responseType
+        )
     }
 }

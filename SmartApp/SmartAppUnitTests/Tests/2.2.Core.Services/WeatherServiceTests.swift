@@ -87,7 +87,7 @@ extension WeatherServiceTests {
 
     func test_requestPopulationStateData_Performance_CacheElseLoad() throws {
         let cachePolicy: ServiceCachePolicy = .cacheElseLoad
-        let expectedTime: Double = 0.015
+        let expectedTime: Double = 0.014
         let count = 10
         // Time: 0.006 sec
         measure {

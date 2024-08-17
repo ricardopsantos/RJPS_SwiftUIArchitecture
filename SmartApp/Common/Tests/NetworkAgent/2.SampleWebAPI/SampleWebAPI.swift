@@ -11,6 +11,7 @@ public class SampleWebAPI: CommonNetworking.NetworkAgentClient, NetworkAgentProt
     public var client: CommonNetworking.NetworkAgentClient {
         CommonNetworking.NetworkAgentClient(session: urlSession)
     }
+
     #if targetEnvironment(simulator)
     public var defaultLogger: CommonNetworking.NetworkLogger { .requestAndResponses }
     #else

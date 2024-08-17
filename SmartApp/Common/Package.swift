@@ -37,9 +37,9 @@ let package = Package(
                 "Common",
                 .product(name: "Nimble", package: "Nimble")
             ],
-            //resources: [
+            // resources: [
             //    .process("Resources/google.co.uk.cer")
-            //],
+            // ],
             swiftSettings: [
                 .define("IN_PACKAGE_CODE") // Compiler flag
             ]

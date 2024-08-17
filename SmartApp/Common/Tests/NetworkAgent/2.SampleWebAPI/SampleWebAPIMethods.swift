@@ -13,7 +13,6 @@ public enum SampleWebAPIMethods {
 }
 
 extension SampleWebAPIMethods {
-    
     /// Url paramenters
     var queryItems: [String: String?] {
         switch self {
@@ -53,10 +52,10 @@ extension SampleWebAPIMethods {
                 .post,
                 "https://gist.githubusercontent.com/ricardopsantos/10a31da1c6981acd216a93cb040524b9",
                 "raw/8f0f03e6bdfe0dd522ff494022f3aa7a676e882f/Article_13_G8.json"
-                )
+            )
         }
     }
-    
+
     /// Sugar name
     var name: String {
         switch self {
@@ -64,17 +63,16 @@ extension SampleWebAPIMethods {
         case .updateEmployee: "updateUser"
         }
     }
-    
+
     var headerValues: [String: String]? {
         nil
     }
-    
+
     var httpBody: [String: Any]? {
         nil
     }
-    
+
     var responseType: CommonNetworking.ResponseFormat {
         .json
     }
 }
-

@@ -7,9 +7,8 @@ import Foundation
 import Combine
 //
 import Nimble
-
+//
 @testable import Common
-
 class Common_BaseOperationTests: XCTestCase {
     override func setUp() {
         super.setUp()
@@ -97,6 +96,6 @@ class Common_BaseOperationTests: XCTestCase {
         XCTAssert(operationsOrder.first == highPriorityOperation.operationName)
         XCTAssert(operationsOrder.last == lowPriorityOperation.operationName)
         XCTAssertNotNil(operations, "Operations should not be nil")
-        XCTAssertEqual(operations.count, 0, "All operations should be finished.")
+        XCTAssert(operations.isEmpty, "All operations should be finished.")
     }
 }

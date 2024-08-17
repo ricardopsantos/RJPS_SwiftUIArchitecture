@@ -7,7 +7,6 @@ import Foundation
 import Security
 import CommonCrypto
 
-
 //
 // https://medium.com/@anuj.rai2489/ssl-pinning-254fa8ca2109
 // https://medium.com/@gizemturker/lock-down-your-app-with-https-and-certificate-pinning-a-swift-security-masterclass-d709494649bd
@@ -16,19 +15,27 @@ import CommonCrypto
 //
 
 /**
- __Static SSL Pinning:__ The SSL certificate is hard-coded into the application itself. This method, while robust, doesn’t allow for certificate updates, presenting potential security issues. If the hard-coded pinned certificate expires or is compromised, you must update the entire application to implement a new SSL certificate. Thus, static SSL pinning requires meticulous planning.
- 
- __Dynamic SSL Pinning:__ This method offers a more flexible approach to certificate pinning, allowing for updates without requiring a complete application overhaul. Dynamic SSL Pinning retrieves the SSL certificate or public key during runtime and enables software applications to update the pinned certificates dynamically. It provides extra security by maintaining communication integrity between the client and the server.
+ __Static SSL Pinning:__ The SSL certificate is hard-coded into the application itself. This method, while robust,
+ doesn’t allow for certificate updates, presenting potential security issues. If the hard-coded pinned certificate expires
+ or is compromised, you must update the entire application to implement a new SSL certificate. Thus, static SSL pinning requires meticulous planning.
+
+ __Dynamic SSL Pinning:__ This method offers a more flexible approach to certificate pinning, allowing for updates
+ without requiring a complete application overhaul. Dynamic SSL Pinning retrieves the SSL certificate or public key
+ during runtime and enables software applications to update the pinned certificates dynamically. It provides extra security
+ by maintaining communication integrity between the client and the server.
  */
 
 /**
- # 1. Generate a private key: This command generates a 2048-bit RSA private key and saves it to a file named google.key. The private key is essential for creating the certificate and is used to encrypt data securely.
+ # 1. Generate a private key: This command generates a 2048-bit RSA private key and
+ saves it to a file named google.key. The private key is essential for creating the certificate and is used to encrypt data securely.
  `openssl genrsa -out google.key 2048`
 
- # 2. Create a Certificate Signing Request (CSR). This command creates a Certificate Signing Request (CSR) using the private key generated in the first step.
+ # 2. Create a Certificate Signing Request (CSR). This command creates a Certificate
+ Signing Request (CSR) using the private key generated in the first step.
  `openssl req -new -key google.key -out google.csr`
 
- # 3. Generate a self-signed certificate and save it as google.cer. This command generates a self-signed SSL certificate using the CSR and private key from the previous steps
+ # 3. Generate a self-signed certificate and save it as google.cer. This command generates
+ a self-signed SSL certificate using the CSR and private key from the previous steps
  `openssl x509 -req -days 365 -in google.csr -signkey google.key -out google.cert`
 
  Summary of Files Generated
@@ -37,17 +44,18 @@ import CommonCrypto
  `google.cer`: The self-signed SSL certificate.
  */
 
-
 public extension CommonNetworking.AuthenticationHandler {
     struct Server {
         public let url: String
         public let publicHashKeys: [String]
         public let pathToCertificates: [String]?
         public let credentials: (user: String, password: String)?
-        public init(url: String,
-                    publicHashKeys: [String],
-                    credentials: (user: String, password: String)? = nil,
-                    pathToCertificates: [String]? = nil) {
+        public init(
+            url: String,
+            publicHashKeys: [String],
+            credentials: (user: String, password: String)? = nil,
+            pathToCertificates: [String]? = nil
+        ) {
             self.url = url
             self.publicHashKeys = publicHashKeys
             self.credentials = credentials
@@ -58,48 +66,53 @@ public extension CommonNetworking.AuthenticationHandler {
 
 public extension CommonNetworking.AuthenticationHandler.Server {
     static var gitHub: Self {
-        return Self.init(url: "https://gist.github.com/",
-                         publicHashKeys: ["XZVlvxBvEFhGF+9gt9WOwIJdvQBYT3Cqnu0mu6S884I="],
-                         pathToCertificates: [])
+        Self(
+            url: "https://gist.github.com/",
+            publicHashKeys: ["XZVlvxBvEFhGF+9gt9WOwIJdvQBYT3Cqnu0mu6S884I="],
+            pathToCertificates: []
+        )
     }
-    
+
     static var googleUkWithHashKeys: Self {
-        return Self.init(url: "https://www.google.co.uk/",
-                         publicHashKeys: ["XZVlvxBvEFhGF+9gt9WOwIJdvQBYT3Cqnu0mu6S884I="],
-                         pathToCertificates: nil)
+        Self(
+            url: "https://www.google.co.uk/",
+            publicHashKeys: ["XZVlvxBvEFhGF+9gt9WOwIJdvQBYT3Cqnu0mu6S884I="],
+            pathToCertificates: nil
+        )
     }
-    
+
     static var googleUkWithCertPath: Self {
         var pathToCertificates: [String]?
-#if IN_PACKAGE_CODE
+        #if IN_PACKAGE_CODE
         if let cert = Bundle.module.path(forResource: "google.co.uk", ofType: "cer") {
             pathToCertificates = [cert]
         } else {
             fatalError("Not found")
         }
-#else
+        #else
         if let cert = Bundle.main.path(forResource: "google.co.uk", ofType: "cer") {
             pathToCertificates = [cert]
         } else {
             fatalError("Not found")
         }
-#endif
-        return Self.init(url: "https://www.google.co.uk/",
-                         publicHashKeys: [],
-                         pathToCertificates: pathToCertificates)
+        #endif
+        return Self(
+            url: "https://www.google.co.uk/",
+            publicHashKeys: [],
+            pathToCertificates: pathToCertificates
+        )
     }
 }
 
 public extension CommonNetworking {
     class AuthenticationHandler: NSObject, URLSessionDelegate {
-        
         // Holds user credentials for HTTP Basic Authentication.
         private let credential: URLCredential?
         // Array of server public key hashes for SSL pinning.
         private let serverPublicHashKeys: [String]?
         // Array of file paths to local certificates for SSL pinning.
         private let pathToCertificates: [String]?
-        
+
         public init(server: Server) {
             if let credentials = server.credentials {
                 self.credential = .init(user: credentials.user, password: credentials.password, persistence: .forSession)
@@ -110,28 +123,28 @@ public extension CommonNetworking {
             self.pathToCertificates = server.pathToCertificates
             super.init()
         }
-        
+
         public init(credential: URLCredential) {
             self.credential = credential
             self.serverPublicHashKeys = nil
             self.pathToCertificates = nil
             super.init()
         }
-        
+
         public init(serverPublicHashKeys: [String]) {
             self.credential = nil
             self.serverPublicHashKeys = serverPublicHashKeys
             self.pathToCertificates = nil
             super.init()
         }
-        
+
         public init(pathToCertificates: [String]) {
             self.credential = nil
             self.serverPublicHashKeys = nil
             self.pathToCertificates = pathToCertificates
             super.init()
         }
-        
+
         // Delegate method for handling authentication challenges.
         public func urlSession(
             _ session: URLSession,

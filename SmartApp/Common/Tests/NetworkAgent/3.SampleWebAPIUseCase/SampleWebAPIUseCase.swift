@@ -8,7 +8,6 @@ import Combine
 @testable import Common
 
 public class SampleWebAPIUseCase {
-    
     private let webAPI: SampleWebAPIProtocol = SampleWebAPI(session: .defaultForNetworkAgent)
     private let codableCacheManager = Common_SimpleCacheManagerForCodable.shared
 
@@ -16,7 +15,7 @@ public class SampleWebAPIUseCase {
         ResponseDto.EmployeeServiceAvailability,
         CommonNetworking.APIError
     >
-    
+
     //
     // MARK: - Simple API Requests
     //
@@ -24,19 +23,17 @@ public class SampleWebAPIUseCase {
         let requestDto = RequestDto.Employee(id: "aaa")
         return webAPI.fetchEmployeesAvailability(requestDto)
     }
-    
+
     func fetchEmployeesAvailabilityGenericPublisher() -> EmployeesAvailabilityResponse {
         let requestDto = RequestDto.Employee(id: "aaa")
-        return webAPI.requestPublisher(.fetchEmployees(requestDto),
-                                       type: ResponseDto.EmployeeServiceAvailability.self)
+        return webAPI.requestPublisher(.fetchEmployees(requestDto))
     }
-    
+
     func fetchEmployeesAvailabilityGenericAsync() async throws -> ResponseDto.EmployeeServiceAvailability {
         let requestDto = RequestDto.Employee(id: "aaa")
-        return try await webAPI.requestAsync(.fetchEmployees(requestDto),
-                                       type: ResponseDto.EmployeeServiceAvailability.self)
+        return try await webAPI.requestAsync(.fetchEmployees(requestDto))
     }
-    
+
     //
     // MARK: - API Request + Cache
     //
@@ -62,8 +59,7 @@ public class SampleWebAPIUseCase {
         let serviceKey = #function
         let requestDto = RequestDto.Employee(id: "aaa")
         let apiResponseType = ResponseDto.EmployeeServiceAvailability.self
-        let apiRequest = webAPI.requestPublisher(.fetchEmployees(requestDto),
-                                                 type: apiResponseType)
+        let apiRequest: EmployeesAvailabilityResponse = webAPI.requestPublisher(.fetchEmployees(requestDto))
         let serviceParams: [any Hashable] = [requestDto.id]
         //
         return Common.GenericRequestWithCodableCache.perform(
@@ -76,7 +72,6 @@ public class SampleWebAPIUseCase {
             codableCacheManager
         ).eraseToAnyPublisher()
     }
-
 
     //
     // MARK: - API Request + SSL Pinning (with Certificate)

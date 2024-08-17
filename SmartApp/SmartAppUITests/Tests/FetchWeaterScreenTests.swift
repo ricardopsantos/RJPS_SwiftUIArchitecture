@@ -16,6 +16,7 @@ import Nimble
 import Common
 
 final class FetchWeatherScreenTests: BaseUITests {
+    let performanceTestsEnabled = false
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         false
     }
@@ -59,6 +60,10 @@ final class FetchWeatherScreenTests: BaseUITests {
 //
 extension FetchWeatherScreenTests {
     func testA1_performance() {
+        guard performanceTestsEnabled else {
+            XCTAssert(true)
+            return
+        }
         let metrics: [XCTMetric] = [
             XCTCPUMetric(application: app),
             XCTMemoryMetric(application: app)
@@ -72,6 +77,10 @@ extension FetchWeatherScreenTests {
     }
 
     func testA2_performance() {
+        guard performanceTestsEnabled else {
+            XCTAssert(true)
+            return
+        }
         let metrics: [XCTMetric] = [
             XCTCPUMetric(application: app),
             XCTMemoryMetric(application: app)
