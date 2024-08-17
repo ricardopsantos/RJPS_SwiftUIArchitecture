@@ -24,7 +24,8 @@ let package = Package(
                 //    .product(name: "NukeUI", package: "Nuke"),
             ],
             resources: [
-                .process("Resources/CommonInternalDB.xcdatamodeld")
+                .process("Resources/CommonInternalDB.xcdatamodeld"),
+                .process("Resources/google.co.uk.cer")
             ],
             swiftSettings: [
                 .define("IN_PACKAGE_CODE") // Compiler flag
@@ -35,6 +36,12 @@ let package = Package(
             dependencies: [
                 "Common",
                 .product(name: "Nimble", package: "Nimble")
+            ],
+            //resources: [
+            //    .process("Resources/google.co.uk.cer")
+            //],
+            swiftSettings: [
+                .define("IN_PACKAGE_CODE") // Compiler flag
             ]
         )
     ]

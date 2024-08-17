@@ -8,7 +8,7 @@ import Combine
 
 public protocol NetworkAgentProtocol {
     var client: CommonNetworking.NetworkAgentClient { get }
-    var logger: CommonNetworking.NetworkLogger { get }
+    var defaultLogger: CommonNetworking.NetworkLogger { get }
     
     /// Returns `CommonNetworking.Response(modelDto: Decodable, response: Any)`
     func run<T: Decodable>(

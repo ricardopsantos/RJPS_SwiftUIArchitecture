@@ -30,7 +30,6 @@ public extension CommonNetworking.NetworkAgentClient {
         }
 
         let requestDebug = "\(request) -> \(T.self).type"
-        if logger.dumpRequest {}
         return urlSession
             .dataTaskPublisher(for: request)
             .handleEvents(receiveSubscription: { _ in

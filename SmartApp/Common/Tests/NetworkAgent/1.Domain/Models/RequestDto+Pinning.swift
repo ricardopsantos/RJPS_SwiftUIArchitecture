@@ -8,9 +8,9 @@ import Foundation
 
 public extension RequestDto {
     struct Pinning {
-        public let someParam: String
-        public init(someParam: String = "") {
-            self.someParam = someParam
+        public let url: String
+        public init(url: String) {
+            self.url = url
         }
     }
 }

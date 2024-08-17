@@ -16,12 +16,7 @@ public extension CommonCoreData.Utils {
         managedObjectModel: NSManagedObjectModel,
         storeInMemory: Bool
     ) -> NSPersistentContainer? {
-        // guard let modelURL = Bundle.module.url(forResource: dbName, withExtension: "momd") else { return  nil }
-        // guard let model = NSManagedObjectModel(contentsOf: modelURL) else { return nil }
-        // let containerV1 = NSPersistentContainer(name:dbName, managedObjectModel:model)
-
         let container = NSPersistentContainer(name: dbName, managedObjectModel: managedObjectModel)
-
         if storeInMemory {
             let description = NSPersistentStoreDescription()
             description.url = URL(fileURLWithPath: "/dev/null")

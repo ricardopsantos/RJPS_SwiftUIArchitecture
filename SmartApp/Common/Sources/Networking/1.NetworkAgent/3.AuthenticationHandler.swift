@@ -7,34 +7,146 @@ import Foundation
 import Security
 import CommonCrypto
 
+
 //
+// https://medium.com/@anuj.rai2489/ssl-pinning-254fa8ca2109
 // https://medium.com/@gizemturker/lock-down-your-app-with-https-and-certificate-pinning-a-swift-security-masterclass-d709494649bd
+// https://www.ssllabs.com/ssltest/analyze.html?d=www.google.co.uk&s=2607%3af8b0%3a4007%3a815%3a0%3a0%3a0%3a2003
+// https://www.ssldragon.com/blog/certificate-pinning/
 //
+
+/**
+ __Static SSL Pinning:__ The SSL certificate is hard-coded into the application itself. This method, while robust, doesn’t allow for certificate updates, presenting potential security issues. If the hard-coded pinned certificate expires or is compromised, you must update the entire application to implement a new SSL certificate. Thus, static SSL pinning requires meticulous planning.
+ 
+ __Dynamic SSL Pinning:__ This method offers a more flexible approach to certificate pinning, allowing for updates without requiring a complete application overhaul. Dynamic SSL Pinning retrieves the SSL certificate or public key during runtime and enables software applications to update the pinned certificates dynamically. It provides extra security by maintaining communication integrity between the client and the server.
+ */
+
+/**
+ # 1. Generate a private key: This command generates a 2048-bit RSA private key and saves it to a file named google.key. The private key is essential for creating the certificate and is used to encrypt data securely.
+ `openssl genrsa -out google.key 2048`
+
+ # 2. Create a Certificate Signing Request (CSR). This command creates a Certificate Signing Request (CSR) using the private key generated in the first step.
+ `openssl req -new -key google.key -out google.csr`
+
+ # 3. Generate a self-signed certificate and save it as google.cer. This command generates a self-signed SSL certificate using the CSR and private key from the previous steps
+ `openssl x509 -req -days 365 -in google.csr -signkey google.key -out google.cert`
+
+ Summary of Files Generated
+ `google.key`: The private key.
+ `google.csr`: The Certificate Signing Request.
+ `google.cer`: The self-signed SSL certificate.
+ */
+
+
+public extension CommonNetworking.AuthenticationHandler {
+    struct Server {
+        public let url: String
+        public let publicHashKeys: [String]
+        public let pathToCertificates: [String]?
+        public let credentials: (user: String, password: String)?
+        public init(url: String,
+                    publicHashKeys: [String],
+                    credentials: (user: String, password: String)? = nil,
+                    pathToCertificates: [String]? = nil) {
+            self.url = url
+            self.publicHashKeys = publicHashKeys
+            self.credentials = credentials
+            self.pathToCertificates = pathToCertificates
+        }
+    }
+}
+
+public extension CommonNetworking.AuthenticationHandler.Server {
+    static var gitHub: Self {
+        return Self.init(url: "https://gist.github.com/",
+                         publicHashKeys: ["XZVlvxBvEFhGF+9gt9WOwIJdvQBYT3Cqnu0mu6S884I="],
+                         pathToCertificates: [])
+    }
+    
+    static var googleUkWithHashKeys: Self {
+        return Self.init(url: "https://www.google.co.uk/",
+                         publicHashKeys: ["XZVlvxBvEFhGF+9gt9WOwIJdvQBYT3Cqnu0mu6S884I="],
+                         pathToCertificates: nil)
+    }
+    
+    static var googleUkWithCertPath: Self {
+        var pathToCertificates: [String]?
+#if IN_PACKAGE_CODE
+        if let cert = Bundle.module.path(forResource: "google.co.uk", ofType: "cer") {
+            pathToCertificates = [cert]
+        } else {
+            fatalError("Not found")
+        }
+#else
+        if let cert = Bundle.main.path(forResource: "google.co.uk", ofType: "cer") {
+            pathToCertificates = [cert]
+        } else {
+            fatalError("Not found")
+        }
+#endif
+        return Self.init(url: "https://www.google.co.uk/",
+                         publicHashKeys: [],
+                         pathToCertificates: pathToCertificates)
+    }
+}
 
 public extension CommonNetworking {
     class AuthenticationHandler: NSObject, URLSessionDelegate {
+        
         // Holds user credentials for HTTP Basic Authentication.
-        var credential: URLCredential?
-
+        private let credential: URLCredential?
         // Array of server public key hashes for SSL pinning.
-        var serverPublicHashKeys: [String]?
-
+        private let serverPublicHashKeys: [String]?
         // Array of file paths to local certificates for SSL pinning.
-        var pathToCertificates: [String]?
-
+        private let pathToCertificates: [String]?
+        
+        public init(server: Server) {
+            if let credentials = server.credentials {
+                self.credential = .init(user: credentials.user, password: credentials.password, persistence: .forSession)
+            } else {
+                self.credential = nil
+            }
+            self.serverPublicHashKeys = server.publicHashKeys
+            self.pathToCertificates = server.pathToCertificates
+            super.init()
+        }
+        
+        public init(credential: URLCredential) {
+            self.credential = credential
+            self.serverPublicHashKeys = nil
+            self.pathToCertificates = nil
+            super.init()
+        }
+        
+        public init(serverPublicHashKeys: [String]) {
+            self.credential = nil
+            self.serverPublicHashKeys = serverPublicHashKeys
+            self.pathToCertificates = nil
+            super.init()
+        }
+        
+        public init(pathToCertificates: [String]) {
+            self.credential = nil
+            self.serverPublicHashKeys = nil
+            self.pathToCertificates = pathToCertificates
+            super.init()
+        }
+        
         // Delegate method for handling authentication challenges.
         public func urlSession(
             _ session: URLSession,
             didReceive challenge: URLAuthenticationChallenge,
             completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
         ) {
+            Common_Logs.debug("\(CommonNetworking.NetworkAgentClient.self): Received URLAuthenticationChallenge for \(session)")
             // Handle HTTP Basic Authentication challenges.
             if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodHTTPBasic {
                 guard let credential = credential else {
-                    Common_Logs.error("No credentials provided for challenge \(challenge)")
+                    Common_Logs.error("\(CommonNetworking.NetworkAgentClient.self): No credentials provided for challenge \(challenge)")
                     completionHandler(.cancelAuthenticationChallenge, nil)
                     return
                 }
+                Common_Logs.debug("\(CommonNetworking.NetworkAgentClient.self): Authenticated with Credentials")
                 completionHandler(.useCredential, credential)
                 return
             }
@@ -49,14 +161,15 @@ public extension CommonNetworking {
             guard let serverCertificate = SecTrustGetCertificateAtIndex(serverTrust, 0),
                   let serverPublicKey = SecCertificateCopyKey(serverCertificate),
                   let serverPublicKeyData = SecKeyCopyExternalRepresentation(serverPublicKey, nil) else {
+                Common_Logs.error("\(CommonNetworking.NetworkAgentClient.self): Invalid serverCertificate")
                 completionHandler(.cancelAuthenticationChallenge, nil)
                 return
             }
 
             // Helper function to log and cancel the authentication challenge.
             func cancelAuthenticationChallengeWithLog(key: String, value: String) {
-                Common_Logs.debug("ServerPublicKey: \(serverPublicKey)\nServerPublicKeyData: \(serverPublicKeyData)")
-                Common_Logs.error("Unexpected \(key): [\(value)]")
+                Common_Logs.debug("\(CommonNetworking.NetworkAgentClient.self): ServerPublicKey: \(serverPublicKey)\nServerPublicKeyData: \(serverPublicKeyData)")
+                Common_Logs.error("\(CommonNetworking.NetworkAgentClient.self): Unexpected \(key): [\(value)]")
                 completionHandler(.cancelAuthenticationChallenge, nil)
             }
 
@@ -82,9 +195,10 @@ public extension CommonNetworking {
                 if serverPublicHashKeys.contains(serverPublicKeyDataHash) {
                     // Public key hash matches, authentication successful.
                     completionHandler(.useCredential, URLCredential(trust: serverTrust))
+                    Common_Logs.debug("\(CommonNetworking.NetworkAgentClient.self): Authenticated with Server Public Key")
                     return
                 } else {
-                    cancelAuthenticationChallengeWithLog(key: "serverHashKey", value: "\(serverPublicKeyDataHash)")
+                    cancelAuthenticationChallengeWithLog(key: "serverHashKey", value: "\(serverPublicKeyData)")
                     return
                 }
             }
@@ -110,6 +224,7 @@ public extension CommonNetworking {
                 if isServerTrusted, existsMatchingLocalCer {
                     // Certificate matches, authentication successful.
                     let credential: URLCredential = URLCredential(trust: serverTrust)
+                    Common_Logs.debug("\(CommonNetworking.NetworkAgentClient.self): Authenticated with Local Certificate")
                     completionHandler(.useCredential, credential)
                     return
                 } else {
@@ -120,63 +235,5 @@ public extension CommonNetworking {
             // Pinning failed, cancel the authentication challenge.
             completionHandler(.cancelAuthenticationChallenge, nil)
         }
-    }
-}
-
-//
-// MARK: - Usage
-//
-
-extension CommonNetworking.AuthenticationHandler {
-    static var sampleAuthenticationHandler: CommonNetworking.AuthenticationHandler {
-        let authenticationHandler = CommonNetworking.AuthenticationHandler()
-
-        // Configure the AuthenticationHandler
-        authenticationHandler.credential = URLCredential(user: "username", password: "password", persistence: .forSession)
-
-        // Example server public key hashes (you would replace these with actual values)
-        authenticationHandler.serverPublicHashKeys = [
-            "jr9L2wQM+Sxb3eq5qlk85ZtmrdNwW5qAbGFweZfG6Zw=",
-            "2PC8qER2ONKfBHNYFULYdQPSRSjkgxY/eoB5nes/qS4="
-        ]
-
-        // Example paths to local certificates (ensure these paths are valid)
-        authenticationHandler.pathToCertificates = [
-            "/path/to/certificate1.pem",
-            "/path/to/certificate2.pem"
-        ]
-        authenticationHandler.pathToCertificates = [Bundle.main.path(forResource: "google", ofType: "cer")!]
-        return authenticationHandler
-    }
-
-    static func sample2() {
-        // Create an instance of AuthenticationHandler
-        let authenticationHandler = CommonNetworking.AuthenticationHandler.sampleAuthenticationHandler
-
-        // Create a URLSession with the authentication handler as its delegate
-        let urlSession = URLSession(
-            configuration: .defaultForNetworkAgent(),
-            delegate: authenticationHandler,
-            delegateQueue: nil
-        )
-
-        // Create a URL request
-        guard let url = URL(string: "https://example.com/api/resource") else {
-            fatalError("Invalid URL")
-        }
-
-        let request = URLRequest(url: url)
-
-        // Create a data task
-        let dataTask = urlSession.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Error: \(error)")
-            } else if let data = data {
-                print("Data received: \(data)")
-            }
-        }
-
-        // Start the data task
-        dataTask.resume()
     }
 }

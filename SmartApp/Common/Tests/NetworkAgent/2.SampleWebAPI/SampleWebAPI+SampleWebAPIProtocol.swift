@@ -14,20 +14,11 @@ import CryptoKit
 
 extension SampleWebAPI: SampleWebAPIProtocol {
 
-    public typealias SampleRequestJSONResponse = AnyPublisher<
+    public typealias EmployeesAvailabilityResponse = AnyPublisher<
         ResponseDto.EmployeeServiceAvailability,
         CommonNetworking.APIError
     >
-    public func sampleRequestJSON(_ requestDto: RequestDto.Employee) -> SampleRequestJSONResponse {
-        // swiftlint:disable redundant_discardable_let
-        let /* httpBody */ _ = [
-            "publicKey": requestDto.someParam
-        ]
-        let /* headerValues */ _ = [
-            "userId": requestDto.someParam
-        ]
-        // swiftlint:enable redundant_discardable_let
-
+    public func fetchEmployeesAvailability(_ requestDto: RequestDto.Employee) -> EmployeesAvailabilityResponse {
         let request = CommonNetworking.NetworkAgentRequest(
             path: "raw/8f0f03e6bdfe0dd522ff494022f3aa7a676e882f/Article_13_G8.json",
             queryItems: nil,
@@ -42,7 +33,7 @@ extension SampleWebAPI: SampleWebAPIProtocol {
         return run(
             request: request.urlRequest!,
             decoder: .defaultForWebAPI,
-            logger: logger,
+            logger: defaultLogger,
             responseType: request.responseFormat,
             onCompleted: {
                 CronometerAverageMetrics.shared.start(key: cronometerAverageMetricsKey)
@@ -52,59 +43,5 @@ extension SampleWebAPI: SampleWebAPIProtocol {
             Just(response.modelDto).setFailureType(to: CommonNetworking.APIError.self).eraseToAnyPublisher()
         }
         .eraseToAnyPublisher()
-    }
-
-    public typealias SampleRequestPinningGoogleResponse = AnyPublisher<
-        ResponseDto.Pinning,
-        CommonNetworking.APIError
-    >
-    public func sampleRequestPinningGoogle(_ requestDto: RequestDto.Pinning) -> SampleRequestPinningGoogleResponse {
-        let request = CommonNetworking.NetworkAgentRequest(
-            path: "",
-            queryItems: nil,
-            httpMethod: .get,
-            httpBody: nil,
-            headerValues: nil,
-            serverURL: "https://www.google.co.uk/",
-            responseType: .json
-        )
-        let cronometerAverageMetricsKey = #function
-        CronometerAverageMetrics.shared.start(key: cronometerAverageMetricsKey)
-        return run(
-            request: request.urlRequest!,
-            decoder: .defaultForWebAPI,
-            logger: logger,
-            responseType: request.responseFormat, onCompleted: {
-                CronometerAverageMetrics.shared.end(key: #function)
-            }
-        )
-        .flatMap { response in
-            Just(response.modelDto).setFailureType(to: CommonNetworking.APIError.self).eraseToAnyPublisher()
-        }
-        .eraseToAnyPublisher()
-    }
-
-    public typealias SampleRequestCVSAsyncResponse = ResponseDto.EmployeeServiceAvailability
-    public func sampleRequestCVSAsync(_ requestDto: RequestDto.Employee) async throws -> SampleRequestCVSAsyncResponse {
-        let request = CommonNetworking.NetworkAgentRequest(
-            path: "codigos_postais.csv",
-            queryItems: nil,
-            httpMethod: .get,
-            httpBody: nil,
-            headerValues: nil,
-            serverURL: "https://raw.githubusercontent.com/centraldedados/codigos_postais/master/data",
-            responseType: .csv
-        )
-        let cronometerAverageMetricsKey = #function
-        CronometerAverageMetrics.shared.start(key: cronometerAverageMetricsKey)
-        return try await runAsync(
-            request: request.urlRequest!,
-            decoder: .defaultForWebAPI,
-            logger: logger,
-            responseType: request.responseFormat,
-            onCompleted: {
-                CronometerAverageMetrics.shared.end(key: cronometerAverageMetricsKey)
-            }
-        )
     }
 }

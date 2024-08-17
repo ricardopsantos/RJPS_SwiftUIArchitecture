@@ -25,36 +25,36 @@ public extension CommonNetworking {
         public init(
             session: URLSession,
             credential: URLCredential) {
-            self.authenticationHandler = .init()
-            authenticationHandler?.credential = credential
-            self.urlSession = URLSession(
-                configuration: session.configuration,
-                delegate: authenticationHandler,
-                delegateQueue: nil)
+                self.authenticationHandler = .init(credential: credential)
+                self.urlSession = URLSession(
+                    configuration: session.configuration,
+                    delegate: authenticationHandler,
+                    delegateQueue: nil
+                )
         }
 
         /// SSL Pinning - Using local Public Keys
         public init(
             session: URLSession,
             serverPublicHashKeys: [String]) {
-            self.authenticationHandler = .init()
-            authenticationHandler?.serverPublicHashKeys = serverPublicHashKeys
-            self.urlSession = URLSession(
-                configuration: session.configuration,
-                delegate: authenticationHandler,
-                delegateQueue: nil)
+                self.authenticationHandler = .init(serverPublicHashKeys: serverPublicHashKeys)
+                self.urlSession = URLSession(
+                    configuration: session.configuration,
+                    delegate: authenticationHandler,
+                    delegateQueue: nil
+                )
         }
 
         /// SSL Pinning - Using local stored Certificates
         public init(
             session: URLSession,
             pathToCertificates: [String]) {
-            self.authenticationHandler = .init()
-            authenticationHandler?.pathToCertificates = pathToCertificates
-            self.urlSession = URLSession(
-                configuration: session.configuration,
-                delegate: authenticationHandler,
-                delegateQueue: nil)
+                self.authenticationHandler = .init(pathToCertificates: pathToCertificates)
+                self.urlSession = URLSession(
+                    configuration: session.configuration,
+                    delegate: authenticationHandler,
+                    delegateQueue: nil
+                )
         }
     }
 }
