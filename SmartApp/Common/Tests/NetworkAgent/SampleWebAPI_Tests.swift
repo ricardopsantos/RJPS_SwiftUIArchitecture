@@ -25,13 +25,13 @@ class SampleWebAPI_Tests: XCTestCase {
         SampleWebAPIUseCase()
     }
         
-    func test_basicRequest() {
+    func test_fetchEmployeesAvailabilityCustom() {
         guard enabled() else {
             XCTAssert(true)
             return
         }
         var counter = 0
-        sampleWebAPIUseCase.fetchEmployeesAvailability()
+        sampleWebAPIUseCase.fetchEmployeesAvailabilityCustom()
             .sinkToReceiveValue { some in
                 switch some {
                 case .success:
@@ -42,13 +42,39 @@ class SampleWebAPI_Tests: XCTestCase {
         expect(counter == 1).toEventually(beTrue(), timeout: .seconds(TestsGlobal.timeout))
     }
     
-    func test_cachedRequest() {
+    func test_fetchEmployeesAvailabilityGenericPublisher() {
         guard enabled() else {
             XCTAssert(true)
             return
         }
         var counter = 0
-        sampleWebAPIUseCase.fetchEmployeesAvailability(cachePolicy: .ignoringCache)
+        sampleWebAPIUseCase.fetchEmployeesAvailabilityGenericPublisher()
+            .sinkToReceiveValue { some in
+                switch some {
+                case .success:
+                    counter += 1
+                case .failure: ()
+                }
+            }.store(in: TestsGlobal.cancelBag)
+        expect(counter == 1).toEventually(beTrue(), timeout: .seconds(TestsGlobal.timeout))
+    }
+    
+    func test_fetchEmployeesAvailabilityGenericAsync() async {
+        guard enabled() else {
+            XCTAssert(true)
+            return
+        }
+        let value = try? await sampleWebAPIUseCase.fetchEmployeesAvailabilityGenericAsync()
+        await expect(value != nil).toEventually(beTrue(), timeout: .seconds(TestsGlobal.timeout))
+    }
+    
+    func test_fetchEmployeesAvailabilityCustomWithCache() {
+        guard enabled() else {
+            XCTAssert(true)
+            return
+        }
+        var counter = 0
+        sampleWebAPIUseCase.fetchEmployeesAvailabilityCustom(cachePolicy: .cacheElseLoad)
             .sinkToReceiveValue { some in
                 switch some {
                 case .success:
@@ -59,6 +85,23 @@ class SampleWebAPI_Tests: XCTestCase {
         expect(counter == 1).toEventually(beTrue(), timeout: .seconds(TestsGlobal.timeout))
     }
      
+    func test_fetchEmployeesAvailabilityGenericPublisherWithCache() {
+        guard enabled() else {
+            XCTAssert(true)
+            return
+        }
+        var counter = 0
+        sampleWebAPIUseCase.fetchEmployeesAvailabilityGenericPublisher(cachePolicy: .cacheElseLoad)
+            .sinkToReceiveValue { some in
+                switch some {
+                case .success:
+                    counter += 1
+                case .failure: ()
+                }
+            }.store(in: TestsGlobal.cancelBag)
+        expect(counter == 1).toEventually(beTrue(), timeout: .seconds(TestsGlobal.timeout))
+    }
+    
     func test_sslPiningWithCertificates() {
         guard enabled() else {
             XCTAssert(true)

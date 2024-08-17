@@ -8,6 +8,16 @@ import Combine
 @testable import Common
 
 public protocol SampleWebAPIProtocol {
+    
+    //
+    // MARK: - Generic api calls
+    //
+    func requestAsync<T: Decodable>(_ api: SampleWebAPIMethods, type: T.Type) async throws -> T
+    func requestPublisher<T: Decodable>(_ api: SampleWebAPIMethods, type: T.Type) -> AnyPublisher<T, CommonNetworking.APIError>
+
+    //
+    // MARK: - Verbose/Custom api calls
+    //
     typealias EmployeesAvailabilityResponse = AnyPublisher<
         ResponseDto.EmployeeServiceAvailability,
         CommonNetworking.APIError

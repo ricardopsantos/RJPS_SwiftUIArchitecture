@@ -117,7 +117,7 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
         }
         var counter = 0
         syncClearAll()
-        sampleWebAPIUseCase.fetchEmployeesAvailability(cachePolicy: .ignoringCache)
+        sampleWebAPIUseCase.fetchEmployeesAvailabilityGenericPublisher(cachePolicy: .ignoringCache)
             .sinkToReceiveValue { some in
                 switch some {
                 case .success:
@@ -135,7 +135,7 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
         }
         var counter = 0
         syncClearAll()
-        sampleWebAPIUseCase.fetchEmployeesAvailability(cachePolicy: .cacheElseLoad)
+        sampleWebAPIUseCase.fetchEmployeesAvailabilityGenericPublisher(cachePolicy: .cacheElseLoad)
             .sinkToReceiveValue { some in
                 switch some {
                 case .success:
@@ -153,7 +153,7 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
         }
         var counter = 0
         syncClearAll()
-        sampleWebAPIUseCase.fetchEmployeesAvailability(cachePolicy: .cacheDontLoad)
+        sampleWebAPIUseCase.fetchEmployeesAvailabilityGenericPublisher(cachePolicy: .cacheDontLoad)
             .sinkToReceiveValue { some in
                 switch some {
                 case .success:
@@ -171,7 +171,7 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
         }
         var counter = 0
         syncClearAll()
-        sampleWebAPIUseCase.fetchEmployeesAvailability(cachePolicy: .cacheAndLoad)
+        sampleWebAPIUseCase.fetchEmployeesAvailabilityGenericPublisher(cachePolicy: .cacheAndLoad)
             .sinkToReceiveValue { some in
                 switch some {
                 case .success:
@@ -189,11 +189,11 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
         }
         var counter = 0
         syncClearAll()
-        sampleWebAPIUseCase.fetchEmployeesAvailability(cachePolicy: .ignoringCache)
+        sampleWebAPIUseCase.fetchEmployeesAvailabilityGenericPublisher(cachePolicy: .ignoringCache)
             .sinkToReceiveValue { some in
                 switch some {
                 case .success:
-                    self.sampleWebAPIUseCase.fetchEmployeesAvailability(cachePolicy: .cacheAndLoad)
+                    self.sampleWebAPIUseCase.fetchEmployeesAvailabilityGenericPublisher(cachePolicy: .cacheAndLoad)
                         .sinkToReceiveValue { some in
                             switch some {
                             case .success:

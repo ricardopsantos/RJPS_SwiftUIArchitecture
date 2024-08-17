@@ -11,9 +11,75 @@ import CryptoKit
 //
 // MARK: - NetworkAgentSampleNamespace
 //
-
 extension SampleWebAPI: SampleWebAPIProtocol {
 
+    //
+    // MARK: - Generic api calls
+    //
+    public func requestAsync<T: Decodable>(_ api: SampleWebAPIMethods, type: T.Type) async throws -> T {
+        switch api {
+        case .updateEmployee:
+            // Custom implementation (if needed)
+            fatalError("Not implemented")
+        default:
+            let request = CommonNetworking.NetworkAgentRequest(
+                path: api.data.path,
+                queryItems: api.queryItems.map { URLQueryItem(name: $0.key, value: $0.value) },
+                httpMethod: api.data.httpMethod,
+                httpBody: api.httpBody,
+                headerValues: api.headerValues,
+                serverURL: api.data.serverURL,
+                responseType: api.responseType
+            )
+            let cronometerAverageMetricsKey: String = api.name
+            CronometerAverageMetrics.shared.start(key: cronometerAverageMetricsKey)
+            return try await runAsync(
+                request: request.urlRequest!,
+                decoder: .defaultForWebAPI,
+                logger: defaultLogger,
+                responseType: request.responseFormat, onCompleted: {
+                    CronometerAverageMetrics.shared.end(key: cronometerAverageMetricsKey)
+                }
+            )
+        }
+    }
+    
+    public func requestPublisher<T: Decodable>(_ api: SampleWebAPIMethods, type: T.Type) -> AnyPublisher<T, CommonNetworking.APIError> {
+        switch api {
+        case .updateEmployee:
+            // Custom implementation (if needed)
+            fatalError("Not implemented")
+        default:
+            let request = CommonNetworking.NetworkAgentRequest(
+                path: api.data.path,
+                queryItems: api.queryItems.map { URLQueryItem(name: $0.key, value: $0.value) },
+                httpMethod: api.data.httpMethod,
+                httpBody: api.httpBody,
+                headerValues: api.headerValues,
+                serverURL: api.data.serverURL,
+                responseType: api.responseType
+            )
+            let cronometerAverageMetricsKey: String = api.name
+            CronometerAverageMetrics.shared.start(key: cronometerAverageMetricsKey)
+            return run(
+                request: request.urlRequest!,
+                decoder: .defaultForWebAPI,
+                logger: defaultLogger,
+                responseType: request.responseFormat,
+                onCompleted: {
+                    CronometerAverageMetrics.shared.start(key: cronometerAverageMetricsKey)
+                }
+            )
+            .flatMap { response in
+                Just(response.modelDto).setFailureType(to: CommonNetworking.APIError.self).eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
+        }
+    }
+    
+    //
+    // MARK: - Verbose/Custom api calls
+    //
     public typealias EmployeesAvailabilityResponse = AnyPublisher<
         ResponseDto.EmployeeServiceAvailability,
         CommonNetworking.APIError

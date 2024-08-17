@@ -7,10 +7,10 @@ import Foundation
 @testable import Common
 
 public extension RequestDto {
-    struct Employee {
-        public let someParam: String
-        public init(someParam: String) {
-            self.someParam = someParam
+    struct Employee: Codable {
+        public let id: String
+        public init(id: String) {
+            self.id = id
         }
     }
 }

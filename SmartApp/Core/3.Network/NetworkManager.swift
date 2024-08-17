@@ -14,11 +14,11 @@ import DevTools
 class NetworkManager: NetworkAgentProtocol {
     static var shared = NetworkManager()
     private init() {}
-    public var client = CommonNetworking.NetworkAgent(session: URLSession.defaultWithConfig(
+    public var client = CommonNetworking.NetworkAgentClient(session: URLSession.defaultWithConfig(
         waitsForConnectivity: false,
         cacheEnabled: false
     ))
-    let logger: CommonNetworking.NetworkLogger = .allOn
+    let defaultLogger: CommonNetworking.NetworkLogger = .allOn
     var retryDelay: Double {
         5 // session token may take 5s to refresh
     }
@@ -46,7 +46,7 @@ extension NetworkManager {
             return try await runAsync(
                 request: request.urlRequest!,
                 decoder: .defaultForWebAPI,
-                logger: logger,
+                logger: defaultLogger,
                 responseType: request.responseFormat, onCompleted: {
                     CronometerAverageMetrics.shared.end(key: cronometerAverageMetricsKey)
                 }
