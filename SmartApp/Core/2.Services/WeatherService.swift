@@ -16,6 +16,7 @@ public class WeatherService {
     public static let shared = WeatherService()
 //    private let cacheManager = Common.CacheManagerForCodableUserDefaultsRepository.shared
     private let cacheManager = Common.CacheManagerForCodableCoreDataRepository.shared
+    private let webAPI: NetworkManager = .shared
 }
 
 extension WeatherService: WeatherServiceProtocol {
@@ -35,9 +36,7 @@ extension WeatherService: WeatherServiceProtocol {
             throw AppErrors.noInternet
         }
 
-        let result = try await NetworkManager.shared.request(
-            .getWeather(request),
-            type: responseType)
+        let result: ModelDto.GetWeatherResponse = try await webAPI.requestAsync(.getWeather(request))
 
         await cacheManager.aSyncStore(result, key: cacheKey, params: cacheParams)
 

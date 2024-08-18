@@ -15,23 +15,41 @@ public extension Common {
         }
     }
 
+    struct CustomWidthViewModifier: ViewModifier {
+        var width: CGFloat?
+        public func body(content: Content) -> some View {
+            if width ?? 0 == 0 {
+                content
+            } else {
+                content
+                    .frame(width: width)
+            }
+        }
+    }
+
     struct EqualWidthViewModifier: ViewModifier {
         let width: Binding<CGFloat?>
         public func body(content: Content) -> some View {
-            content
-                .frame(width: width.wrappedValue)
-                .background(GeometryReader { proxy in
-                    Color.clear.preference(
-                        key: Common.EqualWidthPreferenceKey.self,
-                        value: proxy.size.width
-                    )
-                }).onPreferenceChange(Common.EqualWidthPreferenceKey.self) { value in
-                    Common_Logs.debug("\(Common.EqualWidthPreferenceKey.self): \(value)")
-                    let newValue = max(width.wrappedValue ?? 0, value)
-                    if newValue != width.wrappedValue {
-                        width.wrappedValue = newValue
-                    }
+            Group {
+                if width.wrappedValue == 0 {
+                    content
+                } else {
+                    content
+                        .frame(width: width.wrappedValue)
                 }
+            }
+            .background(GeometryReader { proxy in
+                Color.clear.preference(
+                    key: Common.EqualWidthPreferenceKey.self,
+                    value: proxy.size.width
+                )
+            }).onPreferenceChange(Common.EqualWidthPreferenceKey.self) { value in
+                Common_Logs.debug("\(Common.EqualWidthPreferenceKey.self): \(value)")
+                let newValue = max(width.wrappedValue ?? 0, value)
+                if newValue != width.wrappedValue {
+                    width.wrappedValue = newValue
+                }
+            }
         }
     }
 }
@@ -90,7 +108,19 @@ struct EqualWidthPreferenceKeyTestView: View {
 //
 
 #if canImport(SwiftUI) && DEBUG
-#Preview {
+#Preview("CustomWidthViewModifier") {
+    VStack {
+        CommonLearnings.TwoViewSameSizeProblemSolution1()
+        Divider()
+        CommonLearnings.TwoViewSameSizeProblemSolution2()
+        Divider()
+        CommonLearnings.TwoViewSameSizeProblemSolution3()
+        Divider()
+        CommonLearnings.TwoViewSameSizeProblemSolution4()
+    }
+}
+
+#Preview("EqualWidthPreferenceKeyTestView") {
     EqualWidthPreferenceKeyTestView()
 }
 #endif

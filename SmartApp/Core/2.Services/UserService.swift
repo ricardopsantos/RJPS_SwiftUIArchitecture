@@ -17,9 +17,8 @@ public class UserService {
 
 extension UserService: UserServiceProtocol {
     public static func updateUser(_ request: ModelDto.UpdateUserRequest) async throws -> ModelDto.UpdateUserResponse {
-        try await NetworkManager.shared.request(
-            .updateUser(request),
-            type: ModelDto.UpdateUserResponse.self
+        try await NetworkManager.shared.requestAsync(
+            .updateUser(request)
         )
     }
 }

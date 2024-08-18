@@ -15,52 +15,55 @@ import DevTools
 extension BaseView {
     struct AlertView: View {
         @Environment(\.colorScheme) var colorScheme
-        @State var model: Model.AlertModel
-        @State var dismissed: Bool = false
+        let model: Model.AlertModel?
 
         public var body: some View {
-            ZStack {
-                content
-            }.background(
-                baseColor.opacity(0.05) // If the background is not visible, we cant tap it
-                    .frame(minWidth: screenWidth)
-            )
-            .opacity(dismissed ? 0 : 1)
-            .defaultAnimation()
-            .onTapGesture {
-                guard !dismissed else { return }
-                model.wasDismissed()
-                dismissed = true
+            Group {
+                if let model = model {
+                    content
+                        .background(
+                            baseColor.opacity(0.05) // If the background is not visible, we cant tap it
+                                .frame(minWidth: screenWidth)
+                        ).onTapGesture {
+                            if let onUserTapGesture = model.onUserTapGesture {
+                                onUserTapGesture()
+                            }
+                        }
+                } else {
+                    EmptyView()
+                }
             }
         }
 
         var content: some View {
             VStack(spacing: 0) {
                 SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin * 3)
-                Text(model.message)
+                Text(model?.message ?? "")
                     .fontSemantic(.bodyBold)
                     .lineLimit(nil) // Unlimited lines
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true) // Prevents truncation
                     .padding()
-                    .doIf(model.type == .success, transform: {
+                    .doIf(model?.type == .success, transform: {
                         $0.background(ColorSemantic.allCool.color)
                     })
-                    .doIf(model.type == .warning, transform: {
+                    .doIf(model?.type == .warning, transform: {
                         $0.background(ColorSemantic.warning.color)
                     })
-                    .doIf(model.type == .error, transform: {
+                    .doIf(model?.type == .error, transform: {
                         $0.background(ColorSemantic.danger.color)
                     })
                     .cornerRadius(SizeNames.cornerRadius)
                 Spacer()
             }
             .padding()
-            .background(Color.clear)
         }
 
         private var baseColor: Color {
-            switch model.type {
+            guard let type = model?.type else {
+                return Color.clear
+            }
+            switch type {
             case .success: return ColorSemantic.allCool.color
             case .warning: return ColorSemantic.warning.color
             case .error: return ColorSemantic.danger.color
@@ -89,9 +92,16 @@ struct AlertModelTestView: View {
                     SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
                     ForEach(Model.AlertModel.AlertType.allCases, id: \.self) { type in
                         Button("\(type)") {
-                            alertModel = .init(type: type, message: type.rawValue, onUserDismissAlert: {
+                            alertModel = .init(
+                                type: type,
+                                message: type.rawValue,
+                                onUserTapGesture: {
+                                    alertModel = nil
+                                }
+                            )
+                            Common_Utils.delay(5) {
                                 alertModel = nil
-                            })
+                            }
                         }
                     }
                 }

@@ -5,6 +5,6 @@
 
 import Foundation
 
-public struct CommonCoreDataNameSpace {
+public struct CommonCoreData {
     private init() {}
 }

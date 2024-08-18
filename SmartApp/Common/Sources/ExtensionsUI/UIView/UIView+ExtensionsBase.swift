@@ -40,11 +40,6 @@ public extension UIView {
         return image
     }
 
-    var printableMemoryAddress: String {
-        // https://stackoverflow.com/questions/24058906/printing-a-variable-memory-address-in-swift
-        "\(Unmanaged.passUnretained(self).toOpaque())"
-    }
-
     var width: CGFloat { frame.width }
     var height: CGFloat { frame.height }
 

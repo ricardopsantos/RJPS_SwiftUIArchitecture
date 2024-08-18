@@ -72,7 +72,7 @@ class LoginViewModel: BaseViewModel {
             alertModel = .init(
                 type: .warning,
                 message: "Tap to Autofill",
-                onUserDismissAlert: { [weak self] in
+                onUserTapGesture: { [weak self] in
                     self?.email = "mail@gmail.com"
                     self?.password = "123"
                 }

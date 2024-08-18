@@ -47,7 +47,11 @@ public extension DispatchQueue {
 
     static func executeWithDelay(tread: Tread = Tread.main, delay: Double = defaultDelay, block: @escaping () -> Void) {
         if tread == .main {
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { block() }
+            if delay > 0 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) { block() }
+            } else {
+                executeInMainTread(block)
+            }
         } else {
             DispatchQueue.global(qos: DispatchQoS.QoSClass.background).asyncAfter(deadline: .now() + delay) { block() }
         }

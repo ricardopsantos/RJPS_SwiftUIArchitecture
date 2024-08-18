@@ -393,7 +393,12 @@ public extension String {
     }
 
     static func random(_ length: Int, haveSpaces: Bool = false) -> String {
-        let letters: NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        var letters: NSString!
+        if haveSpaces {
+            letters = "          abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        } else {
+            letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        }
         var randomString = ""
         for _ in 0..<length {
             let rand = Int.random(in: 0...letters.length - 1)
@@ -404,14 +409,7 @@ public extension String {
     }
 
     static func randomWithSpaces(_ length: Int) -> String {
-        let letters: NSString = " abcdef ghijklm nopqrst uvwxy zABCD EFGHI JKLMN OPQ RSTUV WXYZ01 2345 6789"
-        var randomString = ""
-        for _ in 0..<length {
-            let rand = Int.random(in: 0...letters.length - 1)
-            var nextChar = letters.character(at: Int(rand))
-            randomString += NSString(characters: &nextChar, length: 1) as String
-        }
-        return randomString
+        random(length, haveSpaces: true)
     }
 
     func replace(_ some: String, with: String) -> String {

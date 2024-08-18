@@ -12,6 +12,8 @@ import Domain
 import Common
 
 class EmployeeService: EmployeeServiceProtocol {
+    private let webAPI: NetworkManager = .shared
+
     func requestEmployeesAsync(_ request: ModelDto.EmployeeRequest) async throws -> ModelDto.EmployeeResponse {
         try await fetchEmployeesAsync(request)
     }
@@ -50,7 +52,7 @@ class EmployeeService: EmployeeServiceProtocol {
          */
         requestEmployeesAsPublisher(requestDto, cachePolicy: cachePolicy)
             .errorToNever()
-            .stream
+            .stream()
     }
 }
 
@@ -64,38 +66,11 @@ private extension EmployeeService {
     }
 
     func fetchEmployeesAsync(_ request: ModelDto.EmployeeRequest) async throws -> ModelDto.EmployeeResponse {
-        try await NetworkManager.shared.request(
-            .requestEmployees(request),
-            type: ModelDto.EmployeeResponse.self
-        )
+        try await webAPI.requestAsync(.requestEmployees(request))
     }
 
     func fetchEmployeesAnyPublisher(_ request: ModelDto.EmployeeRequest) -> ResponseEmployeesWithCacheMaybe {
-        let api: APIEndpoints = .requestEmployees(request)
-        let request = CommonNetworking.NetworkAgentRequest(
-            path: api.data.path,
-            queryItems: api.urlParameters.map { URLQueryItem(name: $0.key, value: $0.value) },
-            httpMethod: api.data.httpMethod,
-            httpBody: nil,
-            headerValues: nil,
-            serverURL: api.data.serverURL,
-            responseType: .json
-        )
-        typealias APIResponseType = AnyPublisher<
-            ModelDto.EmployeeResponse,
-            CommonNetworking.APIError
-        >
-        let apiCall: APIResponseType = NetworkManager.shared.client.run(
-            request.urlRequest!,
-            .defaultForWebAPI,
-            .allOn,
-            request.responseFormat
-        ).flatMap { response in
-            Just(response.modelDto).setFailureType(to: CommonNetworking.APIError.self).eraseToAnyPublisher()
-        }
-        .eraseToAnyPublisher()
-
-        return apiCall
+        webAPI.requestPublisher(.requestEmployees(request))
             .mapError { $0.toAppError }.eraseToAnyPublisher()
     }
 }

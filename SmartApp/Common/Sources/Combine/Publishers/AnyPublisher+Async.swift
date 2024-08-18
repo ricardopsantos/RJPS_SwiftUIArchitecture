@@ -112,7 +112,7 @@ public extension AnyPublisher {
  */
 
 public extension AnyPublisher where Failure == Never {
-    var stream: AsyncStream<Output> {
+    func stream(canFail: Bool = false) -> AsyncStream<Output> {
         .init { continuation in
             let cancellable = self
                 .eraseToAnyPublisher()
@@ -121,7 +121,7 @@ public extension AnyPublisher where Failure == Never {
                     case .finished:
                         continuation.finish()
                     case let .failure(never):
-                        if Common_Utils.false {
+                        if canFail {
                             continuation.yield(with: .failure(never))
                         } else {
                             continuation.finish() // Treat the error as completion

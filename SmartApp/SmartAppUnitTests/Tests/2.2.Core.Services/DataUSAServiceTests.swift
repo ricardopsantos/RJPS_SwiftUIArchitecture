@@ -80,7 +80,7 @@ extension DataUSAServiceTests {
         let count = 10
         // Time: 0.498 sec
         measure {
-            let expectation = self.expectation(description: #function)
+            let expectation = expectation(description: #function)
             Task {
                 do {
                     for _ in 1...count {
@@ -104,7 +104,7 @@ extension DataUSAServiceTests {
         let count = 10
         // Time: 0.009 sec
         measure {
-            let expectation = self.expectation(description: #function)
+            let expectation = expectation(description: #function)
             Task {
                 do {
                     for _ in 1...count {

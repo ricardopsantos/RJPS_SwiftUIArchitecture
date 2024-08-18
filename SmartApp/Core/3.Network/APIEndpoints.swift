@@ -16,6 +16,7 @@ enum APIEndpoints {
 }
 
 extension APIEndpoints {
+    /// Sugar name used on chronometer
     var name: String {
         switch self {
         case .getWeather: "getWeather"
@@ -26,7 +27,8 @@ extension APIEndpoints {
         }
     }
 
-    var urlParameters: [String: String?] {
+    // URL Params
+    var queryItems: [String: String?] {
         switch self {
         case .getWeather(let request):
             return [
@@ -58,6 +60,18 @@ extension APIEndpoints {
         default:
             return nil
         }
+    }
+
+    var headerValues: [String: String]? {
+        nil
+    }
+
+    var httpBody: [String: Any]? {
+        nil
+    }
+
+    var responseType: CommonNetworking.ResponseFormat {
+        .json
     }
 
     var data: (

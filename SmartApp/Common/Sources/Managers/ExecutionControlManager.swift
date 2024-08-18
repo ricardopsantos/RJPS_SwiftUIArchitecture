@@ -83,7 +83,7 @@ extension Common.ExecutionControlManager {
         Common.ExecutionControlManager.throttle(1, operationId: "myClosure") {
             // "Executing closure..."
         }
-        
+
         // Debounce usage: the closure will only be executed 1 second after the last call to debounce with this operation ID
         Common.ExecutionControlManager.debounce(1.0, operationId: "myDebouncedClosure") {
             // "Executing debounced closure..."

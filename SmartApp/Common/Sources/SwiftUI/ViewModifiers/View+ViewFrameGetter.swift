@@ -11,7 +11,7 @@ struct ViewFrameGetter: ViewModifier {
     @Binding var rects: (CGRect, CGRect)
     public func body(content: Content) -> some View {
         GeometryReader { g -> Color in // (g) -> Content in - is what it could be, but it doesn't work
-            DispatchQueue.main.async { // to avoid warning
+            DispatchQueue.executeInMainTread { // to avoid warning
                 rects = (g.frame(in: .local), g.frame(in: .global))
             }
             return Color.clear // return content - doesn't work

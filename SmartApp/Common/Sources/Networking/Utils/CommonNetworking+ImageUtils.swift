@@ -46,7 +46,7 @@ public extension CommonNetworking {
             completion: @escaping ((UIImage?) -> Void)
         ) {
             guard let url = URL(string: urlString) else {
-                DispatchQueue.main.async { completion(nil) }
+                DispatchQueue.executeInMainTread { completion(nil) }
                 return
             }
             imageFrom(url: url, caching: caching, downsample: downsample) { some in
@@ -83,9 +83,9 @@ public extension CommonNetworking {
                     if let downsample,
                        let image,
                        let imageDownSample = image.resizeToFitMaxSize(maxWidth: downsample.width, maxHeight: downsample.height) {
-                        DispatchQueue.main.async { completion(imageDownSample) }
+                        DispatchQueue.executeInMainTread { completion(imageDownSample) }
                     } else {
-                        DispatchQueue.main.async { completion(image) }
+                        DispatchQueue.executeInMainTread { completion(image) }
                     }
                     if lockEnabled {
                         Common.LockManagerV1.shared.unlock(key: cachedImageName)

@@ -24,7 +24,11 @@ let package = Package(
                 //    .product(name: "NukeUI", package: "Nuke"),
             ],
             resources: [
-                .process("CData/CommonInternalDB.xcdatamodeld")
+                .process("Resources/CommonInternalDB.xcdatamodeld"),
+                .process("Resources/google.co.uk.cer")
+            ],
+            swiftSettings: [
+                .define("IN_PACKAGE_CODE") // Compiler flag
             ]
         ),
         .testTarget(
@@ -33,8 +37,11 @@ let package = Package(
                 "Common",
                 .product(name: "Nimble", package: "Nimble")
             ],
-            resources: [
-                .process("CData/CommonInternalDB.xcdatamodeld")
+            // resources: [
+            //    .process("Resources/google.co.uk.cer")
+            // ],
+            swiftSettings: [
+                .define("IN_PACKAGE_CODE") // Compiler flag
             ]
         )
     ]
