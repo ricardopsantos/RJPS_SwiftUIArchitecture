@@ -77,9 +77,7 @@ class RootViewModel: ObservableObject {
         switch action {
         case .start:
             guard !isAppStartCompleted else { return }
-            Common_Utils.delay(SplashView.timeToDisplay) { [weak self] in
-                self?.isAppStartCompleted = true
-            }
+            isAppStartCompleted = true
         case .markUserDetailsCompleted:
             guard !isUserDetailsFilled else { return }
             nonSecureAppPreferences?.isProfileComplete = true

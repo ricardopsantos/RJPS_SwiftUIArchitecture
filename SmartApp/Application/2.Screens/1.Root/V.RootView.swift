@@ -105,10 +105,9 @@ struct RootView: View, ViewProtocol {
     @ViewBuilder private func buildScreen(_ appScreen: AppScreen) -> some View {
         switch appScreen {
         case .splash:
-            SplashView()
-                .onAppear {
-                    viewModel.send(action: .start)
-                }
+            SplashViewCoordinator(onCompletion: {
+                viewModel.send(action: .start)
+            })
         case .mainApp:
             MainTabViewCoordinator()
         case .login:

@@ -21,13 +21,47 @@ protocol ViewCoordinatorProtocol {
 
 /// Protocol to ensure that all View follow the same coding standard
 protocol ViewProtocol {
+    /**
+     __Code division template__
+     ```
+     // MARK: - ViewProtocol
+     @Environment(\.colorScheme) var colorScheme
+     @StateObject var viewModel: SomeViewModel
+     public init(dependencies: SomeViewModel.Dependencies) {
+         DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
+         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
+     }
+
+     // MARK: - Usage Attributes
+     @Environment(\.dismiss) var dismiss
+     @State private var animatedGradient = true
+     
+     // MARK: - Auxiliar Attributes
+     let cancelBag = CancelBag()
+     var body: some View {
+         BaseView {
+             content
+         }.onAppear {
+             viewModel.send(action: .didAppear)
+         }.onDisappear {
+             viewModel.send(action: .didDisappear)
+         }
+     }
+     
+     var content: some View {
+            ...
+     }
+     ```
+     */
+    
     associatedtype ViewModel: ObservableObject
     associatedtype ContentView: View
     associatedtype Dependencies
     var colorScheme: ColorScheme { get }
-    // var router: RouterViewModel { get }
     var viewModel: ViewModel { get }
 
     init(dependencies: Dependencies)
     var content: ContentView { get }
+    
+
 }

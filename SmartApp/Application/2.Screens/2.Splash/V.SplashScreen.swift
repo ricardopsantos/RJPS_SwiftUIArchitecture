@@ -6,16 +6,66 @@
 //
 
 import SwiftUI
+//
 import Common
 import DesignSystem
+import DevTools
 
-struct SplashView: View {
-    @Environment(\.colorScheme) var colorScheme
-
-    static let timeToDisplay: Double = 2
+//
+// MARK: - Coordinator
+//
+struct SplashViewCoordinator: View, ViewCoordinatorProtocol {
+    // MARK: - ViewCoordinatorProtocol
+    @EnvironmentObject var configuration: ConfigurationViewModel
+    @StateObject var coordinator = RouterViewModel()
     // MARK: - Usage Attributes
-    @State private var animatedGradient = true
-    @State private var logoOpacity: Double = 1
+    let onCompletion: () -> Void
+
+    // MARK: - Body & View
+    var body: some View {
+        NavigationStack(path: $coordinator.navPath) {
+            buildScreen(.splash)
+                .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
+        }
+    }
+
+    @ViewBuilder
+    func buildScreen(_ screen: AppScreen) -> some View {
+        switch screen {
+        case .splash:
+            let dependencies: SplashViewModel.Dependencies = .init(
+                model: .init(),
+                nonSecureAppPreferences: configuration.nonSecureAppPreferences, 
+                onCompletion: onCompletion
+            )
+            SplashView(dependencies: dependencies)
+        default:
+            EmptyView().onAppear(perform: {
+                DevTools.assert(false, message: "Not predicted \(screen)")
+            })
+        }
+    }
+}
+
+struct SplashView: View, ViewProtocol {
+    // MARK: - ViewProtocol
+    @Environment(\.colorScheme) var colorScheme
+    @StateObject var viewModel: SplashViewModel
+    public init(dependencies: SplashViewModel.Dependencies) {
+        DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
+        _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
+        self.onCompletion = dependencies.onCompletion
+    }
+
+    // MARK: - Usage Attributes
+    @Environment(\.dismiss) var dismiss
+    @State private var logoOpacity: Double = 0
+    
+    // MARK: - Auxiliar Attributes
+    let onCompletion: () -> Void
+    
     var body: some View {
         BaseView.withLoading(
             sender: "\(Self.self)",
@@ -27,11 +77,22 @@ struct SplashView: View {
             networkStatus: nil
         ) {
             content
-                .onAppear(perform: {
-                    withAnimation(.linear(duration: SplashView.timeToDisplay / 2).delay(SplashView.timeToDisplay / 2)) {
-                        logoOpacity = 0
-                    }
-                })
+        }
+        .onAppear {
+            viewModel.send(action: .didAppear)
+        }.onDisappear {
+            viewModel.send(action: .didDisappear)
+        }
+        .onAppear {
+            let animationDuration = Common.Constants.defaultAnimationsTime * 2
+            let animationDelay = animationDuration
+            withAnimation(.linear(duration: animationDuration).delay(animationDelay)) {
+                logoOpacity = 1
+            }
+            let splashTimeToLive = animationDuration + animationDelay + Common.Constants.defaultAnimationsTime
+            Common_Utils.delay(splashTimeToLive) {
+                onCompletion()
+            }
         }
     }
 
@@ -67,6 +128,8 @@ fileprivate extension SplashView {}
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    SplashView()
+    SplashViewCoordinator(onCompletion: { })
+        .environmentObject(AppStateViewModel.defaultForPreviews)
+        .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
 #endif
