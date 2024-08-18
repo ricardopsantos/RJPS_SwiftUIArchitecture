@@ -77,9 +77,7 @@ class RootViewModel: ObservableObject {
         switch action {
         case .start:
             guard !isAppStartCompleted else { return }
-            // All starting set up will be done here
-            // testing load time 2 seconds
-            Common_Utils.delay(2) { [weak self] in
+            Common_Utils.delay(SplashView.timeToDisplay) { [weak self] in
                 self?.isAppStartCompleted = true
             }
         case .markUserDetailsCompleted:

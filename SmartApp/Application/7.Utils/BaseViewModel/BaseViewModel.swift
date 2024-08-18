@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 //
 import Common
 import Domain
@@ -14,8 +15,20 @@ import DevTools
 @MainActor
 public class BaseViewModel: ObservableObject {
     // MARK: - Usage Attributes
-    @Published var loadingModel: Model.LoadingModel?
+    @Published var loadingModel: Model.LoadingModel? {
+        willSet {
+            withAnimation {
+                objectWillChange.send()
+            }
+        }
+    }
+
     @Published var alertModel: Model.AlertModel? {
+        willSet {
+            withAnimation {
+                objectWillChange.send()
+            }
+        }
         didSet {
             guard var alertModel = alertModel else {
                 return

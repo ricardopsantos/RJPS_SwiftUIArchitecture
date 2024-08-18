@@ -11,6 +11,11 @@ import DesignSystem
 
 struct SplashView: View {
     @Environment(\.colorScheme) var colorScheme
+
+    static let timeToDisplay: Double = 2
+    // MARK: - Usage Attributes
+    @State private var animatedGradient = true
+    @State private var logoOpacity: Double = 1
     var body: some View {
         BaseView.withLoading(
             sender: "\(Self.self)",
@@ -22,6 +27,11 @@ struct SplashView: View {
             networkStatus: nil
         ) {
             content
+                .onAppear(perform: {
+                    withAnimation(.linear(duration: SplashView.timeToDisplay / 2).delay(SplashView.timeToDisplay / 2)) {
+                        logoOpacity = 0
+                    }
+                })
         }
     }
 
@@ -34,6 +44,7 @@ struct SplashView: View {
                     .scaledToFit()
                     .frame(width: screenWidth * 0.33)
                     .cornerRadius(SizeNames.cornerRadius)
+                    .opacity(logoOpacity)
             }
             .padding()
         }

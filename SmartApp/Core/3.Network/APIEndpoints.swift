@@ -16,7 +16,7 @@ enum APIEndpoints {
 }
 
 extension APIEndpoints {
-    /// Sugar name used on cromometer
+    /// Sugar name used on chronometer
     var name: String {
         switch self {
         case .getWeather: "getWeather"
