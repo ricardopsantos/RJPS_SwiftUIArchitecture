@@ -27,13 +27,16 @@ public struct LoadingIndicator: View {
                     VStack {
                         Spacer()
                         ProgressView()
+                            .scaleEffect(1.5)
+                            .tint(ColorSemantic.primary.color)
                             .frame(maxWidth: .infinity)
                             // NB: There seems to be a bug in SwiftUI where the progress view does not show
                             // a second time unless it is given a new identity.
                             .id(UUID())
+                        SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
                         Text(loadingMessage)
                             .foregroundColorSemantic(.labelPrimary)
-                            .fontSemantic(.caption)
+                            .fontSemantic(.callout)
                         Spacer()
                     }
                     Spacer()

@@ -73,25 +73,34 @@ class PopulationNationViewModel: BaseViewModel {
         case .didDisappear:
             ()
         case .getPopulationData(cachePolicy: let cachePolicy):
-            Task { @MainActor in
-                loadingModel = .loading(message: "Loading".localized)
-                var newValueForModel: [PopulationNationModel] = []
-                do {
-                    let modelDto = try await dataUSAService.requestPopulationNationData(
-                        .init(),
-                        cachePolicy: cachePolicy
-                    )
-                    newValueForModel = modelDto.data.map { .init(populationNationDataResponse: $0) }
-                    title = String(format: "PopulationNationViewTitleWithRecords".localized, newValueForModel.count)
-                    loadingModel = .notLoading
-                    if newValueForModel.isEmpty {
-                        alertModel = .init(type: .warning, message: "NoDataTryAgainLatter".localized)
-                    }
-                    model = newValueForModel
-                } catch {
-                    handle(error: error, sender: "\(Self.self).\(action)")
-                }
+            Task {
+                await getPopulationData(cachePolicy: cachePolicy, action: action)
             }
+        }
+    }
+}
+
+extension PopulationNationViewModel {
+    @MainActor
+    func getPopulationData(cachePolicy: ServiceCachePolicy, action: Actions?) async -> Bool {
+        loadingModel = .loading(message: "Loading".localized)
+        var newValueForModel: [PopulationNationModel] = []
+        do {
+            let modelDto = try await dataUSAService.requestPopulationNationData(
+                .init(),
+                cachePolicy: cachePolicy
+            )
+            newValueForModel = modelDto.data.map { .init(populationNationDataResponse: $0) }
+            title = String(format: "PopulationNationViewTitleWithRecords".localized, newValueForModel.count)
+            loadingModel = .notLoading
+            if newValueForModel.isEmpty {
+                alertModel = .init(type: .warning, message: "NoDataTryAgainLatter".localized)
+            }
+            model = newValueForModel
+            return true
+        } catch {
+            handle(error: error, sender: "\(Self.self).\(String(describing: action))")
+            return false
         }
     }
 }

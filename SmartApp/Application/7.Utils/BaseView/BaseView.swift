@@ -61,6 +61,16 @@ enum BaseView {
             .blur(radius: doBlur ? 1 : 0)
             .animation(.easeInOut, value: doBlur)
             //
+            // Alert Model
+            //
+            .overlay(
+                AlertView(model: alertModel)
+                    .ignoresSafeArea()
+                    .ignoresSafeArea(.keyboard, edges: .bottom)
+                    .opacity(existsAlert ? 1 : 0)
+                    .animation(.easeInOut, value: existsAlert)
+            )
+            //
             // Loading Model
             //
             .overlay(
@@ -71,16 +81,8 @@ enum BaseView {
                 .animation(.easeInOut, value: loadingModel)
             )
             //
-            // Alert Model
+            // Internet connection
             //
-            .overlay(
-                AlertView(model: alertModel)
-                    .ignoresSafeArea(.keyboard, edges: .bottom)
-                    .doIf(ignoresSafeArea, transform: {
-                        $0.ignoresSafeArea()
-                    })
-                    .animation(.easeInOut, value: alertModel)
-            )
             .overlay(
                 ZStack {
                     ColorSemantic.warning.color.opacity(0.2)
@@ -165,7 +167,6 @@ struct TestView: View {
                 Common_Utils.delay(TimeInterval(animationDuration) + 1) {
                     alertModel = nil
                 }
-
             }, label: {
                 Text("Alert")
             })
@@ -175,7 +176,6 @@ struct TestView: View {
                 Common_Utils.delay(TimeInterval(animationDuration) + 1) {
                     networkStatus = nil
                 }
-
             }, label: {
                 Text("networkStatus")
             })
@@ -185,7 +185,6 @@ struct TestView: View {
                 Common_Utils.delay(TimeInterval(animationDuration) + 1) {
                     loadingModel = nil
                 }
-
             }, label: {
                 Text("Loading")
             })

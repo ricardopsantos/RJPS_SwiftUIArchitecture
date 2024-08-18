@@ -15,20 +15,8 @@ import DevTools
 @MainActor
 public class BaseViewModel: ObservableObject {
     // MARK: - Usage Attributes
-    @Published var loadingModel: Model.LoadingModel? {
-        willSet {
-            withAnimation {
-                objectWillChange.send()
-            }
-        }
-    }
-
+    @Published var loadingModel: Model.LoadingModel?
     @Published var alertModel: Model.AlertModel? {
-        willSet {
-            withAnimation {
-                objectWillChange.send()
-            }
-        }
         didSet {
             guard var alertModel = alertModel else {
                 return

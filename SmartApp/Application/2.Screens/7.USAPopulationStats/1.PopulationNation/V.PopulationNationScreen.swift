@@ -104,7 +104,15 @@ struct PopulationNationView: View, ViewProtocol {
             }
             .accessibility(identifier: Accessibility.scrollView.identifier)
             .refreshable {
-                viewModel.send(action: .getPopulationData(cachePolicy: .load))
+                if Common_Utils.true {
+                    // Small anti-pattern reason:
+                    // The reason that we use a custom viewModel function instead of
+                    // calling `viewModel.send` is because the `refreshable` view modifier
+                    // will stops after the await (else wont stop)
+                    _ = await viewModel.getPopulationData(cachePolicy: .load, action: nil)
+                } else {
+                    viewModel.send(action: .getPopulationData(cachePolicy: .load))
+                }
             }.padding()
         }
         .frame(maxWidth: .infinity)

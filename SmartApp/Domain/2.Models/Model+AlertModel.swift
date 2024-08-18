@@ -30,22 +30,22 @@ public extension Model {
         public let type: AlertType
         public let message: String
         public let date: Date
-        public var onUserDismissAlert: (() -> Void)? // Custom code to run when user tapped alert
+        public var onUserTapGesture: (() -> Void)? // Custom code to run when user tapped alert
         public var parentDismiss: (() -> Void)? // Inject code to dismiss alert externally (by parent view)
 
-        public func wasDismissed() {
-            if let onUserDismissAlert = onUserDismissAlert {
-                onUserDismissAlert()
+        public func onTapGesture() {
+            if let onUserTapGesture = onUserTapGesture {
+                onUserTapGesture()
             }
             if let parentDismiss = parentDismiss {
                 parentDismiss()
             }
         }
 
-        public init(type: AlertType, message: String, onUserDismissAlert: (() -> Void)? = nil) {
+        public init(type: AlertType, message: String, onUserTapGesture: (() -> Void)? = nil) {
             self.type = type
             self.message = message
-            self.onUserDismissAlert = onUserDismissAlert
+            self.onUserTapGesture = onUserTapGesture
             self.date = .now
         }
     }
@@ -59,7 +59,7 @@ extension Model.AlertModel: Equatable {
         lhs.type == rhs.type &&
             lhs.message == rhs.message &&
             lhs.date == rhs.date &&
-            lhs.onUserDismissAlert.debugDescription == rhs.onUserDismissAlert.debugDescription
+            lhs.onUserTapGesture.debugDescription == rhs.onUserTapGesture.debugDescription
     }
 }
 
@@ -78,14 +78,14 @@ public extension Model.AlertModel {
     }
 
     static var success: Self {
-        Model.AlertModel(type: .success, message: "Success", onUserDismissAlert: nil)
+        Model.AlertModel(type: .success, message: "Success", onUserTapGesture: nil)
     }
 
     static var tryAgainLatter: Self {
-        Model.AlertModel(type: .error, message: "Please try again latter", onUserDismissAlert: nil)
+        Model.AlertModel(type: .error, message: "Please try again latter", onUserTapGesture: nil)
     }
 
     static var noInternet: Self {
-        Model.AlertModel(type: .error, message: "No internet", onUserDismissAlert: nil)
+        Model.AlertModel(type: .error, message: "No internet", onUserTapGesture: nil)
     }
 }

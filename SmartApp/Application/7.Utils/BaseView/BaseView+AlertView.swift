@@ -15,25 +15,23 @@ import DevTools
 extension BaseView {
     struct AlertView: View {
         @Environment(\.colorScheme) var colorScheme
-        @State var model: Model.AlertModel?
-        @State var dismissed: Bool = false
+        let model: Model.AlertModel?
 
         public var body: some View {
-            ZStack {
-                if model == nil {
-                    EmptyView()
-                } else {
+            Group {
+                if let model = model {
                     content
+                        .background(
+                            baseColor.opacity(0.05) // If the background is not visible, we cant tap it
+                                .frame(minWidth: screenWidth)
+                        ).onTapGesture {
+                            if let onUserTapGesture = model.onUserTapGesture {
+                                onUserTapGesture()
+                            }
+                        }
+                } else {
+                    EmptyView()
                 }
-            }.background(
-                baseColor.opacity(0.05) // If the background is not visible, we cant tap it
-                    .frame(minWidth: screenWidth)
-            )
-            .opacity(dismissed ? 0 : 1)
-            .onTapGesture {
-                guard !dismissed else { return }
-                model?.wasDismissed()
-                dismissed = true
             }
         }
 
@@ -59,16 +57,17 @@ extension BaseView {
                 Spacer()
             }
             .padding()
-            .background(Color.clear)
         }
 
         private var baseColor: Color {
-            switch model?.type {
+            guard let type = model?.type else {
+                return Color.clear
+            }
+            switch type {
             case .success: return ColorSemantic.allCool.color
             case .warning: return ColorSemantic.warning.color
             case .error: return ColorSemantic.danger.color
             case .information: return ColorSemantic.warning.color
-            case .none: return Color.red
             }
         }
     }
@@ -93,9 +92,16 @@ struct AlertModelTestView: View {
                     SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
                     ForEach(Model.AlertModel.AlertType.allCases, id: \.self) { type in
                         Button("\(type)") {
-                            alertModel = .init(type: type, message: type.rawValue, onUserDismissAlert: {
+                            alertModel = .init(
+                                type: type,
+                                message: type.rawValue,
+                                onUserTapGesture: {
+                                    alertModel = nil
+                                }
+                            )
+                            Common_Utils.delay(5) {
                                 alertModel = nil
-                            })
+                            }
                         }
                     }
                 }
