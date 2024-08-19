@@ -11,64 +11,67 @@ import Nimble
 @testable import Common
 
 class UnfairLockManagerWithKey_Tests: XCTestCase {
-
+    
     var lockManager: Common.UnfairLockManagerWithKey!
-
+    
     override func setUp() {
         super.setUp()
         lockManager = Common.UnfairLockManagerWithKey()
     }
-
+    
     override func tearDown() {
         lockManager = nil
         super.tearDown()
     }
-
+    
     func testLockUnlock() {
-        let expectation = XCTestExpectation(description: "Lock and unlock")
+        let expectation = XCTestExpectation(description: #function)
         var value = 0
-
-        lockManager.execute(with: "testKey") {
+        let key = #function
+        
+        lockManager.execute(with: key) {
             value += 1
             XCTAssertEqual(value, 1, "Value should be 1 within the lock")
         }
-
+        
         DispatchQueue.global().async {
-            self.lockManager.execute(with: "testKey") {
+            self.lockManager.execute(with: key) {
                 value += 1
                 XCTAssertEqual(value, 2, "Value should be 2 within the lock")
                 expectation.fulfill()
             }
         }
-
-        wait(for: [expectation], timeout: 1)
+        
+        wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
-
+    
     func testTryLock() {
-        let expectation = XCTestExpectation(description: "Try lock")
+        let expectation = XCTestExpectation(description: #function)
         var value = 0
-
+        let key = #function
+        
         DispatchQueue.global().async {
-            if self.lockManager.tryLock(key: "testKey") {
+            if self.lockManager.tryLock(key: key) {
                 value += 1
                 XCTAssertEqual(value, 1, "Value should be 1 after acquiring the lock")
-                self.lockManager.unlock(key: "testKey")
+                self.lockManager.unlock(key: key)
             } else {
                 XCTFail("Failed to acquire the lock")
             }
             expectation.fulfill()
         }
-
-        wait(for: [expectation], timeout: 1)
+        
+        wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
-
+    
     func testTryExecute() {
-        let expectation = XCTestExpectation(description: "Try execute")
+        let expectation = XCTestExpectation(description: #function)
         var value = 0
-
+        let key = #function
+        
         DispatchQueue.global().async {
             do {
-                let result = try self.lockManager.tryExecute(with: "testKey") {
+                let result = try self.lockManager.tryExecute(with: key) {
                     value += 1
                     return value
                 }
@@ -79,20 +82,20 @@ class UnfairLockManagerWithKey_Tests: XCTestCase {
             }
             expectation.fulfill()
         }
-
-        wait(for: [expectation], timeout: 1)
+        
+        wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
-
+    
     func testTryExecuteThrowsError() {
         enum TestError: Error {
             case intentionalError
         }
-
-        let expectation = XCTestExpectation(description: "Try execute throws error")
-
+        
+        let expectation = XCTestExpectation(description: #function)
+        let key = #function
         DispatchQueue.global().async {
             do {
-                _ = try self.lockManager.tryExecute(with: "testKey") {
+                _ = try self.lockManager.tryExecute(with: key) {
                     throw TestError.intentionalError
                 }
                 XCTFail("Expected tryExecute to throw an error")
@@ -103,26 +106,27 @@ class UnfairLockManagerWithKey_Tests: XCTestCase {
                 XCTFail("Unexpected error thrown: \(error)")
             }
         }
-
-        wait(for: [expectation], timeout: 1)
+        
+        wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
-
+    
     func testThreadSafety() {
         let iterations = 1000
-        let expectation = XCTestExpectation(description: "Thread safety")
+        let expectation = XCTestExpectation(description: #function)
         var value = 0
-
-        DispatchQueue.concurrentPerform(iterations: iterations) { _ in
-            self.lockManager.execute(with: "testKey") {
-                value += 1
-            }
-        }
-
+        let key = #function
+        
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
             XCTAssertEqual(value, iterations, "Value should be equal to the number of iterations")
             expectation.fulfill()
         }
-
-        wait(for: [expectation], timeout: 2)
+        
+        DispatchQueue.concurrentPerform(iterations: iterations) { _ in
+            self.lockManager.execute(with: key) {
+                value += 1
+            }
+        }
+        
+        wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
 }

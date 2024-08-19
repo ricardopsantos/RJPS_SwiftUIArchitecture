@@ -10,12 +10,12 @@ import Combine
 public class SampleWebAPIUseCase {
     private let webAPI: SampleWebAPIProtocol = SampleWebAPI(session: .defaultForNetworkAgent)
     private let codableCacheManager = Common_SimpleCacheManagerForCodable.shared
-
+    
     public typealias EmployeesAvailabilityResponse = AnyPublisher<
         ResponseDto.EmployeeServiceAvailability,
         CommonNetworking.APIError
     >
-
+    
     //
     // MARK: - Simple API Requests
     //
@@ -23,17 +23,17 @@ public class SampleWebAPIUseCase {
         let requestDto = RequestDto.Employee(id: UUID().uuidString)
         return webAPI.fetchEmployeesAvailability(requestDto)
     }
-
+    
     func fetchEmployeesPublisher() -> EmployeesAvailabilityResponse {
         let requestDto = RequestDto.Employee(id: UUID().uuidString)
         return webAPI.requestPublisher(.fetchEmployees(requestDto))
     }
-
+    
     func fetchEmployeesAsync() async throws -> ResponseDto.EmployeeServiceAvailability {
         let requestDto = RequestDto.Employee(id: UUID().uuidString)
         return try await webAPI.requestAsync(.fetchEmployees(requestDto))
     }
-
+    
     //
     // MARK: - API Request + Cache
     //
@@ -57,7 +57,7 @@ public class SampleWebAPIUseCase {
             codableCacheManager
         ).eraseToAnyPublisher()
     }
-
+    
     //
     // MARK: - API Request + SSL Pinning (with Certificate)
     //
@@ -69,7 +69,7 @@ public class SampleWebAPIUseCase {
         let requestDto = RequestDto.Employee(id: "aaa")
         return webAPISSLPinningWithCertificates.fetchEmployeesAvailability(requestDto)
     }
-
+    
     //
     // MARK: - API Request + SSL Pinning (with Certificate)
     //

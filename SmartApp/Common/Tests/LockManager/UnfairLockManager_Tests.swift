@@ -20,7 +20,7 @@ final class UnfairLockManager_Tests: XCTestCase {
         XCTAssert(value == 1)
         lockManager.unlock()
     }
-
+    
     func testTryLock() {
         var value = 0
         XCTAssert(lockManager.tryLock())
@@ -28,7 +28,7 @@ final class UnfairLockManager_Tests: XCTestCase {
         XCTAssert(value == 1)
         lockManager.unlock()
     }
-
+    
     func testExecute() {
         var value = 0
         let result = lockManager.execute {
@@ -38,7 +38,7 @@ final class UnfairLockManager_Tests: XCTestCase {
         XCTAssert(result == 1)
         XCTAssert(value == 1)
     }
-
+    
     func testTryExecute() {
         var value = 0
         do {
@@ -52,12 +52,12 @@ final class UnfairLockManager_Tests: XCTestCase {
             XCTFail("tryExecute threw an unexpected error: \(error)")
         }
     }
-
+    
     func testTryExecuteThrowsError() {
         enum TestError: Error {
             case intentionalError
         }
-
+        
         do {
             _ = try lockManager.tryExecute {
                 throw TestError.intentionalError
@@ -69,7 +69,7 @@ final class UnfairLockManager_Tests: XCTestCase {
             XCTFail("Unexpected error thrown: \(error)")
         }
     }
-
+    
     // Perform 1000 writes concurrently
     func testThreadSafety() {
         var value = 0
@@ -85,8 +85,8 @@ final class UnfairLockManager_Tests: XCTestCase {
             XCTAssert(value == iterations)
             expectation.fulfill()
         }
-
-        wait(for: [expectation], timeout: 2)
+        
+        wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
     
     func test_highContentionWithMultipleLocks() {
@@ -94,7 +94,7 @@ final class UnfairLockManager_Tests: XCTestCase {
         let iterations = 10_000
         let expectation = XCTestExpectation(description: #function)
         let queue = DispatchQueue(label: #function, attributes: .concurrent)
-
+        
         DispatchQueue.concurrentPerform(iterations: iterations) { _ in
             queue.async {
                 self.lockManager.lock()
@@ -102,30 +102,30 @@ final class UnfairLockManager_Tests: XCTestCase {
                 self.lockManager.unlock()
             }
         }
-
+        
         // Allow some time for the concurrent operations to finish
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
             XCTAssertEqual(value, iterations)
             expectation.fulfill()
         }
-
-        wait(for: [expectation], timeout: 5)
+        
+        wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
- 
-
+    
+    
     func test_deadlockPrevention() {
         let expectation = XCTestExpectation(description: #function)
-
+        
         let queue1 = DispatchQueue(label: "com.test.queue1")
         let queue2 = DispatchQueue(label: "com.test.queue2")
-
+        
         queue1.async {
             self.lockManager.lock()
             DispatchQueue.global().asyncAfter(deadline: .now() + 0.1) {
                 self.lockManager.unlock()
             }
         }
-
+        
         queue2.async {
             DispatchQueue.global().asyncAfter(deadline: .now() + 0.05) {
                 self.lockManager.lock()
@@ -133,38 +133,38 @@ final class UnfairLockManager_Tests: XCTestCase {
                 expectation.fulfill()
             }
         }
-
-        wait(for: [expectation], timeout: 2)
+        
+        wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
-
+    
     func test_stressTestWithLargeNumberOfOperations() {
         var value = 0
         let iterations = 100_000
         let expectation = XCTestExpectation(description: #function)
-
+        
         DispatchQueue.concurrentPerform(iterations: iterations) { _ in
             lockManager.execute {
                 value += 1
             }
         }
-
+        
         // Allow some time for the concurrent operations to finish
         DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
             XCTAssertEqual(value, iterations)
             expectation.fulfill()
         }
-
-        wait(for: [expectation], timeout: 10)
+        
+        wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
-
-
-
+    
+    
+    
     func test_concurrentExecutionWithDelays() {
         var value = 0
         let iterations = 100
         let expectation = XCTestExpectation(description: #function)
         let queue = DispatchQueue(label: "delayedExecutionQueue", attributes: .concurrent)
-
+        
         DispatchQueue.concurrentPerform(iterations: iterations) { _ in
             queue.async {
                 self.lockManager.execute {
@@ -174,14 +174,14 @@ final class UnfairLockManager_Tests: XCTestCase {
                 }
             }
         }
-
+        
         // Allow some time for the concurrent operations to finish
         DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
             XCTAssertEqual(value, iterations)
             expectation.fulfill()
         }
-
-        wait(for: [expectation], timeout: 5)
+        
+        wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
     
     func test_highContentionWithTryLock() {
@@ -190,7 +190,7 @@ final class UnfairLockManager_Tests: XCTestCase {
         let iterations = 10_000
         let expectation = XCTestExpectation(description: #function)
         let queue = DispatchQueue(label: #function, attributes: .concurrent)
-
+        
         DispatchQueue.concurrentPerform(iterations: iterations) { _ in
             queue.async {
                 if self.lockManager.tryLock() {
@@ -201,40 +201,40 @@ final class UnfairLockManager_Tests: XCTestCase {
                 }
             }
         }
-
+        
         // Allow some time for the concurrent operations to finish
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
             XCTAssertEqual(successCount + failureCount, iterations)
             XCTAssertGreaterThan(successCount, 0)
             expectation.fulfill()
         }
-
-        wait(for: [expectation], timeout: 5)
+        
+        wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
-
+    
     func test_simultaneousReadsAndWritesWithLock() {
         var value = 0
         let iterations = 1_000
         let expectation = XCTestExpectation(description: #function)
         let queue = DispatchQueue(label: #function, attributes: .concurrent)
         var readResults = [Int]()
-
+        
         DispatchQueue.concurrentPerform(iterations: iterations) { i in
             queue.async {
                 self.lockManager.lock()
                 value += 1
                 self.lockManager.unlock()
-
+                
                 self.lockManager.lock()
                 let readValue = value
                 self.lockManager.unlock()
-
+                
                 queue.async(flags: .barrier) {
                     readResults.append(readValue)
                 }
             }
         }
-
+        
         // Allow some time for the concurrent operations to finish
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
             XCTAssertEqual(readResults.count, iterations)
@@ -242,8 +242,8 @@ final class UnfairLockManager_Tests: XCTestCase {
             XCTAssertTrue(readResults.allSatisfy { $0 == readResults.first })
             expectation.fulfill()
         }
-
-        wait(for: [expectation], timeout: 5)
+        
+        wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
 }
 
