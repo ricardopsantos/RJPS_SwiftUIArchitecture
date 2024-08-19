@@ -48,7 +48,7 @@ class SampleWebAPI_Tests: XCTestCase {
             return
         }
         var counter = 0
-        sampleWebAPIUseCase.fetchEmployeesAvailabilityGenericPublisher()
+        sampleWebAPIUseCase.fetchEmployeesPublisher()
             .sinkToReceiveValue { some in
                 switch some {
                 case .success:
@@ -64,7 +64,7 @@ class SampleWebAPI_Tests: XCTestCase {
             XCTAssert(true)
             return
         }
-        let value = try? await sampleWebAPIUseCase.fetchEmployeesAvailabilityGenericAsync()
+        let value = try? await sampleWebAPIUseCase.fetchEmployeesAsync()
         await expect(value != nil).toEventually(beTrue(), timeout: .seconds(TestsGlobal.timeout))
     }
 
@@ -74,7 +74,7 @@ class SampleWebAPI_Tests: XCTestCase {
             return
         }
         var counter = 0
-        sampleWebAPIUseCase.fetchEmployeesAvailabilityCustom(cachePolicy: .cacheElseLoad)
+        sampleWebAPIUseCase.fetchEmployees(cachePolicy: .cacheElseLoad)
             .sinkToReceiveValue { some in
                 switch some {
                 case .success:
@@ -91,7 +91,7 @@ class SampleWebAPI_Tests: XCTestCase {
             return
         }
         var counter = 0
-        sampleWebAPIUseCase.fetchEmployeesAvailabilityGenericPublisher(cachePolicy: .cacheElseLoad)
+        sampleWebAPIUseCase.fetchEmployees(cachePolicy: .cacheElseLoad)
             .sinkToReceiveValue { some in
                 switch some {
                 case .success:
@@ -140,7 +140,7 @@ class SampleWebAPI_Tests: XCTestCase {
 
         let request = URLRequest(url: URL(string: server.url)!)
         do {
-            try await urlSession.data(for: request)
+            _ = try await urlSession.data(for: request)
             XCTAssert(true)
         } catch {
             XCTAssert(false)
@@ -159,7 +159,7 @@ class SampleWebAPI_Tests: XCTestCase {
 
         let request = URLRequest(url: URL(string: server.url)!)
         do {
-            try await urlSession.data(for: request)
+            _ = try await urlSession.data(for: request)
             XCTAssert(true)
         } catch {
             XCTAssert(false)

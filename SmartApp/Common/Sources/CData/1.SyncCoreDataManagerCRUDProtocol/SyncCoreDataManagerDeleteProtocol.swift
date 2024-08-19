@@ -7,7 +7,7 @@ import Foundation
 import CoreData
 
 //
-// Just use anywhere hearn the protocol extension behaviour
+// Just use anywhere earn the protocol extension behaviour
 // Inspired on : https://medium.com/dev-genius/ios-core-data-with-sugar-syntax-ef53a0e06efe
 //
 
@@ -18,6 +18,6 @@ public protocol SyncCoreDataManagerDeleteProtocol {
 
 public extension SyncCoreDataManagerDeleteProtocol {
     func delete(request: NSFetchRequest<NSFetchRequestResult>) {
-        CommonCoreData.Utils.delete(context: viewContext, request: request)
+        CommonCoreData.Utils.batchDelete(context: viewContext, request: request)
     }
 }

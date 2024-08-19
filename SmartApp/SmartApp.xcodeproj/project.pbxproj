@@ -382,6 +382,7 @@
 		D77DFB82549FEC2F91AD6C44 /* LoginAndSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8869CC081A4CE3C6D6BAC /* LoginAndSessionTests.swift */; };
 		D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */; };
 		D7EB39492C7260DC0006CE0C /* VM.SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EB39482C7260DC0006CE0C /* VM.SplashViewModel.swift */; };
+		D7EB394B2C726A6E0006CE0C /* AsyncAwaitMainActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EB394A2C726A6E0006CE0C /* AsyncAwaitMainActor.swift */; };
 		D88E49AE9344ADEC9BE1BBB6 /* DispatchQueueVsOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FF13C98F76F1A195728006 /* DispatchQueueVsOperationQueue.swift */; };
 		D8FC857887AF7D20A3D14826 /* ModelDtoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */; };
 		D9F004ECD5CB0FD2E87BD627 /* ModelDto+UpdateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7ADEDCA2B161252C22CB97 /* ModelDto+UpdateUserResponse.swift */; };
@@ -1035,6 +1036,7 @@
 		D610E9C15F645141AA91565A /* GoogleService-Info-com.ricardo.app.id.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info-com.ricardo.app.id.plist"; sourceTree = "<group>"; };
 		D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDtoProtocol.swift; sourceTree = "<group>"; };
 		D7EB39482C7260DC0006CE0C /* VM.SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VM.SplashViewModel.swift; sourceTree = "<group>"; };
+		D7EB394A2C726A6E0006CE0C /* AsyncAwaitMainActor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncAwaitMainActor.swift; sourceTree = "<group>"; };
 		D7F63A8944886705347BFA87 /* UIScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extensions.swift"; sourceTree = "<group>"; };
 		D8AB95F4DBCB362FB08BD60C /* V.PopulationStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.PopulationStateView.swift; sourceTree = "<group>"; };
 		D970FE1EDEA881819AF775BA /* host.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = host.png; sourceTree = "<group>"; };
@@ -2296,6 +2298,7 @@
 				CBC7F1964EDD1615D9665DC2 /* SampleCounter */,
 				E402B2CB35A3F100BA9E1DBE /* ShowCaseViews */,
 				E96E08378B84FA5FE8E27DE0 /* AsyncAwait.swift */,
+				D7EB394A2C726A6E0006CE0C /* AsyncAwaitMainActor.swift */,
 				A893D925BC7D1BAA3F27CDE4 /* CommonLearnings.swift */,
 				60FF13C98F76F1A195728006 /* DispatchQueueVsOperationQueue.swift */,
 				4A11AB8E60F3EEE3A1A9D692 /* SomeVsAny.swift */,
@@ -3422,6 +3425,7 @@
 				110BBF9AB478BEF47D925A0C /* JSONDecoder+Extensions.swift in Sources */,
 				53402196F40422F66147E6C5 /* Just+Extensions.swift in Sources */,
 				922E6F9C40C25A8613035F74 /* KeyPathStudy.swift in Sources */,
+				D7EB394B2C726A6E0006CE0C /* AsyncAwaitMainActor.swift in Sources */,
 				15DD6DCD7BFFD8B5FFE39E70 /* KeyboardManager.swift in Sources */,
 				A8847F1696E14DB2A2418201 /* KeyboardPinToTextField.swift in Sources */,
 				DDD402B226D75792098A72A0 /* KeyboardState.swift in Sources */,

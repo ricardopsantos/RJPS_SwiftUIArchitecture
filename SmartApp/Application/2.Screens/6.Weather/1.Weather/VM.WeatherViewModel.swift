@@ -104,7 +104,7 @@ class WeatherViewModel: BaseViewModel {
             }
             citiesCount += 1
         case .getWeatherData(userLatitude: let userLatitude, userLongitude: let userLongitude):
-            Task { @MainActor [weak self] in
+            Task { [weak self] in
                 guard let self = self else { return }
                 loadingModel = .loading(message: "Loading".localizedMissing)
                 var newValueForModel: [WeatherModel] = [] // Use acc to avoid UI redraws

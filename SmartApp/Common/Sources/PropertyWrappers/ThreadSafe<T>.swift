@@ -6,48 +6,23 @@
 import Foundation
 
 //
-// MARK: - ThreadSafeV1
-//
-public extension Common_PropertyWrappers {
-    @propertyWrapper
-    struct ThreadSafeV1<T> {
-        private let synchronizedQueue = DispatchQueue(
-            label: "\(Common.self)_\(T.self)_\(UUID().uuidString)",
-            attributes: .concurrent
-        )
-        private var objectValue: T!
-
-        public init(wrappedValue value: T) {
-            self.objectValue = value
-        }
-
-        /// The underlying value wrapped by the bindable state.
-        /// The property that stores the wrapped value of the property. It is the value that is accessed when the property is read or written.
-        public var wrappedValue: T {
-            get { synchronizedQueue.sync { objectValue } }
-            set { synchronizedQueue.sync(flags: .barrier) { objectValue = newValue } }
-        }
-    }
-}
-
-fileprivate extension Common_PropertyWrappers.ThreadSafeV1 {
-    static func sampleUsage() {
-        @Common_PropertyWrappers.ThreadSafeV1 var presentedIDS: [String] = []
-    }
-}
-
-//
 // MARK: - ThreadSafeV2
 //
 // https://betterprogramming.pub/mastering-thread-safety-in-swift-with-one-runtime-trick-260c358a7515
 //
 public extension Common_PropertyWrappers {
-    final class ThreadSafeV2<T> {
+    
+    @propertyWrapper
+    final class ThreadSafe<T> {
+        
+        private let lock = Common.UnfairLockManager()
+        private var value: T
+        
         public init(wrappedValue: T) {
             self.value = wrappedValue
         }
 
-        public var projectedValue: ThreadSafeV2<T> { self }
+        public var projectedValue: ThreadSafe<T> { self }
 
         // swiftlint:disable implicit_getter
         public var wrappedValue: T {
@@ -73,11 +48,5 @@ public extension Common_PropertyWrappers {
             lock.lock(); defer { self.lock.unlock() }
             return f(&value)
         }
-
-        // MARK: Private
-
-        private let lock = Common.LockManagerV2()
-
-        private var value: T
     }
 }

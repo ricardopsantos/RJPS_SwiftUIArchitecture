@@ -34,7 +34,7 @@ public extension CommonNetworking.NetworkAgentClient {
             .dataTaskPublisher(for: request)
             .handleEvents(receiveSubscription: { _ in
                 if logger.logOperationTime {
-                    Common.CronometerManager.startTimerWith(identifier: cronometerId)
+                    Common_CronometerManager.startTimerWith(identifier: cronometerId)
                 }
                 if logger.dumpRequest {
                     Common_Logs.debug("⤴️ Request\(number) ⤴️ \(prefix)\(request)")
@@ -44,7 +44,7 @@ public extension CommonNetworking.NetworkAgentClient {
             .tryMap { result -> CommonNetworking.Response<T> in
 
                 if logger.logOperationTime {
-                    Common.CronometerManager.timeElapsed(cronometerId, print: true)
+                    Common_CronometerManager.timeElapsed(cronometerId, print: true)
                 }
 
                 let statusCode = (result.response as? HTTPURLResponse)?.statusCode ?? -1

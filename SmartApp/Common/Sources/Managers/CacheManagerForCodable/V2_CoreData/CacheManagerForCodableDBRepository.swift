@@ -84,19 +84,10 @@ extension Common.CacheManagerForCodableCoreDataRepository: CodableCacheManagerPr
         guard recordCount ?? 0 > 0 else {
             return
         }
-        let success = CommonCoreData.Utils.delete(context: context, request: fetchRequest)
+        let success = CommonCoreData.Utils.batchDelete(context: context, request: fetchRequest)
         if !success {
             Common_Logs.error("Failed to delete \(CDataExpiringKeyValueEntity.self) records")
         }
-        /*
-         let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-         do {
-             try context.execute(batchDeleteRequest)
-             try context.save()
-         } catch {
-             Common_Logs.error("Failed to delete \(CDataExpiringKeyValueEntity.self) records: \(error.localizedDescription)")
-             context.rollback()
-         }*/
     }
 
     public func syncAllCachedKeys() -> [(String, Date)] {

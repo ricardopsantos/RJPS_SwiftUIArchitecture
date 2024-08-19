@@ -12,3 +12,13 @@ public extension CDataCRUDEntity {
         .init(id: id ?? "", name: name ?? "", recordDate: recordDate ?? .now)
     }
 }
+
+public extension CommonCoreData.Utils.Sample.CRUDEntity {
+    var mapToDic: [String: Any] {
+        [
+            "id": id,
+            "name": name,
+            "recordDate": recordDate
+        ]
+    }
+}

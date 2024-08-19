@@ -76,6 +76,7 @@ public extension CommonNetworking {
             downsample: CGSize?,
             completion: @escaping ((UIImage?) -> Void)
         ) {
+            let lock = Common.UnfairLockManagerWithKey()
             let lockEnabled = false
             let cachedImageName = "\(Self.cachedImagesPrefix)" + "_" + url.absoluteString.sha1 + ".png"
             func returnImage(_ image: UIImage?) {
@@ -88,7 +89,7 @@ public extension CommonNetworking {
                         DispatchQueue.executeInMainTread { completion(image) }
                     }
                     if lockEnabled {
-                        Common.LockManagerV1.shared.unlock(key: cachedImageName)
+                        lock.unlock(key: cachedImageName)
                     }
                 }
             }
@@ -96,7 +97,7 @@ public extension CommonNetworking {
             Common_Utils.executeInBackgroundTread {
                 autoreleasepool {
                     if lockEnabled {
-                        Common.LockManagerV1.shared.lock(key: cachedImageName)
+                        lock.lock(key: cachedImageName)
                     }
                     if caching == .hot || caching == .hotElseCold,
                        let cachedImage = _imagesCache.object(forKey: cachedImageName as NSString) {

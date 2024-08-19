@@ -73,7 +73,7 @@ class PopulationStateViewModel: BaseViewModel {
         case .didDisappear:
             ()
         case .getPopulationData:
-            Task { @MainActor in
+            Task { 
                 loadingModel = .loading(message: "Loading".localized)
                 model = []
                 do {

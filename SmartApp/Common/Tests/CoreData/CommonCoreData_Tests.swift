@@ -9,8 +9,7 @@ import Combine
 import Nimble
 //
 @testable import Common
-class CommonCoreData_Tests: XCTestCase {
-    let stressLoadValue = 1_000
+class CommonCoreData_CRUDTests: XCTestCase {
 
     func enabled() -> Bool {
         true
@@ -31,7 +30,7 @@ class CommonCoreData_Tests: XCTestCase {
 //
 // MARK: - CRUD
 //
-extension CommonCoreData_Tests {
+extension CommonCoreData_CRUDTests {
     func testA1_syncCRUD() {
         guard enabled() else {
             XCTAssert(true)
@@ -42,12 +41,19 @@ extension CommonCoreData_Tests {
         bd.syncClearAll()
         XCTAssert(bd.syncRecordCount() == 0)
 
+        // Batch Insert
+        bd.syncClearAll()
+        bd.syncStoreBatch([.random, .random, .random])
+        XCTAssert(bd.syncRecordCount() == 3)
+        XCTAssert(bd.syncRecordCount() == bd.syncAllIds().count)
+        
         // Insert
+        bd.syncClearAll()
         var toStore: CommonCoreData.Utils.Sample.CRUDEntity = .random
         bd.syncStore(toStore)
         XCTAssert(bd.syncRecordCount() == 1)
         XCTAssert(bd.syncRecordCount() == bd.syncAllIds().count)
-
+        
         // Get
         var stored = bd.syncRetrieve(key: toStore.id)
         XCTAssert(stored == toStore)
@@ -86,13 +92,22 @@ extension CommonCoreData_Tests {
         XCTAssert(count1 == 0)
         XCTAssert(count1 == count2)
 
+        // Batch Insert
+        await bd.aSyncClearAll()
+        await bd.aSyncStoreBatch([.random, .random, .random])
+        let count3 = await bd.aSyncRecordCount()
+        XCTAssert(count3 == 3)
+        
+        // Insert
+        bd.syncClearAll()
+        
         // Insert
         var toStore: CommonCoreData.Utils.Sample.CRUDEntity = .random
         await bd.aSyncStore(toStore)
 
         // Records count
-        let count3 = await bd.aSyncRecordCount()
-        XCTAssert(count3 == 1)
+        let count4 = await bd.aSyncRecordCount()
+        XCTAssert(count4 == 1)
 
         // Get
         var stored = await bd.aSyncRetrieve(key: toStore.id)
@@ -118,43 +133,24 @@ extension CommonCoreData_Tests {
             XCTAssert(false)
         }
     }
-}
-
-//
-// MARK: - OverLoad
-//
-extension CommonCoreData_Tests {
-    func testB1_syncOverLoad() {
+    
+    func testB1_syncDelete() {
         guard enabled() else {
             XCTAssert(true)
             return
         }
+        bd.syncStore(.random)
         bd.syncClearAll()
-        for _ in 1...stressLoadValue {
-            bd.syncStore(.random)
-        }
         let stored = bd.syncRecordCount()
-        XCTAssert(stored == stressLoadValue)
+        XCTAssert(stored == 0)
     }
-
-    func testB2_aSyncOverLoad() async {
-        guard enabled() else {
-            XCTAssert(true)
-            return
-        }
-        await bd.aSyncClearAll()
-        for _ in 1...stressLoadValue {
-            await bd.aSyncStore(.random)
-        }
-        let stored = await bd.aSyncRecordCount()
-        XCTAssert(stored == stressLoadValue)
-    }
+    
 }
 
 //
 // MARK: - Others
 //
-extension CommonCoreData_Tests {
+extension CommonCoreData_CRUDTests {
     func testC1_mergeContext1() async {
         guard enabled() else {
             XCTAssert(true)
@@ -272,4 +268,6 @@ extension CommonCoreData_Tests {
             timeout: .seconds(TestsGlobal.timeout)
         )
     }
+
+
 }

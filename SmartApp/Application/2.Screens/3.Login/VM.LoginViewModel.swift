@@ -79,7 +79,7 @@ class LoginViewModel: BaseViewModel {
             )
         case .didDisappear: ()
         case .doLogin(email: let email, password: let password):
-            Task { @MainActor in
+            Task {
                 do {
                     let user = Model.User(email: email, password: password)
                     try await authenticationViewModel.login(user: user)

@@ -60,14 +60,14 @@ public extension CronometerAverageMetrics {
     // Starts the timer for a given key by building an identifier and passing it to the CronometerManager.
     func start(key: String) {
         let identifier = buildKey(with: key)
-        Common.CronometerManager.startTimerWith(identifier: identifier)
+        Common_CronometerManager.startTimerWith(identifier: identifier)
     }
 
     // Ends the timer for a given key, updates the metrics, saves to UserDefaults, and returns the elapsed time.
     @discardableResult
     func end(key: String) -> Double {
         let identifier = buildKey(with: key)
-        let time = Common.CronometerManager.timeElapsed(identifier)
+        let time = Common_CronometerManager.timeElapsed(identifier)
         updateMetrics(key: identifier, time: time)
         saveToUserDefaults()
         return time ?? 0
@@ -89,7 +89,7 @@ public extension CronometerAverageMetrics {
             let averageTime = count > 0 ? totalTime / count : 0.0
             var metrics: [String: String] = [:]
             metrics["total"] = Int(count).description
-            metrics["avg"] = String(format: "%.2f", averageTime)
+            metrics["avg"] = String(format: "%.6f", averageTime)
             result[key] = metrics
         }
         return result

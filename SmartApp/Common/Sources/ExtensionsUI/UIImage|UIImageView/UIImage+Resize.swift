@@ -202,27 +202,27 @@ public extension UIImage {
         printReport(image: original, name: "original")
 
         let method1Id = "50%"
-        Common.CronometerManager.startTimerWith(identifier: method1Id)
+        Common_CronometerManager.startTimerWith(identifier: method1Id)
         printReport(image: original.resize(percentage: 0.5), name: method1Id)
-        Common.CronometerManager.timeElapsed(method1Id, print: true)
+        Common_CronometerManager.timeElapsed(method1Id, print: true)
 
         let method2Id = "originalImageHalfSize"
-        Common.CronometerManager.startTimerWith(identifier: method2Id)
+        Common_CronometerManager.startTimerWith(identifier: method2Id)
         printReport(image: original.resize(size: originalImageHalfSize), name: method2Id)
-        Common.CronometerManager.timeElapsed(method2Id, print: true)
+        Common_CronometerManager.timeElapsed(method2Id, print: true)
 
         let method3Id = "resizeToFitMaxSize"
-        Common.CronometerManager.startTimerWith(identifier: method3Id)
+        Common_CronometerManager.startTimerWith(identifier: method3Id)
         printReport(image: original.resizeToFitMaxSize(
             maxWidth: originalImageHalfSize.width,
             maxHeight: originalImageHalfSize.height
         ), name: method3Id)
-        Common.CronometerManager.timeElapsed(method3Id, print: true)
+        Common_CronometerManager.timeElapsed(method3Id, print: true)
 
         let method4Id = "downsample"
-        Common.CronometerManager.startTimerWith(identifier: method4Id)
+        Common_CronometerManager.startTimerWith(identifier: method4Id)
         printReport(image: UIImage.downsample(image: original, size: originalImageHalfSize), name: method4Id)
-        Common.CronometerManager.timeElapsed(method4Id, print: true)
+        Common_CronometerManager.timeElapsed(method4Id, print: true)
 
         /**
           original, dim: 5000x5000, size: 82124962

@@ -75,7 +75,7 @@ class WeatherDetailsViewModel: BaseViewModel {
             send(action: .load)
         case .didDisappear: ()
         case .load:
-            Task { @MainActor [weak self] in
+            Task { [weak self] in
                 guard let self = self else { return }
                 self.loadingModel = .loading(message: "Loading".localizedMissing)
                 if let latitude = model?.latitude, let longitude = model?.longitude {

@@ -84,7 +84,7 @@ struct SplashView: View, ViewProtocol {
             viewModel.send(action: .didDisappear)
         }
         .onAppear {
-            let animationDuration = Common.Constants.defaultAnimationsTime * 2
+            let animationDuration = Common.Constants.defaultAnimationsTime
             let animationDelay = animationDuration
             withAnimation(.linear(duration: animationDuration).delay(animationDelay)) {
                 logoOpacity = 1

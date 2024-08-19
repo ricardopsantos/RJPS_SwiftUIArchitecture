@@ -27,7 +27,7 @@ import Foundation
  */
 
 public typealias PWKeyboardState = Common_PropertyWrappers.KeyboardState
-public typealias PWThreadSafe = Common_PropertyWrappers.ThreadSafeV1
+public typealias PWThreadSafe = Common_PropertyWrappers.ThreadSafe
 public typealias PWUserDefaults = Common_PropertyWrappers.UserDefaults
 public typealias PWKeychainStorageV1 = Common_PropertyWrappers.KeychainStorageV1
 public typealias PWKeychainStorageV2 = Common_PropertyWrappers.KeychainStorageV2

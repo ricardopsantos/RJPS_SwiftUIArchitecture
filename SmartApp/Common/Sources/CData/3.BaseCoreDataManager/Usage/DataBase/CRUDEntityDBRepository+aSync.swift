@@ -27,6 +27,25 @@ extension CommonCoreData.Utils.Sample.CRUDEntityDBRepository {
         }
     }
 
+    func aSyncStoreBatch(_ models: [CommonCoreData.Utils.Sample.CRUDEntity]) async {
+        typealias DBEntity = CDataCRUDEntity
+        let context = backgroundContext // Use a background context to perform the operation asynchronously
+        await withCheckedContinuation { [weak context] continuation in
+            context?.performAndWait { [weak context] in
+                guard let context = context else {
+                    return
+                }
+                let batchRequest = NSBatchInsertRequest(entity: DBEntity.entity(), objects: models.map { model in
+                    model.mapToDic
+                })
+                if context.hasChanges || Common_Utils.true { // Dont check for changes on Batch, they don't appear
+                    _ = try? context.execute(batchRequest)
+                }
+                continuation.resume()
+            }
+        }
+    }
+    
     func aSyncUpdate(_ model: CommonCoreData.Utils.Sample.CRUDEntity) async {
         typealias DBEntity = CDataCRUDEntity
         let context = backgroundContext // Use a background context to perform the operation asynchronously
@@ -87,7 +106,7 @@ extension CommonCoreData.Utils.Sample.CRUDEntityDBRepository {
                 guard let context = context else {
                     return
                 }
-                CommonCoreData.Utils.delete(context: context, request: DBEntity.fetchRequest())
+                CommonCoreData.Utils.batchDelete(context: context, request: DBEntity.fetchRequest())
                 continuation.resume()
             }
         }

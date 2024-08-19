@@ -12,7 +12,7 @@ import CoreData
 
 public extension CommonCoreData.Utils {
     @discardableResult
-    static func delete(
+    static func batchDelete(
         context: NSManagedObjectContext,
         request: NSFetchRequest<NSFetchRequestResult>
     ) -> Bool {

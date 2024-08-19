@@ -30,3 +30,18 @@ public enum TestsGlobal {
         Bundle(for: CommonBundleFinder.self).bundleIdentifier ?? ""
     }
 }
+
+func averageOperationTime(iterations: Int,
+                          precondition: ()->(),
+                          operation:()->(),
+                          onComplete:(Double)->()) {
+    var timeElapsed: Double = 0
+    for _ in 1...iterations {
+        precondition()
+        timeElapsed += Common_CronometerManager.measure {
+            operation()
+        }
+    }
+    let average = timeElapsed / Double(iterations)
+    onComplete(average)
+}

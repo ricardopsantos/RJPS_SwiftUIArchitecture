@@ -8,36 +8,40 @@ import UIKit
 public extension Common {
     enum CronometerManager {
         /**
-         * Common.CronometerManager.printTimeElapsedWhenRunningCode("nthPrimeNumber")
+         * Common_CronometerManager.printTimeElapsedWhenRunningCode("nthPrimeNumber")
          * {
-         *    log(Common.CronometerManager.nthPrimeNumber(10000))
+         *    log(Common_CronometerManager.nthPrimeNumber(10000))
          * }
          */
         @discardableResult
-        public static func printTimeElapsedWhenRunningCode(_ title: String, operation: () -> Void) -> Double {
+        public static func measure(operation: () -> Void, printResult: Bool = false) -> Double {
             let startTime = CFAbsoluteTimeGetCurrent()
             operation()
             let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
-            LogsManager.debug("Time elapsed for \(title): \(timeElapsed)s")
+            if printResult {
+                LogsManager.debug("Time elapsed: \(timeElapsed)s")
+            }
             return timeElapsed
         }
 
-        public static func timeElapsedInSecondsWhenRunningCode(_ operation: () -> Void) -> Double {
+        public static func measureAverage(iterations: Int, operation: () -> Void, printResult: Bool = false) -> Double {
             let startTime = CFAbsoluteTimeGetCurrent()
-            operation()
+            for _ in 1...iterations {
+                operation()
+            }
             let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
-            return Double(timeElapsed)
+            return timeElapsed/Double(iterations)
         }
 
         @PWThreadSafe private static var times: [String: CFAbsoluteTime] = [:]
 
-        public static func startTimerWith(identifier: String? = "") {
+        public static func startTimerWith(identifier: String? = "\(Common_CronometerManager.self)") {
             times.removeValue(forKey: identifier ?? "")
             times[identifier ?? ""] = CFAbsoluteTimeGetCurrent()
         }
 
         @discardableResult
-        public static func timeElapsed(_ identifier: String? = "", print: Bool = false) -> Double? {
+        public static func timeElapsed(_ identifier: String? = "\(Common_CronometerManager.self)", print: Bool = false) -> Double? {
             var result: Double?
             let identifier = identifier ?? ""
             if let time = times[identifier] {

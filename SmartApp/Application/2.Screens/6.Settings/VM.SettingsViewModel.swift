@@ -97,7 +97,7 @@ class SettingsViewModel: BaseViewModel {
             dateOfBirth = user.dateOfBirth ?? .now
             country = user.country ?? ""
         case .performLogout:
-            Task { @MainActor in
+            Task { 
                 do {
                     try await authenticationViewModel?.logout()
                 } catch {
@@ -105,7 +105,7 @@ class SettingsViewModel: BaseViewModel {
                 }
             }
         case .deleteAccount:
-            Task { @MainActor in
+            Task {
                 do {
                     try await authenticationViewModel?.deleteAccount()
                 } catch {
