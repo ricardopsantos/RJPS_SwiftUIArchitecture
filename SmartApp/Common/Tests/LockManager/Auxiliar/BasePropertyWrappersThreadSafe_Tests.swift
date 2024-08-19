@@ -11,14 +11,15 @@ import Nimble
 @testable import Common
 
 protocol TestClassProtocol {
-    var threadSafeValue: Int { set get }
+    var value: Int { set get }
+    mutating func modify()
 }
 
 class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
     func enabled() -> Bool {
         return false
     }
-    func testClass(threadSafeValue: Int) -> any TestClassProtocol {
+    func testClass(value: Int) -> any TestClassProtocol {
         fatalError("Override me")
     }
     
@@ -27,17 +28,17 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
             XCTAssert(true)
             return
         }
-        var testInstance = testClass(threadSafeValue: 0)
+        var testInstance = testClass(value: 0)
         
         let iterations = 1000
         let expectation = XCTestExpectation(description: #function)
         DispatchQueue.concurrentPerform(iterations: iterations) { _ in
-            testInstance.threadSafeValue += 1
+            testInstance.value += 1
         }
         // Allow some time for the concurrent operations to finish
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-            print(testInstance.threadSafeValue)
-            XCTAssert(testInstance.threadSafeValue == iterations)
+            print(testInstance.value)
+            XCTAssert(testInstance.value == iterations)
             expectation.fulfill()
         }
         
@@ -54,7 +55,7 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
             XCTAssert(true)
             return
         }
-        var testInstance = testClass(threadSafeValue: 0)
+        var testInstance = testClass(value: 0)
         
         let iterations = 10_000
         let expectation = XCTestExpectation(description: #function)
@@ -62,13 +63,19 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
         
         DispatchQueue.concurrentPerform(iterations: iterations) { _ in
             queue.async {
-                testInstance.threadSafeValue += 1
+                testInstance.value += 1
+            }
+            queue.sync {
+                testInstance.value += 1
+            }
+            queue.async {
+                testInstance.value += 1
             }
         }
         
         // Allow some time for the concurrent operations to finish
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-            XCTAssertEqual(testInstance.threadSafeValue, iterations)
+            XCTAssertEqual(testInstance.value, iterations * 3)
             expectation.fulfill()
         }
         
@@ -80,7 +87,7 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
             XCTAssert(true)
             return
         }
-        let testInstance = testClass(threadSafeValue: 42)
+        let testInstance = testClass(value: 42)
         
         let iterations = 1_000
         let expectation = XCTestExpectation(description: #function)
@@ -89,7 +96,7 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
         
         DispatchQueue.concurrentPerform(iterations: iterations) { _ in
             queue.async {
-                let value = testInstance.threadSafeValue
+                let value = testInstance.value
                 queue.async(flags: .barrier) {
                     readResults.append(value)
                 }
@@ -111,7 +118,7 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
             XCTAssert(true)
             return
         }
-        var testInstance = testClass(threadSafeValue: 0)
+        var testInstance = testClass(value: 0)
         
         let iterations = 1_000
         let expectation = XCTestExpectation(description: #function)
@@ -120,8 +127,8 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
         
         DispatchQueue.concurrentPerform(iterations: iterations) { _ in
             queue.async {
-                testInstance.threadSafeValue += 1
-                let value = testInstance.threadSafeValue
+                testInstance.value += 1
+                let value = testInstance.value
                 queue.async(flags: .barrier) {
                     readResults.append(value)
                 }
@@ -131,7 +138,7 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
         // Allow some time for the concurrent operations to finish
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
             XCTAssertEqual(readResults.count, iterations)
-            XCTAssertEqual(testInstance.threadSafeValue, iterations)
+            XCTAssertEqual(testInstance.value, iterations)
             expectation.fulfill()
         }
         
@@ -143,23 +150,23 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
             XCTAssert(true)
             return
         }
-        var testInstance = testClass(threadSafeValue: 0)
+        var testInstance = testClass(value: 0)
         
         let incrementIterations = 1_000
         let resetIterations = 10
         let expectation = XCTestExpectation(description: #function)
         
         DispatchQueue.concurrentPerform(iterations: incrementIterations) { _ in
-            testInstance.threadSafeValue += 1
+            testInstance.value += 1
         }
         
         DispatchQueue.concurrentPerform(iterations: resetIterations) { _ in
-            testInstance.threadSafeValue = 0
+            testInstance.value = 0
         }
         
         // Allow some time for the concurrent operations to finish
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-            XCTAssertEqual(testInstance.threadSafeValue, 0)
+            XCTAssertEqual(testInstance.value, 0)
             expectation.fulfill()
         }
         
@@ -171,23 +178,22 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
             XCTAssert(true)
             return
         }
-        var testInstance = testClass(threadSafeValue: Int.max - 1000)
+        var testInstance = testClass(value: Int.max - 1000)
         
         let iterations = 1_000
         let expectation = XCTestExpectation(description: #function)
         
         DispatchQueue.concurrentPerform(iterations: iterations) { _ in
-            testInstance.threadSafeValue += 1
+            testInstance.value += 1
         }
         
         // Allow some time for the concurrent operations to finish
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-            XCTAssertEqual(testInstance.threadSafeValue, Int.max)
+            XCTAssertEqual(testInstance.value, Int.max)
             expectation.fulfill()
         }
         
         wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
-    
 }
 

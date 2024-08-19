@@ -27,6 +27,7 @@ public class BaseViewModel: ObservableObject {
                     self?.alertModel = nil
                 }
 
+                print("Is not dismissing on the tap")
                 // Set the alertModel back with the updated onDismiss
                 self.alertModel = alertModel
                 return

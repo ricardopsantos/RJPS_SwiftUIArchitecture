@@ -50,6 +50,7 @@ struct SmartApp: App {
             self.configuration = config
         }
         self.appState = .init()
+        Tests.sample()
     }
 
     var body: some Scene {

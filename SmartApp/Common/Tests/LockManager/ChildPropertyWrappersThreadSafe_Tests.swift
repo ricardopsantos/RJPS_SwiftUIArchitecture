@@ -14,31 +14,65 @@ import Nimble
 // MARK: - ThreadSafeUnfairLock
 //
 
-struct TestClassThreadSafeUnfairLock: TestClassProtocol {
-    @Common_PropertyWrappers.ThreadSafeUnfairLock var threadSafeValue: Int
-}
-
 class PropertyWrappers_ThreadSafeUnfairLock_Tests: BasePropertyWrappersThreadSafe_Tests {
+    
+    struct TestClass: TestClassProtocol {
+        @Common_PropertyWrappers.ThreadSafeUnfairLock var value: Int
+        mutating func modify() {
+            _ = value
+            value = .random(in: 0 ... 1000)
+        }
+    }
+    
     override func enabled() -> Bool {
         return true
     }
-    override func testClass(threadSafeValue: Int) -> any TestClassProtocol {
-        TestClassThreadSafeUnfairLock(threadSafeValue: threadSafeValue)
+    override func testClass(value: Int) -> any TestClassProtocol {
+        TestClass(value: value)
     }
 }
 
 //
-// MARK: - ThreadSafeUnfairLock
+// MARK: - ThreadSafeDispatchQueue
 //
-struct TestClasseThreadSafeDispatchQueue: TestClassProtocol {
-    @Common_PropertyWrappers.ThreadSafeDispatchQueue var threadSafeValue: Int
-}
 
 class PropertyWrappers_ThreadSafeDispatchQueue_Tests: BasePropertyWrappersThreadSafe_Tests {
+    
+    struct TestClass: TestClassProtocol {
+        @Common_PropertyWrappers.ThreadSafeDispatchQueue var value: Int
+        mutating func modify() {
+            _ = value
+            value = .random(in: 0 ... 1000)
+        }
+    }
+    
+    
     override func enabled() -> Bool {
         return true
     }
-    override func testClass(threadSafeValue: Int) -> any TestClassProtocol {
-        TestClasseThreadSafeDispatchQueue(threadSafeValue: threadSafeValue)
+    override func testClass(value: Int) -> any TestClassProtocol {
+        TestClass(value: value)
+    }
+}
+
+//
+// MARK: - TestClass (not tread safe)
+//
+
+class PropertyWrappers_TestClass_Tests: BasePropertyWrappersThreadSafe_Tests {
+    
+    struct TestClass: TestClassProtocol {
+        var value: Int
+        mutating func modify() {
+            _ = value
+            value = .random(in: 0 ... 1000)
+        }
+    }
+    
+    override func enabled() -> Bool {
+        return true
+    }
+    override func testClass(value: Int) -> any TestClassProtocol {
+        TestClass(value: value)
     }
 }

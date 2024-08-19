@@ -25,9 +25,7 @@ extension BaseView {
                             baseColor.opacity(0.05) // If the background is not visible, we cant tap it
                                 .frame(minWidth: screenWidth)
                         ).onTapGesture {
-                            if let onUserTapGesture = model.onUserTapGesture {
-                                onUserTapGesture()
-                            }
+                            model.onTapGesture()
                         }
                 } else {
                     EmptyView()
