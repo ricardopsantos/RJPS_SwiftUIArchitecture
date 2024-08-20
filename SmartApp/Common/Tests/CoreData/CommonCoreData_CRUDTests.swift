@@ -14,7 +14,7 @@ class CommonCoreData_CRUDTests: XCTestCase {
         true
     }
 
-    var bd: CommonCoreData.Utils.Sample.CRUDEntityDBRepository = {
+    var bd: CommonCoreData.Utils.Sample.DataBaseRepository = {
         .shared
     }()
 

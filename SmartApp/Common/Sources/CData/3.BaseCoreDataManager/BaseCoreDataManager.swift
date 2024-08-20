@@ -47,6 +47,10 @@ public extension CommonCoreData {
             startFetchedResultsController()
         }
 
+        public func save() {
+            saveContext()
+        }
+        
         /// Default View Context
         public var viewContext: NSManagedObjectContext {
             viewContextIsShared() ? lazyViewContext : newViewContextInstance

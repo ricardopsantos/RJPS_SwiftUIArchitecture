@@ -22,7 +22,7 @@ import CoreData
 //
 // MARK: - CRUDEntityDBRepository / Sync Methods
 //
-public extension CommonCoreData.Utils.Sample.CRUDEntityDBRepository {
+public extension CommonCoreData.Utils.Sample.DataBaseRepository {
     func syncStore(_ model: CommonCoreData.Utils.Sample.CRUDEntity) {
         typealias DBEntity = CDataCRUDEntity
         let context = viewContext

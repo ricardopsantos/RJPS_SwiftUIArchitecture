@@ -31,6 +31,7 @@ public extension CommonCoreData.Utils {
     }
 
     @discardableResult
+    /// Saves the context, at the same time it prints debug messages
     static func save(viewContext: NSManagedObjectContext?) -> Bool {
         guard let viewContext, viewContext.hasChanges else {
             return false

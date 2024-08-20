@@ -15,7 +15,7 @@
     </entity>
     <entity name="CDataSinger" representedClassName="CDataSinger" syncable="YES" codeGenerationType="class">
         <attribute name="name" attributeType="String" regularExpressionString="^.+$"/>
-        <relationship name="songs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDataSong" inverseName="singer" inverseEntity="CDataSong"/>
+        <relationship name="songs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDataSong" inverseName="singer" inverseEntity="CDataSong"/>
     </entity>
     <entity name="CDataSong" representedClassName="CDataSong" syncable="YES" codeGenerationType="class">
         <attribute name="releaseDate" attributeType="Date" usesScalarValueType="NO"/>

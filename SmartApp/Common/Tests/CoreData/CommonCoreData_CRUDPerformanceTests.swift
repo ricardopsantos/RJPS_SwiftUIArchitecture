@@ -9,7 +9,7 @@ import Combine
 import Nimble
 //
 @testable import Common
-class CommonCoreData_PerformanceTests: XCTestCase {
+class CommonCoreData_CRUDPerformanceTests: XCTestCase {
     let iterations = 20
     let maxDeviation = 1.1
     let stressLoadValue = 1_000
@@ -18,7 +18,7 @@ class CommonCoreData_PerformanceTests: XCTestCase {
         true
     }
 
-    var bd: CommonCoreData.Utils.Sample.CRUDEntityDBRepository = {
+    var bd: CommonCoreData.Utils.Sample.DataBaseRepository = {
         .shared
     }()
 

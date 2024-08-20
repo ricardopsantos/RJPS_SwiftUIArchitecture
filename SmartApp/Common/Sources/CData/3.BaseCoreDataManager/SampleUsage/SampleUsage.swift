@@ -9,15 +9,15 @@ public extension CommonCoreData.Utils {
 }
 
 public extension CommonCoreData.Utils.Sample {
-    static func test() {
-        testSync()
+    static func crudTest() {
+        crudTestSync()
         Task {
-            await testAsync()
+            await crudTestAsync()
         }
     }
 
-    static func testSync() {
-        let bd = CommonCoreData.Utils.Sample.CRUDEntityDBRepository.shared
+    static func crudTestSync() {
+        let bd = CommonCoreData.Utils.Sample.DataBaseRepository.shared
 
         bd.syncClearAll()
         if bd.syncRecordCount() != 0 {
@@ -55,8 +55,8 @@ public extension CommonCoreData.Utils.Sample {
         }
     }
 
-    static func testAsync() async {
-        let bd = CommonCoreData.Utils.Sample.CRUDEntityDBRepository.shared
+    static func crudTestAsync() async {
+        let bd = CommonCoreData.Utils.Sample.DataBaseRepository.shared
 
         await bd.aSyncClearAll()
         if await bd.aSyncRecordCount() != 0 {

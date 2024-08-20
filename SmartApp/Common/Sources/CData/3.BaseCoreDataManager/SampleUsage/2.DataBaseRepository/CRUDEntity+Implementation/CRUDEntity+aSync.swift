@@ -5,12 +5,24 @@
 import Foundation
 import CoreData
 
+/**
+ 
+ 6 Performance Improvements for Core Data in iOS Apps
 
+ https://stevenpcurtis.medium.com/5-performance-improvements-for-core-data-in-ios-apps-2dbd1ab5d601
+
+ * Avoid using the viewContext for writes and only use it for reads on the main thread.
+ * Only save your managed object context if it has changes to prevent unnecessary work.
+ * Use NSInMemoryStoreType to test your Core Data implementation without hitting the disk.
+ * Consider using multiple managed object contexts to better manage changes and save off the main thread.
+ * Use fetch requests to only access the data you need and be mindful of predicates to avoid over-fetching.
+ * Use batch processing with NSBatchUpdateRequest and NSBatchDeleteRequest to save time and resources when working with large amounts of data.
+ */
 
 //
 // MARK: - CRUDEntityDBRepository / Async Methods
 //
-extension CommonCoreData.Utils.Sample.CRUDEntityDBRepository {
+extension CommonCoreData.Utils.Sample.DataBaseRepository {
     func aSyncStore(_ model: CommonCoreData.Utils.Sample.CRUDEntity) async {
         typealias DBEntity = CDataCRUDEntity
         let context = backgroundContext // Use a background context to perform the operation asynchronously
@@ -23,8 +35,12 @@ extension CommonCoreData.Utils.Sample.CRUDEntityDBRepository {
                 newInstance.id = model.id
                 newInstance.name = model.name
                 newInstance.recordDate = model.recordDate
-                if context.hasChanges {
-                    try? context.save()
+                if Common_Utils.true {
+                    CommonCoreData.Utils.save(viewContext: context)
+                } else {
+                    if context.hasChanges {
+                        try? context.save()
+                    }
                 }
                 continuation.resume()
             }
@@ -62,8 +78,12 @@ extension CommonCoreData.Utils.Sample.CRUDEntityDBRepository {
                 if let existingEntity = instances?.first {
                     existingEntity.name = model.name
                     existingEntity.recordDate = model.recordDate
-                    if context.hasChanges {
-                        try? context.save()
+                    if Common_Utils.true {
+                        CommonCoreData.Utils.save(viewContext: context)
+                    } else {
+                        if context.hasChanges {
+                            try? context.save()
+                        }
                     }
                 }
                 continuation.resume()
@@ -82,8 +102,12 @@ extension CommonCoreData.Utils.Sample.CRUDEntityDBRepository {
                 let instances = try? context.fetch(DBEntity.fetchRequestWith(id: model.id))
                 if let existingEntity = instances?.first {
                     context.delete(existingEntity)
-                    if context.hasChanges {
-                        try? context.save()
+                    if Common_Utils.true {
+                        CommonCoreData.Utils.save(viewContext: context)
+                    } else {
+                        if context.hasChanges {
+                            try? context.save()
+                        }
                     }
                 }
                 continuation.resume()

@@ -10,7 +10,7 @@ import Combine
 // MARK: - CRUDEntityDBRepository
 //
 
-public enum CRUDEntityDBRepositoryOutput: Hashable {
+public enum DataBaseRepositoryOutput: Hashable {
     public enum Generic: Hashable, Sendable {
         case databaseDidInsertedContentOn(_ dbModelName: String, id: String?) // Inserted record
         case databaseDidUpdatedContentOn(_ dbModelName: String, id: String?) // Updated record
@@ -23,11 +23,11 @@ public enum CRUDEntityDBRepositoryOutput: Hashable {
 }
 
 public extension CommonCoreData.Utils.Sample {
-    class CRUDEntityDBRepository: CommonCoreData.BaseCoreDataManager {
-        public typealias OutputType = CRUDEntityDBRepositoryOutput
+    class DataBaseRepository: CommonCoreData.BaseCoreDataManager {
+        public typealias OutputType = DataBaseRepositoryOutput
         public static var output = PassthroughSubject<OutputType, Never>()
         var fetchedResultsController: NSFetchedResultsController<CDataCRUDEntity>?
-        public static var shared = CRUDEntityDBRepository(
+        public static var shared = DataBaseRepository(
             dbName: Common.internalDB,
             dbBundle: Common.bundleIdentifier
         )
@@ -59,7 +59,7 @@ public extension CommonCoreData.Utils.Sample {
 // MARK: Events emission
 //
 
-public extension CommonCoreData.Utils.Sample.CRUDEntityDBRepository {
+public extension CommonCoreData.Utils.Sample.DataBaseRepository {
     func emit(event: OutputType) {
         Self.emit(event: event)
     }
