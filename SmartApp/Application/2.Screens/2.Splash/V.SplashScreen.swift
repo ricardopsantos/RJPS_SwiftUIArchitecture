@@ -37,7 +37,7 @@ struct SplashViewCoordinator: View, ViewCoordinatorProtocol {
         case .splash:
             let dependencies: SplashViewModel.Dependencies = .init(
                 model: .init(),
-                nonSecureAppPreferences: configuration.nonSecureAppPreferences, 
+                nonSecureAppPreferences: configuration.nonSecureAppPreferences,
                 onCompletion: onCompletion
             )
             SplashView(dependencies: dependencies)
@@ -62,10 +62,10 @@ struct SplashView: View, ViewProtocol {
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
     @State private var logoOpacity: Double = 0
-    
+
     // MARK: - Auxiliar Attributes
     let onCompletion: () -> Void
-    
+
     var body: some View {
         BaseView.withLoading(
             sender: "\(Self.self)",
@@ -128,7 +128,7 @@ fileprivate extension SplashView {}
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    SplashViewCoordinator(onCompletion: { })
+    SplashViewCoordinator(onCompletion: {})
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

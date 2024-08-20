@@ -15,18 +15,18 @@ import Nimble
 //
 
 class PropertyWrappers_ThreadSafeUnfairLock_Tests: BasePropertyWrappersThreadSafe_Tests {
-    
     struct TestClass: TestClassProtocol {
         @Common_PropertyWrappers.ThreadSafeUnfairLock var value: Int
         mutating func modify() {
             _ = value
-            value = .random(in: 0 ... 1000)
+            value = .random(in: 0...1000)
         }
     }
-    
+
     override func enabled() -> Bool {
-        return true
+        true
     }
+
     override func testClass(value: Int) -> any TestClassProtocol {
         TestClass(value: value)
     }
@@ -37,19 +37,18 @@ class PropertyWrappers_ThreadSafeUnfairLock_Tests: BasePropertyWrappersThreadSaf
 //
 
 class PropertyWrappers_ThreadSafeDispatchQueue_Tests: BasePropertyWrappersThreadSafe_Tests {
-    
     struct TestClass: TestClassProtocol {
         @Common_PropertyWrappers.ThreadSafeDispatchQueue var value: Int
         mutating func modify() {
             _ = value
-            value = .random(in: 0 ... 1000)
+            value = .random(in: 0...1000)
         }
     }
-    
-    
+
     override func enabled() -> Bool {
-        return true
+        true
     }
+
     override func testClass(value: Int) -> any TestClassProtocol {
         TestClass(value: value)
     }
@@ -60,18 +59,18 @@ class PropertyWrappers_ThreadSafeDispatchQueue_Tests: BasePropertyWrappersThread
 //
 
 class PropertyWrappers_TestClass_Tests: BasePropertyWrappersThreadSafe_Tests {
-    
     struct TestClass: TestClassProtocol {
         var value: Int
         mutating func modify() {
             _ = value
-            value = .random(in: 0 ... 1000)
+            value = .random(in: 0...1000)
         }
     }
-    
+
     override func enabled() -> Bool {
-        return true
+        true
     }
+
     override func testClass(value: Int) -> any TestClassProtocol {
         TestClass(value: value)
     }

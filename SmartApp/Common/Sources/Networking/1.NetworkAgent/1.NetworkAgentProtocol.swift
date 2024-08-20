@@ -9,7 +9,7 @@ import Combine
 public protocol NetworkAgentProtocol {
     var client: CommonNetworking.NetworkAgentClient { get }
     var defaultLogger: CommonNetworking.NetworkLogger { get }
-    
+
     /// Returns `CommonNetworking.Response(modelDto: Decodable, response: Any)`
     func run<T: Decodable>(
         request: URLRequest,
@@ -21,7 +21,7 @@ public protocol NetworkAgentProtocol {
         CommonNetworking.Response<T>,
         CommonNetworking.APIError
     >
-    
+
     func runAsync<T: Decodable>(
         request: URLRequest,
         decoder: JSONDecoder,
@@ -53,7 +53,7 @@ public extension NetworkAgentProtocol {
         }
         .eraseToAnyPublisher()
     }
-    
+
     func runAsync<T: Decodable>(
         request: URLRequest,
         decoder: JSONDecoder = .defaultForWebAPI,

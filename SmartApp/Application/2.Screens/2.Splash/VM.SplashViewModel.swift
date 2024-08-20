@@ -63,7 +63,7 @@ fileprivate extension RootViewModel {}
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    SplashViewCoordinator(onCompletion: { })
+    SplashViewCoordinator(onCompletion: {})
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

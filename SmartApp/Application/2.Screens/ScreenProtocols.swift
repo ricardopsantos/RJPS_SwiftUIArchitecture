@@ -35,7 +35,7 @@ protocol ViewProtocol {
      // MARK: - Usage Attributes
      @Environment(\.dismiss) var dismiss
      @State private var animatedGradient = true
-     
+
      // MARK: - Auxiliar Attributes
      let cancelBag = CancelBag()
      var body: some View {
@@ -47,13 +47,13 @@ protocol ViewProtocol {
              viewModel.send(action: .didDisappear)
          }
      }
-     
+
      var content: some View {
             ...
      }
      ```
      */
-    
+
     associatedtype ViewModel: ObservableObject
     associatedtype ContentView: View
     associatedtype Dependencies
@@ -62,6 +62,4 @@ protocol ViewProtocol {
 
     init(dependencies: Dependencies)
     var content: ContentView { get }
-    
-
 }

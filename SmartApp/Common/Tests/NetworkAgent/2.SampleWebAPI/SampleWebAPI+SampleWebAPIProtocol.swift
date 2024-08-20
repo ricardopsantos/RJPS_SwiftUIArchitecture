@@ -34,7 +34,7 @@ extension SampleWebAPI: SampleWebAPIProtocol {
             )
         }
     }
-    
+
     public func requestPublisher<T: Decodable>(_ api: SampleWebAPIMethods) -> AnyPublisher<T, CommonNetworking.APIError> {
         switch api {
         case .updateEmployee:
@@ -59,7 +59,7 @@ extension SampleWebAPI: SampleWebAPIProtocol {
             .eraseToAnyPublisher()
         }
     }
-    
+
     //
     // MARK: - Verbose/Custom api calls
     //

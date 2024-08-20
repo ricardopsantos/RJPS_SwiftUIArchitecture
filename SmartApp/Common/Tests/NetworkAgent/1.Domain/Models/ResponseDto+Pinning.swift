@@ -9,7 +9,7 @@ import Foundation
 public extension ResponseDto {
     struct Pinning: Codable, Hashable {
         public let codConcelho: String?
-        
+
         enum CodingKeys: String, CodingKey {
             case codConcelho = "cod_concelho"
         }

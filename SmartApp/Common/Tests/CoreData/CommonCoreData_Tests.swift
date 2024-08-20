@@ -10,15 +10,14 @@ import Nimble
 //
 @testable import Common
 class CommonCoreData_CRUDTests: XCTestCase {
-    
     func enabled() -> Bool {
         true
     }
-    
+
     var bd: CommonCoreData.Utils.Sample.CRUDEntityDBRepository = {
         .shared
     }()
-    
+
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
@@ -36,35 +35,35 @@ extension CommonCoreData_CRUDTests {
             XCTAssert(true)
             return
         }
-        
+
         // Records count
         bd.syncClearAll()
         XCTAssert(bd.syncRecordCount() == 0)
-        
+
         // Batch Insert
         bd.syncClearAll()
         bd.syncStoreBatch([.random, .random, .random])
         XCTAssert(bd.syncRecordCount() == 3)
         XCTAssert(bd.syncRecordCount() == bd.syncAllIds().count)
-        
+
         // Insert
         bd.syncClearAll()
         var toStore: CommonCoreData.Utils.Sample.CRUDEntity = .random
         bd.syncStore(toStore)
         XCTAssert(bd.syncRecordCount() == 1)
         XCTAssert(bd.syncRecordCount() == bd.syncAllIds().count)
-        
+
         // Get
         var stored = bd.syncRetrieve(key: toStore.id)
         XCTAssert(stored == toStore)
-        
+
         // Update
         toStore.name = "NewName"
         bd.syncUpdate(toStore)
-        
+
         stored = bd.syncRetrieve(key: toStore.id)
         XCTAssert(stored?.name == "NewName")
-        
+
         // Delete
         if let stored = stored {
             bd.syncDelete(stored)
@@ -78,48 +77,48 @@ extension CommonCoreData_CRUDTests {
             XCTAssert(false)
         }
     }
-    
+
     func testA2_aSyncCRUD() async {
         guard enabled() else {
             XCTAssert(true)
             return
         }
-        
+
         // Records count
         await bd.aSyncClearAll()
         let count1 = await bd.aSyncRecordCount()
         let count2 = await bd.aSyncAllIds().count
         XCTAssert(count1 == 0)
         XCTAssert(count1 == count2)
-        
+
         // Batch Insert
         await bd.aSyncClearAll()
         await bd.aSyncStoreBatch([.random, .random, .random])
         let count3 = await bd.aSyncRecordCount()
         XCTAssert(count3 == 3)
-        
+
         // Insert
         bd.syncClearAll()
-        
+
         // Insert
         var toStore: CommonCoreData.Utils.Sample.CRUDEntity = .random
         await bd.aSyncStore(toStore)
-        
+
         // Records count
         let count4 = await bd.aSyncRecordCount()
         XCTAssert(count4 == 1)
-        
+
         // Get
         var stored = await bd.aSyncRetrieve(key: toStore.id)
         XCTAssert(stored == toStore)
-        
+
         // Update
         toStore.name = "NewName"
         await bd.aSyncUpdate(toStore)
-        
+
         stored = await bd.aSyncRetrieve(key: toStore.id)
         XCTAssert(stored?.name == "NewName")
-        
+
         // Delete
         if let stored = stored {
             await bd.aSyncDelete(stored)
@@ -133,7 +132,7 @@ extension CommonCoreData_CRUDTests {
             XCTAssert(false)
         }
     }
-    
+
     func testB1_syncDelete() {
         guard enabled() else {
             XCTAssert(true)
@@ -144,7 +143,6 @@ extension CommonCoreData_CRUDTests {
         let stored = bd.syncRecordCount()
         XCTAssert(stored == 0)
     }
-    
 }
 
 //
@@ -163,7 +161,7 @@ extension CommonCoreData_CRUDTests {
         let stored = await bd.aSyncRecordCount()
         XCTAssert(stored == 1)
     }
-    
+
     func testC2_mergeContext2() async {
         guard enabled() else {
             XCTAssert(true)
@@ -176,7 +174,7 @@ extension CommonCoreData_CRUDTests {
         let stored = await bd.aSyncRecordCount()
         XCTAssert(stored == 1)
     }
-    
+
     func testC3_emitEventOnDataBaseInsert_test1() {
         guard enabled() else {
             XCTAssert(true)
@@ -202,11 +200,11 @@ extension CommonCoreData_CRUDTests {
                     }
                 }
             }.store(in: TestsGlobal.cancelBag)
-        
+
         Common_Utils.delay { [weak self] in
             self?.bd.syncStore(toStore)
         }
-        
+
         // Verify that the event is emitted
         expect(didFinishChangeContent == 1).toEventually(
             beTrue(),
@@ -225,7 +223,7 @@ extension CommonCoreData_CRUDTests {
             timeout: .seconds(TestsGlobal.timeout)
         )
     }
-    
+
     func testC4_emitEventOnDataBaseInsert_test2() {
         var didInsertedContent = 0
         var didChangedContent = 0
@@ -247,13 +245,13 @@ extension CommonCoreData_CRUDTests {
                     }
                 }
             }.store(in: TestsGlobal.cancelBag)
-        
+
         Common_Utils.delay { [weak self] in
             for _ in 1...numberOfInserts {
                 self?.bd.syncStore(.random)
             }
         }
-        
+
         // Verify that the event is emitted
         expect(didInsertedContent == didInsertedContent).toEventually(
             beTrue(),

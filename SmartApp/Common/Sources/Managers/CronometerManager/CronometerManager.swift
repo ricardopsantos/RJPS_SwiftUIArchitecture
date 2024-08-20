@@ -30,7 +30,7 @@ public extension Common {
                 operation()
             }
             let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
-            return timeElapsed/Double(iterations)
+            return timeElapsed / Double(iterations)
         }
 
         @PWThreadSafe private static var times: [String: CFAbsoluteTime] = [:]

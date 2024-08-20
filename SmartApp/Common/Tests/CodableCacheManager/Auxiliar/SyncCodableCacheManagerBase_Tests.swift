@@ -20,36 +20,36 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
         // Override with implementation
         false
     }
-    
+
     func codableCacheManager() -> CodableCacheManagerProtocol {
         // Override with implementation
         fatalError()
     }
-    
+
     private var sampleWebAPIUseCase: SampleWebAPIUseCase {
         SampleWebAPIUseCase()
     }
-    
+
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
         TestsGlobal.loadedAny = nil
         TestsGlobal.cancelBag.cancel()
     }
-    
+
     func test1_aSyncCRUD() async {
         guard enabled() else {
             XCTAssert(true)
             return
         }
-        
+
         let model = SampleCodableStruct.random
         let key = String.random(10)
         let params = [model.age.description, model.name]
-        
+
         // Store records
         await codableCacheManager().aSyncStore(model, key: key, params: params, timeToLiveMinutes: nil)
-        
+
         if let cached = await codableCacheManager().aSyncRetrieve(
             SampleCodableStruct.self,
             key: key,
@@ -60,10 +60,10 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
         } else {
             XCTAssert(false)
         }
-        
+
         // Delete cache
         await codableCacheManager().aSyncClearAll()
-        
+
         if await codableCacheManager().aSyncRetrieve(
             SampleCodableStruct.self,
             key: key,
@@ -75,20 +75,20 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
             XCTAssert(true)
         }
     }
-    
+
     func test2_syncCRUD() {
         guard enabled() else {
             XCTAssert(true)
             return
         }
-        
+
         let model = SampleCodableStruct.random
         let key = String.random(10)
         let params = [model.age.description, model.name]
-        
+
         // Store records
         codableCacheManager().syncStore(model, key: key, params: params, timeToLiveMinutes: nil)
-        
+
         if let cached = codableCacheManager().syncRetrieve(
             SampleCodableStruct.self,
             key: key,
@@ -99,10 +99,10 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
         } else {
             XCTAssert(false)
         }
-        
+
         // Delete cache
         codableCacheManager().syncClearAll()
-        
+
         if codableCacheManager().syncRetrieve(
             SampleCodableStruct.self,
             key: key,
@@ -114,7 +114,7 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
             XCTAssert(true)
         }
     }
-    
+
     func test3_cachePolicy_ignoringCache() {
         guard enabled() else {
             XCTAssert(true)
@@ -132,7 +132,7 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
             }.store(in: TestsGlobal.cancelBag)
         expect(counter == 1).toEventually(beTrue(), timeout: .seconds(TestsGlobal.timeout))
     }
-    
+
     func test4_cacheElseLoad() {
         guard enabled() else {
             XCTAssert(true)
@@ -150,7 +150,7 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
             }.store(in: TestsGlobal.cancelBag)
         expect(counter).toEventually(equal(1), timeout: .seconds(TestsGlobal.timeout))
     }
-    
+
     func test5_cacheDontLoad() {
         guard enabled() else {
             XCTAssert(true)
@@ -168,7 +168,7 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
             }.store(in: TestsGlobal.cancelBag)
         expect(counter).toEventually(equal(0), timeout: .seconds(TestsGlobal.timeout))
     }
-    
+
     func test6_cacheAndLoadT1() {
         guard enabled() else {
             XCTAssert(true)
@@ -186,7 +186,7 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
             }.store(in: TestsGlobal.cancelBag)
         expect(counter == 1).toEventually(beTrue(), timeout: .seconds(TestsGlobal.timeout))
     }
-    
+
     func test7_cacheAndLoadT2() {
         guard enabled() else {
             XCTAssert(true)
@@ -211,7 +211,7 @@ class SyncCodableCacheManagerBase_Tests: XCTestCase {
             }.store(in: TestsGlobal.cancelBag)
         expect(counter == 2).toEventually(beTrue(), timeout: .seconds(TestsGlobal.timeout))
     }
-    
+
     func test8_fetchingRecordFrom_10000Records() {
         guard enabled() else {
             XCTAssert(true)
@@ -241,7 +241,7 @@ private extension SyncCodableCacheManagerBase_Tests {
             )
         }
     }
-    
+
     func syncFetchFirst() {
         if codableCacheManager().syncRetrieve(
             SampleCodableStruct.self,
@@ -252,7 +252,7 @@ private extension SyncCodableCacheManagerBase_Tests {
             XCTAssert(false)
         }
     }
-    
+
     func syncClearAll() {
         codableCacheManager().syncClearAll()
     }

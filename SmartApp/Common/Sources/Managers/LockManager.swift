@@ -10,10 +10,10 @@ import SwiftUI
 import os
 
 /**
-https://betterprogramming.pub/mastering-thread-safety-in-swift-with-one-runtime-trick-260c358a7515
+ https://betterprogramming.pub/mastering-thread-safety-in-swift-with-one-runtime-trick-260c358a7515
 
- On Apple’s platforms, the os_unfair_lock is the most performance-efficient lock available.
- */
+  On Apple’s platforms, the os_unfair_lock is the most performance-efficient lock available.
+  */
 
 public extension Common {
     // A class that provides thread synchronization using os_unfair_lock
@@ -75,7 +75,6 @@ public extension Common {
         private let pointer: os_unfair_lock_t
     }
 }
-
 
 public extension Common {
     /// A wrapper class for managing multiple locks with unique IDs.

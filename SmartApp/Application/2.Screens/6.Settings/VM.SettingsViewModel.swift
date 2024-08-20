@@ -97,7 +97,7 @@ class SettingsViewModel: BaseViewModel {
             dateOfBirth = user.dateOfBirth ?? .now
             country = user.country ?? ""
         case .performLogout:
-            Task { 
+            Task {
                 do {
                     try await authenticationViewModel?.logout()
                 } catch {

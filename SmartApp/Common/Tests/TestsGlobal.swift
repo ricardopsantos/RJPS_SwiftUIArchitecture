@@ -31,10 +31,12 @@ public enum TestsGlobal {
     }
 }
 
-func averageOperationTime(iterations: Int,
-                          precondition: ()->(),
-                          operation:()->(),
-                          onComplete:(Double)->()) {
+func averageOperationTime(
+    iterations: Int,
+    precondition: () -> Void,
+    operation: () -> Void,
+    onComplete: (Double) -> Void
+) {
     var timeElapsed: Double = 0
     for _ in 1...iterations {
         precondition()

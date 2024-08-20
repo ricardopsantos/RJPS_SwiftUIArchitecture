@@ -50,7 +50,6 @@ public struct AnimatedBackground: ViewModifier {
     private let color2: Color
     public init(
         isVisible: Bool = false,
-
         color1: Color = .red,
         color2: Color = .blue
     ) {

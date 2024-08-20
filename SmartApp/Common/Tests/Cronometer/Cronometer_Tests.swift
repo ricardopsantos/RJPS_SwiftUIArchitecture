@@ -14,7 +14,7 @@ final class Cronometer_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
     }
-    
+
     func test_measure() {
         let operationTime: UInt32 = 1
         let value = Common_CronometerManager.measure {
@@ -24,7 +24,7 @@ final class Cronometer_Tests: XCTestCase {
         let minBond = Double(operationTime) * (1 - (maxDeviation - 1))
         XCTAssert(value < maxBond && value > minBond)
     }
-    
+
     func test_timeElapsed() {
         let operationTime: UInt32 = 1
         Common_CronometerManager.startTimerWith()
@@ -36,4 +36,3 @@ final class Cronometer_Tests: XCTestCase {
         XCTAssert(value < maxBond && value > minBond)
     }
 }
-

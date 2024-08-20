@@ -8,7 +8,7 @@ struct SampleCodableStruct: Codable, Equatable {
     let name: String
     let age: Int
     let height: Double
-    
+
     static var random: SampleCodableStruct {
         let randomName = UUID().uuidString
         let randomAge = Int.random(in: 18...40)

@@ -6,7 +6,7 @@ import Foundation
 import CoreData
 
 /**
- 
+
  6 Performance Improvements for Core Data in iOS Apps
 
  https://stevenpcurtis.medium.com/5-performance-improvements-for-core-data-in-ios-apps-2dbd1ab5d601
@@ -45,7 +45,7 @@ public extension CommonCoreData.Utils.Sample.CRUDEntityDBRepository {
             _ = try? context.execute(batchRequest)
         }
     }
-    
+
     func syncUpdate(_ model: CommonCoreData.Utils.Sample.CRUDEntity) {
         typealias DBEntity = CDataCRUDEntity
         let context = viewContext

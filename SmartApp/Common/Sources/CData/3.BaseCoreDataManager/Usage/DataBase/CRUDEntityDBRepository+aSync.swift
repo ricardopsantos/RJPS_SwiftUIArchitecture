@@ -45,7 +45,7 @@ extension CommonCoreData.Utils.Sample.CRUDEntityDBRepository {
             }
         }
     }
-    
+
     func aSyncUpdate(_ model: CommonCoreData.Utils.Sample.CRUDEntity) async {
         typealias DBEntity = CDataCRUDEntity
         let context = backgroundContext // Use a background context to perform the operation asynchronously

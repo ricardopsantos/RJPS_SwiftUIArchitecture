@@ -10,7 +10,7 @@ final class SyncCodableCacheManagerUserDefaults_Tests: SyncCodableCacheManagerBa
     override func enabled() -> Bool {
         true
     }
-    
+
     override func codableCacheManager() -> CodableCacheManagerProtocol {
         Common.CacheManagerForCodableUserDefaultsRepository.shared
     }
@@ -20,7 +20,7 @@ final class SyncCodableCacheManagerCoreData_Tests: SyncCodableCacheManagerBase_T
     override func enabled() -> Bool {
         true
     }
-    
+
     override func codableCacheManager() -> CodableCacheManagerProtocol {
         Common.CacheManagerForCodableCoreDataRepository.shared
     }

@@ -13,7 +13,7 @@ public protocol SampleWebAPIProtocol {
     //
     func requestAsync<T: Decodable>(_ api: SampleWebAPIMethods) async throws -> T
     func requestPublisher<T: Decodable>(_ api: SampleWebAPIMethods) -> AnyPublisher<T, CommonNetworking.APIError>
-    
+
     //
     // MARK: - Verbose/Custom api calls
     //

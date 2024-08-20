@@ -25,7 +25,7 @@ extension SampleWebAPIMethods {
             return [:]
         }
     }
-    
+
     var parameters: Encodable? {
         switch self {
         case .updateEmployee(let some):
@@ -34,7 +34,7 @@ extension SampleWebAPIMethods {
             return nil
         }
     }
-    
+
     var data: (
         httpMethod: CommonNetworking.HttpMethod,
         serverURL: String,
@@ -55,7 +55,7 @@ extension SampleWebAPIMethods {
             )
         }
     }
-    
+
     /// Sugar name
     var name: String {
         switch self {
@@ -63,15 +63,15 @@ extension SampleWebAPIMethods {
         case .updateEmployee: "updateUser"
         }
     }
-    
+
     var headerValues: [String: String]? {
         nil
     }
-    
+
     var httpBody: [String: Any]? {
         nil
     }
-    
+
     var responseType: CommonNetworking.ResponseFormat {
         .json
     }
