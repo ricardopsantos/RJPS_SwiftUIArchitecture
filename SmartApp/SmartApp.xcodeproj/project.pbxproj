@@ -77,7 +77,6 @@
 		1B656780B775B925042D8DB6 /* Model+LoadingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134B36F44B7F980A6B5DACA8 /* Model+LoadingModel.swift */; };
 		1C096F8C4D1EFFBF442F3C3E /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E237663C47BB81482983EC /* Common.framework */; };
 		1C104001782DDDA9D15D0772 /* V.TitleAndValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D28D96E585A1FF8D9A5BAE6 /* V.TitleAndValue.swift */; };
-		1D206956A1259911EC5B527D /* CRUDEntityDBRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E8640BFA51791FFB13CF03 /* CRUDEntityDBRepository.swift */; };
 		1D312FFCEF07CFCA4AC63F8A /* PreferenceKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C195759181B794D9F1DCB8FF /* PreferenceKeyTests.swift */; };
 		1D5E95916BE014FA5D54823D /* ExecutionControlManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD3CCCF803FFE9EDD5450E4 /* ExecutionControlManager.swift */; };
 		1DB099016DFA60431D3802B7 /* haha.caf in Resources */ = {isa = PBXBuildFile; fileRef = 3D5CB1FD0D8A15B5810A30C5 /* haha.caf */; };
@@ -103,6 +102,7 @@
 		29E7DC6D755D9327A9FFF8C6 /* VoiceOver+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8C32602A7816AA1643F7B /* VoiceOver+Extensions.swift */; };
 		2A1287BDEBA564B6D41BA68B /* SimpleCacheManagerForCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0924F805FDE4E5E8420DDD2E /* SimpleCacheManagerForCodable.swift */; };
 		2A4C6D39882AF6C9C13FA8D8 /* BaseViewModelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7396CFAE74C1C512A1129A /* BaseViewModelsTests.swift */; };
+		2A905479EC488163A4ACA38D /* DBModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7D864980E9E41E0608621831 /* DBModel.xcdatamodeld */; };
 		2ACECB36E773A894CA0B7BDF /* BaseView+NavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04762557FF34F3046B0E37E8 /* BaseView+NavigationModel.swift */; };
 		2B2EE18553F19723C27FA936 /* V.LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BDC2C1EDA666B1DA8F1371 /* V.LoginScreen.swift */; };
 		2B398F401BCA0DFDBAB7A656 /* LockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691EDC95A79072FEB13AB25C /* LockManager.swift */; };
@@ -140,7 +140,6 @@
 		3D94F4D9B22B0789EB6C3DDD /* ModelDto+GetWeatherResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DC7F8F5CB9829B2F56958B /* ModelDto+GetWeatherResponse.swift */; };
 		3E49CED278621E9BAB507840 /* CommonCoreData+Utils+CRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF7A5561D4EDBF5ED7ED087 /* CommonCoreData+Utils+CRUD.swift */; };
 		3E547B69F4114C02543AD2F7 /* SyncCoreDataManagerSaveProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2626DD98436F5758ACB477D /* SyncCoreDataManagerSaveProtocol.swift */; };
-		3E6046FC1E4D9DE66D34272E /* CRUDEntityDBRepository+aSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584550F92181E774A66761C2 /* CRUDEntityDBRepository+aSync.swift */; };
 		3E88A77CE351DEF20B66D682 /* URLResponse+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9487A656E95AA7D91581D6D7 /* URLResponse+Extensions.swift */; };
 		3FEBF9A768BD9DC9CF5A7890 /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ECABF4F12F2F4809F1BEA5 /* UIFont+Extensions.swift */; };
 		40E01339CF37E96F978671C4 /* cheer1.caf in Resources */ = {isa = PBXBuildFile; fileRef = EACA0A660261EFD649010B00 /* cheer1.caf */; };
@@ -373,7 +372,6 @@
 		B9BDB11489E3DF8680CCA738 /* NSObject+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29381BD76A2F550FF186F60 /* NSObject+Extensions.swift */; };
 		B9BF13073F11317437854167 /* V.TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE5CB48F914C8C492A316FF /* V.TabItem.swift */; };
 		BA4B29DDDCCB4CEAD98EF1C9 /* CoreLocationManager+AddressFromCoordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7F5A8A0F2EC34E8B9D1DD5 /* CoreLocationManager+AddressFromCoordinates.swift */; };
-		BBA12E42FBFEEB0314741CF4 /* CRUDEntityDBRepository+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9218FDB69B5749A12C0810 /* CRUDEntityDBRepository+Sync.swift */; };
 		BC415F00E003FC7CADC7B987 /* EncryptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B7BE15DA67FE10C5A767D1 /* EncryptionManager.swift */; };
 		BE0C4CAA9FABB6A3050CCB49 /* CommonLearnings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A893D925BC7D1BAA3F27CDE4 /* CommonLearnings.swift */; };
 		BEB9C3D122A9E96B303DCA8D /* CommonInternalDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B62424DBFF4840810C6C5370 /* CommonInternalDB.xcdatamodeld */; };
@@ -404,7 +402,6 @@
 		D48EDC974862B284AFEA84B3 /* EditUserInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529F60DC22B33BC69184F8FE /* EditUserInfoTests.swift */; };
 		D4D5EA67CC44EA6C15CA3D2F /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E237663C47BB81482983EC /* Common.framework */; };
 		D57806EC90116D0571EB721A /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A02C3DDA4813DC3537C7001 /* AppConstants.swift */; };
-		D7416C652C74FDAD001DD92F /* HitHappens.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D7416C632C74FDAD001DD92F /* HitHappens.xcdatamodeld */; };
 		D77DFB82549FEC2F91AD6C44 /* LoginAndSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8869CC081A4CE3C6D6BAC /* LoginAndSessionTests.swift */; };
 		D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */; };
 		D88E49AE9344ADEC9BE1BBB6 /* DispatchQueueVsOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FF13C98F76F1A195728006 /* DispatchQueueVsOperationQueue.swift */; };
@@ -830,7 +827,6 @@
 		56873D601E04DB0C92D0E74B /* XCTestCase+tap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+tap.swift"; sourceTree = "<group>"; };
 		56B05A60CFF9869BBF84C68F /* DataUSAServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUSAServiceTests.swift; sourceTree = "<group>"; };
 		576BAB7E05CA1ACEE2AB543F /* NetworkMonitorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitorViewModel.swift; sourceTree = "<group>"; };
-		584550F92181E774A66761C2 /* CRUDEntityDBRepository+aSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CRUDEntityDBRepository+aSync.swift"; sourceTree = "<group>"; };
 		58764D8F76BB197A4D4AAEAC /* RequestDtoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestDtoProtocol.swift; sourceTree = "<group>"; };
 		591FC07C8FC8AD6D9DA9839F /* UIViewController+Getters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Getters.swift"; sourceTree = "<group>"; };
 		596BE1FA4A42F0423122127F /* ImagesFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesFileManager.swift; sourceTree = "<group>"; };
@@ -871,6 +867,7 @@
 		67E33C68214301970BA910A3 /* TNConstrainable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TNConstrainable.swift; sourceTree = "<group>"; };
 		691EDC95A79072FEB13AB25C /* LockManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockManager.swift; sourceTree = "<group>"; };
 		697CD3E9340EB0991F2A5D71 /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
+		6999FB33A97EBD81A5A33BEC /* CoreDataExample.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataExample.xcdatamodel; sourceTree = "<group>"; };
 		69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		6AAAEE3A51486D45319FBC6E /* TotalWidthKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalWidthKey.swift; sourceTree = "<group>"; };
 		6ACBDE4A24CA142B823A51FD /* _UITestTemplate.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = _UITestTemplate.yml; sourceTree = "<group>"; };
@@ -959,7 +956,6 @@
 		9AE25C2F540C24DC8E845AC5 /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
 		9B4D0B2A5047E1AC26388B02 /* CLPlacemark+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLPlacemark+Extensions.swift"; sourceTree = "<group>"; };
 		9CFAF2EF5FFD9E8D8304BFBB /* typealias.Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = typealias.Networking.swift; sourceTree = "<group>"; };
-		9D9218FDB69B5749A12C0810 /* CRUDEntityDBRepository+Sync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CRUDEntityDBRepository+Sync.swift"; sourceTree = "<group>"; };
 		9E726AFC7C099323ABD52763 /* error2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error2.png; sourceTree = "<group>"; };
 		9EEF6F8ED70C1FEEAA97C5EA /* Model+PopulationNationDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model+PopulationNationDataResponse.swift"; sourceTree = "<group>"; };
 		9F0A0CE6FBC8EA8A3E51A8CC /* SetupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupManager.swift; sourceTree = "<group>"; };
@@ -1033,7 +1029,6 @@
 		BFF1AFA8BA41146108475A9B /* WeatherServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherServiceMock.swift; sourceTree = "<group>"; };
 		C0BEA3A418A8E3C6EA2F58D8 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		C0C53BBF3EFB01F4720CB745 /* Shapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shapes.swift; sourceTree = "<group>"; };
-		C0E8640BFA51791FFB13CF03 /* CRUDEntityDBRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRUDEntityDBRepository.swift; sourceTree = "<group>"; };
 		C15C93599242F0356B1983D2 /* Text+Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+Extentions.swift"; sourceTree = "<group>"; };
 		C195759181B794D9F1DCB8FF /* PreferenceKeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceKeyTests.swift; sourceTree = "<group>"; };
 		C1A45E1FACD4D5C6C49829B1 /* dev-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "dev-release.xcconfig"; sourceTree = "<group>"; };
@@ -1070,7 +1065,7 @@
 		CF25B8E8319FADB2D8FD9C44 /* UIView+SubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+SubViews.swift"; sourceTree = "<group>"; };
 		CF5D27E7331876E8324571C9 /* incorrect.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = incorrect.caf; sourceTree = "<group>"; };
 		CF72C5AA1B0659553892A26B /* V.UserDetailsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.UserDetailsScreen.swift; sourceTree = "<group>"; };
-		CF9D6C93CE5A73F4A17612DC /* SmartAppUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartAppUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF9D6C93CE5A73F4A17612DC /* SmartAppUnitTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SmartAppUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFBDACDBAABBA43D6E727E40 /* Graph.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Graph.json; sourceTree = "<group>"; };
 		CFCB1B30D9A58AFA7EB41C65 /* github.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = github.png; sourceTree = "<group>"; };
 		CFDA9EF825DA18F8FAB90681 /* GenericRequestWithCodableCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericRequestWithCodableCache.swift; sourceTree = "<group>"; };
@@ -1083,7 +1078,6 @@
 		D39AF1FF52B6F23016067D47 /* CDataCRUDEntity+NSFetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDataCRUDEntity+NSFetchRequest.swift"; sourceTree = "<group>"; };
 		D55DB282E77E9F535E393B7D /* ScreenProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenProtocols.swift; sourceTree = "<group>"; };
 		D610E9C15F645141AA91565A /* GoogleService-Info-com.ricardo.app.id.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info-com.ricardo.app.id.plist"; sourceTree = "<group>"; };
-		D7416C642C74FDAD001DD92F /* CoreDataExample.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataExample.xcdatamodel; sourceTree = "<group>"; };
 		D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDtoProtocol.swift; sourceTree = "<group>"; };
 		D7F63A8944886705347BFA87 /* UIScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extensions.swift"; sourceTree = "<group>"; };
 		D8AB95F4DBCB362FB08BD60C /* V.PopulationStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.PopulationStateView.swift; sourceTree = "<group>"; };
@@ -1370,11 +1364,11 @@
 		1B4FFB01D7D454EDD156ABFC /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				D7416C632C74FDAD001DD92F /* HitHappens.xcdatamodeld */,
 				E2760EB77BE0D729941754B5 /* 1.Enuns */,
 				851D25549FD55C9CD4EB2591 /* 2.Models */,
 				0FB2B8FA1E58BF452A87F487 /* 3.Repositories */,
 				836BFCB190C4BA02BE9043BC /* 4.Services */,
+				7D864980E9E41E0608621831 /* DBModel.xcdatamodeld */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -1775,9 +1769,6 @@
 		5885EEDAAD275722C930F833 /* DataBase */ = {
 			isa = PBXGroup;
 			children = (
-				C0E8640BFA51791FFB13CF03 /* CRUDEntityDBRepository.swift */,
-				584550F92181E774A66761C2 /* CRUDEntityDBRepository+aSync.swift */,
-				9D9218FDB69B5749A12C0810 /* CRUDEntityDBRepository+Sync.swift */,
 				50A87FFDB54E5838EB9101A6 /* NSFetchedResultsControllerDelegate.swift */,
 			);
 			path = DataBase;
@@ -2578,6 +2569,7 @@
 		D1C8DEF9053DDF29227B73EB /* Usage */ = {
 			isa = PBXGroup;
 			children = (
+				FDFE86667BEC1DFF5BF0B93E /* CDSingerAndSongs */,
 				C2011C39B3E2915F1CFA082C /* CRUDEntity */,
 				5885EEDAAD275722C930F833 /* DataBase */,
 				FDA1A57379687F38166FF01A /* 1.Sample.swift */,
@@ -2850,6 +2842,13 @@
 			path = Keypath;
 			sourceTree = "<group>";
 		};
+		FDFE86667BEC1DFF5BF0B93E /* CDSingerAndSongs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CDSingerAndSongs;
+			sourceTree = "<group>";
+		};
 		FEBAE6FDFE54CBB5CC42A7B1 /* 3.Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -3058,9 +3057,6 @@
 				LastUpgradeCheck = 1501;
 				TargetAttributes = {
 					5AAC81C2F85D7CDB5793F1A7 = {
-						TestTargetID = CD8F2FFD550D622D2C2B8BA9;
-					};
-					A3D315A882F4852842A3D0EA = {
 						TestTargetID = CD8F2FFD550D622D2C2B8BA9;
 					};
 					CD8F2FFD550D622D2C2B8BA9 = {
@@ -3279,6 +3275,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A905479EC488163A4ACA38D /* DBModel.xcdatamodeld in Sources */,
 				51D78F0A98813B2F3F8D37F8 /* DataUSAServiceProtocol.swift in Sources */,
 				70EC8DFEC754A55612FC70A2 /* E.AppErrors.swift in Sources */,
 				CCCF1093B8D17DC81347F3EA /* E.Gender.swift in Sources */,
@@ -3293,7 +3290,6 @@
 				77BB6919A90A6AB0CC0D8355 /* Model+PopulationStateDataResponse.swift in Sources */,
 				014828FBD853C47D25ED455E /* Model+User.swift in Sources */,
 				7BDCBC30ADB9864AF011AA4D /* ModelDto+EmployeeRequest.swift in Sources */,
-				D7416C652C74FDAD001DD92F /* HitHappens.xcdatamodeld in Sources */,
 				31EBF97EA24119CAED1A7954 /* ModelDto+EmployeeResponse.swift in Sources */,
 				8F9A14A101B32DB9E9EC06CF /* ModelDto+GetWeatherRequest.swift in Sources */,
 				3D94F4D9B22B0789EB6C3DDD /* ModelDto+GetWeatherResponse.swift in Sources */,
@@ -3476,9 +3472,6 @@
 				A9EBD489AC804C05341E9841 /* CLPlacemark+Extensions.swift in Sources */,
 				85BC08C493CA2ECBAA8858DD /* CRUDEntity+Mappers.swift in Sources */,
 				F9AE17EE0846F65F0EDC2FC8 /* CRUDEntity.swift in Sources */,
-				BBA12E42FBFEEB0314741CF4 /* CRUDEntityDBRepository+Sync.swift in Sources */,
-				3E6046FC1E4D9DE66D34272E /* CRUDEntityDBRepository+aSync.swift in Sources */,
-				1D206956A1259911EC5B527D /* CRUDEntityDBRepository.swift in Sources */,
 				60CD0B7484A8B78292830497 /* CacheManager.swift in Sources */,
 				95D070E014A67CC0EFB176E7 /* CacheManagerForCodableDBRepository.swift in Sources */,
 				C5B227B438C6EC4FA6030E9C /* CameraManager.swift in Sources */,
@@ -3740,7 +3733,7 @@
 		};
 		A73D42C0C5D54E64950B9DE6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = "TEMP_B3502A5D-2B2B-4AC2-847C-FAA4501F2A8F" /* Reachability */;
+			productRef = "TEMP_9B1E688F-70D1-45F1-830A-75310303C053" /* Reachability */;
 		};
 		A8494A995FF528043DBD8AB5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4056,7 +4049,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
 			};
 			name = "QA Debug";
 		};
@@ -4428,7 +4421,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
 			};
 			name = "Dev Debug";
 		};
@@ -4598,7 +4591,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
 			};
 			name = "Dev Release";
 		};
@@ -4841,7 +4834,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
 			};
 			name = "Production Debug";
 		};
@@ -4910,7 +4903,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
 			};
 			name = "Production Release";
 		};
@@ -5325,7 +5318,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
 			};
 			name = "QA Release";
 		};
@@ -5568,7 +5561,7 @@
 			package = B534D94EBDEC0AF4838E6834 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
 		};
-		"TEMP_B3502A5D-2B2B-4AC2-847C-FAA4501F2A8F" /* Reachability */ = {
+		"TEMP_9B1E688F-70D1-45F1-830A-75310303C053" /* Reachability */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 64F28F54E21D66478C2F3452 /* XCRemoteSwiftPackageReference "Reachability" */;
 			productName = Reachability;
@@ -5576,6 +5569,16 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
+		7D864980E9E41E0608621831 /* DBModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				6999FB33A97EBD81A5A33BEC /* CoreDataExample.xcdatamodel */,
+			);
+			currentVersion = 6999FB33A97EBD81A5A33BEC /* CoreDataExample.xcdatamodel */;
+			path = DBModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 		B62424DBFF4840810C6C5370 /* CommonInternalDB.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
@@ -5583,16 +5586,6 @@
 			);
 			currentVersion = AA3315C32F1A991746F41202 /* CoreDataExample.xcdatamodel */;
 			path = CommonInternalDB.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-		D7416C632C74FDAD001DD92F /* HitHappens.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				D7416C642C74FDAD001DD92F /* CoreDataExample.xcdatamodel */,
-			);
-			currentVersion = D7416C642C74FDAD001DD92F /* CoreDataExample.xcdatamodel */;
-			path = HitHappens.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
