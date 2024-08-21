@@ -24,7 +24,7 @@ let package = Package(
                 //    .product(name: "NukeUI", package: "Nuke"),
             ],
             resources: [
-                .process("Resources/CommonInternalDB.xcdatamodeld"),
+                .process("Resources/CommonDB.xcdatamodeld"),
                 .process("Resources/google.co.uk.cer")
             ],
             swiftSettings: [

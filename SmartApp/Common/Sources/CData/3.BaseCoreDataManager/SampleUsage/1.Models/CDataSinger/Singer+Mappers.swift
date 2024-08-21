@@ -13,14 +13,17 @@ public extension CDataSinger {
         if let some = songs?.allObjects as? [CDataSong] {
             artistSongs = some
         }
-        return .init(name: name ?? "", 
-                     songs: artistSongs.map({ $0.mapToModel(includeRelations: false) }))
+        return .init(id: id ?? "",
+                     name: name ?? "",
+                     cascadeSongs: artistSongs.map({ $0.mapToModel(cascade: false) }))
     }
 }
 
 public extension CommonCoreData.Utils.Sample.Singer {
     var mapToDic: [String: Any] {
         [
+            "id": id,
+            "cascadeSongs": cascadeSongs ?? "",
             "name": name,
         ]
     }

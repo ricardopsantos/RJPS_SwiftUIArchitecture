@@ -33,6 +33,7 @@ extension CommonCoreData.Utils.Sample.DataBaseRepository {
         let context = viewContext
         let newInstance: DBEntity = DBEntity(context: context)
         newInstance.name = name
+        newInstance.id = UUID().uuidString
         return newInstance
     }
     
@@ -72,6 +73,7 @@ extension CommonCoreData.Utils.Sample.DataBaseRepository {
         typealias DBEntity = CDataSong
         let context = viewContext
         let newInstance: DBEntity = DBEntity(context: context)
+        newInstance.id = UUID().uuidString
         newInstance.title = title
         newInstance.releaseDate = releaseDate
         return newInstance

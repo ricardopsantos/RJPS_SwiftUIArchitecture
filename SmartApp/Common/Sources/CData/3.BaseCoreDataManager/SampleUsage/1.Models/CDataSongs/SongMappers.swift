@@ -9,11 +9,12 @@ import Foundation
 //
 public extension CDataSong {
     
-    /// `includeRelations` to avoid dead lock on map (artists adding songs and songs adding back artists)
-    func mapToModel(includeRelations: Bool) -> CommonCoreData.Utils.Sample.Song {
-        return .init(title: title ?? "",
+    /// `cascade` to avoid dead lock on map (artists adding songs and songs adding back artists)
+    func mapToModel(cascade: Bool) -> CommonCoreData.Utils.Sample.Song {
+        return .init(id: id ?? "",
+                     title: title ?? "",
                      releaseDate: releaseDate ?? Date.now,
-                     singer: includeRelations ? singer?.mapToModel : nil)
+                     cascadeSinger: cascade ? singer?.mapToModel : nil)
     }
 }
 
@@ -22,6 +23,8 @@ public extension CommonCoreData.Utils.Sample.Song {
         [
             "releaseDate": releaseDate,
             "title": title,
+            "id": id,
+            "cascadeSinger": cascadeSinger ?? ""
         ]
     }
 }

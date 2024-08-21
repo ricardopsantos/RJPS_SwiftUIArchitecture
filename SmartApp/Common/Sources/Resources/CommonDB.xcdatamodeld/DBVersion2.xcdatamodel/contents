@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23A344" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="Version_1">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23A344" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="DBVersion2">
     <entity name="CDataCRUDEntity" representedClassName="CDataCRUDEntity" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="String" regularExpressionString="^.+$"/>
         <attribute name="name" attributeType="String" regularExpressionString="^.+$"/>
@@ -14,10 +14,12 @@
         <attribute name="recordDate" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <entity name="CDataSinger" representedClassName="CDataSinger" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="String" regularExpressionString="^.+$"/>
         <attribute name="name" attributeType="String" regularExpressionString="^.+$"/>
         <relationship name="songs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDataSong" inverseName="singer" inverseEntity="CDataSong"/>
     </entity>
     <entity name="CDataSong" representedClassName="CDataSong" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="String" regularExpressionString="^.+$"/>
         <attribute name="releaseDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" attributeType="String" regularExpressionString="^.+$"/>
         <relationship name="singer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDataSinger" inverseName="songs" inverseEntity="CDataSinger"/>

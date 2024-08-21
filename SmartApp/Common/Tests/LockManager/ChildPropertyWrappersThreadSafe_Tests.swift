@@ -58,7 +58,7 @@ class PropertyWrappers_ThreadSafeDispatchQueue_Tests: BasePropertyWrappersThread
 // MARK: - TestClass (not tread safe)
 //
 
-class PropertyWrappers_TestClass_Tests: BasePropertyWrappersThreadSafe_Tests {
+class PropertyWrappers_UnsafeClass_Tests: BasePropertyWrappersThreadSafe_Tests {
     struct TestClass: TestClassProtocol {
         var value: Int
         mutating func modify() {

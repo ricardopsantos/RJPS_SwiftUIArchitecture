@@ -128,6 +128,25 @@ class SampleWebAPI_Tests: XCTestCase {
         await expect(value != nil).toEventually(beTrue(), timeout: .seconds(TestsGlobal.timeout))
     }
 
+    func test_authenticationHandlerWithHashKeys() async {
+        let server: CommonNetworking.AuthenticationHandler.Server = .googleUkWithHashKeys
+        let delegate = CommonNetworking.AuthenticationHandler(server: server)
+
+        let urlSession = URLSession(
+            configuration: .defaultForNetworkAgent(),
+            delegate: delegate,
+            delegateQueue: nil
+        )
+
+        let request = URLRequest(url: URL(string: server.url)!)
+        do {
+            _ = try await urlSession.data(for: request)
+            XCTAssert(true)
+        } catch {
+            XCTAssert(false)
+        }
+    }
+    
     func test_authenticationHandlerWithCertPath() async {
         let server: CommonNetworking.AuthenticationHandler.Server = .googleUkWithCertPath
         let delegate = CommonNetworking.AuthenticationHandler(server: server)
@@ -147,22 +166,4 @@ class SampleWebAPI_Tests: XCTestCase {
         }
     }
 
-    func test_authenticationHandlerWithHashKeys() async {
-        let server: CommonNetworking.AuthenticationHandler.Server = .googleUkWithHashKeys
-        let delegate = CommonNetworking.AuthenticationHandler(server: server)
-
-        let urlSession = URLSession(
-            configuration: .defaultForNetworkAgent(),
-            delegate: delegate,
-            delegateQueue: nil
-        )
-
-        let request = URLRequest(url: URL(string: server.url)!)
-        do {
-            _ = try await urlSession.data(for: request)
-            XCTAssert(true)
-        } catch {
-            XCTAssert(false)
-        }
-    }
 }

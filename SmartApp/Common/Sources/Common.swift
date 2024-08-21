@@ -10,7 +10,7 @@ import UIKit
 internal class CommonBundleFinder {}
 
 public extension Common {
-    static var internalDB: String { "CommonInternalDB" }
+    static var internalDB: String { "CommonDB" }
     static var bundleIdentifier: String {
         Bundle(for: CommonBundleFinder.self).bundleIdentifier ?? ""
     }

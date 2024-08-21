@@ -26,7 +26,7 @@ public extension CommonCoreData.Utils.Sample {
     class DataBaseRepository: CommonCoreData.BaseCoreDataManager {
         public typealias OutputType = DataBaseRepositoryOutput
         public static var output = PassthroughSubject<OutputType, Never>()
-        var fetchedResultsController: NSFetchedResultsController<CDataCRUDEntity>?
+        private (set) var fetchedResultsControllerDic: [String: NSFetchedResultsController<NSManagedObject>] = [:]
         public static var shared = DataBaseRepository(
             dbName: Common.internalDB,
             dbBundle: Common.bundleIdentifier
@@ -36,21 +36,37 @@ public extension CommonCoreData.Utils.Sample {
         }
 
         override func startFetchedResultsController() {
-            guard fetchedResultsController == nil else {
+            guard fetchedResultsControllerDic.count == 0 else {
                 return
             }
-            fetchedResultsController = NSFetchedResultsController(
-                fetchRequest: CDataCRUDEntity.fetchRequestAll(sorted: true),
+            
+            // Create the controller with specific type
+            fetchedResultsControllerDic["\(CDataCRUDEntity.self)"] = NSFetchedResultsController<NSManagedObject>(
+                fetchRequest: CDataCRUDEntity.fetchRequestAll(sorted: true) as! NSFetchRequest<NSManagedObject>,
                 managedObjectContext: viewContext,
                 sectionNameKeyPath: nil,
                 cacheName: nil
             )
-            if let fetchedResultsController = fetchedResultsController {
-                fetchedResultsController.delegate = self
-            }
-
-            // Perform the initial fetch
-            try? fetchedResultsController?.performFetch()
+            
+            fetchedResultsControllerDic["\(CDataSinger.self)"] = NSFetchedResultsController<NSManagedObject>(
+                fetchRequest: CDataSinger.fetchRequestAll(sorted: true) as! NSFetchRequest<NSManagedObject>,
+                managedObjectContext: viewContext,
+                sectionNameKeyPath: nil,
+                cacheName: nil
+            )
+            
+            fetchedResultsControllerDic["\(CDataSong.self)"] = NSFetchedResultsController<NSManagedObject>(
+                fetchRequest: CDataSong.fetchRequestAll(sorted: true) as! NSFetchRequest<NSManagedObject>,
+                managedObjectContext: viewContext,
+                sectionNameKeyPath: nil,
+                cacheName: nil
+            )
+            
+            fetchedResultsControllerDic.forEach({ (_, controller) in
+                controller.delegate = self
+                try? controller.performFetch()
+            })
+            
         }
     }
 }

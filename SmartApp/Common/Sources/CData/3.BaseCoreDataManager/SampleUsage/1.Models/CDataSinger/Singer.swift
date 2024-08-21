@@ -9,11 +9,13 @@ import Foundation
 //
 public extension CommonCoreData.Utils.Sample {
     struct Singer: Equatable, Codable {
+        public var id: String
         public var name: String
-        public var refSongs: [CommonCoreData.Utils.Sample.Song]?
-        public init(name: String, songs: [CommonCoreData.Utils.Sample.Song]) {
+        public var cascadeSongs: [CommonCoreData.Utils.Sample.Song]?
+        public init(id: String, name: String, cascadeSongs: [CommonCoreData.Utils.Sample.Song]) {
+            self.id = id
             self.name = name
-            self.refSongs = songs
+            self.cascadeSongs = cascadeSongs
         }
     }
 }
@@ -21,8 +23,9 @@ public extension CommonCoreData.Utils.Sample {
 public extension CommonCoreData.Utils.Sample.Singer {
     static var random: Self {
         Self(
-            name: "Joe \(String.randomWithSpaces(10))", 
-            songs: [.random, .random]
+            id: UUID().uuidString,
+            name: "Joe \(String.randomWithSpaces(10))",
+            cascadeSongs: [.random, .random]
         )
     }
 }

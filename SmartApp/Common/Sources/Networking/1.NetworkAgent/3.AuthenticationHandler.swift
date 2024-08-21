@@ -76,7 +76,7 @@ public extension CommonNetworking.AuthenticationHandler.Server {
     static var googleUkWithHashKeys: Self {
         Self(
             url: "https://www.google.co.uk/",
-            publicHashKeys: ["XZVlvxBvEFhGF+9gt9WOwIJdvQBYT3Cqnu0mu6S884I="],
+            publicHashKeys: ["caMXMXM6GkN65HHqWbN8rm32m0Td+FXeMwVaraqJies="],
             pathToCertificates: nil
         )
     }
@@ -211,7 +211,8 @@ public extension CommonNetworking {
                     Common_Logs.debug("\(CommonNetworking.NetworkAgentClient.self): Authenticated with Server Public Key")
                     return
                 } else {
-                    cancelAuthenticationChallengeWithLog(key: "serverHashKey", value: "\(serverPublicKeyData)")
+                    cancelAuthenticationChallengeWithLog(key: "serverPublicKey",
+                                                         value: "\(serverPublicKeyDataHash)")
                     return
                 }
             }

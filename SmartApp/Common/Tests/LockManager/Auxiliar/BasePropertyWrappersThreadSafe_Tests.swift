@@ -24,6 +24,65 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
         fatalError("Override me")
     }
 
+    func test_resetValues() {
+        guard enabled() else {
+            XCTAssert(true)
+            return
+        }
+        var testInstance = testClass(value: 0)
+
+        let incrementIterations = 1_000
+        let resetIterations = 10
+        let expectation = XCTestExpectation(description: #function)
+
+        DispatchQueue.concurrentPerform(iterations: incrementIterations) { _ in
+            testInstance.value += 1
+        }
+
+        DispatchQueue.concurrentPerform(iterations: resetIterations) { _ in
+            testInstance.value = 0
+        }
+
+        // Allow some time for the concurrent operations to finish
+        DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+            XCTAssertEqual(testInstance.value, 0)
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
+    }
+    
+    func test_simultaneousReads() {
+        guard enabled() else {
+            XCTAssert(true)
+            return
+        }
+        let testInstance = testClass(value: 42)
+
+        let iterations = 1_000
+        let expectation = XCTestExpectation(description: #function)
+        let queue = DispatchQueue(label: #function, attributes: .concurrent)
+        var readResults = [Int]()
+
+        DispatchQueue.concurrentPerform(iterations: iterations) { _ in
+            queue.async {
+                let value = testInstance.value
+                queue.async(flags: .barrier) {
+                    readResults.append(value)
+                }
+            }
+        }
+
+        // Allow some time for the concurrent operations to finish
+        DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+            XCTAssertEqual(readResults.count, iterations)
+            XCTAssertTrue(readResults.allSatisfy { $0 == 42 })
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
+    }
+    
     func test_threadSafety() {
         guard enabled() else {
             XCTAssert(true)
@@ -82,36 +141,7 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
         wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
 
-    func test_simultaneousReads() {
-        guard enabled() else {
-            XCTAssert(true)
-            return
-        }
-        let testInstance = testClass(value: 42)
 
-        let iterations = 1_000
-        let expectation = XCTestExpectation(description: #function)
-        let queue = DispatchQueue(label: #function, attributes: .concurrent)
-        var readResults = [Int]()
-
-        DispatchQueue.concurrentPerform(iterations: iterations) { _ in
-            queue.async {
-                let value = testInstance.value
-                queue.async(flags: .barrier) {
-                    readResults.append(value)
-                }
-            }
-        }
-
-        // Allow some time for the concurrent operations to finish
-        DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-            XCTAssertEqual(readResults.count, iterations)
-            XCTAssertTrue(readResults.allSatisfy { $0 == 42 })
-            expectation.fulfill()
-        }
-
-        wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
-    }
 
     func test_simultaneousReadsAndWrites() {
         guard enabled() else {
@@ -145,33 +175,6 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
         wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
 
-    func test_resetValues() {
-        guard enabled() else {
-            XCTAssert(true)
-            return
-        }
-        var testInstance = testClass(value: 0)
-
-        let incrementIterations = 1_000
-        let resetIterations = 10
-        let expectation = XCTestExpectation(description: #function)
-
-        DispatchQueue.concurrentPerform(iterations: incrementIterations) { _ in
-            testInstance.value += 1
-        }
-
-        DispatchQueue.concurrentPerform(iterations: resetIterations) { _ in
-            testInstance.value = 0
-        }
-
-        // Allow some time for the concurrent operations to finish
-        DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-            XCTAssertEqual(testInstance.value, 0)
-            expectation.fulfill()
-        }
-
-        wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
-    }
 
     func test_largeValuesAndOverflow() {
         guard enabled() else {

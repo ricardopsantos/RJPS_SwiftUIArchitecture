@@ -181,7 +181,9 @@ final class UnfairLockManager_Tests: XCTestCase {
         wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
 
-    func test_highContentionWithTryLock() {
+    // FAILS!
+    // XCTAssertEqual failed: ("9860") is not equal to ("10000")
+    func test_FAIL_highContentionWithTryLock() {
         var successCount = 0
         var failureCount = 0
         let iterations = 10_000
@@ -202,7 +204,7 @@ final class UnfairLockManager_Tests: XCTestCase {
         // Allow some time for the concurrent operations to finish
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
             print(successCount, failureCount)
-            XCTAssertEqual(successCount + failureCount, iterations)
+            XCTAssertEqual(successCount + failureCount, iterations) // FAILS ("9860") is not equal to ("10000")
             XCTAssertGreaterThan(successCount, 0)
             expectation.fulfill()
         }
@@ -210,7 +212,7 @@ final class UnfairLockManager_Tests: XCTestCase {
         wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
 
-    func test_simultaneousReadsAndWritesWithLock() {
+    func test_FAIL_simultaneousReadsAndWritesWithLock() {
         var value = 0
         let iterations = 1_000
         let expectation = XCTestExpectation(description: #function)

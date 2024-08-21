@@ -123,10 +123,10 @@ extension CommonCoreData_SongsTests {
         bd.deleteAllSingers() // Clear all existing singers
         let singer: CDataSinger = saveRandomCDataSinger(songs: 1) // Save a singer with one song
         let singerModel: CommonCoreData.Utils.Sample.Singer = singer.mapToModel // Map singer to model
-        
+        let cascadeSongsCount: Int = singerModel.cascadeSongs?.count ?? 0
         // Assert the singer has one song and the mapping to model retains that relation
         XCTAssert(singer.songs?.count == 1)
-        XCTAssert(singer.songs?.count ?? 0 == singerModel.refSongs?.count ?? 0)
+        XCTAssert(singer.songs?.count ?? 0 == cascadeSongsCount)
         XCTAssert(bd.allSongs().count == 1) // Assert the song exists in the database
     }
     
@@ -138,13 +138,13 @@ extension CommonCoreData_SongsTests {
         }
         bd.deleteAllSingers() // Clear all existing singers
         let singer: CDataSinger = saveRandomCDataSinger(songs: 1) // Save a singer with one song
-        let songModelWithSinger: CommonCoreData.Utils.Sample.Song? = bd.allSongs().first?.mapToModel(includeRelations: true)
-        let songModelWithoutSinger: CommonCoreData.Utils.Sample.Song? = bd.allSongs().first?.mapToModel(includeRelations: false)
+        let songModelWithSinger: CommonCoreData.Utils.Sample.Song? = bd.allSongs().first?.mapToModel(cascade: true)
+        let songModelWithoutSinger: CommonCoreData.Utils.Sample.Song? = bd.allSongs().first?.mapToModel(cascade: false)
         
         // Assert the song is correctly mapped with or without the singer relation
         XCTAssert(singer.songs?.count == 1)
-        XCTAssert(songModelWithSinger?.refSinger?.name == singer.name)
-        XCTAssert(songModelWithoutSinger?.refSinger == nil)
+        XCTAssert(songModelWithSinger?.cascadeSinger?.name == singer.name)
+        XCTAssert(songModelWithoutSinger?.cascadeSinger == nil)
     }
     
     // Test to save a singer with three songs and verify the correct saving
@@ -193,4 +193,54 @@ extension CommonCoreData_SongsTests {
          XCTAssert(bd.allSingers().count == 1 * 10)
          XCTAssert(bd.allSongs().count == 1000 * 10)
      }
+    
+    func test_emitEventOnDataBaseInsert() {
+        guard enabled() else {
+            XCTAssert(true)
+            return
+        }
+        
+        var didInsertedContent = (value: false, id: "")
+        var didChangedContent = 0
+        var didFinishChangeContent = 0
+        let toStore = randomCDataSinger(songs: 0)
+        bd.output()
+            .sink { event in
+                switch event {
+                case .generic(let genericEvent):
+                    switch genericEvent {
+                    case .databaseDidInsertedContentOn(_, id: let id):
+                        didInsertedContent = (true, id ?? "")
+                    case .databaseDidChangedContentItemOn:
+                        didChangedContent += 1
+                    case .databaseDidUpdatedContentOn: ()
+                    case .databaseDidDeletedContentOn: ()
+                    case .databaseDidFinishChangeContentItemsOn:
+                        didFinishChangeContent += 1
+                    }
+                }
+            }.store(in: TestsGlobal.cancelBag)
+
+        Common_Utils.delay { [weak self] in
+            self?.bd.save()
+        }
+
+        // Verify that the event is emitted
+        expect(didFinishChangeContent == 1).toEventually(
+            beTrue(),
+            timeout: .seconds(TestsGlobal.timeout)
+        )
+        expect(didInsertedContent.value).toEventually(
+            beTrue(),
+            timeout: .seconds(TestsGlobal.timeout)
+        )
+        expect(didInsertedContent.id == toStore.id).toEventually(
+            beTrue(),
+            timeout: .seconds(TestsGlobal.timeout)
+        )
+        expect(didChangedContent == 1).toEventually(
+            beTrue(),
+            timeout: .seconds(TestsGlobal.timeout)
+        )
+    }
 }

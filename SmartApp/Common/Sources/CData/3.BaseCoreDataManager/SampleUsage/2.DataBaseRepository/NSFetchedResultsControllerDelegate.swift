@@ -29,12 +29,22 @@ extension CommonCoreData.Utils.Sample.DataBaseRepository: NSFetchedResultsContro
     ) {
         var dbModelName: String?
         var id: String?
-        if let object = anObject as? CDataCRUDEntity {
-            id = object.id ?? ""
-            dbModelName = "\(CDataCRUDEntity.self)"
+        if Common_Utils.false {
+            if let object = anObject as? CDataCRUDEntity {
+                id = object.id ?? ""
+                dbModelName = "\(CDataCRUDEntity.self)"
+            }
+        } else {
+            /// `<CDataCRUDEntity: 0x60000211c280>` --> `CDataCRUDEntity`
+            dbModelName = "\(anObject.self)".dropFirstIf("<").split(by: ":").first
+            ["id", "identifier", "key", ].forEach { key in
+                if let some = (anObject as AnyObject).value(forKey: "id"), !"\(some)".isEmpty {
+                    id = "\(some)"
+                }
+            }
         }
-
-        if let id = id, let dbModelName = dbModelName {
+        
+        if let dbModelName = dbModelName {
             switch type {
             case .insert:
                 Self.emit(event: .generic(.databaseDidInsertedContentOn(dbModelName, id: id)))
@@ -55,8 +65,10 @@ extension CommonCoreData.Utils.Sample.DataBaseRepository: NSFetchedResultsContro
     // to perform any final UI updates or batch processing that you want to do after a series of changes.
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         var dbModelName: String?
-        if controller == fetchedResultsController {
-            dbModelName = "\(CDataCRUDEntity.self)"
+        fetchedResultsControllerDic.forEach { (key, value) in
+            if controller == value {
+                dbModelName = key
+            }
         }
         if let dbModelName = dbModelName {
             Self.emit(event: .generic(.databaseDidFinishChangeContentItemsOn(dbModelName)))
