@@ -17,7 +17,7 @@ public extension CommonCoreData.Utils.Sample {
     }
 
     static func crudTestSync() {
-        let bd = CommonCoreData.Utils.Sample.DataBaseRepository.shared
+        let bd = CommonDataBaseRepository.shared
 
         bd.syncClearAll()
         if bd.syncRecordCount() != 0 {
@@ -56,7 +56,7 @@ public extension CommonCoreData.Utils.Sample {
     }
 
     static func crudTestAsync() async {
-        let bd = CommonCoreData.Utils.Sample.DataBaseRepository.shared
+        let bd = CommonDataBaseRepository.shared
 
         await bd.aSyncClearAll()
         if await bd.aSyncRecordCount() != 0 {

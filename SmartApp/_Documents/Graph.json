@@ -1,70 +1,160 @@
 {
-  "fileGroups" : [
-    "..\/_Documents",
-    "..\/Configuration",
-    "..\/XcodeGen"
-  ],
-  "settings" : {
-    "base" : {
-      "MARKETING_VERSION" : 1,
-      "IPHONEOS_DEPLOYMENT_TARGET" : 16,
-      "SWIFT_VERSION" : 5.2999999999999998,
-      "CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED" : true,
-      "SWIFT_OBJC_BRIDGING_HEADER" : "Application\/SmartApp-Bridging-Header.h"
-    }
-  },
   "options" : {
-    "findCarthageFrameworks" : false,
-    "bundleIdPrefix" : "com.ricardo.app.id",
-    "groupSortPosition" : "top",
     "deploymentTarget" : "16.0",
-    "generateEmptyDirectories" : true,
+    "findCarthageFrameworks" : false,
+    "minimumXcodeGenVersion" : "2.18.0",
+    "groupSortPosition" : "top",
+    "bundleIdPrefix" : "com.ricardo.app.id",
     "xcodeVersion" : "15.0.1",
-    "minimumXcodeGenVersion" : "2.18.0"
+    "generateEmptyDirectories" : true
   },
-  "include" : [
-    "_FrameworkTemplate.yml",
-    "_UnitTestTemplate.yml",
-    "_UITestTemplate.yml",
-    "_AggregateTargets.yml"
-  ],
   "targetTemplates" : {
     "UnitTest" : {
-      "type" : "bundle.unit-test",
-      "settings" : "",
       "deploymentTarget" : "16.0",
-      "platform" : "iOS"
+      "settings" : "",
+      "platform" : "iOS",
+      "type" : "bundle.unit-test"
     },
     "Framework" : {
-      "deploymentTarget" : "16.0",
+      "platform" : "iOS",
+      "type" : "framework",
       "settings" : {
         "base" : {
           "MARKETING_VERSION" : 1
         }
       },
-      "type" : "framework",
-      "platform" : "iOS"
+      "deploymentTarget" : "16.0"
     },
     "UITest" : {
-      "settings" : "",
       "type" : "bundle.ui-testing",
+      "settings" : "",
       "platform" : "iOS",
       "deploymentTarget" : "16.0"
     }
   },
+  "configs" : {
+    "QA Debug" : "debug",
+    "Production Release" : "release",
+    "QA Release" : "release",
+    "Dev Debug" : "debug",
+    "Dev Release" : "release",
+    "Production Debug" : "debug"
+  },
   "targets" : {
-    "DesignSystem" : {
+    "SmartApp" : {
+      "sources" : [
+        {
+          "excludes" : [
+            "*.md",
+            "*.png"
+          ],
+          "path" : "..\/Application",
+          "type" : "group"
+        }
+      ],
+      "type" : "application",
+      "postCompileScripts" : [
+        {
+          "name" : "FirebasePlistFile",
+          "script" : "PATH_TO_CONFIG=$SRCROOT\/Application\/GoogleService-Info-$PRODUCT_BUNDLE_IDENTIFIER.plist\nFILENAME_IN_BUNDLE=GoogleService-Info.plist\nBUILD_APP_DIR=${BUILT_PRODUCTS_DIR}\/${PRODUCT_NAME}.app\ncp $PATH_TO_CONFIG \"$BUILD_APP_DIR\/$FILENAME_IN_BUNDLE\"\n"
+        }
+      ],
+      "settings" : {
+        "base" : {
+          "SUPPORTS_MACCATALYST" : false,
+          "TARGETED_DEVICE_FAMILY" : 1,
+          "SUPPORTED_PLATFORMS" : "iphoneos iphonesimulator",
+          "SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD" : false
+        }
+      },
+      "platform" : "iOS",
+      "postBuildScripts" : [
+        {
+          "script" : "\"${BUILD_DIR%\/Build\/*}\/SourcePackages\/checkouts\/firebase-ios-sdk\/Crashlytics\/run\"\n",
+          "inputFiles" : [
+            "${DWARF_DSYM_FOLDER_PATH}\/${DWARF_DSYM_FILE_NAME}\/Contents\/Resources\/DWARF\/${TARGET_NAME}",
+            "$(SRCROOT)\/$(BUILT_PRODUCTS_DIR)\/$(INFOPLIST_PATH)"
+          ]
+        }
+      ],
+      "configFiles" : {
+        "Dev Debug" : "..\/Configuration\/dev-debug.xcconfig",
+        "Dev Release" : "..\/Configuration\/dev-release.xcconfig",
+        "Production Debug" : "..\/Configuration\/production-debug.xcconfig",
+        "QA Release" : "..\/Configuration\/qa-release.xcconfig",
+        "Production Release" : "..\/Configuration\/production-release.xcconfig",
+        "QA Debug" : "..\/Configuration\/qa-debug.xcconfig"
+      },
       "dependencies" : [
         {
           "target" : "Common"
         },
         {
+          "target" : "DevTools"
+        },
+        {
           "target" : "Domain"
         },
         {
-          "target" : "DevTools"
+          "target" : "Core"
+        },
+        {
+          "target" : "DesignSystem"
+        },
+        {
+          "package" : "Reachability",
+          "link" : false,
+          "product" : "Reachability"
+        },
+        {
+          "link" : true,
+          "product" : "FirebaseMessaging",
+          "package" : "Firebase"
+        },
+        {
+          "product" : "FirebaseCrashlytics",
+          "package" : "Firebase",
+          "link" : true
+        },
+        {
+          "product" : "FirebaseRemoteConfig",
+          "package" : "Firebase",
+          "link" : true
+        },
+        {
+          "product" : "FirebaseAnalytics",
+          "link" : true,
+          "package" : "Firebase"
+        },
+        {
+          "link" : true,
+          "package" : "Firebase",
+          "product" : "FirebaseAuth"
+        },
+        {
+          "package" : "Firebase",
+          "link" : true,
+          "product" : "FirebaseDatabase"
+        },
+        {
+          "product" : "FirebaseAppCheck",
+          "link" : true,
+          "package" : "Firebase"
         }
       ],
+      "scheme" : {
+        "testTargets" : [
+          "SmartAppUnitTests",
+          "SmartAppUITests"
+        ],
+        "configVariants" : [
+          "Production",
+          "QA",
+          "Dev"
+        ]
+      }
+    },
+    "Domain" : {
       "settings" : {
         "base" : {
           "MARKETING_VERSION" : 1
@@ -75,17 +165,100 @@
           "excludes" : [
             "Info.plist"
           ],
-          "path" : "..\/DesignSystem"
+          "path" : "..\/Domain"
+        }
+      ],
+      "dependencies" : [
+        {
+          "target" : "Common"
+        },
+        {
+          "target" : "DevTools"
         }
       ],
       "templates" : [
         "Framework"
+      ]
+    },
+    "SmartAppUnitTests" : {
+      "dependencies" : [
+        {
+          "sdk" : "XCTest.framework"
+        },
+        {
+          "link" : true,
+          "target" : "SmartApp"
+        },
+        {
+          "link" : false,
+          "target" : "Common"
+        },
+        {
+          "target" : "Domain",
+          "link" : false
+        },
+        {
+          "link" : false,
+          "target" : "Core"
+        },
+        {
+          "product" : "Nimble",
+          "link" : true,
+          "package" : "Nimble"
+        },
+        {
+          "product" : "ViewInspector",
+          "link" : true,
+          "package" : "ViewInspector"
+        }
+      ],
+      "sources" : [
+        {
+          "path" : "..\/SmartAppUnitTests",
+          "excludes" : [
+            "Info.plist"
+          ]
+        }
+      ],
+      "templates" : [
+        "UnitTest"
+      ]
+    },
+    "DevTools" : {
+      "sources" : [
+        {
+          "path" : "..\/DevTools",
+          "excludes" : [
+            "Info.plist"
+          ]
+        }
+      ],
+      "settings" : {
+        "base" : {
+          "MARKETING_VERSION" : 1
+        }
+      },
+      "templates" : [
+        "Framework"
+      ],
+      "dependencies" : [
+        {
+          "target" : "Common"
+        }
       ]
     },
     "Core" : {
       "templates" : [
         "Framework"
       ],
+      "sources" : [
+        {
+          "path" : "..\/Core",
+          "excludes" : [
+            "Info.plist"
+          ]
+        }
+      ],
       "dependencies" : [
         {
           "target" : "Domain"
@@ -101,15 +274,60 @@
         "base" : {
           "MARKETING_VERSION" : 1
         }
-      },
+      }
+    },
+    "Common" : {
+      "templates" : [
+        "Framework"
+      ],
       "sources" : [
         {
           "excludes" : [
-            "Info.plist"
+            "Tests",
+            "Sources\/Info.plist",
+            ".gitignore",
+            ".swiftpm",
+            "Package.swift",
+            "Package.resolved"
           ],
-          "path" : "..\/Core"
+          "path" : "..\/Common"
         }
-      ]
+      ],
+      "settings" : {
+        "base" : {
+          "MARKETING_VERSION" : 1,
+          "SWIFT_OBJC_BRIDGING_HEADER" : "Common\/Sources\/Common-Bridging-Header.h"
+        }
+      }
+    },
+    "DesignSystem" : {
+      "templates" : [
+        "Framework"
+      ],
+      "dependencies" : [
+        {
+          "target" : "Common"
+        },
+        {
+          "target" : "Domain"
+        },
+        {
+          "target" : "DevTools"
+        }
+      ],
+      "sources" : [
+        {
+          "path" : "..\/DesignSystem",
+          "excludes" : [
+            "Info.plist"
+          ]
+        }
+      ],
+      "settings" : {
+        "base" : {
+          "MARKETING_VERSION" : 1
+        }
+      }
     },
     "SmartAppUITests" : {
       "dependencies" : [
@@ -130,8 +348,8 @@
           "link" : true
         },
         {
-          "link" : true,
           "package" : "ViewInspector",
+          "link" : true,
           "product" : "ViewInspector"
         }
       ],
@@ -140,240 +358,10 @@
       ],
       "sources" : [
         {
+          "path" : "..\/SmartAppUITests",
           "excludes" : [
             "Info.plist"
-          ],
-          "path" : "..\/SmartAppUITests"
-        }
-      ]
-    },
-    "SmartAppUnitTests" : {
-      "templates" : [
-        "UnitTest"
-      ],
-      "dependencies" : [
-        {
-          "sdk" : "XCTest.framework"
-        },
-        {
-          "link" : true,
-          "target" : "SmartApp"
-        },
-        {
-          "link" : false,
-          "target" : "Common"
-        },
-        {
-          "link" : false,
-          "target" : "Domain"
-        },
-        {
-          "target" : "Core",
-          "link" : false
-        },
-        {
-          "link" : true,
-          "product" : "Nimble",
-          "package" : "Nimble"
-        },
-        {
-          "package" : "ViewInspector",
-          "product" : "ViewInspector",
-          "link" : true
-        }
-      ],
-      "sources" : [
-        {
-          "excludes" : [
-            "Info.plist"
-          ],
-          "path" : "..\/SmartAppUnitTests"
-        }
-      ]
-    },
-    "Domain" : {
-      "dependencies" : [
-        {
-          "target" : "Common"
-        },
-        {
-          "target" : "DevTools"
-        }
-      ],
-      "settings" : {
-        "base" : {
-          "MARKETING_VERSION" : 1
-        }
-      },
-      "sources" : [
-        {
-          "excludes" : [
-            "Info.plist"
-          ],
-          "path" : "..\/Domain"
-        }
-      ],
-      "templates" : [
-        "Framework"
-      ]
-    },
-    "Common" : {
-      "templates" : [
-        "Framework"
-      ],
-      "settings" : {
-        "base" : {
-          "MARKETING_VERSION" : 1,
-          "SWIFT_OBJC_BRIDGING_HEADER" : "Common\/Sources\/Common-Bridging-Header.h"
-        }
-      },
-      "sources" : [
-        {
-          "path" : "..\/Common",
-          "excludes" : [
-            "Tests",
-            "Sources\/Info.plist",
-            ".gitignore",
-            ".swiftpm",
-            "Package.swift",
-            "Package.resolved"
           ]
-        }
-      ]
-    },
-    "SmartApp" : {
-      "scheme" : {
-        "testTargets" : [
-          "SmartAppUnitTests",
-          "SmartAppUITests"
-        ],
-        "configVariants" : [
-          "Production",
-          "QA",
-          "Dev"
-        ]
-      },
-      "platform" : "iOS",
-      "dependencies" : [
-        {
-          "target" : "Common"
-        },
-        {
-          "target" : "DevTools"
-        },
-        {
-          "target" : "Domain"
-        },
-        {
-          "target" : "Core"
-        },
-        {
-          "target" : "DesignSystem"
-        },
-        {
-          "package" : "Reachability",
-          "product" : "Reachability",
-          "link" : false
-        },
-        {
-          "link" : true,
-          "package" : "Firebase",
-          "product" : "FirebaseMessaging"
-        },
-        {
-          "product" : "FirebaseCrashlytics",
-          "package" : "Firebase",
-          "link" : true
-        },
-        {
-          "link" : true,
-          "package" : "Firebase",
-          "product" : "FirebaseRemoteConfig"
-        },
-        {
-          "product" : "FirebaseAnalytics",
-          "link" : true,
-          "package" : "Firebase"
-        },
-        {
-          "product" : "FirebaseAuth",
-          "package" : "Firebase",
-          "link" : true
-        },
-        {
-          "package" : "Firebase",
-          "product" : "FirebaseDatabase",
-          "link" : true
-        },
-        {
-          "product" : "FirebaseAppCheck",
-          "link" : true,
-          "package" : "Firebase"
-        }
-      ],
-      "sources" : [
-        {
-          "path" : "..\/Application",
-          "type" : "group",
-          "excludes" : [
-            "*.md",
-            "*.png"
-          ]
-        }
-      ],
-      "postBuildScripts" : [
-        {
-          "inputFiles" : [
-            "${DWARF_DSYM_FOLDER_PATH}\/${DWARF_DSYM_FILE_NAME}\/Contents\/Resources\/DWARF\/${TARGET_NAME}",
-            "$(SRCROOT)\/$(BUILT_PRODUCTS_DIR)\/$(INFOPLIST_PATH)"
-          ],
-          "script" : "\"${BUILD_DIR%\/Build\/*}\/SourcePackages\/checkouts\/firebase-ios-sdk\/Crashlytics\/run\"\n"
-        }
-      ],
-      "configFiles" : {
-        "Production Release" : "..\/Configuration\/production-release.xcconfig",
-        "QA Debug" : "..\/Configuration\/qa-debug.xcconfig",
-        "Production Debug" : "..\/Configuration\/production-debug.xcconfig",
-        "Dev Debug" : "..\/Configuration\/dev-debug.xcconfig",
-        "Dev Release" : "..\/Configuration\/dev-release.xcconfig",
-        "QA Release" : "..\/Configuration\/qa-release.xcconfig"
-      },
-      "postCompileScripts" : [
-        {
-          "name" : "FirebasePlistFile",
-          "script" : "PATH_TO_CONFIG=$SRCROOT\/Application\/GoogleService-Info-$PRODUCT_BUNDLE_IDENTIFIER.plist\nFILENAME_IN_BUNDLE=GoogleService-Info.plist\nBUILD_APP_DIR=${BUILT_PRODUCTS_DIR}\/${PRODUCT_NAME}.app\ncp $PATH_TO_CONFIG \"$BUILD_APP_DIR\/$FILENAME_IN_BUNDLE\"\n"
-        }
-      ],
-      "settings" : {
-        "base" : {
-          "SUPPORTED_PLATFORMS" : "iphoneos iphonesimulator",
-          "TARGETED_DEVICE_FAMILY" : 1,
-          "SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD" : false,
-          "SUPPORTS_MACCATALYST" : false
-        }
-      },
-      "type" : "application"
-    },
-    "DevTools" : {
-      "settings" : {
-        "base" : {
-          "MARKETING_VERSION" : 1
-        }
-      },
-      "templates" : [
-        "Framework"
-      ],
-      "dependencies" : [
-        {
-          "target" : "Common"
-        }
-      ],
-      "sources" : [
-        {
-          "excludes" : [
-            "Info.plist"
-          ],
-          "path" : "..\/DevTools"
         }
       ]
     }
@@ -382,9 +370,9 @@
     "SwiftLint" : {
       "buildScripts" : [
         {
-          "shell" : "\/bin\/bash",
           "name" : "SwiftLint",
-          "script" : "${SRCROOT}\/Scripts\/executeSwiftLint.sh\n"
+          "script" : "${SRCROOT}\/Scripts\/executeSwiftLint.sh\n",
+          "shell" : "\/bin\/bash"
         }
       ]
     },
@@ -398,31 +386,43 @@
       ]
     }
   },
-  "configs" : {
-    "Production Debug" : "debug",
-    "QA Release" : "release",
-    "Production Release" : "release",
-    "Dev Debug" : "debug",
-    "QA Debug" : "debug",
-    "Dev Release" : "release"
+  "fileGroups" : [
+    "..\/_Documents",
+    "..\/Configuration",
+    "..\/XcodeGen"
+  ],
+  "settings" : {
+    "base" : {
+      "SWIFT_VERSION" : 5.2999999999999998,
+      "SWIFT_OBJC_BRIDGING_HEADER" : "Application\/SmartApp-Bridging-Header.h",
+      "MARKETING_VERSION" : 1,
+      "IPHONEOS_DEPLOYMENT_TARGET" : 16,
+      "CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED" : true
+    }
   },
+  "include" : [
+    "_FrameworkTemplate.yml",
+    "_UnitTestTemplate.yml",
+    "_UITestTemplate.yml",
+    "_AggregateTargets.yml"
+  ],
   "name" : "SmartApp",
   "packages" : {
     "Reachability" : {
-      "url" : "https:\/\/github.com\/ashleymills\/Reachability.swift",
-      "revision" : "7b7018a69c84ea94ac2a38dff626e16ea81d1db9"
-    },
-    "Firebase" : {
-      "url" : "https:\/\/github.com\/firebase\/firebase-ios-sdk.git",
-      "revision" : "888f0b6026e2441a69e3ee2ad5293c7a92031e62"
-    },
-    "Nimble" : {
-      "url" : "https:\/\/github.com\/Quick\/Nimble",
-      "branch" : "main"
+      "revision" : "7b7018a69c84ea94ac2a38dff626e16ea81d1db9",
+      "url" : "https:\/\/github.com\/ashleymills\/Reachability.swift"
     },
     "ViewInspector" : {
       "url" : "https:\/\/github.com\/nalexn\/ViewInspector",
       "revision" : "7b1732802ffe30e6a67754bda6c7819e5cb0eb70"
+    },
+    "Firebase" : {
+      "revision" : "888f0b6026e2441a69e3ee2ad5293c7a92031e62",
+      "url" : "https:\/\/github.com\/firebase\/firebase-ios-sdk.git"
+    },
+    "Nimble" : {
+      "url" : "https:\/\/github.com\/Quick\/Nimble",
+      "branch" : "main"
     }
   }
 }

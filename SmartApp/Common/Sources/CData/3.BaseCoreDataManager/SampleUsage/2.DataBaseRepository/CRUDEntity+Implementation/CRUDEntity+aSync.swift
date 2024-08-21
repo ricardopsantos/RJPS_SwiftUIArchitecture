@@ -22,7 +22,7 @@ import CoreData
 //
 // MARK: - CRUDEntityDBRepository / Async Methods
 //
-extension CommonCoreData.Utils.Sample.DataBaseRepository {
+extension CommonDataBaseRepository {
     func aSyncStore(_ model: CommonCoreData.Utils.Sample.CRUDEntity) async {
         typealias DBEntity = CDataCRUDEntity
         let context = backgroundContext // Use a background context to perform the operation asynchronously

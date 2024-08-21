@@ -9,7 +9,7 @@ import CoreData
 // MARK: - NSFetchedResultsControllerDelegate
 //
 
-extension CommonCoreData.Utils.Sample.DataBaseRepository: NSFetchedResultsControllerDelegate {
+extension CommonDataBaseRepository: NSFetchedResultsControllerDelegate {
     // This method serves as a preparation step before the individual changes are processed.
     // It's often used to signal the start of a batch update operation and can be used to perform
     // any necessary setup before applying the changes.

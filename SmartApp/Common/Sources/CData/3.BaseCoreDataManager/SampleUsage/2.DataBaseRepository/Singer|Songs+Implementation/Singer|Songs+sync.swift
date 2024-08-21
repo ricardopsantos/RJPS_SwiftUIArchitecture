@@ -22,7 +22,7 @@ import CoreData
 //
 // MARK: - Async Methods
 //
-extension CommonCoreData.Utils.Sample.DataBaseRepository {
+extension CommonDataBaseRepository {
     
     //
     // MARK: - Singer
