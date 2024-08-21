@@ -10,21 +10,7 @@ import Combine
 // MARK: - CommonDataBaseRepository
 //
 
-public enum CommonDataBaseRepositoryOutput: Hashable {
-    public enum Generic: Hashable, Sendable {
-        case databaseDidInsertedContentOn(_ dbModelName: String, id: String?) // Inserted record
-        case databaseDidUpdatedContentOn(_ dbModelName: String, id: String?) // Updated record
-        case databaseDidDeletedContentOn(_ dbModelName: String, id: String?) // Delete record
-        case databaseDidChangedContentItemOn(_ dbModelName: String) // CRUD record
-        case databaseDidFinishChangeContentItemsOn(_ dbModelName: String) // Any operation finish for records list
-    }
-
-    case generic(_ value: Generic)
-}
-
-public class CommonDataBaseRepository: CommonCoreData.BaseCoreDataManager {
-    public typealias OutputType = CommonDataBaseRepositoryOutput
-    public static var output = PassthroughSubject<OutputType, Never>()
+public class CommonDataBaseRepository: CommonBaseCoreDataManager {
     private (set) var fetchedResultsControllerDic: [String: NSFetchedResultsController<NSManagedObject>] = [:]
     public static var shared = CommonDataBaseRepository(
         dbName: Common.internalDB,
@@ -34,7 +20,7 @@ public class CommonDataBaseRepository: CommonCoreData.BaseCoreDataManager {
         super.init(dbName: dbName, dbBundle: dbBundle)
     }
 
-    override func startFetchedResultsController() {
+    public override func startFetchedResultsController() {
         guard fetchedResultsControllerDic.count == 0 else {
             return
         }
@@ -69,28 +55,4 @@ public class CommonDataBaseRepository: CommonCoreData.BaseCoreDataManager {
     }
 }
 
-//
-// MARK: Events emission
-//
 
-public extension CommonDataBaseRepository {
-    func emit(event: OutputType) {
-        Self.emit(event: event)
-    }
-
-    func output(_ filter: [OutputType] = []) -> AnyPublisher<OutputType, Never> {
-        Self.output(filter)
-    }
-
-    static func emit(event: OutputType) {
-        output.send(event)
-    }
-
-    static func output(_ filter: [OutputType] = []) -> AnyPublisher<OutputType, Never> {
-        if filter.isEmpty {
-            return output.eraseToAnyPublisher()
-        } else {
-            return output.filter { filter.contains($0) }.eraseToAnyPublisher()
-        }
-    }
-}

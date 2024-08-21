@@ -28,8 +28,8 @@ public enum DataBaseRepositoryOutput: Hashable {
     case generic(_ value: Generic)
 }
 
-public class DataBaseRepository: CommonCoreData.BaseCoreDataManager {
-    public typealias OutputType = CommonDataBaseRepositoryOutput
+public class DataBaseRepository: CommonBaseCoreDataManager {
+    public typealias OutputType = DataBaseRepositoryOutput
     public static var output = PassthroughSubject<OutputType, Never>()
     private (set) var fetchedResultsControllerDic: [String: NSFetchedResultsController<NSManagedObject>] = [:]
     public static var shared = DataBaseRepository(
@@ -39,12 +39,12 @@ public class DataBaseRepository: CommonCoreData.BaseCoreDataManager {
     override private init(dbName: String, dbBundle: String) {
         super.init(dbName: dbName, dbBundle: dbBundle)
     }
-
+/*
     override func startFetchedResultsController() {
         guard fetchedResultsControllerDic.count == 0 else {
             return
         }
-        
+    
         // Create the controller with specific type
         fetchedResultsControllerDic["\(CDataCRUDEntity.self)"] = NSFetchedResultsController<NSManagedObject>(
             fetchRequest: CDataCRUDEntity.fetchRequestAll(sorted: true) as! NSFetchRequest<NSManagedObject>,
@@ -72,7 +72,7 @@ public class DataBaseRepository: CommonCoreData.BaseCoreDataManager {
             try? controller.performFetch()
         })
         
-    }
+    }*/
 }
 
 //

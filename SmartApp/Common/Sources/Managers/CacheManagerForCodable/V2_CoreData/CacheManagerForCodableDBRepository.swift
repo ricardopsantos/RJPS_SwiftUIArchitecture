@@ -8,7 +8,7 @@ import CoreData
 import Combine
 
 public extension Common {
-    class CacheManagerForCodableCoreDataRepository: CommonCoreData.BaseCoreDataManager {
+    class CacheManagerForCodableCoreDataRepository: CommonBaseCoreDataManager {
         fileprivate let cancelBag = CancelBag()
         public static var shared = CacheManagerForCodableCoreDataRepository(
             dbName: Common.internalDB,

@@ -16,7 +16,7 @@ class CommonCoreData_SongsTests: XCTestCase {
     }
 
     // Database repository instance, shared across tests
-    var bd: CommonCoreData.Utils.Sample.DataBaseRepository = {
+    var bd: CommonDataBaseRepository = {
         .shared
     }()
 
