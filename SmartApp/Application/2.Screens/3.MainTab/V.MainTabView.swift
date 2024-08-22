@@ -43,10 +43,37 @@ struct MainTabView: View, ViewProtocol {
 
     // MARK: - Body & View
     var body: some View {
-        content
+        switch selectedApp() {
+        case .hitHappens: contentHitHappensApp
+        case .template: contentTemplateApp
+        }
     }
 
-    var content: some View {
+    var contentHitHappensApp: some View {
+        TabView(selection: selectedTab()) {
+            NavigationStack(path: $tab1Router.navPath) {
+                WeatherViewCoordinator()
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .environmentObject(tab1Router)
+            }
+            .tabItem { TabItemView(title: Tab.tab1.title, icon: Tab.tab1.icone) }
+            .tag(Tab.tab1)
+
+            NavigationStack(path: $tab4Router.navPath) {
+                SettingsViewCoordinator()
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .environmentObject(tab4Router)
+            }
+            .tabItem { TabItemView(title: Tab.tab4.title, icon: Tab.tab4.icone) }
+            .tag(Tab.tab4)
+        }
+        .accentColor(.primaryColor)
+        .onAppear {
+            UITabBar.appearance().unselectedItemTintColor = ColorSemantic.backgroundTertiary.uiColor
+        }
+    }
+    
+    var contentTemplateApp: some View {
         TabView(selection: selectedTab()) {
             NavigationStack(path: $tab1Router.navPath) {
                 WeatherViewCoordinator()
