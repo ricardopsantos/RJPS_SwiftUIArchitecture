@@ -135,7 +135,7 @@ struct MainTabView: View, ViewProtocol {
                 model: model
             )
             .environmentObject(configuration)
-            .environmentObject(tab1Router)
+            .environmentObject(tab2Router)
         case .weatherDetailsWith(model: let model):
             WeatherDetailsViewCoordinator(
                 model: model
