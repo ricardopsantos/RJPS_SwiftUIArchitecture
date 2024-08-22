@@ -2,7 +2,7 @@
 //  EventsListViewModel.swift
 //  Common
 //
-//  Created by Ricardo Santos on 03/01/24.
+//  Created by Ricardo Santos on 22/08/24.
 //
 
 import Foundation

@@ -1,5 +1,5 @@
 //
-//  FavoriteEventsViewModel.swift
+//  EventDetailsViewModel.swift
 //  Common
 //
 //  Created by Ricardo Santos on 22/08/24.
@@ -16,10 +16,10 @@ import Core
 // MARK: - Model
 //
 
-public struct FavoriteEventsModel: Equatable, Hashable, Sendable {
-    let favorits: [Model.TrackedEntity]
-    init(favorits: [Model.TrackedEntity] = []) {
-        self.favorits = favorits
+public struct EventDetailsModel: Equatable, Hashable, Sendable {
+    let event: Model.TrackedEntity?
+    init(event: Model.TrackedEntity? = nil) {
+        self.event = event
     }
 }
 
@@ -27,34 +27,34 @@ public struct FavoriteEventsModel: Equatable, Hashable, Sendable {
 // MARK: - ViewModel (Extensions)
 //
 
-extension FavoriteEventsViewModel {
+extension EventDetailsViewModel {
     enum Actions {
         case didAppear
         case didDisappear
-        case addNewEvent(trackedEntityId: String)
-        case loadFavorits
+        case reload
     }
 
     struct Dependencies {
-        let model: FavoriteEventsModel
+        let model: EventDetailsModel
         let onCompletion: (String) -> Void
         let dataBaseRepository: DataBaseRepositoryProtocol
     }
 }
 
+
 //
 // MARK: - ViewModel
 //
-class FavoriteEventsViewModel: BaseViewModel {
+class EventDetailsViewModel: BaseViewModel {
     // MARK: - Usage Attributes
-    @Published private(set) var favorits: [Model.TrackedEntity] = []
+    @Published private(set) var event: Model.TrackedEntity?
 
     // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
     private let dataBaseRepository: DataBaseRepositoryProtocol?
     public init(dependencies: Dependencies) {
         self.dataBaseRepository = dependencies.dataBaseRepository
-        self.favorits = dependencies.model.favorits
+        self.event = dependencies.model.event
         super.init()
         dependencies.dataBaseRepository.output([]).sink { [weak self] some in
             switch some {
@@ -65,9 +65,9 @@ class FavoriteEventsViewModel: BaseViewModel {
                 case .databaseDidDeletedContentOn: break
                 case .databaseDidChangedContentItemOn: break
                 case .databaseDidFinishChangeContentItemsOn(let table):
-                    if table == "\(CDataTrackedLog.self)" {
+                    if table == "\(CDataTrackedEntity.self)" {
                         Common.ExecutionControlManager.debounce(operationId: #function) {
-                            self?.send(.loadFavorits)
+                            self?.send(.reload)
                         }
                     }
                 }
@@ -78,27 +78,20 @@ class FavoriteEventsViewModel: BaseViewModel {
     func send(_ action: Actions) {
         switch action {
         case .didAppear:
-            send(.loadFavorits)
-        case .didDisappear: ()
-        case .loadFavorits:
-            Task { [weak self] in
-                guard let self = self else { return }
-                if let records = dataBaseRepository?.trackedEntityGetAll(
-                    favorite: true,
-                    archived: false,
-                    cascade: true) {
-                    favorits = records
-                }
+            if let event = event {
+                send(.reload)
             }
-        case .addNewEvent(trackedEntityId: let trackedEntityId):
+        case .didDisappear: ()
+        case .reload:
+            guard let unwrapped = event else {
+                return
+            }
             Task { [weak self] in
                 guard let self = self else { return }
-                var trackedEntityId = trackedEntityId
-                if trackedEntityId.isEmpty {
-                    trackedEntityId = favorits.first?.id.description ?? ""
+                if let record = dataBaseRepository?.trackedEntityGet(
+                    trackedEntityId: unwrapped.id.uuidString, cascade: true) {
+                    event = record
                 }
-                let event: Model.TrackedLog = .init(latitude: 0, longitude: 0, note: "")
-                dataBaseRepository?.trackedLogInsertOrUpdate(trackedLog: event, trackedEntityId: trackedEntityId)
             }
         }
     }
@@ -108,7 +101,7 @@ class FavoriteEventsViewModel: BaseViewModel {
 // MARK: - Auxiliar
 //
 
-fileprivate extension FavoriteEventsViewModel {}
+fileprivate extension EventDetailsViewModel {}
 
 //
 // MARK: - Preview
@@ -116,8 +109,9 @@ fileprivate extension FavoriteEventsViewModel {}
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    FavoriteEventsViewCoordinator()
+    EventDetailsViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
 #endif
+

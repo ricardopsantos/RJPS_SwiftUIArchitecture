@@ -11,7 +11,7 @@ import UIKit
 import Common
 
 public extension Model {
-    struct TrackedLog: Equatable, Hashable, Sendable {
+    struct TrackedLog: Equatable, Hashable, Sendable, Identifiable {
         public var id: String
         public var latitude: Double
         public var longitude: Double

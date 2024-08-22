@@ -32,6 +32,7 @@ public extension Model {
             sound: String,
             cascadeEvents: [Model.TrackedLog]?
         ) {
+            print("make id string")
             self.id = id
             self.name = name
             self.info = info

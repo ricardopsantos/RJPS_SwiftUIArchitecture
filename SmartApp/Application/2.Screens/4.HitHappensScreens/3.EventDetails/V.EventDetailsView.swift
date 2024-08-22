@@ -1,5 +1,5 @@
 //
-//  EventsListViewModel.swift
+//  EventDetailsViewModel.swift
 //  Common
 //
 //  Created by Ricardo Santos on 22/08/24.
@@ -11,12 +11,11 @@ import SwiftUI
 import DevTools
 import Common
 import DesignSystem
-import Domain
 
 //
 // MARK: - Coordinator
 //
-struct EventsListViewCoordinator: View, ViewCoordinatorProtocol {
+struct EventDetailsViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var coordinator = RouterViewModel()
@@ -26,7 +25,7 @@ struct EventsListViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - Body & View
     var body: some View {
         NavigationStack(path: $coordinator.navPath) {
-            buildScreen(.eventsList)
+            buildScreen(.eventDetails)
                 .navigationDestination(for: AppScreen.self, destination: buildScreen)
                 .sheet(item: $coordinator.sheetLink, content: buildScreen)
                 .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
@@ -36,18 +35,12 @@ struct EventsListViewCoordinator: View, ViewCoordinatorProtocol {
     @ViewBuilder
     func buildScreen(_ screen: AppScreen) -> some View {
         switch screen {
-        case .eventsList:
-            let dependencies: EventsListViewModel.Dependencies = .init(
+        case .eventDetails:
+            let dependencies: EventDetailsViewModel.Dependencies = .init(
                 model: .init(), onCompletion: { _ in
-                }, onSelected: { model in
-                    //let detailsModel: WeatherDetailsModel = .init(
-                    //    latitude: model.latitude,
-                    //    longitude: model.longitude
-                    //)
-                    //coordinatorTab1.navigate(to: .weatherDetailsWith(model: detailsModel))
                 },
                 dataBaseRepository: configuration.dataBaseRepository)
-            EventsListView(dependencies: dependencies)
+            EventDetailsView(dependencies: dependencies)
         default:
             EmptyView().onAppear(perform: {
                 DevTools.assert(false, message: "Not predicted \(screen)")
@@ -60,14 +53,13 @@ struct EventsListViewCoordinator: View, ViewCoordinatorProtocol {
 // MARK: - View
 //
 
-struct EventsListView: View, ViewProtocol {
+struct EventDetailsView: View, ViewProtocol {
     // MARK: - ViewProtocol
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var viewModel: EventsListViewModel
-    public init(dependencies: EventsListViewModel.Dependencies) {
+    @StateObject var viewModel: EventDetailsViewModel
+    public init(dependencies: EventDetailsViewModel.Dependencies) {
         DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-        self.onSelected = dependencies.onSelected
     }
 
     // MARK: - Usage Attributes
@@ -77,7 +69,6 @@ struct EventsListView: View, ViewProtocol {
 
     // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
-    private let onSelected: (Model.TrackedEntity) -> Void
 
     // MARK: - Body & View
     var body: some View {
@@ -100,28 +91,41 @@ struct EventsListView: View, ViewProtocol {
 
     var content: some View {
         ScrollView {
-            VStack(spacing: SizeNames.defaultMarginSmall) {
-                ForEach(viewModel.events, id: \.self) { model in
-                    ListItemView(
-                        title: model.localizedEventName,
-                        subTitle: model.localizedEventsCount,
-                        onTapGesture: {
-                            onSelected(model)
-                        }
-                    )
-                    .debugBordersDefault()
-                }
-                Spacer()
-                .padding(.horizontal, SizeNames.defaultMargin)
-            }.padding(SizeNames.defaultMargin)
+            listView
+        }.padding(SizeNames.defaultMargin)
+    }
+    
+    var detailsView: some View {
+        VStack(spacing: 0) {
+            TitleAndValueView(title: "Name", value: viewModel.event?.name ?? "")
+            TitleAndValueView(title: "Name", value: viewModel.event?.info ?? "")
+            TitleAndValueView(title: "Color", value: viewModel.event?.color.rgbString ?? "")
+            TitleAndValueView(title: "Sound", value: viewModel.event?.sound ?? "")
         }
     }
-}
+    
+    var listView: some View {
+        Group {
+            if let cascadeEvents = viewModel.event?.cascadeEvents {
+                VStack(spacing: SizeNames.defaultMarginSmall) {
+                    ForEach(cascadeEvents, id: \.self) { model in
+                        ListItemView(
+                            title: "title",
+                            subTitle: "subTitle",
+                            onTapGesture: {
+                                //     onSelected(model)
+                            }
+                        )
+                        .debugBordersDefault()
+                    }
+                    Spacer()
+                        .padding(.horizontal, SizeNames.defaultMargin)
+                }
+            } else {
+                EmptyView()
+            }
+        }
 
-fileprivate extension EventsListView {
-    @ViewBuilder
-    var routingView: some View {
-        EmptyView()
     }
 }
 
@@ -131,9 +135,10 @@ fileprivate extension EventsListView {
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    EventsListViewCoordinator()
+    EventDetailsViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
         .environmentObject(AuthenticationViewModel.defaultForPreviews)
 }
 #endif
+
