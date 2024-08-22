@@ -23,12 +23,22 @@ struct WeatherDetailsViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - Usage Attributes
     @EnvironmentObject var coordinatorTab1: RouterViewModel
     let model: WeatherDetailsModel
+    private let haveNavigationStack: Bool = false
 
     // MARK: - Body & View
     var body: some View {
-        buildScreen(.weatherDetailsWith(model: model))
-            .sheet(item: $coordinator.sheetLink, content: buildScreen)
-            .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
+        if haveNavigationStack {
+            NavigationStack(path: $coordinator.navPath) {
+                buildScreen(.weatherDetailsWith(model: model))
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                    .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
+            }
+        } else {
+            buildScreen(.weatherDetailsWith(model: model))
+                .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
+        }
     }
 
     @ViewBuilder

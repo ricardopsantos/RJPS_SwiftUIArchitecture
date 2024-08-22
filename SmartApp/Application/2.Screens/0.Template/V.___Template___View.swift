@@ -20,12 +20,19 @@ struct ___Template___ViewCoordinator: View, ViewCoordinatorProtocol {
     @StateObject var coordinator = RouterViewModel()
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
-
+    let haveNavigationStack: Bool
+    let model: ___Template___Model
     // MARK: - Body & View
     var body: some View {
-        NavigationStack(path: $coordinator.navPath) {
-            buildScreen(.templateWith(model: .init(message: "!! Main !!")))
-                .navigationDestination(for: AppScreen.self, destination: buildScreen)
+        if haveNavigationStack {
+            NavigationStack(path: $coordinator.navPath) {
+                buildScreen(.templateWith(model: model))
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                    .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
+            }
+        } else {
+            buildScreen(.templateWith(model: model))
                 .sheet(item: $coordinator.sheetLink, content: buildScreen)
                 .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
         }
@@ -177,7 +184,7 @@ public enum ___Template___Auxiliar {
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    ___Template___ViewCoordinator()
+    ___Template___ViewCoordinator(haveNavigationStack: false, model: .init(message: "Hi"))
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
         .environmentObject(AuthenticationViewModel.defaultForPreviews)

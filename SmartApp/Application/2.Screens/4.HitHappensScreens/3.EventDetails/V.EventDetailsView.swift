@@ -20,24 +20,33 @@ struct EventDetailsViewCoordinator: View, ViewCoordinatorProtocol {
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var coordinator = RouterViewModel()
     // MARK: - Usage Attributes
+    @EnvironmentObject var coordinatorTab2: RouterViewModel
     @Environment(\.dismiss) var dismiss
-
+    let model: EventDetailsModel
+    private let haveNavigationStack: Bool = false
     // MARK: - Body & View
     var body: some View {
-        NavigationStack(path: $coordinator.navPath) {
-            buildScreen(.eventDetails)
-                .navigationDestination(for: AppScreen.self, destination: buildScreen)
+        if !haveNavigationStack {
+            buildScreen(.eventDetails(model: model))
                 .sheet(item: $coordinator.sheetLink, content: buildScreen)
                 .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
+        } else {
+            NavigationStack(path: $coordinator.navPath) {
+                buildScreen(.eventDetails(model: model))
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                    .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
+            }
         }
     }
 
     @ViewBuilder
     func buildScreen(_ screen: AppScreen) -> some View {
         switch screen {
-        case .eventDetails:
+        case .eventDetails(model: let model):
             let dependencies: EventDetailsViewModel.Dependencies = .init(
-                model: .init(), onCompletion: { _ in
+                model: model, onCompletion: { _ in }, onRouteBack: {
+                    coordinatorTab2.navigateBack()
                 },
                 dataBaseRepository: configuration.dataBaseRepository)
             EventDetailsView(dependencies: dependencies)
@@ -60,12 +69,12 @@ struct EventDetailsView: View, ViewProtocol {
     public init(dependencies: EventDetailsViewModel.Dependencies) {
         DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
+        self.onRouteBack = dependencies.onRouteBack
     }
 
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
-    // @State var someVar = 0
-    // @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
+    private let onRouteBack: () -> Void
 
     // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
@@ -75,7 +84,9 @@ struct EventDetailsView: View, ViewProtocol {
         BaseView.withLoading(
             sender: "\(Self.self)",
             appScreen: .templateWith(model: .init()),
-            navigationViewModel: .disabled,
+            navigationViewModel: .custom(onBackButtonTap: {
+                onRouteBack()
+            }, title: "Event Details".localizedMissing),
             ignoresSafeArea: true,
             background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
@@ -91,32 +102,35 @@ struct EventDetailsView: View, ViewProtocol {
 
     var content: some View {
         ScrollView {
-            listView
+            VStack {
+                detailsView
+                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
+                listView
+            }
         }.padding(SizeNames.defaultMargin)
     }
-    
+
     var detailsView: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: SizeNames.defaultMarginSmall) {
             TitleAndValueView(title: "Name", value: viewModel.event?.name ?? "")
             TitleAndValueView(title: "Name", value: viewModel.event?.info ?? "")
             TitleAndValueView(title: "Color", value: viewModel.event?.color.rgbString ?? "")
             TitleAndValueView(title: "Sound", value: viewModel.event?.sound ?? "")
         }
     }
-    
+
     var listView: some View {
         Group {
             if let cascadeEvents = viewModel.event?.cascadeEvents {
-                VStack(spacing: SizeNames.defaultMarginSmall) {
+                LazyVStack(spacing: SizeNames.defaultMarginSmall) {
                     ForEach(cascadeEvents, id: \.self) { model in
                         ListItemView(
                             title: "title",
                             subTitle: "subTitle",
                             onTapGesture: {
                                 //     onSelected(model)
-                            }
-                        )
-                        .debugBordersDefault()
+                            })
+                            .debugBordersDefault()
                     }
                     Spacer()
                         .padding(.horizontal, SizeNames.defaultMargin)
@@ -125,7 +139,6 @@ struct EventDetailsView: View, ViewProtocol {
                 EmptyView()
             }
         }
-
     }
 }
 
@@ -135,10 +148,10 @@ struct EventDetailsView: View, ViewProtocol {
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    EventDetailsViewCoordinator()
+    EventDetailsViewCoordinator(
+        model: .init(event: .random(cascadeEvents: [.random, .random])))
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
         .environmentObject(AuthenticationViewModel.defaultForPreviews)
 }
 #endif
-

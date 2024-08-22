@@ -112,7 +112,7 @@ class WeatherDetailsViewModel: BaseViewModel {
 #if canImport(SwiftUI) && DEBUG
 #Preview {
     WeatherDetailsViewCoordinator(model: .init(latitude: 38.71, longitude: -9.14))
-        .environmentObject(AppStateViewModel.defaultForPreviews)
-        .environmentObject(ConfigurationViewModel.defaultForPreviews)
+    .environmentObject(AppStateViewModel.defaultForPreviews)
+    .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
 #endif

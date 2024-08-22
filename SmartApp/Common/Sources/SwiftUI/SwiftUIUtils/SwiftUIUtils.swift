@@ -39,7 +39,7 @@ public enum SwiftUIUtils {
                 return name
             }
         }
-        
+
         var counter: Int {
             renderedViewCounter[identifier] ?? 1
         }

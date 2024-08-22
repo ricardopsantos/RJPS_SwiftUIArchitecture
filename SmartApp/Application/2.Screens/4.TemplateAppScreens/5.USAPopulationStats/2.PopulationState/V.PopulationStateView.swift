@@ -24,13 +24,21 @@ struct PopulationStateViewCoordinator: View, ViewCoordinatorProtocol {
     @EnvironmentObject var coordinatorTab2: RouterViewModel
     let year: String
     let model: [PopulationStateModel]
-
+    private let haveNavigationStack: Bool = false
     // MARK: - Body & View
     var body: some View {
-        buildScreen(.populationStates(year: year, model: model))
-            .navigationDestination(for: AppScreen.self, destination: buildScreen)
-            .sheet(item: $coordinator.sheetLink, content: buildScreen)
-            .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
+        if haveNavigationStack {
+            NavigationStack(path: $coordinator.navPath) {
+                buildScreen(.populationStates(year: year, model: model))
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                    .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
+            }
+        } else {
+            buildScreen(.populationStates(year: year, model: model))
+                .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
+        }
     }
 
     @ViewBuilder
@@ -98,35 +106,17 @@ struct PopulationStateView: View, ViewProtocol {
         }.onDisappear {
             viewModel.send(action: .didDisappear)
         }
-        // .navigationBarHidden(isNavigationBarHidden)
     }
 
     var content: some View {
-        // NavigationView {
-        // ScrollViewReader { scrollViewProxy in
         ScrollView {
-            //        GeometryReader { geometry in
-            //            let offset = geometry.frame(in: .global).minY
-            //            let isNavigationBarHiddenNewValue = offset < SizeNames.size_8.cgFloat
-            //            if isNavigationBarHiddenNewValue != isNavigationBarHidden {
-            //                withAnimation {
-            //                    isNavigationBarHidden.toggle()
-            //                }
-            //            }
-            //            return Color.clear
-            //        }
             listView
         }
-        // }
         .accessibility(identifier: Accessibility.scrollView.identifier)
-        // }
-        // .navigationTitle(viewModel.title)
-        // .navigationBarTitleDisplayMode(.inline)
     }
 
     var navigationViewModel: BaseView.NavigationViewModel? {
         .custom(onBackButtonTap: onRouteBack, title: viewModel.title)
-//        isNavigationBarHidden ? .defaultHidden : .custom(onBackButtonTap: onRouteBack, title: viewModel.title)
     }
 }
 
@@ -161,17 +151,3 @@ fileprivate extension PopulationStateView {
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
 #endif
-
-struct NavigationConfigurator: UIViewControllerRepresentable {
-    var configure: (UINavigationController) -> Void
-    func makeUIViewController(context: Context) -> UIViewController {
-        let viewController = UIViewController()
-        return viewController
-    }
-
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        if let navigationController = uiViewController.navigationController {
-            configure(navigationController)
-        }
-    }
-}

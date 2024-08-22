@@ -17,8 +17,8 @@ import Core
 //
 
 public struct EventDetailsModel: Equatable, Hashable, Sendable {
-    let event: Model.TrackedEntity?
-    init(event: Model.TrackedEntity? = nil) {
+    let event: Model.TrackedEntity
+    init(event: Model.TrackedEntity) {
         self.event = event
     }
 }
@@ -36,11 +36,11 @@ extension EventDetailsViewModel {
 
     struct Dependencies {
         let model: EventDetailsModel
-        let onCompletion: (String) -> Void
+        let onCompletion: (String) -> ()
+        let onRouteBack: ()->()
         let dataBaseRepository: DataBaseRepositoryProtocol
     }
 }
-
 
 //
 // MARK: - ViewModel
@@ -109,9 +109,9 @@ fileprivate extension EventDetailsViewModel {}
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    EventDetailsViewCoordinator()
+    EventDetailsViewCoordinator(
+        model: .init(event: .random(cascadeEvents: [.random])))
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
 #endif
-

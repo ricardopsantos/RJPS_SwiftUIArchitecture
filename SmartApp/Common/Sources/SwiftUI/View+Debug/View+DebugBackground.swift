@@ -14,7 +14,7 @@ public extension View {
         self
         #endif
     }
-    
+
     func debugBordersDefault() -> some View {
         debugBorders(.red, .blue)
     }

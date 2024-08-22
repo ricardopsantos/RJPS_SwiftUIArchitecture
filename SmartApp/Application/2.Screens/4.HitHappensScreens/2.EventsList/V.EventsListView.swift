@@ -19,15 +19,22 @@ import Domain
 struct EventsListViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
+    @EnvironmentObject var coordinatorTab2: RouterViewModel
     @StateObject var coordinator = RouterViewModel()
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
-
+    private let haveNavigationStack = false
     // MARK: - Body & View
     var body: some View {
-        NavigationStack(path: $coordinator.navPath) {
+        if haveNavigationStack {
+            NavigationStack(path: $coordinator.navPath) {
+                buildScreen(.eventsList)
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                    .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
+            }
+        } else {
             buildScreen(.eventsList)
-                .navigationDestination(for: AppScreen.self, destination: buildScreen)
                 .sheet(item: $coordinator.sheetLink, content: buildScreen)
                 .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
         }
@@ -39,12 +46,9 @@ struct EventsListViewCoordinator: View, ViewCoordinatorProtocol {
         case .eventsList:
             let dependencies: EventsListViewModel.Dependencies = .init(
                 model: .init(), onCompletion: { _ in
-                }, onSelected: { model in
-                    //let detailsModel: WeatherDetailsModel = .init(
-                    //    latitude: model.latitude,
-                    //    longitude: model.longitude
-                    //)
-                    //coordinatorTab1.navigate(to: .weatherDetailsWith(model: detailsModel))
+                }, onSelected: { model in
+                    let detailsModel: EventDetailsModel = .init(event: model)
+                    coordinatorTab2.navigate(to: .eventDetails(model: detailsModel))
                 },
                 dataBaseRepository: configuration.dataBaseRepository)
             EventsListView(dependencies: dependencies)
@@ -107,12 +111,11 @@ struct EventsListView: View, ViewProtocol {
                         subTitle: model.localizedEventsCount,
                         onTapGesture: {
                             onSelected(model)
-                        }
-                    )
-                    .debugBordersDefault()
+                        })
+                        .debugBordersDefault()
                 }
                 Spacer()
-                .padding(.horizontal, SizeNames.defaultMargin)
+                    .padding(.horizontal, SizeNames.defaultMargin)
             }.padding(SizeNames.defaultMargin)
         }
     }
@@ -135,5 +138,16 @@ fileprivate extension EventsListView {
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
         .environmentObject(AuthenticationViewModel.defaultForPreviews)
+}
+#endif
+
+//
+// MARK: - Preview
+//
+
+#if canImport(SwiftUI) && DEBUG
+#Preview {
+    PopulationStateViewCoordinator(year: "2022", model: [])
+        .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
 #endif

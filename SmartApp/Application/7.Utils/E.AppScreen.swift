@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
+//
 import Common
+import Domain
 
 public enum AppScreen: Hashable, Identifiable, Sendable {
     case na
@@ -17,7 +19,7 @@ public enum AppScreen: Hashable, Identifiable, Sendable {
     // HitHappens app
     case favoriteEvents
     case eventsList
-    case eventDetails
+    case eventDetails(model: EventDetailsModel)
     //
     case templateWith(model: ___Template___Model)
     // Template App

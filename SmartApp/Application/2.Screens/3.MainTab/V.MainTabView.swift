@@ -66,7 +66,7 @@ struct MainTabView: View, ViewProtocol {
             NavigationStack(path: $tab2Router.navPath) {
                 EventsListViewCoordinator()
                     .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                    .environmentObject(tab1Router)
+                    .environmentObject(tab2Router)
             }
             .tabItem { TabItemView(title: Tab.tab2.title, icon: Tab.tab2.icone) }
             .tag(Tab.tab2)
@@ -103,9 +103,12 @@ struct MainTabView: View, ViewProtocol {
             .tag(Tab.tab2)
 
             NavigationStack(path: $tab3Router.navPath) {
-                ___Template___ViewCoordinator()
-                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                    .environmentObject(tab3Router)
+                ___Template___ViewCoordinator(
+                    haveNavigationStack: true,
+                    model: .init(message: "Hi")
+                )
+                .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                .environmentObject(tab3Router)
             }
             .tabItem { TabItemView(title: Tab.tab3.title, icon: Tab.tab3.icone) }
             .tag(Tab.tab3)
@@ -127,14 +130,25 @@ struct MainTabView: View, ViewProtocol {
     @ViewBuilder
     func buildScreen(_ screen: AppScreen) -> some View {
         switch screen {
+        case .eventDetails(model: let model):
+            EventDetailsViewCoordinator(
+                model: model
+            )
+            .environmentObject(configuration)
+            .environmentObject(tab1Router)
         case .weatherDetailsWith(model: let model):
-            WeatherDetailsViewCoordinator(model: model)
-                .environmentObject(configuration)
-                .environmentObject(tab1Router)
+            WeatherDetailsViewCoordinator(
+                model: model
+            )
+            .environmentObject(configuration)
+            .environmentObject(tab1Router)
         case .populationStates(year: let year, model: let model):
-            PopulationStateViewCoordinator(year: year, model: model)
-                .environmentObject(configuration)
-                .environmentObject(tab2Router)
+            PopulationStateViewCoordinator(
+                year: year,
+                model: model
+            )
+            .environmentObject(configuration)
+            .environmentObject(tab2Router)
         default:
             EmptyView().onAppear(perform: {
                 DevTools.assert(false, message: "Not predicted \(screen)")

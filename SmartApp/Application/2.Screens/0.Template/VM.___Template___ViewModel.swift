@@ -86,7 +86,7 @@ fileprivate extension ___Template___ViewModel {}
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    ___Template___ViewCoordinator()
+    ___Template___ViewCoordinator(haveNavigationStack: false, model: .init(message: "Hi"))
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
         .environmentObject(AuthenticationViewModel.defaultForPreviews)

@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import DevTools
 
 public final class RouterViewModel: ObservableObject {
     // MARK: - Dependency Attributes
@@ -36,6 +37,8 @@ public final class RouterViewModel: ObservableObject {
     public func navigateBack() {
         if !navPath.isEmpty {
             navPath.removeLast()
+        } else {
+            DevTools.Log.error("navPath is empty. can route back", .view)
         }
     }
 

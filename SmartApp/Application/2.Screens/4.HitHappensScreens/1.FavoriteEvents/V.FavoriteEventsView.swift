@@ -100,7 +100,7 @@ struct FavoriteEventsView: View, ViewProtocol {
                     onTapGesture: {
                         viewModel.send(.addNewEvent(trackedEntityId: model.id.uuidString))
                     })
-                .debugBordersDefault()
+                    .debugBordersDefault()
             }
             .padding(.horizontal, SizeNames.defaultMargin)
         }
@@ -113,7 +113,6 @@ fileprivate extension FavoriteEventsView {
         EmptyView()
     }
 }
-
 
 //
 // MARK: - Preview
