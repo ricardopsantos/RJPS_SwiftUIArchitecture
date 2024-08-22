@@ -6,7 +6,7 @@ import Foundation
 import CoreData
 
 /**
- 
+
  6 Performance Improvements for Core Data in iOS Apps
 
  https://stevenpcurtis.medium.com/5-performance-improvements-for-core-data-in-ios-apps-2dbd1ab5d601
@@ -48,24 +48,24 @@ extension CommonDataBaseRepository {
     }
 
     func aSyncStoreBatch(_ models: [CommonCoreData.Utils.Sample.CRUDEntity]) async {
-          typealias DBEntity = CDataCRUDEntity
-          let context = backgroundContext // Use a background context to perform the operation asynchronously
-          await withCheckedContinuation { [weak context] continuation in
-              context?.performAndWait { [weak context] in
-                  guard let context = context else {
-                      return
-                  }
-                  let batchRequest = NSBatchInsertRequest(entity: DBEntity.entity(), objects: models.map { model in
-                      model.mapToDic
-                  })
-                  if context.hasChanges || Common_Utils.true { // Dont check for changes on Batch, they don't appear
-                      _ = try? context.execute(batchRequest)
-                  }
-                  continuation.resume()
-              }
-          }
-      }
-    
+        typealias DBEntity = CDataCRUDEntity
+        let context = backgroundContext // Use a background context to perform the operation asynchronously
+        await withCheckedContinuation { [weak context] continuation in
+            context?.performAndWait { [weak context] in
+                guard let context = context else {
+                    return
+                }
+                let batchRequest = NSBatchInsertRequest(entity: DBEntity.entity(), objects: models.map { model in
+                    model.mapToDic
+                })
+                if context.hasChanges || Common_Utils.true { // Dont check for changes on Batch, they don't appear
+                    _ = try? context.execute(batchRequest)
+                }
+                continuation.resume()
+            }
+        }
+    }
+
     func aSyncUpdate(_ model: CommonCoreData.Utils.Sample.CRUDEntity) async {
         typealias DBEntity = CDataCRUDEntity
         let context = backgroundContext // Use a background context to perform the operation asynchronously

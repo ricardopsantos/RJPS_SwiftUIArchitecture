@@ -14,9 +14,9 @@ import Nimble
 import Domain
 import Core
 
-final class CoreRepositoriesTests: XCTestCase {
+final class NonSecureAppPreferences_Tests: XCTestCase {
     var enabled: Bool = true
-    private var nonSecureAppPreferences: NonSecureAppPreferencesProtocol? = DependenciesManager.Repository.nonSecureAppPreferences
+    private var repository: NonSecureAppPreferencesProtocol? = DependenciesManager.Repository.nonSecureAppPreferences
 
     override func setUp() {
         super.setUp()
@@ -30,20 +30,20 @@ final class CoreRepositoriesTests: XCTestCase {
 // MARK: - Tests
 //
 
-extension CoreRepositoriesTests {
+extension NonSecureAppPreferences_Tests {
     // Test to verify that an event is emitted when a non-secure app preference property changes
     func testA1_nonSecureAppPreferences_emitEventOnChangedProperty() {
         var emittedEvent = false
 
         // Subscribe to output events for the .changedKey event with key .isAuthenticated
-        nonSecureAppPreferences?.output([.changedKey(key: .isAuthenticated)])
+        repository?.output([.changedKey(key: .isAuthenticated)])
             .sink { _ in
                 emittedEvent = true // Set the flag to true when the event is received
             }.store(in: cancelBag)
 
         // Toggle the value of isAuthenticated to trigger the event
-        if let isAuthenticated = nonSecureAppPreferences?.isAuthenticated {
-            nonSecureAppPreferences?.isAuthenticated = !isAuthenticated
+        if let isAuthenticated = repository?.isAuthenticated {
+            repository?.isAuthenticated = !isAuthenticated
         }
 
         // Verify that the event is emitted

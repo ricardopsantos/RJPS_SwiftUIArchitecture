@@ -9,7 +9,7 @@ import CoreData
 // MARK: - NSFetchedResultsControllerDelegate
 //
 
-extension CommonDataBaseRepository: NSFetchedResultsControllerDelegate {
+extension CommonBaseCoreDataManager: NSFetchedResultsControllerDelegate {
     // This method serves as a preparation step before the individual changes are processed.
     // It's often used to signal the start of a batch update operation and can be used to perform
     // any necessary setup before applying the changes.
@@ -37,13 +37,13 @@ extension CommonDataBaseRepository: NSFetchedResultsControllerDelegate {
         } else {
             /// `<CDataCRUDEntity: 0x60000211c280>` --> `CDataCRUDEntity`
             dbModelName = "\(anObject.self)".dropFirstIf("<").split(by: ":").first
-            ["id", "identifier", "key", ].forEach { key in
+            ["id", "identifier", "key"].forEach { key in
                 if let some = (anObject as AnyObject).value(forKey: "id"), !"\(some)".isEmpty {
                     id = "\(some)"
                 }
             }
         }
-        
+
         if let dbModelName = dbModelName {
             switch type {
             case .insert:
@@ -65,7 +65,7 @@ extension CommonDataBaseRepository: NSFetchedResultsControllerDelegate {
     // to perform any final UI updates or batch processing that you want to do after a series of changes.
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         var dbModelName: String?
-        fetchedResultsControllerDic.forEach { (key, value) in
+        fetchedResultsController.forEach { key, value in
             if controller == value {
                 dbModelName = key
             }

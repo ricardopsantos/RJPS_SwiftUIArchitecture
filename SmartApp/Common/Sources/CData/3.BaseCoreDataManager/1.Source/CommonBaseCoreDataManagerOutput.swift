@@ -19,7 +19,7 @@ public enum CommonBaseCoreDataManagerOutput: Hashable {
         case databaseDidChangedContentItemOn(_ dbModelName: String) // CRUD record
         case databaseDidFinishChangeContentItemsOn(_ dbModelName: String) // Any operation finish for records list
     }
-    
+
     case generic(_ value: Generic)
 }
 
@@ -32,15 +32,15 @@ public extension CommonBaseCoreDataManager {
     func emit(event: OutputType) {
         Self.emit(event: event)
     }
-    
+
     func output(_ filter: [OutputType] = []) -> AnyPublisher<OutputType, Never> {
         Self.output(filter)
     }
-    
+
     static func emit(event: OutputType) {
         output.send(event)
     }
-    
+
     static func output(_ filter: [OutputType] = []) -> AnyPublisher<OutputType, Never> {
         if filter.isEmpty {
             return output.eraseToAnyPublisher()

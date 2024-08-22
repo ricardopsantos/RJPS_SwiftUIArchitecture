@@ -8,13 +8,14 @@ import Foundation
 // Mappers
 //
 public extension CDataSong {
-    
     /// `cascade` to avoid dead lock on map (artists adding songs and songs adding back artists)
     func mapToModel(cascade: Bool) -> CommonCoreData.Utils.Sample.Song {
-        return .init(id: id ?? "",
-                     title: title ?? "",
-                     releaseDate: releaseDate ?? Date.now,
-                     cascadeSinger: cascade ? singer?.mapToModel : nil)
+        .init(
+            id: id ?? "",
+            title: title ?? "",
+            releaseDate: releaseDate ?? Date.now,
+            cascadeSinger: cascade ? singer?.mapToModel : nil
+        )
     }
 }
 

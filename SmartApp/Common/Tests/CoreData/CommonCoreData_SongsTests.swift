@@ -9,7 +9,6 @@ import Nimble
 @testable import Common
 
 class CommonCoreData_SongsTests: XCTestCase {
-    
     // Enable or disable tests (for debugging or conditional execution)
     func enabled() -> Bool {
         true
@@ -30,21 +29,20 @@ class CommonCoreData_SongsTests: XCTestCase {
 }
 
 extension CommonCoreData_SongsTests {
-    
     // Creates a random CDataSinger instance with an optional number of songs
     @discardableResult
     func randomCDataSinger(songs: Int = 0) -> CDataSinger {
         let singer = bd.newSingerInstance(name: "Singer \(String.random(10))")
         if songs > 0 {
             // Create an array of songs and add them to the singer
-            let songs = (0...(songs-1)).map { bd.newSongInstance(title: "Song \($0)", releaseDate: Date.now) }
+            let songs = (0...(songs - 1)).map { bd.newSongInstance(title: "Song \($0)", releaseDate: Date.now) }
             songs.forEach { song in
                 singer.addToSongs(song)
             }
         }
         return singer
     }
-    
+
     // Creates and saves a random CDataSinger instance with an optional number of songs
     @discardableResult
     func saveRandomCDataSinger(songs: Int = 0) -> CDataSinger {
@@ -58,14 +56,13 @@ extension CommonCoreData_SongsTests {
 // MARK: - CRUD (Create, Read, Update, Delete) Tests
 //
 extension CommonCoreData_SongsTests {
-    
     // Test to ensure that deleting a singer also deletes the associated songs (cascade delete)
     func test_cascadeDelete() {
         guard enabled() else {
             XCTAssert(true)
             return
         }
-        
+
         bd.deleteAllSingers() // Clear all existing singers
 
         saveRandomCDataSinger(songs: 1) // Save a singer with one song
@@ -73,14 +70,14 @@ extension CommonCoreData_SongsTests {
         // Assert that the singer and song were saved
         XCTAssert(bd.allSingers().count == 1)
         XCTAssert(bd.allSongs().count == 1)
-        
+
         bd.deleteAllSingers() // Delete all singers
-        
+
         // Assert that deleting the singer also deletes the song
-        XCTAssert(bd.allSongs().count == 0)
-        XCTAssert(bd.allSingers().count == 0)
+        XCTAssert(bd.allSongs().isEmpty)
+        XCTAssert(bd.allSingers().isEmpty)
     }
-    
+
     // Test to save a singer with one song and verify the correct saving
     func test_saveSingerWith1Song() {
         guard enabled() else {
@@ -89,12 +86,12 @@ extension CommonCoreData_SongsTests {
         }
         bd.deleteAllSingers() // Clear all existing singers
         saveRandomCDataSinger(songs: 1) // Save a singer with one song
-        
+
         // Assert that one singer and one song exist in the database
         XCTAssert(bd.allSingers().count == 1)
         XCTAssert(bd.allSongs().count == 1)
     }
-    
+
     // Test to verify that deleting a specific singer does not affect other singers
     func test_deleteSpecificSinger() {
         guard enabled() else {
@@ -104,16 +101,16 @@ extension CommonCoreData_SongsTests {
         bd.deleteAllSingers() // Clear all existing singers
         let singer1 = saveRandomCDataSinger(songs: 1) // Save the first singer
         let singer2 = saveRandomCDataSinger(songs: 2) // Save the second singer
-        
+
         // Delete the first singer
         bd.deleteSinger(singer: singer1)
-        
+
         // Assert that the second singer and their songs still exist
         XCTAssert(bd.allSingers().count == 1)
         XCTAssert(bd.allSongs().count == 2)
         XCTAssert(bd.allSingers().first == singer2)
     }
-    
+
     // Test to map a singer to a model and verify the integrity of related data
     func test_singerMapToModel() {
         guard enabled() else {
@@ -129,7 +126,7 @@ extension CommonCoreData_SongsTests {
         XCTAssert(singer.songs?.count ?? 0 == cascadeSongsCount)
         XCTAssert(bd.allSongs().count == 1) // Assert the song exists in the database
     }
-    
+
     // Test to map a song to a model and verify the inclusion or exclusion of related singer
     func test_songMapToModel() {
         guard enabled() else {
@@ -140,13 +137,13 @@ extension CommonCoreData_SongsTests {
         let singer: CDataSinger = saveRandomCDataSinger(songs: 1) // Save a singer with one song
         let songModelWithSinger: CommonCoreData.Utils.Sample.Song? = bd.allSongs().first?.mapToModel(cascade: true)
         let songModelWithoutSinger: CommonCoreData.Utils.Sample.Song? = bd.allSongs().first?.mapToModel(cascade: false)
-        
+
         // Assert the song is correctly mapped with or without the singer relation
         XCTAssert(singer.songs?.count == 1)
         XCTAssert(songModelWithSinger?.cascadeSinger?.name == singer.name)
         XCTAssert(songModelWithoutSinger?.cascadeSinger == nil)
     }
-    
+
     // Test to save a singer with three songs and verify the correct saving
     func test_saveSingerWith3Song() {
         guard enabled() else {
@@ -155,12 +152,12 @@ extension CommonCoreData_SongsTests {
         }
         bd.deleteAllSingers() // Clear all existing singers
         saveRandomCDataSinger(songs: 3) // Save a singer with three songs
-        
+
         // Assert that one singer and three songs exist in the database
         XCTAssert(bd.allSingers().count == 1)
         XCTAssert(bd.allSongs().count == 3)
     }
-    
+
     // Test to delete all songs and verify that the singer still exists
     func test_deleteSong() {
         guard enabled() else {
@@ -170,36 +167,36 @@ extension CommonCoreData_SongsTests {
         bd.deleteAllSingers() // Clear all existing singers
         saveRandomCDataSinger(songs: 1) // Save a singer with one song
         bd.deleteAllSongs() // Delete all songs
-        
+
         // Assert that the singer exists but the song does not
         XCTAssert(bd.allSingers().count == 1)
-        XCTAssert(bd.allSongs().count == 0)
+        XCTAssert(bd.allSongs().isEmpty)
     }
-    
+
     // Test to check performance when saving a large number of songs
-     func test_performanceSaveManySongs() {
-         guard enabled() else {
-             XCTAssert(true)
-             return
-         }
-         bd.deleteAllSingers() // Clear all existing singers
-         
-         // Time: 0.010 sec
-         measure {
-             saveRandomCDataSinger(songs: 1000) // Save a singer with 1000 songs
-         }
-         
-         print(bd.allSongs().count)
-         XCTAssert(bd.allSingers().count == 1 * 10)
-         XCTAssert(bd.allSongs().count == 1000 * 10)
-     }
-    
+    func test_performanceSaveManySongs() {
+        guard enabled() else {
+            XCTAssert(true)
+            return
+        }
+        bd.deleteAllSingers() // Clear all existing singers
+
+        // Time: 0.010 sec
+        measure {
+            saveRandomCDataSinger(songs: 1000) // Save a singer with 1000 songs
+        }
+
+        print(bd.allSongs().count)
+        XCTAssert(bd.allSingers().count == 1 * 10)
+        XCTAssert(bd.allSongs().count == 1000 * 10)
+    }
+
     func test_emitEventOnDataBaseInsert() {
         guard enabled() else {
             XCTAssert(true)
             return
         }
-        
+
         var didInsertedContent = (value: false, id: "")
         var didChangedContent = 0
         var didFinishChangeContent = 0

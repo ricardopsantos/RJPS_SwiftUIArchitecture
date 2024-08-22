@@ -146,7 +146,7 @@ class SampleWebAPI_Tests: XCTestCase {
             XCTAssert(false)
         }
     }
-    
+
     func test_authenticationHandlerWithCertPath() async {
         let server: CommonNetworking.AuthenticationHandler.Server = .googleUkWithCertPath
         let delegate = CommonNetworking.AuthenticationHandler(server: server)
@@ -165,5 +165,4 @@ class SampleWebAPI_Tests: XCTestCase {
             XCTAssert(false)
         }
     }
-
 }

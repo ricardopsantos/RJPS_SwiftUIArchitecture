@@ -14,9 +14,12 @@ public extension CommonCoreData.Utils.Sample {
         public var title: String
         public var releaseDate: Date
         public var cascadeSinger: CommonCoreData.Utils.Sample.Singer?
-        public init(id: String, title: String,
-                    releaseDate: Date,
-                    cascadeSinger: CommonCoreData.Utils.Sample.Singer?) {
+        public init(
+            id: String,
+            title: String,
+            releaseDate: Date,
+            cascadeSinger: CommonCoreData.Utils.Sample.Singer?
+        ) {
             self.id = id
             self.title = title
             self.releaseDate = releaseDate
@@ -35,4 +38,3 @@ public extension CommonCoreData.Utils.Sample.Song {
         )
     }
 }
-

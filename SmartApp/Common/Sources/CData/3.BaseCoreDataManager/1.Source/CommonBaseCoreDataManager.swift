@@ -18,18 +18,19 @@ open class CommonBaseCoreDataManager: NSObject, SyncCoreDataManagerCRUDProtocol 
     fileprivate let managedObjectModel: NSManagedObjectModel
     fileprivate let persistentContainer: NSPersistentContainer!
     static var output = PassthroughSubject<OutputType, Never>()
-    
+    public var fetchedResultsController: [String: NSFetchedResultsController<NSManagedObject>] = [:]
+
     //
     // MARK: - Config
     //
-    public func viewContextIsShared() -> Bool {
+    open func viewContextIsShared() -> Bool {
         false // Can be overridden
     }
-    
-    public func startFetchedResultsController() {
+
+    open func startFetchedResultsController() {
         // Should be overridden to start "listening" db changes
     }
-    
+
     public init(dbName: String, dbBundle: String) {
         if let nsManagedObjectModel = CommonCoreData.Utils.managedObjectModel(dbName: dbName, dbBundle: dbBundle) {
             self.managedObjectModel = nsManagedObjectModel
@@ -50,22 +51,22 @@ open class CommonBaseCoreDataManager: NSObject, SyncCoreDataManagerCRUDProtocol 
         super.init()
         startFetchedResultsController()
     }
-    
+
     public func save() {
         saveContext()
     }
-    
+
     /// Default View Context
     public var viewContext: NSManagedObjectContext {
         viewContextIsShared() ? lazyViewContext : newViewContextInstance
     }
-    
+
     public var backgroundContext: NSManagedObjectContext {
         let context = persistentContainer.newBackgroundContext()
         context.automaticallyMergesChangesFromParent = true
         return context
     }
-    
+
     //
     // MARK: - Private
     //
@@ -78,7 +79,7 @@ open class CommonBaseCoreDataManager: NSObject, SyncCoreDataManagerCRUDProtocol 
             return context
         }
     }
-    
+
     private lazy var lazyViewContext: NSManagedObjectContext = {
         if Common_Utils.false {
             return CommonCoreData.Utils.mainViewContext(storeContainer: persistentContainer, automaticallyMergesChangesFromParent: true)
@@ -89,4 +90,3 @@ open class CommonBaseCoreDataManager: NSObject, SyncCoreDataManagerCRUDProtocol 
         }
     }()
 }
-

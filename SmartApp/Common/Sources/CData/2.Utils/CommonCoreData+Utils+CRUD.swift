@@ -53,7 +53,7 @@ public extension CommonCoreData.Utils {
         if !viewContext.updatedObjects.isEmpty {
             let relatedObjects = viewContext.updatedObjects
             let className = relatedObjects.first?.entity.name ?? ""
-            changes = "# Updated \(relatedObjects.count) of \(className)!"
+            changes = "# Updated \(relatedObjects.count) of \(className)"
         }
         #endif
         switch viewContext.concurrencyType {
@@ -86,7 +86,7 @@ public extension CommonCoreData.Utils {
         @unknown default:
             ()
         }
-        if logsEnabled, !changes.isEmpty, !Common.Utils.onUITests, !Common.Utils.onUnitTests {
+        if logsEnabled, !changes.isEmpty, !Common.Utils.onUITests/*, !Common.Utils.onUnitTests */{
             Common_Logs.debug(" 💾 \(Self.logNumber) - \(changes) @ \(threadInfo)")
             Self.logNumber += 1
         }

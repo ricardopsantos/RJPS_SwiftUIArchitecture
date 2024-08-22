@@ -211,8 +211,10 @@ public extension CommonNetworking {
                     Common_Logs.debug("\(CommonNetworking.NetworkAgentClient.self): Authenticated with Server Public Key")
                     return
                 } else {
-                    cancelAuthenticationChallengeWithLog(key: "serverPublicKey",
-                                                         value: "\(serverPublicKeyDataHash)")
+                    cancelAuthenticationChallengeWithLog(
+                        key: "serverPublicKey",
+                        value: "\(serverPublicKeyDataHash)"
+                    )
                     return
                 }
             }

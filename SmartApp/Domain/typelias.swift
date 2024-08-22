@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum Domain { }
+public enum Domain {}
 
 public class DomainBundleFinder {}
 

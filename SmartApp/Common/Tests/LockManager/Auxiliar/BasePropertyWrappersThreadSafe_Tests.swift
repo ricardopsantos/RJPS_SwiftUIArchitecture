@@ -51,7 +51,7 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
 
         wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
-    
+
     func test_simultaneousReads() {
         guard enabled() else {
             XCTAssert(true)
@@ -82,7 +82,7 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
 
         wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
-    
+
     func test_threadSafety() {
         guard enabled() else {
             XCTAssert(true)
@@ -141,8 +141,6 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
         wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
 
-
-
     func test_simultaneousReadsAndWrites() {
         guard enabled() else {
             XCTAssert(true)
@@ -174,7 +172,6 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
 
         wait(for: [expectation], timeout: TimeInterval(TestsGlobal.timeout))
     }
-
 
     func test_largeValuesAndOverflow() {
         guard enabled() else {

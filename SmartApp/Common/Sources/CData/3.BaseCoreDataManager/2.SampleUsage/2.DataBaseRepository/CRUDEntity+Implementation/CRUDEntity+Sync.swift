@@ -6,7 +6,7 @@ import Foundation
 import CoreData
 
 /**
- 
+
  6 Performance Improvements for Core Data in iOS Apps
 
  https://stevenpcurtis.medium.com/5-performance-improvements-for-core-data-in-ios-apps-2dbd1ab5d601
@@ -30,12 +30,9 @@ public extension CommonDataBaseRepository {
         newInstance.id = model.id
         newInstance.name = model.name
         newInstance.recordDate = model.recordDate
-        if context.hasChanges {
-            try? context.save()
-        }
+        CommonCoreData.Utils.save(viewContext: context)
     }
 
-    
     func syncStoreBatch(_ models: [CommonCoreData.Utils.Sample.CRUDEntity]) {
         typealias DBEntity = CDataCRUDEntity
         let context = viewContext
@@ -46,7 +43,7 @@ public extension CommonDataBaseRepository {
             _ = try? context.execute(batchRequest)
         }
     }
-    
+
     func syncUpdate(_ model: CommonCoreData.Utils.Sample.CRUDEntity) {
         typealias DBEntity = CDataCRUDEntity
         let context = viewContext
@@ -54,9 +51,7 @@ public extension CommonDataBaseRepository {
         if let existingEntity = instances?.first {
             existingEntity.name = model.name
             existingEntity.recordDate = model.recordDate
-            if context.hasChanges {
-                try? context.save()
-            }
+            CommonCoreData.Utils.save(viewContext: context)
         }
     }
 
@@ -66,9 +61,7 @@ public extension CommonDataBaseRepository {
         let instances = try? context.fetch(DBEntity.fetchRequestWith(id: model.id))
         if let existingEntity = instances?.first {
             context.delete(existingEntity)
-            if context.hasChanges {
-                try? context.save()
-            }
+            CommonCoreData.Utils.save(viewContext: context)
         }
     }
 
