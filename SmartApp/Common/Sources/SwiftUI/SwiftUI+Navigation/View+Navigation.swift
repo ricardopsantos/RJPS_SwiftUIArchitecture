@@ -137,7 +137,7 @@ internal extension Common_Preview {
                             detailsView
                         }
                     }
-                    SwiftUIUtils.RenderedView("DetailsView")
+                    SwiftUIUtils.RenderedView("\(Self.self).\(#function)")
                     Spacer()
                 }
             }
@@ -189,7 +189,7 @@ internal extension Common_Preview {
                     .font(.headline)
                     .navigationTitle("\(viewModel.detailsViewModelList.count) colors")
                     .navigationBarTitleDisplayMode(.inline)
-                    SwiftUIUtils.RenderedView("ListView")
+                    SwiftUIUtils.RenderedView("\(Self.self).\(#function)")
                     Spacer()
                 }
             }
@@ -230,7 +230,7 @@ internal extension Common_Preview {
                 VStack {
                     displayAsButtonsAndPresentAsSheet
                     displayAsList
-                    SwiftUIUtils.RenderedView("ListCoordinatorView")
+                    SwiftUIUtils.RenderedView("\(Self.self).\(#function)")
                     Spacer()
                 }
             }

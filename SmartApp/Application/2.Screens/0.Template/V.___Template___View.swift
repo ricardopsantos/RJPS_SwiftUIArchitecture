@@ -91,7 +91,7 @@ struct ___Template___View: View, ViewProtocol {
 
     var content: some View {
         VStack {
-            SwiftUIUtils.RenderedView("content")
+            SwiftUIUtils.RenderedView("\(Self.self).\(#function)")
             Text(viewModel.message)
             Button("Inc V1") {
                 viewModel.send(.increment)
@@ -119,13 +119,6 @@ fileprivate extension ___Template___View {
     @ViewBuilder
     var routingView: some View {
         EmptyView()
-        /*
-         Button("Push") {}
-         Button("Sheet") {}
-         Button("Cover") {}
-         Divider()
-         Button("viewModel.send(.dismissThis)") {}.padding()
-         Button("viewModel.send(.dismissAll)") {}.padding()*/
     }
 }
 
@@ -137,7 +130,7 @@ struct ___Template___AuxiliarAuthView: View {
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     var body: some View {
         VStack {
-            SwiftUIUtils.RenderedView("AuthView")
+            SwiftUIUtils.RenderedView("\(Self.self).\(#function)")
             Text(authenticationViewModel.isAuthenticated ? "Auth" : "Not Auth")
             Button("Toggle auth") {
                 authenticationViewModel.isAuthenticated.toggle()
@@ -152,7 +145,7 @@ struct ___Template___CounterDisplayView: View {
     var onTap: () -> Void
     var body: some View {
         VStack {
-            SwiftUIUtils.RenderedView("counterDisplayView")
+            SwiftUIUtils.RenderedView("\(Self.self).\(#function)")
             Text("___Template___Auxiliar.counterDisplayView")
             HStack {
                 Button("Inc V.onTap", action: { onTap() })

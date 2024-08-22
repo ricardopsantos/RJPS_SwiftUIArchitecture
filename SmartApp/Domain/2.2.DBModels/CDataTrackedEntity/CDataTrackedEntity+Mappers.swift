@@ -18,7 +18,9 @@ public extension CDataTrackedEntity {
             cascadeEvents = list.map { $0.mapToModel(cascade: false) }
         }
         return .init(
-            id: id ?? "",
+            id: UUID(uuidString: id ?? "") ?? UUID(),
+            name: name ?? "",
+            info: info ?? "",
             color: UIColor.colorFromRGBString(color ?? ""),
             archived: archived,
             favorite: favorite,
@@ -31,6 +33,8 @@ public extension CDataTrackedEntity {
     /// Model -> DB
     func bindWith(model: Model.TrackedEntity) {
         color = model.color.rgbString
+        name = model.name
+        info = model.info
         archived = model.archived
         favorite = model.favorite
         categoryId = Int16(model.category.rawValue)

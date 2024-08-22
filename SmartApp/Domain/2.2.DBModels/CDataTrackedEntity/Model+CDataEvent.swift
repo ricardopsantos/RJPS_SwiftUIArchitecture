@@ -11,8 +11,10 @@ import UIKit
 import Common
 
 public extension Model {
-    struct TrackedEntity: Equatable {
-        public var id: String
+    struct TrackedEntity: Equatable, Hashable, Identifiable, Sendable {
+        public var id: UUID
+        public var name: String
+        public var info: String
         public var color: UIColor
         public var archived: Bool
         public var favorite: Bool
@@ -20,7 +22,9 @@ public extension Model {
         public var sound: String
         public var cascadeEvents: [Model.TrackedLog]?
         public init(
-            id: String,
+            id: UUID,
+            name: String,
+            info: String,
             color: UIColor,
             archived: Bool,
             favorite: Bool,
@@ -29,6 +33,8 @@ public extension Model {
             cascadeEvents: [Model.TrackedLog]?
         ) {
             self.id = id
+            self.name = name
+            self.info = info
             self.color = color
             self.archived = archived
             self.favorite = favorite
@@ -42,10 +48,12 @@ public extension Model {
 public extension Model.TrackedEntity {
     static func random(cascadeEvents: [Model.TrackedLog]) -> Self {
         Model.TrackedEntity(
-            id: UUID().uuidString,
+            id: UUID(),
+            name: String.randomWithSpaces(10),
+            info: String.randomWithSpaces(10),
             color: UIColor.random,
-            archived: Bool.random(),
-            favorite: Bool.random(),
+            archived: false,
+            favorite: true,
             category: .none,
             sound: "",
             cascadeEvents: cascadeEvents

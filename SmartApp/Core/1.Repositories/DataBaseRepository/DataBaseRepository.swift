@@ -12,7 +12,7 @@ import Combine
 import Common
 import Domain
 
-public class DataBaseRepository: CommonBaseCoreDataManager {
+public class DataBaseRepository: CommonBaseCoreDataManager, DataBaseRepositoryProtocol {
     public static var shared = DataBaseRepository(
         dbName: Domain.internalDB,
         dbBundle: Domain.bundleIdentifier

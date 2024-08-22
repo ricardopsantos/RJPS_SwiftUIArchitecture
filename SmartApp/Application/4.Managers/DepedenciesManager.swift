@@ -23,7 +23,7 @@ public class DependenciesManager {
     }
 
     public enum Repository {
-        public static var dataBaseRepository: DataBaseRepository { DataBaseRepository.shared }
+        public static var dataBaseRepository: DataBaseRepositoryProtocol { DataBaseRepository.shared }
         public static var secureAppPreferences: SecureAppPreferencesProtocol { SecureAppPreferences.shared }
         public static var nonSecureAppPreferences: NonSecureAppPreferencesProtocol { NonSecureAppPreferences.shared }
         public static var userRepository: UserRepositoryProtocol { UserRepository(

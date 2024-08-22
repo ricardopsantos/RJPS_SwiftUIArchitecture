@@ -143,19 +143,24 @@ fileprivate extension RootView {}
 //
 fileprivate extension RootView {
     func updateRoot() {
-        if !viewModel.isAppStartCompleted {
-            root = .splash
-        } else if !authenticationViewModel.isAuthenticated {
-            root = .login
-        } else if authenticationViewModel.isAuthenticated {
-            if !viewModel.isUserDetailsFilled {
-                root = .userDetails
-            } else if !viewModel.isTermsAndConditionsAccepted {
-                root = .termsAndConditions
-            } else if !viewModel.isOnboardingCompleted {
-                root = .onboarding
-            } else {
-                root = .mainApp
+        switch selectedApp() {
+        case .hitHappens:
+            root = .mainApp
+        case .template:
+            if !viewModel.isAppStartCompleted {
+                root = .splash
+            } else if !authenticationViewModel.isAuthenticated {
+                root = .login
+            } else if authenticationViewModel.isAuthenticated {
+                if !viewModel.isUserDetailsFilled {
+                    root = .userDetails
+                } else if !viewModel.isTermsAndConditionsAccepted {
+                    root = .termsAndConditions
+                } else if !viewModel.isOnboardingCompleted {
+                    root = .onboarding
+                } else {
+                    root = .mainApp
+                }
             }
         }
     }

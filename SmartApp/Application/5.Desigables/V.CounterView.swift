@@ -17,6 +17,7 @@ struct DigitTransitionView: View {
     @State private var timer: Timer?
     @Binding private var digit: Int
     private let animated: Bool = Common_Utils.false
+    private let onTapGesture: () -> Void
     private var images: [String] {
         let number = $digit.wrappedValue
         return [
@@ -28,7 +29,8 @@ struct DigitTransitionView: View {
         ]
     }
 
-    public init(digit: Binding<Int>) {
+    public init(digit: Binding<Int>, onTapGesture: @escaping () -> Void) {
+        self.onTapGesture = onTapGesture
         if animated {
             self._digit = digit
             self.imageName = "\(digit.wrappedValue)00"
@@ -39,23 +41,25 @@ struct DigitTransitionView: View {
     }
 
     var body: some View {
-        VStack {
-            Image(imageName)
-                .resizable()
-                .scaledToFit()
-                .frame(
-                    width: screenWidth * 0.25,
-                    height: screenWidth * 0.25
-                )
-        }
-        .onChange(of: digit) { _ in
-            if animated {
-                imageName = "\(digit - 1)00"
-                startAnimation()
-            } else {
-                imageName = "\($digit.wrappedValue)00"
+        Image(imageName)
+            .resizable()
+            .scaledToFit()
+            .frame(
+                minWidth: CounterView.minWidth,
+                maxWidth: CounterView.maxWidth,
+                minHeight: CounterView.minHeight,
+                maxHeight: CounterView.maxHeight
+            )
+            .onChange(of: digit) { _ in
+                if animated {
+                    imageName = "\(digit - 1)00"
+                    startAnimation()
+                } else {
+                    imageName = "\($digit.wrappedValue)00"
+                }
+            }.onTapGesture {
+                onTapGesture()
             }
-        }
     }
 
     func startAnimation() {
@@ -82,26 +86,35 @@ struct NumberTransitionView: View {
     @Binding private var digitIndex0: Int
     @Binding private var digitIndex1: Int
     @Binding private var digitIndex2: Int
+    private let onTapGesture: () -> Void
     public init(
         digitIndex0: Binding<Int>,
         digitIndex1: Binding<Int>,
-        digitIndex2: Binding<Int>
+        digitIndex2: Binding<Int>,
+        onTapGesture: @escaping () -> Void
     ) {
+        self.onTapGesture = onTapGesture
         self._digitIndex0 = digitIndex0
         self._digitIndex1 = digitIndex1
         self._digitIndex2 = digitIndex2
     }
 
     var body: some View {
-        VStack {
-            Text("\(digitIndex0), \(digitIndex1), \(digitIndex2)")
-            HStack {
-                DigitTransitionView(digit: $digitIndex0)
-                DigitTransitionView(digit: $digitIndex1)
-                DigitTransitionView(digit: $digitIndex2)
-            }
+        HStack(spacing: 0) {
+            DigitTransitionView(digit: $digitIndex0, onTapGesture: onTapGesture)
+            DigitTransitionView(digit: $digitIndex1, onTapGesture: onTapGesture)
+            DigitTransitionView(digit: $digitIndex2, onTapGesture: onTapGesture)
+        }.onTapGesture {
+            onTapGesture()
         }
     }
+}
+
+extension CounterView {
+    static let maxWidth = screenWidth * 0.2
+    static let maxHeight = screenWidth * 0.2
+    static let minWidth = screenWidth * 0.15
+    static let minHeight = screenWidth * 0.15
 }
 
 struct CounterView: View {
@@ -110,30 +123,46 @@ struct CounterView: View {
     @State private var digitIndex1: Int
     @State private var digitIndex2: Int
     private let onChange: (Int) -> Void
-    init(number: Int, onChange: @escaping (Int) -> Void) {
-        self._number = State(initialValue: number)
-        self.digitIndex0 = Self.digitsArray(number: number)[0]
-        self.digitIndex1 = Self.digitsArray(number: number)[1]
-        self.digitIndex2 = Self.digitsArray(number: number)[2]
+    private let onTapGesture: () -> Void
+    private let model: Model.TrackedEntity
+    init(
+        model: Model.TrackedEntity,
+        onChange: @escaping (Int) -> Void,
+        onTapGesture: @escaping () -> Void
+    ) {
+        let counterValue = model.cascadeEvents?.count ?? 0
+        self.model = model
+        self._number = State(initialValue: counterValue)
+        self.digitIndex0 = Self.digitsArray(number: counterValue)[0]
+        self.digitIndex1 = Self.digitsArray(number: counterValue)[1]
+        self.digitIndex2 = Self.digitsArray(number: counterValue)[2]
         self.onChange = onChange
+        self.onTapGesture = onTapGesture
     }
 
     public var body: some View {
-        VStack {
-            Text("\(Self.digitsArray(number: number))")
-            NumberTransitionView(
-                digitIndex0: $digitIndex0,
-                digitIndex1: $digitIndex1,
-                digitIndex2: $digitIndex2
-            )
-            Button("Inc") {
-                number += 1
-            }
-            .onChange(of: number) { _ in
-                digitIndex0 = Self.digitsArray(number: number)[0]
-                digitIndex1 = Self.digitsArray(number: number)[1]
-                digitIndex2 = Self.digitsArray(number: number)[2]
-                onChange(number)
+        VStack(spacing: 0) {
+            SwiftUIUtils.RenderedView("\(Self.self).\(#function)", id: model.id.uuidString)
+            HStack(spacing: 0) {
+                Text(model.name)
+                    .fontSemantic(.largeTitle)
+                    .textColor(ColorSemantic.labelPrimary.color)
+                    .lineLimit(2)
+                Spacer()
+                NumberTransitionView(
+                    digitIndex0: $digitIndex0,
+                    digitIndex1: $digitIndex1,
+                    digitIndex2: $digitIndex2,
+                    onTapGesture: onTapGesture
+                )
+                .onChange(of: number) { _ in
+                    digitIndex0 = Self.digitsArray(number: number)[0]
+                    digitIndex1 = Self.digitsArray(number: number)[1]
+                    digitIndex2 = Self.digitsArray(number: number)[2]
+                    onChange(number)
+                }
+            }.onTapGesture {
+                onTapGesture()
             }
         }
     }
@@ -145,8 +174,21 @@ struct CounterView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        CounterView(number: 0, onChange: { number in
-            Common_Logs.debug(number)
-        })
+        VStack {
+            CounterView(
+                model: .random(cascadeEvents: [.random]),
+                onChange: { number in
+                    Common_Logs.debug(number)
+                },
+                onTapGesture: {}
+            )
+            CounterView(
+                model: .random(cascadeEvents: [.random, .random, .random]),
+                onChange: { number in
+                    Common_Logs.debug(number)
+                },
+                onTapGesture: {}
+            )
+        }
     }
 }

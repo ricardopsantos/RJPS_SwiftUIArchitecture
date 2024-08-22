@@ -30,28 +30,38 @@ public enum SwiftUIUtils {
     public struct RenderedView: View {
         @Environment(\.colorScheme) var colorScheme
         public let name: String
+        public let id: String
         public let date: Date
+        var identifier: String {
+            if !id.trim.isEmpty {
+                return id
+            } else {
+                return name
+            }
+        }
+        
         var counter: Int {
-            renderedViewCounter[name] ?? 1
+            renderedViewCounter[identifier] ?? 1
         }
 
-        public init(_ name: String, date: Date = Date()) {
-            if let renderedViewCounterValue = renderedViewCounter[name] {
-                renderedViewCounter[name] = renderedViewCounterValue + 1
-            } else {
-                renderedViewCounter[name] = 1
-            }
+        public init(_ name: String, date: Date = Date(), id customId: String = "") {
+            self.id = customId
             self.name = name
             self.date = date
+            if let renderedViewCounterValue = renderedViewCounter[identifier] {
+                renderedViewCounter[identifier] = renderedViewCounterValue + 1
+            } else {
+                renderedViewCounter[identifier] = 1
+            }
         }
 
         public var body: some View {
-            // let message = "Redraw[\(counter)]: \(name)"
-            Text("Redraw[\(counter)]: \(name)")
+            Text("Redraw[\(counter)]: \(name) | \(identifier.sha1.prefix(10))")
                 .padding(3)
                 .background(Color.red.opacity(0.25))
                 .font(.caption2)
                 .opacity(0.25)
+                .debugBordersDefault()
         }
     }
 

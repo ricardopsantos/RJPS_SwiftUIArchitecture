@@ -7,31 +7,23 @@ import Foundation
 import SwiftUI
 
 public extension View {
-    func testListRowBackground() -> some View {
-        #if DEBUG
-        listRowBackground(Color.random)
-        #else
-        self
-        #endif
-    }
-
-    func testBackground() -> some View {
+    func debugBackground() -> some View {
         #if DEBUG
         background(Color.random)
         #else
         self
         #endif
     }
-
-    func testAnimatedBackground() -> some View {
-        testAnimatedBackground(.red, .blue)
+    
+    func debugBordersDefault() -> some View {
+        debugBorders(.red, .blue)
     }
 
-    func testAnimatedBackgroundRandom() -> some View {
-        testAnimatedBackground(.random, .random)
+    func debugBordersRandom() -> some View {
+        debugBorders(.random, .random)
     }
 
-    func testAnimatedBackground(
+    func debugBorders(
         _ color1: Color = .red,
         _ color2: Color = .blue
     ) -> some View {
@@ -45,7 +37,8 @@ public extension View {
 
 public struct AnimatedBackground: ViewModifier {
     @State private var isVisible: Bool
-    private let lineWidth: CGFloat = 5
+    private let lineWidth: CGFloat = 2
+    private let duration: CGFloat = Common.Constants.defaultAnimationsTime * 2
     private let color1: Color
     private let color2: Color
     public init(
@@ -72,7 +65,7 @@ public struct AnimatedBackground: ViewModifier {
                     .rotationEffect(.degrees(180))
             })
             .onAppear(perform: {
-                withAnimation(.linear(duration: 1)) {
+                withAnimation(.linear(duration: duration)) {
                     isVisible = true
                 }
             })
@@ -89,11 +82,11 @@ fileprivate extension Common_Preview {
         public init() {}
         public var body: some View {
             VStack {
-                Text("testAnimatedBackground").padding().testAnimatedBackground()
+                Text("testAnimatedBackground").padding().debugBackground()
                 SwiftUIUtils.FixedVerticalSpacer(height: 5)
-                Text("testAnimatedBackground").padding().testAnimatedBackground(.blue, .blue)
+                Text("testAnimatedBackground").padding().debugBordersDefault()
                 SwiftUIUtils.FixedVerticalSpacer(height: 5)
-                Text("testAnimatedBackground").padding().testAnimatedBackgroundRandom()
+                Text("testAnimatedBackground").padding().debugBordersRandom()
             }
         }
     }

@@ -11,5 +11,7 @@ public extension Common {
         public static var defaultDelay: Double { 0.35 }
         public static var defaultAnimationsTime: Double { defaultDelay }
         public static var defaultScaleOnTap: Double { 1.05 }
+        public static var defaultDebounce: Double { 0.1 }
+        public static var defaultThrottle: Double { 0.1 }
     }
 }

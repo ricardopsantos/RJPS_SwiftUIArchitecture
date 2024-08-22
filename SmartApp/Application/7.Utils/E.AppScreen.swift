@@ -10,23 +10,27 @@ import Common
 
 public enum AppScreen: Hashable, Identifiable, Sendable {
     case na
+    // Generic
     case splash
     case root
     case mainApp // TabBar
+    // HitHappens app
+    case favoriteEvents
+    case eventsList
+    case eventLogs
     //
+    case templateWith(model: ___Template___Model)
+    // Template App
     case login
     case onboarding
     case settings
     case userDetails
     case editUserDetails
     case termsAndConditions
-    //
-    case templateWith(model: ___Template___Model)
     case weather
     case weatherDetailsWith(model: WeatherDetailsModel)
     case populationNation
     case populationStates(year: String, model: [PopulationStateModel])
-    // case mainApp
     public var id: String {
         String(describing: self)
     }

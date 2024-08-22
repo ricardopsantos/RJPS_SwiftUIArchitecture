@@ -11,7 +11,7 @@ import UIKit
 import Common
 
 public extension Model {
-    struct TrackedLog: Equatable {
+    struct TrackedLog: Equatable, Hashable, Sendable {
         public var id: String
         public var latitude: Double
         public var longitude: Double
@@ -20,12 +20,11 @@ public extension Model {
         public var cascadeEntity: Model.TrackedEntity?
 
         public init(
-            id: String,
-
+            id: String = "",
             latitude: Double,
             longitude: Double,
             note: String,
-            recordDate: Date,
+            recordDate: Date = .now,
             cascadeEntity: Model.TrackedEntity? = nil
         ) {
             self.id = id

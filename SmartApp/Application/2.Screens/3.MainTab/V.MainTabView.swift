@@ -43,6 +43,11 @@ struct MainTabView: View, ViewProtocol {
 
     // MARK: - Body & View
     var body: some View {
+        content
+    }
+
+    @ViewBuilder
+    var content: some View {
         switch selectedApp() {
         case .hitHappens: contentHitHappensApp
         case .template: contentTemplateApp
@@ -52,13 +57,19 @@ struct MainTabView: View, ViewProtocol {
     var contentHitHappensApp: some View {
         TabView(selection: selectedTab()) {
             NavigationStack(path: $tab1Router.navPath) {
-                WeatherViewCoordinator()
+                FavoriteEventsViewCoordinator()
                     .navigationDestination(for: AppScreen.self, destination: buildScreen)
                     .environmentObject(tab1Router)
             }
             .tabItem { TabItemView(title: Tab.tab1.title, icon: Tab.tab1.icone) }
             .tag(Tab.tab1)
-
+            NavigationStack(path: $tab2Router.navPath) {
+                EventsListViewCoordinator()
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .environmentObject(tab1Router)
+            }
+            .tabItem { TabItemView(title: Tab.tab2.title, icon: Tab.tab2.icone) }
+            .tag(Tab.tab2)
             NavigationStack(path: $tab4Router.navPath) {
                 SettingsViewCoordinator()
                     .navigationDestination(for: AppScreen.self, destination: buildScreen)
@@ -72,7 +83,7 @@ struct MainTabView: View, ViewProtocol {
             UITabBar.appearance().unselectedItemTintColor = ColorSemantic.backgroundTertiary.uiColor
         }
     }
-    
+
     var contentTemplateApp: some View {
         TabView(selection: selectedTab()) {
             NavigationStack(path: $tab1Router.navPath) {

@@ -16,7 +16,7 @@ public extension DataBaseRepository {
     // MARK: - Insert/Update
     //
     func trackedEntityInsertOrUpdate(trackedEntity: Model.TrackedEntity) -> String {
-        if trackedEntityGet(trackedEntityId: trackedEntity.id, cascade: false) == nil {
+        if trackedEntityGet(trackedEntityId: trackedEntity.id.uuidString, cascade: false) == nil {
             trackedEntityInsert(trackedEntity: trackedEntity)
         } else {
             trackedEntityUpdate(trackedEntity: trackedEntity)
@@ -46,7 +46,7 @@ public extension DataBaseRepository {
     func trackedEntityUpdate(trackedEntity: Model.TrackedEntity) -> String {
         typealias DBEntity = CDataTrackedEntity
         let context = viewContext
-        let instances = try? context.fetch(DBEntity.fetchRequestWith(id: trackedEntity.id))
+        let instances = try? context.fetch(DBEntity.fetchRequestWith(id: trackedEntity.id.uuidString))
         if let some = instances?.first {
             some.bindWith(model: trackedEntity)
             // Delete old events
@@ -63,7 +63,7 @@ public extension DataBaseRepository {
                 }
             }
             CommonCoreData.Utils.save(viewContext: context)
-            return trackedEntity.id
+            return trackedEntity.id.uuidString
         } else {
             return ""
         }
@@ -83,12 +83,18 @@ public extension DataBaseRepository {
         return existingEntity.mapToModel(cascade: cascade)
     }
 
-    func trackedEntityGetAll(cascade: Bool) -> [Model.TrackedEntity] {
+    func trackedEntityGetAll(favorite: Bool? = nil, archived: Bool? = nil, cascade: Bool) -> [Model.TrackedEntity] {
         typealias DBEntity = CDataTrackedEntity
         let context = viewContext
         do {
-            return try context.fetch(DBEntity.fetchRequest())
-                .map { $0.mapToModel(cascade: cascade) }
+            var results = try context.fetch(DBEntity.fetchRequest())
+            if let favorite = favorite {
+                results = results.filter { $0.favorite == favorite }
+            }
+            if let archived = archived {
+                results = results.filter { $0.archived == archived }
+            }
+            return results.map { $0.mapToModel(cascade: cascade) }
         } catch {
             return []
         }
@@ -109,7 +115,7 @@ public extension DataBaseRepository {
     }
 
     func trackedEntityDelete(trackedEntity: Model.TrackedEntity) {
-        trackedEntityDelete(trackedEntityId: trackedEntity.id)
+        trackedEntityDelete(trackedEntityId: trackedEntity.id.uuidString)
     }
 
     func trackedEntityDeleteAll() {

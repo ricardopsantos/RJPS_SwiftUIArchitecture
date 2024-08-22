@@ -71,7 +71,7 @@ struct SplashView: View, ViewProtocol {
             sender: "\(Self.self)",
             appScreen: .splash,
             navigationViewModel: .disabled,
-            background: .clear,
+            background: .uiColor(UIColor.colorFromRGBString("239,239,235")),
             loadingModel: nil,
             alertModel: nil,
             networkStatus: nil
@@ -84,8 +84,8 @@ struct SplashView: View, ViewProtocol {
             viewModel.send(action: .didDisappear)
         }
         .onAppear {
-            let animationDuration = Common.Constants.defaultAnimationsTime
-            let animationDelay = animationDuration
+            let animationDuration = Common.Constants.defaultAnimationsTime * 2
+            let animationDelay = Common.Constants.defaultAnimationsTime
             withAnimation(.linear(duration: animationDuration).delay(animationDelay)) {
                 logoOpacity = 1
             }
@@ -97,18 +97,14 @@ struct SplashView: View, ViewProtocol {
     }
 
     var content: some View {
-        ZStack {
-            ColorSemantic.primary.color.ignoresSafeArea(.all)
-            VStack {
-                Image(.logo)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: screenWidth * 0.33)
-                    .cornerRadius(SizeNames.cornerRadius)
-                    .opacity(logoOpacity)
-            }
-            .padding()
+        VStack {
+            Image(.logo)
+                .resizable()
+                .scaledToFit()
+                .frame(width: screenWidth * 0.5)
+                .opacity(logoOpacity)
         }
+        .padding()
     }
 }
 

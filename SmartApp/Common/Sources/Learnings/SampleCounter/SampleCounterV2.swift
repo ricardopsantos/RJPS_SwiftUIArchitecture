@@ -26,7 +26,7 @@ public extension SampleCounterDomain {
 
         public var body: some View {
             VStack {
-                SwiftUIUtils.RenderedView("Main View")
+                SwiftUIUtils.RenderedView("\(Self.self).\(#function)")
                 SampleCounterShared.displayView(
                     title: "ViewModel with @StateObject",
                     counterValue: $viewModel.count,

@@ -298,7 +298,7 @@ private struct ColorsCache {
 //
 
 #if canImport(SwiftUI) && DEBUG
-#Preview {
+#Preview("ColorSemantic") {
     HStack {
         VStack(spacing: 1) {
             ForEach(ColorSemantic.allCases.filter { $0 != .clear }, id: \.self) { style in

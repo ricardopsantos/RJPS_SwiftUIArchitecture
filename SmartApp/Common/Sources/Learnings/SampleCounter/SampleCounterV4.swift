@@ -45,7 +45,7 @@ extension SampleCounterDomain {
 
         var body: some View {
             VStack {
-                SwiftUIUtils.RenderedView("DisplayCounterView_V1")
+                SwiftUIUtils.RenderedView("\(Self.self).\(#function)")
                 Text("DisplayCounterViewV1").font(.body)
                 Text("Value: \(viewModel.count)").font(.caption)
             }
@@ -83,7 +83,7 @@ public extension SampleCounterDomain {
 
         public var body: some View {
             VStack {
-                SwiftUIUtils.RenderedView("IncrementCounterView_V1")
+                SwiftUIUtils.RenderedView("\(Self.self).\(#function)")
                 Text("IncrementCounterView_V1").font(.body)
                 Button("Increment_V1") {
                     viewModel.increment()
@@ -96,7 +96,7 @@ public extension SampleCounterDomain {
         @EnvironmentObject var counterState: CounterState
         public var body: some View {
             VStack {
-                SwiftUIUtils.RenderedView("IncrementCounterView_V2")
+                SwiftUIUtils.RenderedView("\(Self.self).\(#function)")
                 Text("IncrementCounterView_V2").font(.body)
                 Button("Increment_V2") {
                     counterState.count += 1
@@ -113,7 +113,7 @@ public extension SampleCounterDomain {
         @EnvironmentObject var authState: AuthState
         public var body: some View {
             VStack {
-                SwiftUIUtils.RenderedView("AuthView")
+                SwiftUIUtils.RenderedView("\(Self.self).\(#function)")
                 Text(authState.isAuthenticated ? "Auth" : "Not Auth")
                 Button("Toggle auth") {
                     authState.isAuthenticated.toggle()
@@ -125,7 +125,7 @@ public extension SampleCounterDomain {
     struct DisplayCounterView_V2: View {
         public var body: some View {
             VStack {
-                SwiftUIUtils.RenderedView("DisplayCounterView_V2")
+                SwiftUIUtils.RenderedView("\(Self.self).\(#function)")
                 Text("DisplayCounterView_V2").font(.body)
                 DisplayCounterChildView_V2()
             }
@@ -136,7 +136,7 @@ public extension SampleCounterDomain {
             @EnvironmentObject var authState: AuthState
             var body: some View {
                 VStack {
-                    SwiftUIUtils.RenderedView("DisplayCounterChildView_V2")
+                    SwiftUIUtils.RenderedView("\(Self.self).\(#function)")
                     Text("\(counterState.count) | \(authState.isAuthenticated.description)")
                 }
             }
@@ -152,7 +152,7 @@ public extension SampleCounterDomain {
 
         public var body: some View {
             VStack(spacing: 5) {
-                SwiftUIUtils.RenderedView("SampleCounterV4_View")
+                SwiftUIUtils.RenderedView("\(Self.self).\(#function)")
                     .background(Color.random.opacity(0.15))
                 Divider()
                 //

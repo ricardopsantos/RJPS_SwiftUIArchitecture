@@ -24,7 +24,7 @@ public extension Common {
             - onIgnoredClosure: An optional closure to be executed if the main closure is throttled.
          */
         public static func throttle(
-            _ timeInterval: TimeInterval,
+            _ timeInterval: TimeInterval = Common.Constants.defaultThrottle,
             operationId: String,
             closure: () -> Void,
             onIgnoredClosure: () -> Void = {}
@@ -47,7 +47,7 @@ public extension Common {
             - closure: The closure to be executed.
          */
         public static func debounce(
-            _ timeInterval: TimeInterval,
+            _ timeInterval: TimeInterval = Common.Constants.defaultDebounce,
             operationId: String,
             closure: @escaping () -> Void
         ) {

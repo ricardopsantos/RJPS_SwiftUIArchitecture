@@ -11,6 +11,19 @@ import Domain
 import Common
 import DesignSystem
 
+func selectedApp() -> AppTarget {
+    AppTarget.selected
+}
+
+enum AppTarget {
+    case hitHappens
+    case template
+
+    static var selected: Self {
+        .hitHappens
+    }
+}
+
 // @main
 struct SmartApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
@@ -21,6 +34,7 @@ struct SmartApp: App {
         let userService = DependenciesManager.Services.userService
         let sampleService = DependenciesManager.Services.sampleService
         let userRepository = DependenciesManager.Repository.userRepository
+        let dataBaseRepository = DependenciesManager.Repository.dataBaseRepository
         let nonSecureAppPreferences = DependenciesManager.Repository.nonSecureAppPreferences
         let secureAppPreferences = DependenciesManager.Repository.secureAppPreferences
         let config: ConfigurationViewModel!
@@ -32,6 +46,7 @@ struct SmartApp: App {
                 weatherService: DependenciesManager.Services.weatherServiceMock,
                 sampleService: sampleService,
                 dataUSAService: DependenciesManager.Services.dataUSAServiceMock,
+                dataBaseRepository: dataBaseRepository,
                 userRepository: userRepository,
                 nonSecureAppPreferences: nonSecureAppPreferences,
                 secureAppPreferences: secureAppPreferences
@@ -43,6 +58,7 @@ struct SmartApp: App {
                 weatherService: DependenciesManager.Services.weatherService,
                 sampleService: sampleService,
                 dataUSAService: DependenciesManager.Services.dataUSAService,
+                dataBaseRepository: dataBaseRepository,
                 userRepository: userRepository,
                 nonSecureAppPreferences: nonSecureAppPreferences,
                 secureAppPreferences: secureAppPreferences

@@ -86,7 +86,7 @@ public extension CommonCoreData.Utils {
         @unknown default:
             ()
         }
-        if logsEnabled, !changes.isEmpty, !Common.Utils.onUITests/*, !Common.Utils.onUnitTests */{
+        if logsEnabled, !changes.isEmpty, !Common.Utils.onUITests /* , !Common.Utils.onUnitTests */ {
             Common_Logs.debug(" 💾 \(Self.logNumber) - \(changes) @ \(threadInfo)")
             Self.logNumber += 1
         }

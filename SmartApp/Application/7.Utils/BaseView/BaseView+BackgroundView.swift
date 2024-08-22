@@ -15,6 +15,7 @@ extension BaseView.BackgroundView {
         case clear
         case linear
         case gradient
+        case uiColor(_ uiColor: UIColor)
         static var defaultBackground: Self {
             .linear
         }
@@ -38,6 +39,8 @@ extension BaseView {
                     backgroundLinear
                 case .gradient:
                     backgroundGradient
+                case .uiColor(let uiColor):
+                    Color(uiColor: uiColor).ignoresSafeArea()
                 }
             }
         }
@@ -61,6 +64,8 @@ extension BaseView {
 
 #Preview("Preview") {
     HStack(spacing: 0) {
+        BaseView.BackgroundView(background: .uiColor(UIColor.colorFromRGBString("239,239,235")))
+        Divider()
         BaseView.BackgroundView(background: .clear)
         Divider()
         BaseView.BackgroundView(background: .linear)
