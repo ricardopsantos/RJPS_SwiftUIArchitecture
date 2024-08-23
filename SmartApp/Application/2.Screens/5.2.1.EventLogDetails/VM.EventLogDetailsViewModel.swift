@@ -73,7 +73,8 @@ class EventLogDetailsViewModel: BaseViewModel {
     // MARK: - Usage Attributes
     @Published private(set) var trackedLog: Model.TrackedLog?
     @Published var confirmationSheetType: ConfirmationSheet?
-    @Published var userMessage: (text:String, color: ColorSemantic) = ("", .clear)
+    @Published var userMessage: (text: String, color: ColorSemantic) = ("", .clear)
+    @Published var note: String = ""
 
     // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
@@ -96,7 +97,6 @@ class EventLogDetailsViewModel: BaseViewModel {
                             self?.send(.reload)
                             self?.userMessage = ("Updated\n\(Date().timeStyleMedium)".localizedMissing, ColorSemantic.allCool)
                         }
-
                     }
                 case .databaseDidDeletedContentOn(let table, let id):
                     // Record deleted! Route back
@@ -171,6 +171,7 @@ fileprivate extension EventLogDetailsViewModel {
     // @MainActor
     func updateUI(event model: Model.TrackedLog) {
         trackedLog = model
+        note = model.note
     }
 }
 

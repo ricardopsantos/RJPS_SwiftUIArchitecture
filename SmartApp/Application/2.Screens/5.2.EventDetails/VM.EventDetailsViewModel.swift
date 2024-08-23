@@ -72,6 +72,7 @@ extension EventDetailsViewModel {
         case userDidChangedName(value: String)
         case userDidChangedInfo(value: String)
         case delete(confirmed: Bool)
+        case usedDidTappedLogEvent(trackedLogId: String)
         case handleConfirmation
     }
 
@@ -79,6 +80,7 @@ extension EventDetailsViewModel {
         let model: EventDetailsModel
         let onCompletion: (String) -> Void
         let onRouteBack: () -> Void
+        let onTrackedLogTapped: (Model.TrackedLog) -> Void
         let dataBaseRepository: DataBaseRepositoryProtocol
     }
 }
@@ -95,18 +97,20 @@ class EventDetailsViewModel: BaseViewModel {
     @Published var archived: Bool = false
     @Published var name: String = ""
     @Published var info: String = ""
-    @Published var userMessage: (text:String, color: ColorSemantic) = ("", .clear)
+    @Published var userMessage: (text: String, color: ColorSemantic) = ("", .clear)
 
     // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
     private let dataBaseRepository: DataBaseRepositoryProtocol?
     private let onRouteBack: () -> Void
+    private let onTrackedLogTapped: (Model.TrackedLog) -> Void
     @Published var confirmationSheetType: ConfirmationSheet?
 
     public init(dependencies: Dependencies) {
         self.dataBaseRepository = dependencies.dataBaseRepository
         self.event = dependencies.model.event
         self.onRouteBack = dependencies.onRouteBack
+        self.onTrackedLogTapped = dependencies.onTrackedLogTapped
         super.init()
         dependencies.dataBaseRepository.output([]).sink { [weak self] some in
             switch some {
@@ -125,7 +129,12 @@ class EventDetailsViewModel: BaseViewModel {
                     if table == "\(CDataTrackedEntity.self)" {
                         Common.ExecutionControlManager.debounce(operationId: "\(Self.self)\(#function)") { [weak self] in
                             self?.send(.reload)
-                            self?.userMessage = ("Updated\n\(Date().timeStyleMedium)".localizedMissing, ColorSemantic.allCool)
+                            self?.userMessage = ("Updated (\(Date().timeStyleMedium))".localizedMissing, ColorSemantic.allCool)
+                        }
+                    }
+                    if table == "\(CDataTrackedLog.self)" {
+                        Common.ExecutionControlManager.debounce(operationId: "\(Self.self)\(#function)") { [weak self] in
+                            self?.send(.reload)
                         }
                     }
                 }
@@ -225,8 +234,15 @@ class EventDetailsViewModel: BaseViewModel {
                 confirmationSheetType = .delete
             } else {
                 Task { [weak self] in
-                    guard let self = self, var trackedEntity = event else { return }
+                    guard let self = self, let trackedEntity = event else { return }
                     dataBaseRepository?.trackedEntityDelete(trackedEntity: trackedEntity)
+                }
+            }
+        case .usedDidTappedLogEvent(trackedLogId: let trackedLogId):
+            Task { [weak self] in
+                guard let self = self else { return }
+                if let rackedLog = dataBaseRepository?.trackedLogGet(trackedLogId: trackedLogId, cascade: true) {
+                    onTrackedLogTapped(rackedLog)
                 }
             }
         }

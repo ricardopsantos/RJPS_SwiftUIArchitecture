@@ -6,14 +6,17 @@
 
 import SwiftUI
 
+import Common
+
 public struct TextButton: View {
     @Environment(\.colorScheme) var colorScheme
-
+    @State var isPressed: Bool = false
     public enum Style: String, CaseIterable, Equatable, Hashable {
         case primary, secondary, textOnly
     }
 
     // MARK: - Attributes
+    private let animatedClick: Bool
     private let onClick: () -> Void
     private let text: String
     private let alignment: Alignment
@@ -24,6 +27,7 @@ public struct TextButton: View {
 
     public init(
         onClick: @escaping () -> Void,
+        animatedClick: Bool = false,
         text: String,
         alignment: Alignment = .center,
         style: Style = .primary,
@@ -31,6 +35,7 @@ public struct TextButton: View {
         enabled: Bool = true,
         accessibility: Accessibility
     ) {
+        self.animatedClick = animatedClick
         self.onClick = onClick
         self.text = text
         self.alignment = alignment
@@ -42,7 +47,19 @@ public struct TextButton: View {
 
     // MARK: - Views
     public var body: some View {
-        Button(action: onClick) {
+        Button(action: {
+            if animatedClick {
+                withAnimation {
+                    isPressed = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Common.Constants.defaultAnimationsTime / 2) {
+                        isPressed = false
+                        onClick()
+                    }
+                }
+            } else {
+                onClick()
+            }
+        }) {
             Text(text)
                 .fontSemantic(.body)
                 .doIf(enabled, transform: {
@@ -65,6 +82,9 @@ public struct TextButton: View {
                 .contentShape(Rectangle())
                 .userInteractionEnabled(enabled)
         }
+        .scaleEffect(isPressed ? 0.985 : 1.0)
+        .opacity(isPressed ? 0.8 : 1.0)
+        .animation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0.5), value: isPressed)
         .accessibilityIdentifier(accessibility.identifier)
         .buttonStyle(.plain)
         .shadow(radius: SizeNames.defaultMarginSmall)

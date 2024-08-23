@@ -63,14 +63,14 @@ class FavoriteEventsViewModel: BaseViewModel {
                 switch some {
                 case .databaseDidInsertedContentOn(let table, let id):
                     // New record added
-                 if table == "\(CDataTrackedLog.self)" {
-                     if let trackedEntity = self?.dataBaseRepository?.trackedLogGet(trackedLogId: id, cascade: true) {
-                         Common_Utils.delay(Common.Constants.defaultAnimationsTime * 2) {
-                             // Small delay so that the UI counter animation is viewed
-                             dependencies.onNewLog(trackedEntity)
-                         }
-                     }
-                 }
+                    if table == "\(CDataTrackedLog.self)" {
+                        if let trackedEntity = self?.dataBaseRepository?.trackedLogGet(trackedLogId: id, cascade: true) {
+                            Common_Utils.delay(Common.Constants.defaultAnimationsTime * 2) {
+                                // Small delay so that the UI counter animation is viewed
+                                dependencies.onNewLog(trackedEntity)
+                            }
+                        }
+                    }
                 case .databaseDidUpdatedContentOn: break
                 case .databaseDidDeletedContentOn(let table, let id):
                     if table == "\(CDataTrackedLog.self)" {

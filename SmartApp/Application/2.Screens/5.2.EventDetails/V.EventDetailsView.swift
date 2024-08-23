@@ -47,9 +47,18 @@ struct EventDetailsViewCoordinator: View, ViewCoordinatorProtocol {
             let dependencies: EventDetailsViewModel.Dependencies = .init(
                 model: model, onCompletion: { _ in }, onRouteBack: {
                     coordinatorTab2.navigateBack()
+                }, onTrackedLogTapped: { trackedLog in
+                    coordinator.sheetLink = .eventLogDetails(model: .init(trackedLog: trackedLog))
                 },
                 dataBaseRepository: configuration.dataBaseRepository)
             EventDetailsView(dependencies: dependencies)
+        case .eventLogDetails(model: let model):
+            let dependencies: EventLogDetailsViewModel.Dependencies = .init(
+                model: model, onCompletion: { model in
+
+                }, onRouteBack: {},
+                dataBaseRepository: configuration.dataBaseRepository)
+            EventLogDetailsView(dependencies: dependencies)
         default:
             EmptyView().onAppear(perform: {
                 DevTools.assert(false, message: "Not predicted \(screen)")
@@ -175,7 +184,6 @@ struct EventDetailsView: View, ViewProtocol {
             SoundPickerView(selected: $viewModel.soundEffect) { newValue in
                 viewModel.send(.userDidChangedSoundEffect(value: newValue))
             }
-
         }
         .paddingRight(SizeNames.size_1.cgFloat)
         .paddingLeft(SizeNames.size_1.cgFloat)
@@ -211,7 +219,8 @@ struct EventDetailsView: View, ViewProtocol {
                             subTitle: model.value,
                             systemImage: ("", .clear),
                             onTapGesture: {
-                                print("hadle")
+
+                                viewModel.send(.usedDidTappedLogEvent(trackedLogId: model.id))
                             })
                     }
                 }

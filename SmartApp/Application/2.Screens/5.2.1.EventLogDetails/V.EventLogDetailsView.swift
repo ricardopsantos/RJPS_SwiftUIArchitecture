@@ -104,10 +104,12 @@ struct EventLogDetailsView: View, ViewProtocol {
     var content: some View {
         ZStack {
             ScrollView {
+                Header(text: "Event Log details")
                 LazyVStack(spacing: SizeNames.defaultMarginSmall) {
-                    CustomTitleAndCustomTextFieldWithState(
+                    CustomTitleAndCustomTextFieldWithBinding(
                         title: "Note".localizedMissing,
                         placeholder: "Note".localizedMissing,
+                        inputText: $viewModel.note,
                         accessibility: .undefined) { newValue in
                             viewModel.send(.userDidChangedNote(value: newValue))
                         }
