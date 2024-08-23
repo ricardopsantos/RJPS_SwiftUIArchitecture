@@ -61,7 +61,7 @@ public enum SwiftUIUtils {
                 .background(Color.red.opacity(0.25))
                 .font(.caption2)
                 .opacity(0.25)
-                .debugBordersDefault()
+            // .debugBordersDefault()
         }
     }
 

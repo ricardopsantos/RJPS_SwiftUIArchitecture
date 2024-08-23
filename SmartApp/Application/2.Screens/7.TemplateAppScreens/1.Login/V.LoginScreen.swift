@@ -136,7 +136,7 @@ fileprivate extension LoginView {
     }
 
     var emailField: some View {
-        CustomTitleAndCustomTextFieldV1(
+        CustomTitleAndCustomTextFieldWithBinding(
             title: "Email".localized,
             placeholder: "EmailPlaceHolder".localized,
             inputText: $viewModel.email,
@@ -146,7 +146,7 @@ fileprivate extension LoginView {
     }
 
     var passwordField: some View {
-        CustomTitleAndCustomTextFieldV1(
+        CustomTitleAndCustomTextFieldWithBinding(
             title: "Password".localized,
             placeholder: "Password".localized,
             inputText: $viewModel.password,

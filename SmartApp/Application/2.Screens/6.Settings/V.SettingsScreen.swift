@@ -101,8 +101,12 @@ struct SettingsScreen: View, ViewProtocol {
         }
     }
 
+    @ViewBuilder
     var content: some View {
-        contentV2
+        switch selectedApp() {
+        case .hitHappens: contentV2
+        case .template: contentV1
+        }
     }
 
     var contentV2: some View {

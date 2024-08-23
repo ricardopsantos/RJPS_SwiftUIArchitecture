@@ -118,7 +118,6 @@ struct FavoriteEventsView: View, ViewProtocol {
                         onTapGesture: {
                             viewModel.send(.addNewEvent(trackedEntityId: model.id))
                         })
-                        .debugBordersDefault()
                 }
                 .padding(.horizontal, SizeNames.defaultMargin)
                 Spacer()

@@ -7,8 +7,9 @@
 import SwiftUI
 //
 import DevTools
+import Common
 
-public struct CustomTitleAndCustomTextFieldV2: View {
+public struct CustomTitleAndCustomTextFieldWithState: View {
     @State private var inputText: String = ""
 
     private let title: String
@@ -32,20 +33,18 @@ public struct CustomTitleAndCustomTextFieldV2: View {
     }
 
     public var body: some View {
-        CustomTitleAndCustomTextFieldV1(
+        CustomTitleAndCustomTextFieldWithBinding(
             title: title,
             placeholder: placeholder,
             inputText: $inputText,
             isSecured: isSecured,
-            accessibility: accessibility
+            accessibility: accessibility,
+            onTextChange: onTextChange
         )
-        .onChange(of: inputText) { newValue in
-            onTextChange(newValue)
-        }
     }
 }
 
-public struct CustomTitleAndCustomTextFieldV1: View {
+public struct CustomTitleAndCustomTextFieldWithBinding: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var inputText: String
 
@@ -53,19 +52,22 @@ public struct CustomTitleAndCustomTextFieldV1: View {
     private let placeholder: String
     private let isSecured: Bool
     private let accessibility: Accessibility
+    private let onTextChange: (String) -> Void
 
     public init(
         title: String,
         placeholder: String,
         inputText: Binding<String>,
         isSecured: Bool = false,
-        accessibility: Accessibility
+        accessibility: Accessibility,
+        onTextChange: @escaping (String) -> Void = { _ in }
     ) {
         self._inputText = inputText
         self.title = title
         self.placeholder = placeholder
         self.accessibility = accessibility
         self.isSecured = isSecured
+        self.onTextChange = onTextChange
     }
 
     public var body: some View {
@@ -81,6 +83,10 @@ public struct CustomTitleAndCustomTextFieldV1: View {
                 isSecured: isSecured,
                 accessibility: accessibility
             )
+        }.onChange(of: inputText) { newValue in
+            Common.ExecutionControlManager.debounce(1, operationId: "\(Self.self)\(#function)") {
+                onTextChange(newValue)
+            }
         }
     }
 }
@@ -92,13 +98,15 @@ public struct CustomTitleAndCustomTextFieldV1: View {
 #if canImport(SwiftUI) && DEBUG
 #Preview {
     VStack {
-        CustomTitleAndCustomTextFieldV1(
+        CustomTitleAndCustomTextFieldWithBinding(
             title: "title",
             placeholder: "placeholder",
             inputText: .constant("inputText"),
-            accessibility: .undefined
+            accessibility: .undefined, onTextChange: { newText in
+                DevTools.Log.debug(newText, .generic)
+            }
         )
-        CustomTitleAndCustomTextFieldV2(
+        CustomTitleAndCustomTextFieldWithState(
             title: "title",
             placeholder: "placeholder",
             accessibility: .undefined

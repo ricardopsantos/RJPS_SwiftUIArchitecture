@@ -196,8 +196,12 @@ public extension Date {
         compare(dateToCompare) == ComparisonResult.orderedDescending
     }
 
+    func wasLessThan(secondsAgo: Int, refDate: Date) -> Bool {
+        !isBiggerThan(refDate.add(seconds: seconds))
+    }
+
     func wasLessThan(secondsAgo: Int) -> Bool {
-        !isBiggerThan(Date().add(seconds: seconds))
+        wasLessThan(secondsAgo: secondsAgo, refDate: Date())
     }
 
     func timeAgoString(resources: [String] = [

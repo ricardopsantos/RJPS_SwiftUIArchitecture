@@ -49,17 +49,33 @@ public extension DataBaseRepository {
         let instances = try? context.fetch(DBEntity.fetchRequestWith(id: trackedEntity.id))
         if let some = instances?.first {
             some.bindWith(model: trackedEntity)
-            // Delete old events
+            // Delete/update current events
+            var currentEventsId: [String] = []
             some.events?.forEach { event in
-                context.delete(event as! NSManagedObject)
+                if let storedEvent = event as? CDataTrackedLog {
+                    let relatedEvent = trackedEntity.cascadeEvents?.filter { $0.id == storedEvent.id }.first
+                    let wasDeleted = relatedEvent == nil
+                    if wasDeleted {
+                        // Deleted
+                        context.delete(event as! NSManagedObject)
+                    } else if let relatedEvent = relatedEvent {
+                        // Updated?
+                        storedEvent.bind(model: relatedEvent)
+                        currentEventsId.append(relatedEvent.id)
+                    }
+                }
             }
+            // Add new events
             if let cascadeEvents = trackedEntity.cascadeEvents, !cascadeEvents.isEmpty {
                 // Add new events
                 cascadeEvents.forEach { event in
-                    let trackedLog: CDataTrackedLog = CDataTrackedLog(context: context)
-                    trackedLog.id = UUID().uuidString
-                    trackedLog.bind(model: event)
-                    some.addToEvents(trackedLog)
+                    let isNew = !currentEventsId.contains(event.id)
+                    if isNew {
+                        let trackedLog: CDataTrackedLog = CDataTrackedLog(context: context)
+                        trackedLog.id = UUID().uuidString
+                        trackedLog.bind(model: event)
+                        some.addToEvents(trackedLog)
+                    }
                 }
             }
             CommonCoreData.Utils.save(viewContext: context)

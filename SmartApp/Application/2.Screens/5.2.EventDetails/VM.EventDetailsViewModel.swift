@@ -11,6 +11,7 @@ import SwiftUI
 import Domain
 import Common
 import Core
+import DesignSystem
 
 //
 // MARK: - Model
@@ -92,6 +93,9 @@ class EventDetailsViewModel: BaseViewModel {
     @Published var soundEffect: String = SoundEffect.none.name
     @Published var favorite: Bool = false
     @Published var archived: Bool = false
+    @Published var name: String = ""
+    @Published var info: String = ""
+    @Published var userMessage: (text:String, color: ColorSemantic) = ("", .clear)
 
     // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
@@ -119,7 +123,10 @@ class EventDetailsViewModel: BaseViewModel {
                 case .databaseDidFinishChangeContentItemsOn(let table):
                     // Data changed. Reload!
                     if table == "\(CDataTrackedEntity.self)" {
-                        self?.send(.reload)
+                        Common.ExecutionControlManager.debounce(operationId: "\(Self.self)\(#function)") { [weak self] in
+                            self?.send(.reload)
+                            self?.userMessage = ("Updated\n\(Date().timeStyleMedium)".localizedMissing, ColorSemantic.allCool)
+                        }
                     }
                 }
             }
@@ -142,7 +149,7 @@ class EventDetailsViewModel: BaseViewModel {
                 guard let self = self else { return }
                 if let record = dataBaseRepository?.trackedEntityGet(
                     trackedEntityId: unwrapped.id, cascade: true) {
-                    updateUI(event: unwrapped)
+                    updateUI(event: record)
                 }
             }
         case .handleConfirmation:
@@ -242,6 +249,8 @@ fileprivate extension EventDetailsViewModel {
         soundEffect = model.sound.name
         favorite = model.favorite
         archived = model.archived
+        name = model.name
+        info = model.info
     }
 }
 

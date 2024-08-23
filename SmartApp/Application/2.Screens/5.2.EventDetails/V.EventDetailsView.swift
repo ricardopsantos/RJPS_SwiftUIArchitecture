@@ -104,7 +104,6 @@ struct EventDetailsView: View, ViewProtocol {
     var content: some View {
         ZStack {
             ScrollView {
-                Header(text: "Event details".localizedMissing)
                 LazyVStack(spacing: SizeNames.defaultMarginSmall) {
                     detailsView
                     SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
@@ -122,31 +121,43 @@ struct EventDetailsView: View, ViewProtocol {
             if viewModel.confirmationSheetType != nil {
                 confirmationSheet
             }
+            VStack(spacing: 0) {
+                Text(viewModel.userMessage.text)
+                    .multilineTextAlignment(.center)
+                    .textColor(viewModel.userMessage.color.color)
+                    .fontSemantic(.body)
+                    .shadow(radius: SizeNames.defaultMarginSmall)
+                    .animation(.linear(duration: Common.Constants.defaultAnimationsTime), value: viewModel.userMessage.text)
+                    .onTapGesture {
+                        viewModel.userMessage.text = ""
+                    }
+                Spacer()
+            }
         }
     }
 
     var detailsView: some View {
         LazyVStack(spacing: SizeNames.defaultMarginSmall) {
-            CustomTitleAndCustomTextFieldV2(
+            CustomTitleAndCustomTextFieldWithBinding(
                 title: "Name".localizedMissing,
                 placeholder: "Name".localizedMissing,
+                inputText: $viewModel.name,
                 accessibility: .undefined) { newValue in
                     viewModel.send(.userDidChangedName(value: newValue))
                 }
-            CustomTitleAndCustomTextFieldV2(
+            CustomTitleAndCustomTextFieldWithBinding(
                 title: "Info".localizedMissing,
                 placeholder: "Info".localizedMissing,
+                inputText: $viewModel.info,
                 accessibility: .undefined) { newValue in
                     viewModel.send(.userDidChangedInfo(value: newValue))
                 }
-
             ToggleWithBinding(
                 title: "Favorite".localizedMissing,
                 isOn: $viewModel.favorite,
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedFavorite(value: newValue))
                 })
-                .debugBordersDefault()
 
             ToggleWithState(
                 title: "Location relevant".localizedMissing,
@@ -154,19 +165,17 @@ struct EventDetailsView: View, ViewProtocol {
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedLocationRelevant(value: newValue))
                 })
-                .debugBordersDefault()
 
             // Picker with closure
             CategoryPickerView(selected: (viewModel.event?.category ?? .none).localized) { newValue in
                 viewModel.send(.userDidChangedEventCategory(value: newValue))
             }
-            .debugBordersDefault()
 
             // Picker with binding
             SoundPickerView(selected: $viewModel.soundEffect) { newValue in
                 viewModel.send(.userDidChangedSoundEffect(value: newValue))
             }
-            .debugBordersDefault()
+
         }
         .paddingRight(SizeNames.size_1.cgFloat)
         .paddingLeft(SizeNames.size_1.cgFloat)
@@ -180,7 +189,6 @@ struct EventDetailsView: View, ViewProtocol {
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedArchived(value: newValue))
                 })
-                .debugBordersDefault()
             TextButton(
                 onClick: {
                     viewModel.send(.delete(confirmed: false))
@@ -205,8 +213,6 @@ struct EventDetailsView: View, ViewProtocol {
                             onTapGesture: {
                                 print("hadle")
                             })
-                            .debugBordersDefault()
-                            .listRowSeparator(.hidden)
                     }
                 }
             } else {

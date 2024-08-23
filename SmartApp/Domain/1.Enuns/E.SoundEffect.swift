@@ -45,7 +45,7 @@ public extension SoundEffect {
         case .drama: return "Tension"
         case .incorrect: return "Error"
         case .airHorn, .crickets, .doh, .haha, .lightSaberOn, .rimShot, .sadTrombone:
-            return rawValue.camelCaseToWords.replace(".caf", with: "")
+            return rawValue.camelCaseToWords.replace(".Caf", with: "")
         }
     }
 }

@@ -149,7 +149,6 @@ struct EventsListView: View, ViewProtocol {
                 onTapGesture: {
                     onSelected(item)
                 })
-                .debugBordersDefault()
                 .swipeActions {
                     Button(role: .destructive) {
                         if let index = events.firstIndex(of: item) {

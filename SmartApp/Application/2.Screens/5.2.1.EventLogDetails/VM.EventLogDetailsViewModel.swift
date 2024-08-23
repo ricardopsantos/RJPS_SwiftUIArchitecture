@@ -11,6 +11,7 @@ import SwiftUI
 import Domain
 import Common
 import Core
+import DesignSystem
 
 //
 // MARK: - Model
@@ -72,6 +73,7 @@ class EventLogDetailsViewModel: BaseViewModel {
     // MARK: - Usage Attributes
     @Published private(set) var trackedLog: Model.TrackedLog?
     @Published var confirmationSheetType: ConfirmationSheet?
+    @Published var userMessage: (text:String, color: ColorSemantic) = ("", .clear)
 
     // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
@@ -87,18 +89,22 @@ class EventLogDetailsViewModel: BaseViewModel {
             case .generic(let some):
                 switch some {
                 case .databaseDidInsertedContentOn: break
-                case .databaseDidUpdatedContentOn: break
+                case .databaseDidUpdatedContentOn(let table, let id):
+                    // Data changed. Reload!
+                    if table == "\(CDataTrackedLog.self)", id == self?.trackedLog?.id {
+                        Common.ExecutionControlManager.debounce(operationId: "\(Self.self)\(#function)") { [weak self] in
+                            self?.send(.reload)
+                            self?.userMessage = ("Updated\n\(Date().timeStyleMedium)".localizedMissing, ColorSemantic.allCool)
+                        }
+
+                    }
                 case .databaseDidDeletedContentOn(let table, let id):
                     // Record deleted! Route back
                     if table == "\(CDataTrackedLog.self)", id == self?.trackedLog?.id {
                         self?.onRouteBack()
                     }
                 case .databaseDidChangedContentItemOn: break
-                case .databaseDidFinishChangeContentItemsOn(let table):
-                    // Data changed. Reload!
-                    if table == "\(CDataTrackedEntity.self)" {
-                        self?.send(.reload)
-                    }
+                case .databaseDidFinishChangeContentItemsOn: break
                 }
             }
         }.store(in: cancelBag)
@@ -135,6 +141,7 @@ class EventLogDetailsViewModel: BaseViewModel {
             }
 
         case .userDidChangedNote(value: let value):
+            userMessage = ("", .clear)
             Task { [weak self] in
                 guard let self = self, var trackedLog = trackedLog else { return }
                 trackedLog.note = value

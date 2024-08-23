@@ -105,8 +105,7 @@ struct EventLogDetailsView: View, ViewProtocol {
         ZStack {
             ScrollView {
                 LazyVStack(spacing: SizeNames.defaultMarginSmall) {
-                    Header(text: "Log details".localizedMissing)
-                    CustomTitleAndCustomTextFieldV2(
+                    CustomTitleAndCustomTextFieldWithState(
                         title: "Note".localizedMissing,
                         placeholder: "Note".localizedMissing,
                         accessibility: .undefined) { newValue in
@@ -122,12 +121,26 @@ struct EventLogDetailsView: View, ViewProtocol {
                         style: .secondary,
                         background: .dangerColor,
                         accessibility: .undefined)
+                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
                 }
                 .paddingRight(SizeNames.size_1.cgFloat)
                 .paddingLeft(SizeNames.size_1.cgFloat)
             }.padding(SizeNames.defaultMargin)
             if viewModel.confirmationSheetType != nil {
                 confirmationSheet
+            }
+            VStack {
+                Spacer()
+                Text(viewModel.userMessage.text)
+                    .multilineTextAlignment(.center)
+                    .textColor(viewModel.userMessage.color.color)
+                    .fontSemantic(.body)
+                    .shadow(radius: SizeNames.defaultMarginSmall)
+                    .animation(.linear(duration: Common.Constants.defaultAnimationsTime), value: viewModel.userMessage.text)
+                    .onTapGesture {
+                        viewModel.userMessage.text = ""
+                    }
+                Spacer()
             }
         }
     }

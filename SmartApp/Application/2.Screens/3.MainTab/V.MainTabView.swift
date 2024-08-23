@@ -48,9 +48,19 @@ struct MainTabView: View, ViewProtocol {
 
     @ViewBuilder
     var content: some View {
-        switch selectedApp() {
-        case .hitHappens: contentHitHappensApp
-        case .template: contentTemplateApp
+        Group {
+            switch selectedApp() {
+            case .hitHappens: contentHitHappensApp
+            case .template: contentTemplateApp
+            }
+        }.onChange(of: tab1Router.navPath) { _ in
+            DevTools.Log.debug("tab1Router.navPath changed", .view)
+        }.onChange(of: tab2Router.navPath) { _ in
+            DevTools.Log.debug("tab2Router.navPath changed", .view)
+        }.onChange(of: tab3Router.navPath) { _ in
+            DevTools.Log.debug("tab3Router.navPath changed", .view)
+        }.onChange(of: tab4Router.navPath) { _ in
+            DevTools.Log.debug("tab4Router.navPath changed", .view)
         }
     }
 
@@ -77,7 +87,7 @@ struct MainTabView: View, ViewProtocol {
             .tabItem { TabItemView(title: Tab.tab2.title, icon: Tab.tab2.icone) }
             .tag(Tab.tab2)
             //
-            // Tab 3
+            // Tab 4
             //
             NavigationStack(path: $tab4Router.navPath) {
                 SettingsViewCoordinator(haveNavigationStack: false)
