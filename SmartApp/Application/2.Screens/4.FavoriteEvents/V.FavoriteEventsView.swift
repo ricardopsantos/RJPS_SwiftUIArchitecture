@@ -126,6 +126,5 @@ fileprivate extension FavoriteEventsView {
     FavoriteEventsViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
-        .environmentObject(AuthenticationViewModel.defaultForPreviews)
 }
 #endif

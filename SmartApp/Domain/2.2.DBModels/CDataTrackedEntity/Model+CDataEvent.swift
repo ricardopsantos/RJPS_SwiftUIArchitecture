@@ -51,9 +51,9 @@ public extension Model.TrackedEntity {
             id: UUID().uuidString,
             name: String.randomWithSpaces(10),
             info: String.randomWithSpaces(20),
-            archived: false,
-            favorite: true,
-            locationRelevant: true,
+            archived: Bool.random(),
+            favorite: Bool.random(),
+            locationRelevant: Bool.random(),
             category: .none,
             sound: .incorrect,
             cascadeEvents: cascadeEvents

@@ -101,23 +101,55 @@ struct EventsListView: View, ViewProtocol {
             }
     }
 
+    @ViewBuilder
     var content: some View {
+        let sectionA = viewModel.events.filter { $0.favorite }
+        let sectionB = viewModel.events.filter { !$0.favorite && !$0.archived }
+        let sectionC = viewModel.events.filter { $0.archived }
         ScrollView {
-            VStack(spacing: SizeNames.defaultMarginSmall) {
-                Text("\(viewModel.events.count)")
-                ForEach(viewModel.events, id: \.self) { model in
-                    ListItemView(
-                        title: model.localizedEventName,
-                        subTitle: model.localizedEventsCount,
-                        systemImage: (model.category.systemImageName, model.category.color),
-                        onTapGesture: {
-                            onSelected(model)
-                        })
-                        .debugBordersDefault()
+            LazyVStack(spacing: SizeNames.defaultMarginSmall) {
+                HStack(spacing: 0) {
+                    Text("Favorits".localizedMissing)
+                        .textColor(ColorSemantic.labelPrimary.color)
+                        .fontSemantic(.bodyBold)
+                    Spacer()
                 }
-                Spacer()
-                    .padding(.horizontal, SizeNames.defaultMargin)
-            }.padding(SizeNames.defaultMargin)
+                buildList(events: sectionA)
+                Divider() .padding(.vertical, SizeNames.defaultMarginSmall)
+                HStack(spacing: 0) {
+                    Text("Regular".localizedMissing)
+                        .textColor(ColorSemantic.labelPrimary.color)
+                        .fontSemantic(.bodyBold)
+                    Spacer()
+                }
+
+                buildList(events: sectionB)
+                Divider().padding(.vertical, SizeNames.defaultMarginSmall)
+                HStack(spacing: 0) {
+                    Text("Archived".localizedMissing)
+                        .textColor(ColorSemantic.labelSecondary.color)
+                        .fontSemantic(.bodyBold)
+                    Spacer()
+                }
+                buildList(events: sectionC)
+                    .opacity(0.5)
+                Spacer().padding(.horizontal, SizeNames.defaultMargin)
+            }
+            .padding(SizeNames.defaultMargin)
+        }
+    }
+
+    @ViewBuilder
+    func buildList(events: [Model.TrackedEntity]) -> some View {
+        ForEach(events, id: \.self) { model in
+            ListItemView(
+                title: model.localizedEventName,
+                subTitle: model.localizedEventsCount,
+                systemImage: (model.category.systemImageName, model.category.color),
+                onTapGesture: {
+                    onSelected(model)
+                })
+            .debugBordersDefault()
         }
     }
 }
@@ -137,18 +169,6 @@ fileprivate extension EventsListView {
 #Preview {
     EventsListViewCoordinator()
         .environmentObject(AppStateViewModel.defaultForPreviews)
-        .environmentObject(ConfigurationViewModel.defaultForPreviews)
-        .environmentObject(AuthenticationViewModel.defaultForPreviews)
-}
-#endif
-
-//
-// MARK: - Preview
-//
-
-#if canImport(SwiftUI) && DEBUG
-#Preview {
-    PopulationStateViewCoordinator(year: "2022", model: [])
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }
 #endif

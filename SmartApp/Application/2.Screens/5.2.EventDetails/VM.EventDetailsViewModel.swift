@@ -16,6 +16,17 @@ import Core
 // MARK: - Model
 //
 
+public struct CascadeEventListItem: Equatable, Hashable, Sendable {
+    let id: String
+    let title: String
+    let value: String
+    init(id: String, title: String, value: String) {
+        self.title = title
+        self.value = value
+        self.id = id
+    }
+}
+
 public struct EventDetailsModel: Equatable, Hashable, Sendable {
     let event: Model.TrackedEntity
     init(event: Model.TrackedEntity) {
@@ -36,6 +47,7 @@ extension EventDetailsViewModel {
         case userDidChangedEventCategory(value: HitHappensEventCategory)
         case userDidChangedLocationRelevant(value: Bool)
         case userDidChangedFavorite(value: Bool)
+        case userDidChangedArchived(value: Bool)
         case userDidChangedName(value: String)
         case userDidChangedInfo(value: String)
         case deleteTrackedEntity
@@ -55,7 +67,10 @@ extension EventDetailsViewModel {
 class EventDetailsViewModel: BaseViewModel {
     // MARK: - Usage Attributes
     @Published private(set) var event: Model.TrackedEntity?
+    @Published private(set) var cascadeEvents: [CascadeEventListItem]?
     @Published var soundEffect: String = SoundEffect.none.name
+    @Published var favorite: Bool = false
+    @Published var archived: Bool = false
 
     // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
@@ -91,7 +106,10 @@ class EventDetailsViewModel: BaseViewModel {
     func send(_ action: Actions) {
         switch action {
         case .didAppear:
-            send(.reload)
+            guard let unwrapped = event else {
+                return
+            }
+            updateUI(event: unwrapped)
         case .didDisappear: ()
         case .reload:
             guard let unwrapped = event else {
@@ -101,8 +119,7 @@ class EventDetailsViewModel: BaseViewModel {
                 guard let self = self else { return }
                 if let record = dataBaseRepository?.trackedEntityGet(
                     trackedEntityId: unwrapped.id, cascade: true) {
-                    event = record
-                    soundEffect = record.sound.name
+                    updateUI(event: unwrapped)
                 }
             }
 
@@ -135,10 +152,25 @@ class EventDetailsViewModel: BaseViewModel {
                 dataBaseRepository?.trackedEntityUpdate(
                     trackedEntity: trackedEntity)
             }
+        case .userDidChangedArchived(value: let value):
+            Task { [weak self] in
+                guard let self = self, var trackedEntity = event else { return }
+                trackedEntity.archived = value
+                if value {
+                    // archived cant be favorite
+                    trackedEntity.favorite = false
+                }
+                dataBaseRepository?.trackedEntityUpdate(
+                    trackedEntity: trackedEntity)
+            }
         case .userDidChangedFavorite(value: let value):
             Task { [weak self] in
                 guard let self = self, var trackedEntity = event else { return }
                 trackedEntity.favorite = value
+                if value {
+                    // archived cant be favorite
+                    trackedEntity.archived = false
+                }
                 dataBaseRepository?.trackedEntityUpdate(
                     trackedEntity: trackedEntity)
             }
@@ -154,7 +186,6 @@ class EventDetailsViewModel: BaseViewModel {
                 guard let self = self, var trackedEntity = event else { return }
                 dataBaseRepository?.trackedEntityDelete(trackedEntity: trackedEntity)
             }
-
         }
     }
 }
@@ -163,7 +194,19 @@ class EventDetailsViewModel: BaseViewModel {
 // MARK: - Auxiliar
 //
 
-fileprivate extension EventDetailsViewModel {}
+fileprivate extension EventDetailsViewModel {
+    
+    @MainActor
+    func updateUI(event model: Model.TrackedEntity) {
+        event = model
+        cascadeEvents = []//model.cascadeEvents.map({
+//            CascadeEventListItem.init(title: $0.localizedListItemTitle, value: $0.localizedListItemValue)
+  //      })
+        soundEffect = model.sound.name
+        favorite = model.favorite
+        archived = model.archived
+    }
+}
 
 //
 // MARK: - Preview

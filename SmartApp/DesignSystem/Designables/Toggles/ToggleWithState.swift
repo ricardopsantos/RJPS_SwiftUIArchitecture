@@ -10,6 +10,29 @@ import SwiftUI
 //
 import DevTools
 
+public struct ToggleWithBinding: View {
+    @Binding var isOn: Bool
+    private let title: String
+    private let titleStyle: TextStyleTuple = (.bodyBold, .labelPrimary)
+    private let onChanged: (Bool) -> Void
+    public init(title: String, 
+                isOn: Binding<Bool>,
+                onChanged: @escaping (Bool) -> Void) {
+        self.title = title
+        self._isOn = isOn
+        self.onChanged = onChanged
+    }
+
+    public var body: some View {
+        Toggle(isOn: $isOn.didSet { state in
+            onChanged(state)
+        }) {
+            Text(title)
+                .applyStyle(titleStyle)
+        }.tint(ColorSemantic.primary.color)
+    }
+}
+
 public struct ToggleWithState: View {
     @State var isOn: Bool = false
     private let title: String

@@ -12,25 +12,42 @@ import Domain
 
 public extension Model.TrackedEntity {
     var localizedEventName: String {
-        let prefix = favorite ? "⭐ " : ""
-        return "\(prefix)\(name) | \(category.localized)"
+        var prefix = ""
+        if favorite {
+            prefix = "⭐ "
+        }
+        if archived {
+            prefix = "🔒 "
+        }
+        let suffix = category == .none ? "" : " | \(category.localized)"
+        return "\(prefix)\(name)\(suffix)"
     }
 
     var localizedEventsCount: String {
         let count = cascadeEvents?.count ?? 0
-        return "Events: \(count.localeString)".localizedMissing
+        if count > 0, let cascadeEvents = cascadeEvents, let last = cascadeEvents.max(by: { $0.recordDate > $1.recordDate }) {
+            return "\(count)x, last: \(last.recordDate.dateMediumTimeShort)"
+        } else {
+            return ""
+        }
+
     }
 }
 
 public extension Model.TrackedLog {
     var localizedListItemTitle: String {
         var acc = ""
-        acc += "Note: ".localizedMissing + note + "\n"
-        acc += "Date: ".localizedMissing + recordDate.dateMediumTimeShort
+        if !note.isEmpty {
+            acc += "Note: ".localizedMissing + note + "\n"
+        }
+        acc += recordDate.dateMediumTimeShort
         return acc
     }
 
     var localizedListItemValue: String {
-        "Location: \(latitude)|\(longitude)"
+        guard latitude != 0, longitude != 0 else {
+            return ""
+        }
+        return "Location: \(latitude)|\(longitude)"
     }
 }

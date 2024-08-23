@@ -103,11 +103,18 @@ struct EventDetailsView: View, ViewProtocol {
 
     var content: some View {
         ScrollView {
-            VStack {
+            LazyVStack(spacing: SizeNames.defaultMarginSmall) {
                 detailsView
                 SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
                 Divider()
                 SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                ToggleWithState(
+                    title: "Archived".localizedMissing,
+                    isOn: viewModel.event?.archived ?? false,
+                    onChanged: { newValue in
+                        viewModel.send(.userDidChangedArchived(value: newValue))
+                    })
+                    .debugBordersDefault()
                 TextButton(
                     onClick: {
                         viewModel.send(.deleteTrackedEntity)
@@ -123,6 +130,8 @@ struct EventDetailsView: View, ViewProtocol {
                 SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
                 listView
             }
+            .paddingRight(SizeNames.size_1.cgFloat)
+            .paddingLeft(SizeNames.size_1.cgFloat)
         }.padding(SizeNames.defaultMargin)
     }
 
@@ -139,16 +148,17 @@ struct EventDetailsView: View, ViewProtocol {
                 viewModel.send(.userDidChangedInfo(value: newValue))
             }
 
-            ToggleWithState(
-                title: "Favorite",
-                isOn: viewModel.event?.favorite ?? false,
+            ToggleWithBinding(
+                title: "Favorite".localizedMissing,
+                isOn: $viewModel.favorite,
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedFavorite(value: newValue))
                 })
                 .debugBordersDefault()
+
             
             ToggleWithState(
-                title: "Location relevant",
+                title: "Location relevant".localizedMissing,
                 isOn: viewModel.event?.locationRelevant ?? false,
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedLocationRelevant(value: newValue))
@@ -184,6 +194,16 @@ struct EventDetailsView: View, ViewProtocol {
                             onTapGesture: {
                                 //     onSelected(model)
                             })
+                        .swipeActions {
+                            Button(role: .destructive) {
+                                if let index = cascadeEvents.firstIndex(of: model) {
+                                    print("asd")
+                                   // items.remove(at: index)
+                                }
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        }
                             .debugBordersDefault()
                     }
                     Spacer()
