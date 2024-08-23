@@ -109,7 +109,7 @@ fileprivate extension EventsListViewModel {}
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    EventsListViewCoordinator()
+    EventsListViewCoordinator(haveNavigationStack: false)
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

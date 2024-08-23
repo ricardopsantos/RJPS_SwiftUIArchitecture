@@ -23,7 +23,7 @@ struct EventDetailsViewCoordinator: View, ViewCoordinatorProtocol {
     @EnvironmentObject var coordinatorTab2: RouterViewModel
     @Environment(\.dismiss) var dismiss
     let model: EventDetailsModel
-    private let haveNavigationStack: Bool = false
+    let haveNavigationStack: Bool
     // MARK: - Body & View
     var body: some View {
         if !haveNavigationStack {
@@ -79,8 +79,6 @@ struct EventDetailsView: View, ViewProtocol {
     
     // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
-    @State private var showPopover: Bool = false
-    @State private var selectedItem: String?
 
     // MARK: - Body & View
     var body: some View {
@@ -104,24 +102,27 @@ struct EventDetailsView: View, ViewProtocol {
     }
     
     var content: some View {
-        ScrollView {
-            LazyVStack(spacing: SizeNames.defaultMarginSmall) {
-                detailsView
-                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
-                Divider()
-                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
-                archivedAndDeleteView
-                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
-                Divider()
-                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
-                listView
+        ZStack {
+            ScrollView {
+                Header(text: "Event details".localizedMissing)
+                LazyVStack(spacing: SizeNames.defaultMarginSmall) {
+                    detailsView
+                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                    Divider()
+                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                    archivedAndDeleteView
+                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                    Divider()
+                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                    listView
+                }
+                .paddingRight(SizeNames.size_1.cgFloat)
+                .paddingLeft(SizeNames.size_1.cgFloat)
+            }.padding(SizeNames.defaultMargin)
+            if viewModel.confirmationSheetType != nil {
+                confirmationSheet
             }
-            .paddingRight(SizeNames.size_1.cgFloat)
-            .paddingLeft(SizeNames.size_1.cgFloat)
-        }.padding(SizeNames.defaultMargin)
-            .popover(isPresented: $showPopover) {
-                          popoverView(for: selectedItem)
-                      }
+        }
     }
     
     var detailsView: some View {
@@ -182,7 +183,7 @@ struct EventDetailsView: View, ViewProtocol {
             .debugBordersDefault()
             TextButton(
                 onClick: {
-                    viewModel.send(.deleteTrackedEntity)
+                    viewModel.send(.deleteTrackedEntity(confirmed: false))
                 },
                 text: "Delete Event".localizedMissing,
                 alignment: .center,
@@ -192,12 +193,7 @@ struct EventDetailsView: View, ViewProtocol {
         }
     }
     
-    
     var listView: some View {
-        listViewV1
-    }
-    
-    var listViewV1: some View {
         Group {
             if let cascadeEvents = viewModel.cascadeEvents, !cascadeEvents.isEmpty {
                 LazyVStack {
@@ -207,8 +203,7 @@ struct EventDetailsView: View, ViewProtocol {
                             subTitle: model.value,
                             systemImage: ("", .clear),
                             onTapGesture: {
-                                selectedItem = model.id
-                                showPopover = true
+                                print("hadle")
                             })
                         .debugBordersDefault()
                         .listRowSeparator(.hidden)
@@ -220,67 +215,25 @@ struct EventDetailsView: View, ViewProtocol {
         }
     }
     
-    private func popoverView(for item: String?) -> some View {
-           VStack(spacing: 20) {
-               Text("Options for \(item ?? "Item")")
-                   .fontSemantic(.title1)
-               
-               Button("Delete") {
-                   // Handle delete action
-                   print("Delete \(item ?? "Item")")
-                   self.showPopover = false
-               }
-               
-               Button("Details") {
-                   // Handle details action
-                   print("Details for \(item ?? "Item")")
-                   self.showPopover = false
-               }
-               
-               Button("Cancel") {
-                   // Handle cancel action
-                   self.showPopover = false
-               }
-           }
-           .padding()
-           .frame(width: 200)
-       }
-    
-    var listViewV2: some View {
-        Group {
-            if let cascadeEvents = viewModel.cascadeEvents, !cascadeEvents.isEmpty {
-                List {
-                    ForEach(cascadeEvents, id: \.self) { item in
-                        ListItemView(
-                            title: item.title,
-                            subTitle: item.value,
-                            systemImage: ("", .clear),
-                            onTapGesture: {
-                                // Handle tap gesture
-                            })
-                        .background(Color.red)
-                        .debugBordersDefault()
-                        .listRowSeparator(.hidden)
-                        .swipeActions {
-                            Button(role: .destructive) {
-                                if let index = cascadeEvents.firstIndex(of: item) {
-                                    // items.remove(at: index)
-                                    self.selectedItem = item.id
-                                                       self.showPopover = true
-                                }
-                            } label: {
-                                Label("Delete", systemImage: "trash")
-                            }.padding(.vertical, 11)
-                        }
-                    }
+    var confirmationSheet: some View {
+        @State var isOpen = Binding<Bool>(
+            get: { viewModel.confirmationSheetType != nil },
+            set: { if !$0 { viewModel.confirmationSheetType = nil } }
+        )
+        return ConfirmationSheetV2(
+            isOpen: isOpen,
+            title: viewModel.confirmationSheetType!.title,
+            subTitle: viewModel.confirmationSheetType!.subTitle,
+            confirmationAction: {
+                guard let sheetType = viewModel.confirmationSheetType else {
+                    return
                 }
-                .listStyle(.inset)
-                .listRowSpacing(-12)
-                .frame(minHeight: screenHeight / 2)
-            } else {
-                EmptyView()
+                switch sheetType {
+                case .delete:
+                    viewModel.send(.deleteTrackedEntity(confirmed: true))
+                }
             }
-        }
+        )
     }
 }
 
@@ -293,15 +246,8 @@ struct EventDetailsView: View, ViewProtocol {
     EventDetailsViewCoordinator(
         model: .init(event: .random(cascadeEvents: [
             .random,
-            .random,
-            .random,
-            .random,
-            .random,
-            .random,
-            .random,
-            .random,
             .random
-        ])))
+        ])), haveNavigationStack: false)
     .environmentObject(AppStateViewModel.defaultForPreviews)
     .environmentObject(ConfigurationViewModel.defaultForPreviews)
     .environmentObject(AuthenticationViewModel.defaultForPreviews)

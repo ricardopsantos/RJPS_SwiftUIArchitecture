@@ -39,6 +39,25 @@ public struct EventDetailsModel: Equatable, Hashable, Sendable {
 //
 
 extension EventDetailsViewModel {
+    enum ConfirmationSheet {
+        case delete
+
+        var title: String {
+            switch self {
+            case .delete:
+                "DeleteTitle".localizedMissing
+            }
+        }
+        var subTitle: String {
+            switch self {
+            case .delete:
+                "DeleteSubTitle".localizedMissing
+            }
+        }
+    }
+}
+
+extension EventDetailsViewModel {
     enum Actions {
         case didAppear
         case didDisappear
@@ -50,7 +69,8 @@ extension EventDetailsViewModel {
         case userDidChangedArchived(value: Bool)
         case userDidChangedName(value: String)
         case userDidChangedInfo(value: String)
-        case deleteTrackedEntity
+        case deleteTrackedEntity(confirmed: Bool)
+        case handleConfirmation
     }
 
     struct Dependencies {
@@ -76,6 +96,15 @@ class EventDetailsViewModel: BaseViewModel {
     private let cancelBag = CancelBag()
     private let dataBaseRepository: DataBaseRepositoryProtocol?
     private let onRouteBack: () -> Void
+    @Published var confirmationSheetType: ConfirmationSheet?
+    @Published var isConfirmationGiven = false {
+        didSet {
+            if isConfirmationGiven {
+                send(.handleConfirmation)
+                confirmationSheetType = nil
+            }
+        }
+    }
     public init(dependencies: Dependencies) {
         self.dataBaseRepository = dependencies.dataBaseRepository
         self.event = dependencies.model.event
@@ -122,7 +151,16 @@ class EventDetailsViewModel: BaseViewModel {
                     updateUI(event: unwrapped)
                 }
             }
-
+        case .handleConfirmation:
+            switch confirmationSheetType {
+            case .delete:
+                send(.deleteTrackedEntity(confirmed: true))
+            case nil:
+                let errorMessage = "No bottom sheet found"
+                alertModel = .init(type: .error, message: errorMessage)
+                ErrorsManager.handleError(message: "\(Self.self).\(action)", error: nil)
+            }
+            
         case .userDidChangedSoundEffect(value: let value):
             value.play()
             Task { [weak self] in
@@ -181,11 +219,16 @@ class EventDetailsViewModel: BaseViewModel {
                 dataBaseRepository?.trackedEntityUpdate(
                     trackedEntity: trackedEntity)
             }
-        case .deleteTrackedEntity:
-            Task { [weak self] in
-                guard let self = self, var trackedEntity = event else { return }
-                dataBaseRepository?.trackedEntityDelete(trackedEntity: trackedEntity)
+        case .deleteTrackedEntity(confirmed: let confirmed):
+            if !confirmed {
+                confirmationSheetType = .delete
+            } else {
+                Task { [weak self] in
+                    guard let self = self, var trackedEntity = event else { return }
+                    dataBaseRepository?.trackedEntityDelete(trackedEntity: trackedEntity)
+                }
             }
+
         }
     }
 }
@@ -216,7 +259,7 @@ fileprivate extension EventDetailsViewModel {
 #if canImport(SwiftUI) && DEBUG
 #Preview {
     EventDetailsViewCoordinator(
-        model: .init(event: .random(cascadeEvents: [.random])))
+        model: .init(event: .random(cascadeEvents: [.random])), haveNavigationStack: false)
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

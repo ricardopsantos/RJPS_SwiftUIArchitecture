@@ -104,6 +104,7 @@ struct EventLogDetailsView: View, ViewProtocol {
     var content: some View {
         ScrollView {
             LazyVStack(spacing: SizeNames.defaultMarginSmall) {
+                Header(text: "Log details".localizedMissing)
                 CustomTitleAndCustomTextFieldV2(
                     title: "Note".localizedMissing,
                     placeholder: "Note".localizedMissing,

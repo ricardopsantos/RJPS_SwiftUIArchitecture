@@ -43,7 +43,6 @@ struct SmartApp: App {
         if onTesting {
             config = .init(
                 userService: userService,
-                weatherService: DependenciesManager.Services.weatherServiceMock,
                 sampleService: sampleService,
                 dataUSAService: DependenciesManager.Services.dataUSAServiceMock,
                 dataBaseRepository: dataBaseRepository,
@@ -55,7 +54,6 @@ struct SmartApp: App {
         } else {
             config = .init(
                 userService: userService,
-                weatherService: DependenciesManager.Services.weatherService,
                 sampleService: sampleService,
                 dataUSAService: DependenciesManager.Services.dataUSAService,
                 dataBaseRepository: dataBaseRepository,

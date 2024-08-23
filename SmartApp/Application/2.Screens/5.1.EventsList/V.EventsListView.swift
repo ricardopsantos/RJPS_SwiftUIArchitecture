@@ -23,7 +23,7 @@ struct EventsListViewCoordinator: View, ViewCoordinatorProtocol {
     @StateObject var coordinator = RouterViewModel()
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
-    private let haveNavigationStack = false
+    let haveNavigationStack: Bool
     // MARK: - Body & View
     var body: some View {
         if haveNavigationStack {
@@ -142,6 +142,7 @@ struct EventsListView: View, ViewProtocol {
         let sectionB = viewModel.events.filter { !$0.favorite && !$0.archived }
         let sectionC = viewModel.events.filter(\.archived)
         ScrollView {
+            Header(text: "Events".localizedMissing)
             LazyVStack {
                 HStack(spacing: 0) {
                     Text("Favorits".localizedMissing)
@@ -211,7 +212,7 @@ fileprivate extension EventsListView {
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    EventsListViewCoordinator()
+    EventsListViewCoordinator(haveNavigationStack: true)
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

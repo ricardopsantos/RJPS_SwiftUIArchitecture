@@ -60,7 +60,11 @@ class FavoriteEventsViewModel: BaseViewModel {
             switch some {
             case .generic(let some):
                 switch some {
-                case .databaseDidInsertedContentOn: break
+                case .databaseDidInsertedContentOn(let table, let id):
+                    // Record deleted! Route back
+                    if table == "\(CDataTrackedLog.self)" {
+                      //  self?.onRouteBack()
+                    }
                 case .databaseDidUpdatedContentOn: break
                 case .databaseDidDeletedContentOn: break
                 case .databaseDidChangedContentItemOn: break
@@ -117,7 +121,7 @@ fileprivate extension FavoriteEventsViewModel {}
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    FavoriteEventsViewCoordinator()
+    FavoriteEventsViewCoordinator(haveNavigationStack: true)
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

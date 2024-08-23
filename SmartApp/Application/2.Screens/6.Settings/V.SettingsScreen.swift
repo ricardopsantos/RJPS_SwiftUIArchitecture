@@ -20,12 +20,18 @@ struct SettingsViewCoordinator: View, ViewCoordinatorProtocol {
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var coordinator = RouterViewModel()
     // MARK: - Usage Attributes
-
+    let haveNavigationStack: Bool
     // MARK: - Body & View
     var body: some View {
-        NavigationStack(path: $coordinator.navPath) {
+        if haveNavigationStack {
+            NavigationStack(path: $coordinator.navPath) {
+                buildScreen(.settings)
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                    .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
+            }
+        } else {
             buildScreen(.settings)
-                .navigationDestination(for: AppScreen.self, destination: buildScreen)
                 .sheet(item: $coordinator.sheetLink, content: buildScreen)
                 .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
         }
@@ -96,6 +102,22 @@ struct SettingsScreen: View, ViewProtocol {
     }
 
     var content: some View {
+        contentV2
+    }
+    var contentV2: some View {
+        ZStack {
+            VStack(spacing: SizeNames.defaultMargin) {
+                Header(text: "Settings".localizedMissing)
+                AppearancePickerView(selected: $selectedMode)
+                Spacer()
+            }.padding(SizeNames.defaultMargin)
+            if viewModel.confirmationSheetType != nil {
+                confirmationSheet
+            }
+        }
+    }
+    
+    var contentV1: some View {
         ZStack {
             VStack(spacing: SizeNames.defaultMargin) {
                 Header(text: "Settings".localizedMissing)
@@ -213,7 +235,7 @@ fileprivate extension SettingsScreen {}
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    SettingsViewCoordinator()
+    SettingsViewCoordinator(haveNavigationStack: false)
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

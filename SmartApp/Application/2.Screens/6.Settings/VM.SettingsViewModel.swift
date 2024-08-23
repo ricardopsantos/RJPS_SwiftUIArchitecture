@@ -158,7 +158,7 @@ extension SettingsViewModel {
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    SettingsViewCoordinator()
+    SettingsViewCoordinator(haveNavigationStack: false)
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

@@ -56,22 +56,31 @@ struct MainTabView: View, ViewProtocol {
 
     var contentHitHappensApp: some View {
         TabView(selection: selectedTab()) {
+            //
+            // Tab 1
+            //
             NavigationStack(path: $tab1Router.navPath) {
-                FavoriteEventsViewCoordinator()
+                FavoriteEventsViewCoordinator(haveNavigationStack: false)
                     .navigationDestination(for: AppScreen.self, destination: buildScreen)
                     .environmentObject(tab1Router)
             }
             .tabItem { TabItemView(title: Tab.tab1.title, icon: Tab.tab1.icone) }
             .tag(Tab.tab1)
+            //
+            // Tab 2
+            //
             NavigationStack(path: $tab2Router.navPath) {
-                EventsListViewCoordinator()
+                EventsListViewCoordinator(haveNavigationStack: false)
                     .navigationDestination(for: AppScreen.self, destination: buildScreen)
                     .environmentObject(tab2Router)
             }
             .tabItem { TabItemView(title: Tab.tab2.title, icon: Tab.tab2.icone) }
             .tag(Tab.tab2)
+            //
+            // Tab 3
+            //
             NavigationStack(path: $tab4Router.navPath) {
-                SettingsViewCoordinator()
+                SettingsViewCoordinator(haveNavigationStack: false)
                     .navigationDestination(for: AppScreen.self, destination: buildScreen)
                     .environmentObject(tab4Router)
             }
@@ -86,14 +95,9 @@ struct MainTabView: View, ViewProtocol {
 
     var contentTemplateApp: some View {
         TabView(selection: selectedTab()) {
-            NavigationStack(path: $tab1Router.navPath) {
-                WeatherViewCoordinator()
-                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                    .environmentObject(tab1Router)
-            }
-            .tabItem { TabItemView(title: Tab.tab1.title, icon: Tab.tab1.icone) }
-            .tag(Tab.tab1)
-
+            //
+            // Tab 2
+            //
             NavigationStack(path: $tab2Router.navPath) {
                 PopulationNationViewCoordinator()
                     .navigationDestination(for: AppScreen.self, destination: buildScreen)
@@ -101,7 +105,9 @@ struct MainTabView: View, ViewProtocol {
             }
             .tabItem { TabItemView(title: Tab.tab2.title, icon: Tab.tab2.icone) }
             .tag(Tab.tab2)
-
+            //
+            // Tab 3
+            //
             NavigationStack(path: $tab3Router.navPath) {
                 ___Template___ViewCoordinator(
                     haveNavigationStack: true,
@@ -112,9 +118,11 @@ struct MainTabView: View, ViewProtocol {
             }
             .tabItem { TabItemView(title: Tab.tab3.title, icon: Tab.tab3.icone) }
             .tag(Tab.tab3)
-
+            //
+            // Tab 4
+            //
             NavigationStack(path: $tab4Router.navPath) {
-                SettingsViewCoordinator()
+                SettingsViewCoordinator(haveNavigationStack: false)
                     .navigationDestination(for: AppScreen.self, destination: buildScreen)
                     .environmentObject(tab4Router)
             }
@@ -132,16 +140,11 @@ struct MainTabView: View, ViewProtocol {
         switch screen {
         case .eventDetails(model: let model):
             EventDetailsViewCoordinator(
-                model: model
+                model: model, 
+                haveNavigationStack: false
             )
             .environmentObject(configuration)
             .environmentObject(tab2Router)
-        case .weatherDetailsWith(model: let model):
-            WeatherDetailsViewCoordinator(
-                model: model
-            )
-            .environmentObject(configuration)
-            .environmentObject(tab1Router)
         case .populationStates(year: let year, model: let model):
             PopulationStateViewCoordinator(
                 year: year,

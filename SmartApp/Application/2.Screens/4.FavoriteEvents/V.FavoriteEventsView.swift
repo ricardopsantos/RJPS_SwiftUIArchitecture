@@ -21,12 +21,19 @@ struct FavoriteEventsViewCoordinator: View, ViewCoordinatorProtocol {
     @StateObject var coordinator = RouterViewModel()
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
+    let haveNavigationStack: Bool
 
     // MARK: - Body & View
     var body: some View {
-        NavigationStack(path: $coordinator.navPath) {
+        if haveNavigationStack {
+            NavigationStack(path: $coordinator.navPath) {
+                buildScreen(.favoriteEvents)
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .sheet(item: $coordinator.sheetLink, content: buildScreen)
+                    .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
+            }
+        } else {
             buildScreen(.favoriteEvents)
-                .navigationDestination(for: AppScreen.self, destination: buildScreen)
                 .sheet(item: $coordinator.sheetLink, content: buildScreen)
                 .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
         }
@@ -41,6 +48,15 @@ struct FavoriteEventsViewCoordinator: View, ViewCoordinatorProtocol {
                 },
                 dataBaseRepository: configuration.dataBaseRepository)
             FavoriteEventsView(dependencies: dependencies)
+        case .eventLogDetails(model: let model):
+            let dependencies: EventLogDetailsViewModel.Dependencies = .init(
+                model: model, onCompletion: { _ in
+                    
+                }, onRouteBack: {
+                    
+                },
+                dataBaseRepository: configuration.dataBaseRepository)
+            EventLogDetailsView(dependencies: dependencies)
         default:
             EmptyView().onAppear(perform: {
                 DevTools.assert(false, message: "Not predicted \(screen)")
@@ -90,6 +106,7 @@ struct FavoriteEventsView: View, ViewProtocol {
 
     var content: some View {
         ScrollView {
+            Header(text: "Favorite".localizedMissing)
             LazyVStack(spacing: SizeNames.defaultMarginSmall) {
                 Spacer()
                 ForEach(viewModel.favorits, id: \.self) { model in
@@ -123,7 +140,7 @@ fileprivate extension FavoriteEventsView {
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    FavoriteEventsViewCoordinator()
+    FavoriteEventsViewCoordinator(haveNavigationStack: true)
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

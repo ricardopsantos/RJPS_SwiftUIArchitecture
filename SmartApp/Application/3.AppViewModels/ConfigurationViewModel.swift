@@ -17,7 +17,6 @@ class ConfigurationViewModel: ObservableObject {
 
     // Services
     let userService: UserServiceProtocol
-    let weatherService: WeatherServiceProtocol
     let sampleService: SampleServiceProtocol
     let dataUSAService: DataUSAServiceProtocol
 
@@ -38,7 +37,6 @@ class ConfigurationViewModel: ObservableObject {
     // MARK: - Constructor
     init(
         userService: UserServiceProtocol,
-        weatherService: WeatherServiceProtocol,
         sampleService: SampleServiceProtocol,
         dataUSAService: DataUSAServiceProtocol,
         dataBaseRepository: DataBaseRepositoryProtocol,
@@ -47,7 +45,6 @@ class ConfigurationViewModel: ObservableObject {
         secureAppPreferences: SecureAppPreferencesProtocol
     ) {
         self.userService = userService
-        self.weatherService = weatherService
         self.sampleService = sampleService
         self.dataUSAService = dataUSAService
         self.dataBaseRepository = dataBaseRepository
@@ -68,7 +65,6 @@ extension ConfigurationViewModel {
     static var defaultForPreviews: ConfigurationViewModel {
         ConfigurationViewModel(
             userService: DependenciesManager.Services.userService,
-            weatherService: DependenciesManager.Services.weatherService,
             sampleService: DependenciesManager.Services.sampleService,
             dataUSAService: DependenciesManager.Services.dataUSAService,
             dataBaseRepository: DependenciesManager.Repository.dataBaseRepository,

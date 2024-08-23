@@ -30,8 +30,6 @@ public enum AppScreen: Hashable, Identifiable, Sendable {
     case userDetails
     case editUserDetails
     case termsAndConditions
-    case weather
-    case weatherDetailsWith(model: WeatherDetailsModel)
     case populationNation
     case populationStates(year: String, model: [PopulationStateModel])
     public var id: String {

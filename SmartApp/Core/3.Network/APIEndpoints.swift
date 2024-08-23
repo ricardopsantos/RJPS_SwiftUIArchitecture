@@ -8,7 +8,6 @@
 import Common
 
 enum APIEndpoints {
-    case getWeather(_ request: ModelDto.GetWeatherRequest)
     case updateUser(_ request: ModelDto.UpdateUserRequest)
     case requestEmployees(_ request: ModelDto.EmployeeRequest)
     case getPopulationNationData(_ request: ModelDto.PopulationNationDataRequest)
@@ -19,7 +18,6 @@ extension APIEndpoints {
     /// Sugar name used on chronometer
     var name: String {
         switch self {
-        case .getWeather: "getWeather"
         case .updateUser: "updateUser"
         case .requestEmployees: "requestEmployees"
         case .getPopulationNationData: "getPopulationNationData"
@@ -30,13 +28,6 @@ extension APIEndpoints {
     // URL Params
     var queryItems: [String: String?] {
         switch self {
-        case .getWeather(let request):
-            return [
-                "latitude": request.latitude,
-                "longitude": request.longitude,
-                "daily": "temperature_2m_max,temperature_2m_min",
-                "timezone": TimeZone.autoupdatingCurrent.identifier
-            ]
         case .getPopulationNationData(let request):
             return [
                 "drilldowns": request.drilldowns,
@@ -80,17 +71,9 @@ extension APIEndpoints {
         path: String
     ) {
         switch self {
-        case .getWeather:
-            (
-                .get,
-
-                "https://api.open-meteo.com/v1/",
-                "forecast"
-            )
         case .updateUser:
             (
                 .put,
-
                 "/api/v1/users",
                 "users"
             )
