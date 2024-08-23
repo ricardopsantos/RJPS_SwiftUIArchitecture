@@ -20,6 +20,7 @@ public enum AppScreen: Hashable, Identifiable, Sendable {
     case favoriteEvents
     case eventsList
     case eventDetails(model: EventDetailsModel)
+    case eventLogDetails(model: EventLogDetailsModel)
     //
     case templateWith(model: ___Template___Model)
     // Template App

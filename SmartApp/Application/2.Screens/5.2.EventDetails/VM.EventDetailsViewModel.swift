@@ -195,13 +195,14 @@ class EventDetailsViewModel: BaseViewModel {
 //
 
 fileprivate extension EventDetailsViewModel {
-    
-    @MainActor
+    // @MainActor
     func updateUI(event model: Model.TrackedEntity) {
         event = model
-        cascadeEvents = []//model.cascadeEvents.map({
-//            CascadeEventListItem.init(title: $0.localizedListItemTitle, value: $0.localizedListItemValue)
-  //      })
+        cascadeEvents = model.cascadeEvents?.map {
+            .init(
+                id: $0.id,
+                title: $0.localizedListItemTitle,
+                value: $0.localizedListItemValue) }
         soundEffect = model.sound.name
         favorite = model.favorite
         archived = model.archived

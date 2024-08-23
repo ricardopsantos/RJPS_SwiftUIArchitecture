@@ -21,7 +21,7 @@ public struct TextButton: View {
     private let background: Color
     private let enabled: Bool
     private let accessibility: Accessibility
-    
+
     public init(
         onClick: @escaping () -> Void,
         text: String,

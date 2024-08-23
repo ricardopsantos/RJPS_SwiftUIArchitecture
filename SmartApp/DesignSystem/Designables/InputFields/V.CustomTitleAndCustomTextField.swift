@@ -45,7 +45,6 @@ public struct CustomTitleAndCustomTextFieldV2: View {
     }
 }
 
-
 public struct CustomTitleAndCustomTextFieldV1: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var inputText: String
@@ -99,9 +98,11 @@ public struct CustomTitleAndCustomTextFieldV1: View {
             inputText: .constant("inputText"),
             accessibility: .undefined
         )
-        CustomTitleAndCustomTextFieldV2(title: "title",
-                                        placeholder: "placeholder",
-                                        accessibility: .undefined) { newText in
+        CustomTitleAndCustomTextFieldV2(
+            title: "title",
+            placeholder: "placeholder",
+            accessibility: .undefined
+        ) { newText in
             DevTools.Log.debug(newText, .generic)
         }
     }

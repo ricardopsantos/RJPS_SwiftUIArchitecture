@@ -30,7 +30,6 @@ public extension Model.TrackedEntity {
         } else {
             return ""
         }
-
     }
 }
 

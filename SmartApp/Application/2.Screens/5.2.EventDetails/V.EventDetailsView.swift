@@ -39,7 +39,7 @@ struct EventDetailsViewCoordinator: View, ViewCoordinatorProtocol {
             }
         }
     }
-
+    
     @ViewBuilder
     func buildScreen(_ screen: AppScreen) -> some View {
         switch screen {
@@ -71,14 +71,16 @@ struct EventDetailsView: View, ViewProtocol {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onRouteBack = dependencies.onRouteBack
     }
-
+    
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
     private let onRouteBack: () -> Void
     @State var locationSwitchIsOn: Bool = false
-
+    
     // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
+    @State private var showPopover: Bool = false
+    @State private var selectedItem: String?
 
     // MARK: - Body & View
     var body: some View {
@@ -100,7 +102,7 @@ struct EventDetailsView: View, ViewProtocol {
                 viewModel.send(.didDisappear)
             }
     }
-
+    
     var content: some View {
         ScrollView {
             LazyVStack(spacing: SizeNames.defaultMarginSmall) {
@@ -108,23 +110,7 @@ struct EventDetailsView: View, ViewProtocol {
                 SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
                 Divider()
                 SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
-                ToggleWithState(
-                    title: "Archived".localizedMissing,
-                    isOn: viewModel.event?.archived ?? false,
-                    onChanged: { newValue in
-                        viewModel.send(.userDidChangedArchived(value: newValue))
-                    })
-                    .debugBordersDefault()
-                TextButton(
-                    onClick: {
-                        viewModel.send(.deleteTrackedEntity)
-                    },
-                    text: "Delete Event".localizedMissing,
-                    alignment: .center,
-                    style: .secondary,
-                    background: .dangerColor,
-                    accessibility: .undefined
-                )
+                archivedAndDeleteView
                 SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
                 Divider()
                 SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
@@ -133,29 +119,33 @@ struct EventDetailsView: View, ViewProtocol {
             .paddingRight(SizeNames.size_1.cgFloat)
             .paddingLeft(SizeNames.size_1.cgFloat)
         }.padding(SizeNames.defaultMargin)
+            .popover(isPresented: $showPopover) {
+                          popoverView(for: selectedItem)
+                      }
     }
-
+    
     var detailsView: some View {
-        VStack(spacing: SizeNames.defaultMarginSmall) {
-            CustomTitleAndCustomTextFieldV2(title: "Name".localizedMissing,
-                                            placeholder: "Name".localizedMissing,
-                                            accessibility: .undefined) { newValue in
-                viewModel.send(.userDidChangedName(value: newValue))
-            }
-            CustomTitleAndCustomTextFieldV2(title: "Info".localizedMissing,
-                                            placeholder: "Info".localizedMissing,
-                                            accessibility: .undefined) { newValue in
-                viewModel.send(.userDidChangedInfo(value: newValue))
-            }
-
+        LazyVStack(spacing: SizeNames.defaultMarginSmall) {
+            CustomTitleAndCustomTextFieldV2(
+                title: "Name".localizedMissing,
+                placeholder: "Name".localizedMissing,
+                accessibility: .undefined) { newValue in
+                    viewModel.send(.userDidChangedName(value: newValue))
+                }
+            CustomTitleAndCustomTextFieldV2(
+                title: "Info".localizedMissing,
+                placeholder: "Info".localizedMissing,
+                accessibility: .undefined) { newValue in
+                    viewModel.send(.userDidChangedInfo(value: newValue))
+                }
+            
             ToggleWithBinding(
                 title: "Favorite".localizedMissing,
                 isOn: $viewModel.favorite,
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedFavorite(value: newValue))
                 })
-                .debugBordersDefault()
-
+            .debugBordersDefault()
             
             ToggleWithState(
                 title: "Location relevant".localizedMissing,
@@ -163,52 +153,130 @@ struct EventDetailsView: View, ViewProtocol {
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedLocationRelevant(value: newValue))
                 })
-                .debugBordersDefault()
-
+            .debugBordersDefault()
+            
             // Picker with closure
             CategoryPickerView(selected: (viewModel.event?.category ?? .none).localized) { newValue in
                 viewModel.send(.userDidChangedEventCategory(value: newValue))
             }
             .debugBordersDefault()
-
+            
             // Picker with binding
             SoundPickerView(selected: $viewModel.soundEffect) { newValue in
                 viewModel.send(.userDidChangedSoundEffect(value: newValue))
             }
             .debugBordersDefault()
-
         }
         .paddingRight(SizeNames.size_1.cgFloat)
         .paddingLeft(SizeNames.size_1.cgFloat)
     }
-
-    var listView: some View {
+    
+    var archivedAndDeleteView: some View {
         Group {
-            if let cascadeEvents = viewModel.event?.cascadeEvents {
-                LazyVStack(spacing: SizeNames.defaultMarginSmall) {
+            ToggleWithState(
+                title: "Archived".localizedMissing,
+                isOn: viewModel.event?.archived ?? false,
+                onChanged: { newValue in
+                    viewModel.send(.userDidChangedArchived(value: newValue))
+                })
+            .debugBordersDefault()
+            TextButton(
+                onClick: {
+                    viewModel.send(.deleteTrackedEntity)
+                },
+                text: "Delete Event".localizedMissing,
+                alignment: .center,
+                style: .secondary,
+                background: .dangerColor,
+                accessibility: .undefined)
+        }
+    }
+    
+    
+    var listView: some View {
+        listViewV1
+    }
+    
+    var listViewV1: some View {
+        Group {
+            if let cascadeEvents = viewModel.cascadeEvents, !cascadeEvents.isEmpty {
+                LazyVStack {
                     ForEach(cascadeEvents, id: \.self) { model in
                         ListItemView(
-                            title: model.localizedListItemTitle,
-                            subTitle: model.localizedListItemValue,
+                            title: model.title,
+                            subTitle: model.value,
                             systemImage: ("", .clear),
                             onTapGesture: {
-                                //     onSelected(model)
+                                selectedItem = model.id
+                                showPopover = true
                             })
+                        .debugBordersDefault()
+                        .listRowSeparator(.hidden)
+                    }
+                }
+            } else {
+                EmptyView()
+            }
+        }
+    }
+    
+    private func popoverView(for item: String?) -> some View {
+           VStack(spacing: 20) {
+               Text("Options for \(item ?? "Item")")
+                   .fontSemantic(.title1)
+               
+               Button("Delete") {
+                   // Handle delete action
+                   print("Delete \(item ?? "Item")")
+                   self.showPopover = false
+               }
+               
+               Button("Details") {
+                   // Handle details action
+                   print("Details for \(item ?? "Item")")
+                   self.showPopover = false
+               }
+               
+               Button("Cancel") {
+                   // Handle cancel action
+                   self.showPopover = false
+               }
+           }
+           .padding()
+           .frame(width: 200)
+       }
+    
+    var listViewV2: some View {
+        Group {
+            if let cascadeEvents = viewModel.cascadeEvents, !cascadeEvents.isEmpty {
+                List {
+                    ForEach(cascadeEvents, id: \.self) { item in
+                        ListItemView(
+                            title: item.title,
+                            subTitle: item.value,
+                            systemImage: ("", .clear),
+                            onTapGesture: {
+                                // Handle tap gesture
+                            })
+                        .background(Color.red)
+                        .debugBordersDefault()
+                        .listRowSeparator(.hidden)
                         .swipeActions {
                             Button(role: .destructive) {
-                                if let index = cascadeEvents.firstIndex(of: model) {
-                                    print("asd")
-                                   // items.remove(at: index)
+                                if let index = cascadeEvents.firstIndex(of: item) {
+                                    // items.remove(at: index)
+                                    self.selectedItem = item.id
+                                                       self.showPopover = true
                                 }
                             } label: {
                                 Label("Delete", systemImage: "trash")
-                            }
+                            }.padding(.vertical, 11)
                         }
-                            .debugBordersDefault()
                     }
-                    Spacer()
-                        .padding(.horizontal, SizeNames.defaultMargin)
                 }
+                .listStyle(.inset)
+                .listRowSpacing(-12)
+                .frame(minHeight: screenHeight / 2)
             } else {
                 EmptyView()
             }
@@ -223,9 +291,19 @@ struct EventDetailsView: View, ViewProtocol {
 #if canImport(SwiftUI) && DEBUG
 #Preview {
     EventDetailsViewCoordinator(
-        model: .init(event: .random(cascadeEvents: [.random, .random])))
-        .environmentObject(AppStateViewModel.defaultForPreviews)
-        .environmentObject(ConfigurationViewModel.defaultForPreviews)
-        .environmentObject(AuthenticationViewModel.defaultForPreviews)
+        model: .init(event: .random(cascadeEvents: [
+            .random,
+            .random,
+            .random,
+            .random,
+            .random,
+            .random,
+            .random,
+            .random,
+            .random
+        ])))
+    .environmentObject(AppStateViewModel.defaultForPreviews)
+    .environmentObject(ConfigurationViewModel.defaultForPreviews)
+    .environmentObject(AuthenticationViewModel.defaultForPreviews)
 }
 #endif

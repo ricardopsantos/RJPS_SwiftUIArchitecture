@@ -15,9 +15,12 @@ public struct ToggleWithBinding: View {
     private let title: String
     private let titleStyle: TextStyleTuple = (.bodyBold, .labelPrimary)
     private let onChanged: (Bool) -> Void
-    public init(title: String, 
-                isOn: Binding<Bool>,
-                onChanged: @escaping (Bool) -> Void) {
+    public init(
+        title: String,
+
+        isOn: Binding<Bool>,
+        onChanged: @escaping (Bool) -> Void
+    ) {
         self.title = title
         self._isOn = isOn
         self.onChanged = onChanged

@@ -90,26 +90,28 @@ public struct ListItemView: View {
         Group {
             if !systemImage.name.isEmpty {
                 ZStack {
-                     Circle()
-                         .foregroundColor(systemImage.color.opacity(0.1))
-                         .frame(
-                             width: SizeNames.defaultMargin + margin,
-                             height: SizeNames.defaultMargin + margin
-                         ).overlay(
+                    Circle()
+                        .foregroundColor(systemImage.color.opacity(0.1))
+                        .frame(
+                            width: SizeNames.defaultMargin + margin,
+                            height: SizeNames.defaultMargin + margin
+                        ).overlay(
                             Circle()
-                                .stroke(systemImage.color.opacity(0.5),
-                                        lineWidth: 1)
+                                .stroke(
+                                    systemImage.color.opacity(0.5),
+                                    lineWidth: 1
+                                )
                         )
-                     
-                     Image(systemName: systemImage.name)
-                         .resizable()
-                         .scaledToFit()
-                         .frame(
-                             maxWidth: SizeNames.defaultMargin - (margin / 2),
-                             maxHeight: SizeNames.defaultMargin - (margin / 2)
-                         )
-                         .foregroundColor(systemImage.color.opacity(0.75))
-                 }
+
+                    Image(systemName: systemImage.name)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(
+                            maxWidth: SizeNames.defaultMargin - (margin / 2),
+                            maxHeight: SizeNames.defaultMargin - (margin / 2)
+                        )
+                        .foregroundColor(systemImage.color.opacity(0.75))
+                }
             } else {
                 EmptyView()
             }
@@ -123,7 +125,7 @@ public struct ListItemView: View {
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    VStack {
+    VStack(spacing: 0) {
         ListItemView(title: "title1", subTitle: "subTitle", systemImage: ("info.circle", .red), onTapGesture: {})
         ListItemView(title: "title2", subTitle: "", systemImage: ("info.circle", .blue), onTapGesture: {})
         ListItemView(title: "title3", subTitle: "", systemImage: ("", .clear), onTapGesture: {})

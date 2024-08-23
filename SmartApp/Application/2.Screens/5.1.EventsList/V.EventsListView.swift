@@ -89,7 +89,7 @@ struct EventsListView: View, ViewProtocol {
             appScreen: .templateWith(model: .init()),
             navigationViewModel: .disabled,
             ignoresSafeArea: true,
-            background: .defaultBackground,
+            background: .linear,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
             networkStatus: nil) {
@@ -101,29 +101,63 @@ struct EventsListView: View, ViewProtocol {
             }
     }
 
-    @ViewBuilder
     var content: some View {
-        let sectionA = viewModel.events.filter { $0.favorite }
+        contentV1
+    }
+
+    @ViewBuilder
+    var contentV2: some View {
+        let cascadeEvents = viewModel.events
+        List {
+            ForEach(0..<cascadeEvents.count, id: \.self) { i in
+                let item = cascadeEvents[i]
+                ListItemView(
+                    title: item.localizedEventName,
+                    subTitle: item.localizedEventsCount,
+                    systemImage: (item.category.systemImageName, item.category.color),
+                    onTapGesture: {
+                        onSelected(item)
+                    })
+                    .padding(.horizontal, -20) // Adjust vertical padding to increase spacing
+                    .padding(.vertical, -11 + (SizeNames.defaultMarginSmall / 2))
+                    .listRowSeparator(.hidden)
+                    .swipeActions {
+                        Button(role: .destructive) {
+                            if let index = cascadeEvents.firstIndex(of: item) {
+                                // items.remove(at: index)
+                            }
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }.padding(.vertical, 11)
+                    }
+            }
+        }
+        .background(Color.clear)
+        .listStyle(PlainListStyle())
+    }
+
+    @ViewBuilder
+    var contentV1: some View {
+        let sectionA = viewModel.events.filter(\.favorite)
         let sectionB = viewModel.events.filter { !$0.favorite && !$0.archived }
-        let sectionC = viewModel.events.filter { $0.archived }
+        let sectionC = viewModel.events.filter(\.archived)
         ScrollView {
-            LazyVStack(spacing: SizeNames.defaultMarginSmall) {
+            LazyVStack {
                 HStack(spacing: 0) {
                     Text("Favorits".localizedMissing)
                         .textColor(ColorSemantic.labelPrimary.color)
                         .fontSemantic(.bodyBold)
                     Spacer()
                 }
-                buildList(events: sectionA)
-                Divider() .padding(.vertical, SizeNames.defaultMarginSmall)
+                buildListV1(events: sectionA)
+                Divider().padding(.vertical, SizeNames.defaultMarginSmall)
                 HStack(spacing: 0) {
                     Text("Regular".localizedMissing)
                         .textColor(ColorSemantic.labelPrimary.color)
                         .fontSemantic(.bodyBold)
                     Spacer()
                 }
-
-                buildList(events: sectionB)
+                buildListV1(events: sectionB)
                 Divider().padding(.vertical, SizeNames.defaultMarginSmall)
                 HStack(spacing: 0) {
                     Text("Archived".localizedMissing)
@@ -131,7 +165,7 @@ struct EventsListView: View, ViewProtocol {
                         .fontSemantic(.bodyBold)
                     Spacer()
                 }
-                buildList(events: sectionC)
+                buildListV1(events: sectionC)
                     .opacity(0.5)
                 Spacer().padding(.horizontal, SizeNames.defaultMargin)
             }
@@ -140,16 +174,26 @@ struct EventsListView: View, ViewProtocol {
     }
 
     @ViewBuilder
-    func buildList(events: [Model.TrackedEntity]) -> some View {
-        ForEach(events, id: \.self) { model in
+    func buildListV1(events: [Model.TrackedEntity]) -> some View {
+        ForEach(events, id: \.self) { item in
             ListItemView(
-                title: model.localizedEventName,
-                subTitle: model.localizedEventsCount,
-                systemImage: (model.category.systemImageName, model.category.color),
+                title: item.localizedEventName,
+                subTitle: item.localizedEventsCount,
+                systemImage: (item.category.systemImageName, item.category.color),
                 onTapGesture: {
-                    onSelected(model)
+                    onSelected(item)
                 })
-            .debugBordersDefault()
+                .debugBordersDefault()
+                .swipeActions {
+                    Button(role: .destructive) {
+                        if let index = events.firstIndex(of: item) {
+                            //  items.remove(at: index)
+                            print("item")
+                        }
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                }
         }
     }
 }

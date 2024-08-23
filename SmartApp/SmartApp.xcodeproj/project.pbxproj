@@ -438,6 +438,8 @@
 		D5C275BFE0C5507EAF69FC15 /* CDataSong+NSFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B60ECBDBA1CE766E7EF32B7 /* CDataSong+NSFetchRequest.swift */; };
 		D77DFB82549FEC2F91AD6C44 /* LoginAndSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8869CC081A4CE3C6D6BAC /* LoginAndSessionTests.swift */; };
 		D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */; };
+		D7967C5D2C78D7F50050EEEC /* V.EventLogDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7967C5A2C78D7F50050EEEC /* V.EventLogDetailsView.swift */; };
+		D7967C5E2C78D7F50050EEEC /* VM.EventLogDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7967C5B2C78D7F50050EEEC /* VM.EventLogDetailsViewModel.swift */; };
 		D88E49AE9344ADEC9BE1BBB6 /* DispatchQueueVsOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FF13C98F76F1A195728006 /* DispatchQueueVsOperationQueue.swift */; };
 		D8FC857887AF7D20A3D14826 /* ModelDtoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */; };
 		D9F004ECD5CB0FD2E87BD627 /* ModelDto+UpdateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7ADEDCA2B161252C22CB97 /* ModelDto+UpdateUserResponse.swift */; };
@@ -1150,6 +1152,8 @@
 		D55DB282E77E9F535E393B7D /* ScreenProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenProtocols.swift; sourceTree = "<group>"; };
 		D610E9C15F645141AA91565A /* GoogleService-Info-com.ricardo.app.id.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info-com.ricardo.app.id.plist"; sourceTree = "<group>"; };
 		D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDtoProtocol.swift; sourceTree = "<group>"; };
+		D7967C5A2C78D7F50050EEEC /* V.EventLogDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V.EventLogDetailsView.swift; sourceTree = "<group>"; };
+		D7967C5B2C78D7F50050EEEC /* VM.EventLogDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VM.EventLogDetailsViewModel.swift; sourceTree = "<group>"; };
 		D7F63A8944886705347BFA87 /* UIScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extensions.swift"; sourceTree = "<group>"; };
 		D970FE1EDEA881819AF775BA /* host.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = host.png; sourceTree = "<group>"; };
 		D9AE59B81096776D491A6ABE /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
@@ -2855,6 +2859,16 @@
 			path = CDataSongs;
 			sourceTree = "<group>";
 		};
+		D7967C5C2C78D7F50050EEEC /* 6.EventLogDetails */ = {
+			isa = PBXGroup;
+			children = (
+				D7967C5A2C78D7F50050EEEC /* V.EventLogDetailsView.swift */,
+				D7967C5B2C78D7F50050EEEC /* VM.EventLogDetailsViewModel.swift */,
+			);
+			name = 6.EventLogDetails;
+			path = Application/2.Screens/6.EventLogDetails;
+			sourceTree = SOURCE_ROOT;
+		};
 		D7F45A3E0523BE258F0C1742 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -2870,6 +2884,7 @@
 				90198AF406BA84D3B07020DA /* 1.Root */,
 				1880C4D2379870667B7CC75B /* 2.Splash */,
 				8DCE89E77406AD7381F0E22C /* 3.MainTab */,
+				D7967C5C2C78D7F50050EEEC /* 6.EventLogDetails */,
 				F635E7A2C01E190D1545A2DD /* 4.FavoriteEvents */,
 				3D437677EAC86970B9F1A5B2 /* 5.1.EventsList */,
 				BC14A1E3758CEF77C231E4AA /* 5.2.EventDetails */,
@@ -3637,6 +3652,7 @@
 				DA5596EBE899B86FA26720AF /* V.WeatherDetailScreen.swift in Sources */,
 				0129B3C0FEFBE3A49871BCE0 /* V.WeatherScreen.swift in Sources */,
 				BEAC739170B9376E29EC6F9D /* V.___Template___View.swift in Sources */,
+				D7967C5D2C78D7F50050EEEC /* V.EventLogDetailsView.swift in Sources */,
 				C7B22CD477626993B1D4EB82 /* VM.EditUserDetailsViewModel.swift in Sources */,
 				36E51014BBF0C8CBE1BE1920 /* VM.EventDetailsViewModel.swift in Sources */,
 				15A65BD284F4230BF261EF97 /* VM.EventsListViewModel.swift in Sources */,
@@ -3647,6 +3663,7 @@
 				468CF4B6D2C74D3AB758DAF0 /* VM.PopulationNationViewModel.swift in Sources */,
 				8EFCF23A8FDA203527167F68 /* VM.PopulationStateViewModel.swift in Sources */,
 				03AE3A0ECBC8C751E7049998 /* VM.RootViewModel.swift in Sources */,
+				D7967C5E2C78D7F50050EEEC /* VM.EventLogDetailsViewModel.swift in Sources */,
 				4A78486CBB73D5C38642C553 /* VM.SettingsViewModel.swift in Sources */,
 				908810C3FA7B3803614C60F4 /* VM.SplashViewModel.swift in Sources */,
 				301138645EBBA26BCA07E09B /* VM.TermsAndConditionsViewModel.swift in Sources */,
