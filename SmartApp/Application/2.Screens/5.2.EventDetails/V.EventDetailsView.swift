@@ -183,7 +183,7 @@ struct EventDetailsView: View, ViewProtocol {
                 .debugBordersDefault()
             TextButton(
                 onClick: {
-                    viewModel.send(.deleteTrackedEntity(confirmed: false))
+                    viewModel.send(.delete(confirmed: false))
                 },
                 text: "Delete Event".localizedMissing,
                 alignment: .center,
@@ -229,7 +229,7 @@ struct EventDetailsView: View, ViewProtocol {
                 }
                 switch sheetType {
                 case .delete:
-                    viewModel.send(.deleteTrackedEntity(confirmed: true))
+                    viewModel.send(.delete(confirmed: true))
                 }
             })
     }

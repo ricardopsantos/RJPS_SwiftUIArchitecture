@@ -64,7 +64,7 @@ class FavoriteEventsViewModel: BaseViewModel {
                 case .databaseDidInsertedContentOn(let table, let id):
                     // New record added
                     if table == "\(CDataTrackedLog.self)" {
-                        if let trackedEntity = self?.dataBaseRepository?.trackedLogGet(trackedLogId: id, cascade: false) {
+                        if let trackedEntity = self?.dataBaseRepository?.trackedLogGet(trackedLogId: id, cascade: true) {
                             Common_Utils.delay(Common.Constants.defaultAnimationsTime * 2) {
                                 // Small delay so that the UI counter animation is viewed
                                 dependencies.onNewLog(trackedEntity)
@@ -72,7 +72,13 @@ class FavoriteEventsViewModel: BaseViewModel {
                         }
                     }
                 case .databaseDidUpdatedContentOn: break
-                case .databaseDidDeletedContentOn: break
+                case .databaseDidDeletedContentOn(let table, let id):
+                    if table == "\(CDataTrackedLog.self)" {
+                        // Record deleted
+                        Common.ExecutionControlManager.debounce(operationId: #function) {
+                            self?.send(.loadFavorits)
+                        }
+                    }
                 case .databaseDidChangedContentItemOn: break
                 case .databaseDidFinishChangeContentItemsOn(let table):
                     if table == "\(CDataTrackedLog.self)" {

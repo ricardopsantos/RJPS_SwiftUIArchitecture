@@ -70,7 +70,7 @@ extension EventDetailsViewModel {
         case userDidChangedArchived(value: Bool)
         case userDidChangedName(value: String)
         case userDidChangedInfo(value: String)
-        case deleteTrackedEntity(confirmed: Bool)
+        case delete(confirmed: Bool)
         case handleConfirmation
     }
 
@@ -98,14 +98,6 @@ class EventDetailsViewModel: BaseViewModel {
     private let dataBaseRepository: DataBaseRepositoryProtocol?
     private let onRouteBack: () -> Void
     @Published var confirmationSheetType: ConfirmationSheet?
-    @Published var isConfirmationGiven = false {
-        didSet {
-            if isConfirmationGiven {
-                send(.handleConfirmation)
-                confirmationSheetType = nil
-            }
-        }
-    }
 
     public init(dependencies: Dependencies) {
         self.dataBaseRepository = dependencies.dataBaseRepository
@@ -156,7 +148,7 @@ class EventDetailsViewModel: BaseViewModel {
         case .handleConfirmation:
             switch confirmationSheetType {
             case .delete:
-                send(.deleteTrackedEntity(confirmed: true))
+                send(.delete(confirmed: true))
             case nil:
                 let errorMessage = "No bottom sheet found"
                 alertModel = .init(type: .error, message: errorMessage)
@@ -221,7 +213,7 @@ class EventDetailsViewModel: BaseViewModel {
                 dataBaseRepository?.trackedEntityUpdate(
                     trackedEntity: trackedEntity)
             }
-        case .deleteTrackedEntity(confirmed: let confirmed):
+        case .delete(confirmed: let confirmed):
             if !confirmed {
                 confirmationSheetType = .delete
             } else {

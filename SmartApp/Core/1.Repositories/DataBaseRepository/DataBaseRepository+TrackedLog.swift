@@ -57,7 +57,7 @@ public extension DataBaseRepository {
         let context = viewContext
         return try? context.fetch(DBEntity.fetchRequestWith(id: trackedLogId)).first?.mapToModel(cascade: cascade)
     }
-    
+
     func trackedLogGet(trackedEntityId: String?, cascade: Bool) -> [Model.TrackedLog] {
         typealias DBEntity = CDataTrackedLog
         let context = viewContext

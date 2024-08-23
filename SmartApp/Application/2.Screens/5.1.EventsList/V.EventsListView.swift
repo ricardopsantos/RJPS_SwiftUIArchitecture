@@ -101,43 +101,8 @@ struct EventsListView: View, ViewProtocol {
             }
     }
 
+    @ViewBuilder
     var content: some View {
-        contentV1
-    }
-
-    @ViewBuilder
-    var contentV2: some View {
-        let cascadeEvents = viewModel.events
-        List {
-            ForEach(0..<cascadeEvents.count, id: \.self) { i in
-                let item = cascadeEvents[i]
-                ListItemView(
-                    title: item.localizedEventName,
-                    subTitle: item.localizedEventsCount,
-                    systemImage: (item.category.systemImageName, item.category.color),
-                    onTapGesture: {
-                        onSelected(item)
-                    })
-                    .padding(.horizontal, -20) // Adjust vertical padding to increase spacing
-                    .padding(.vertical, -11 + (SizeNames.defaultMarginSmall / 2))
-                    .listRowSeparator(.hidden)
-                    .swipeActions {
-                        Button(role: .destructive) {
-                            if let index = cascadeEvents.firstIndex(of: item) {
-                                // items.remove(at: index)
-                            }
-                        } label: {
-                            Label("Delete", systemImage: "trash")
-                        }.padding(.vertical, 11)
-                    }
-            }
-        }
-        .background(Color.clear)
-        .listStyle(PlainListStyle())
-    }
-
-    @ViewBuilder
-    var contentV1: some View {
         let sectionA = viewModel.events.filter(\.favorite)
         let sectionB = viewModel.events.filter { !$0.favorite && !$0.archived }
         let sectionC = viewModel.events.filter(\.archived)
@@ -150,7 +115,7 @@ struct EventsListView: View, ViewProtocol {
                         .fontSemantic(.bodyBold)
                     Spacer()
                 }
-                buildListV1(events: sectionA)
+                buildList(events: sectionA)
                 Divider().padding(.vertical, SizeNames.defaultMarginSmall)
                 HStack(spacing: 0) {
                     Text("Regular".localizedMissing)
@@ -158,7 +123,7 @@ struct EventsListView: View, ViewProtocol {
                         .fontSemantic(.bodyBold)
                     Spacer()
                 }
-                buildListV1(events: sectionB)
+                buildList(events: sectionB)
                 Divider().padding(.vertical, SizeNames.defaultMarginSmall)
                 HStack(spacing: 0) {
                     Text("Archived".localizedMissing)
@@ -166,7 +131,7 @@ struct EventsListView: View, ViewProtocol {
                         .fontSemantic(.bodyBold)
                     Spacer()
                 }
-                buildListV1(events: sectionC)
+                buildList(events: sectionC)
                     .opacity(0.5)
                 Spacer().padding(.horizontal, SizeNames.defaultMargin)
             }
@@ -175,7 +140,7 @@ struct EventsListView: View, ViewProtocol {
     }
 
     @ViewBuilder
-    func buildListV1(events: [Model.TrackedEntity]) -> some View {
+    func buildList(events: [Model.TrackedEntity]) -> some View {
         ForEach(events, id: \.self) { item in
             ListItemView(
                 title: item.localizedEventName,

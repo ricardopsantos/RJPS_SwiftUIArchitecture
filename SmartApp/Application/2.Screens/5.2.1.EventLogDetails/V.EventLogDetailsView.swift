@@ -102,29 +102,56 @@ struct EventLogDetailsView: View, ViewProtocol {
     }
 
     var content: some View {
-        ScrollView {
-            LazyVStack(spacing: SizeNames.defaultMarginSmall) {
-                Header(text: "Log details".localizedMissing)
-                CustomTitleAndCustomTextFieldV2(
-                    title: "Note".localizedMissing,
-                    placeholder: "Note".localizedMissing,
-                    accessibility: .undefined) { newValue in
-                        viewModel.send(.userDidChangedNote(value: newValue))
-                    }
-                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
-                TextButton(
-                    onClick: {
-                        viewModel.send(.delete)
-                    },
-                    text: "Delete".localizedMissing,
-                    alignment: .center,
-                    style: .secondary,
-                    background: .dangerColor,
-                    accessibility: .undefined)
+        ZStack {
+            ScrollView {
+                LazyVStack(spacing: SizeNames.defaultMarginSmall) {
+                    Header(text: "Log details".localizedMissing)
+                    CustomTitleAndCustomTextFieldV2(
+                        title: "Note".localizedMissing,
+                        placeholder: "Note".localizedMissing,
+                        accessibility: .undefined) { newValue in
+                            viewModel.send(.userDidChangedNote(value: newValue))
+                        }
+                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                    TextButton(
+                        onClick: {
+                            viewModel.send(.delete(confirmed: false))
+                        },
+                        text: "Delete".localizedMissing,
+                        alignment: .center,
+                        style: .secondary,
+                        background: .dangerColor,
+                        accessibility: .undefined)
+                }
+                .paddingRight(SizeNames.size_1.cgFloat)
+                .paddingLeft(SizeNames.size_1.cgFloat)
+            }.padding(SizeNames.defaultMargin)
+            if viewModel.confirmationSheetType != nil {
+                confirmationSheet
             }
-            .paddingRight(SizeNames.size_1.cgFloat)
-            .paddingLeft(SizeNames.size_1.cgFloat)
-        }.padding(SizeNames.defaultMargin)
+        }
+    }
+
+    var confirmationSheet: some View {
+        @State var isOpen = Binding<Bool>(
+            get: { viewModel.confirmationSheetType != nil },
+            set: { if !$0 { viewModel.confirmationSheetType = nil } })
+        return ConfirmationSheetV2(
+            isOpen: isOpen,
+            title: viewModel.confirmationSheetType!.title,
+            subTitle: viewModel.confirmationSheetType!.subTitle,
+            confirmationAction: {
+                guard let sheetType = viewModel.confirmationSheetType else {
+                    return
+                }
+                switch sheetType {
+                case .delete:
+                    viewModel.send(.delete(confirmed: true))
+                    Common_Utils.delay(Common.Constants.defaultAnimationsTime * 2) {
+                        dismiss()
+                    }
+                }
+            })
     }
 }
 

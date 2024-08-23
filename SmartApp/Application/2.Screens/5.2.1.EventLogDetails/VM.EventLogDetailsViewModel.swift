@@ -28,12 +28,33 @@ public struct EventLogDetailsModel: Equatable, Hashable, Sendable {
 //
 
 extension EventLogDetailsViewModel {
+    enum ConfirmationSheet {
+        case delete
+
+        var title: String {
+            switch self {
+            case .delete:
+                "DeleteTitle".localizedMissing
+            }
+        }
+
+        var subTitle: String {
+            switch self {
+            case .delete:
+                "DeleteSubTitle".localizedMissing
+            }
+        }
+    }
+}
+
+extension EventLogDetailsViewModel {
     enum Actions {
         case didAppear
         case didDisappear
         case reload
         case userDidChangedNote(value: String)
-        case delete
+        case delete(confirmed: Bool)
+        case handleConfirmation
     }
 
     struct Dependencies {
@@ -50,6 +71,7 @@ extension EventLogDetailsViewModel {
 class EventLogDetailsViewModel: BaseViewModel {
     // MARK: - Usage Attributes
     @Published private(set) var trackedLog: Model.TrackedLog?
+    @Published var confirmationSheetType: ConfirmationSheet?
 
     // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
@@ -102,6 +124,16 @@ class EventLogDetailsViewModel: BaseViewModel {
                 }
             }
 
+        case .handleConfirmation:
+            switch confirmationSheetType {
+            case .delete:
+                send(.delete(confirmed: true))
+            case nil:
+                let errorMessage = "No bottom sheet found"
+                alertModel = .init(type: .error, message: errorMessage)
+                ErrorsManager.handleError(message: "\(Self.self).\(action)", error: nil)
+            }
+
         case .userDidChangedNote(value: let value):
             Task { [weak self] in
                 guard let self = self, var trackedLog = trackedLog else { return }
@@ -111,10 +143,14 @@ class EventLogDetailsViewModel: BaseViewModel {
                     trackedEntityId: trackedLog.cascadeEntity?.id ?? "")
             }
 
-        case .delete:
-            Task { [weak self] in
-                guard let self = self, var trackedLog = trackedLog else { return }
-                dataBaseRepository?.trackedLogDelete(trackedLogId: trackedLog.id)
+        case .delete(confirmed: let confirmed):
+            if !confirmed {
+                confirmationSheetType = .delete
+            } else {
+                Task { [weak self] in
+                    guard let self = self, var trackedLog = trackedLog else { return }
+                    dataBaseRepository?.trackedLogDelete(trackedLogId: trackedLog.id)
+                }
             }
         }
     }
