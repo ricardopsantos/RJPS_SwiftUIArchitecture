@@ -86,10 +86,10 @@ class EventsListViewModel: BaseViewModel {
             Task { [weak self] in
                 guard let self = self else { return }
                 if let records = dataBaseRepository?.trackedEntityGetAll(
-                    favorite: true,
-                    archived: false,
+                    favorite: nil,
+                    archived: nil,
                     cascade: true) {
-                    events = records
+                    events = records.sorted(by: { $0.favorite != $1.favorite })
                 }
             }
         }

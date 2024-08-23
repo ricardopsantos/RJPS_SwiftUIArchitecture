@@ -88,7 +88,7 @@ class FavoriteEventsViewModel: BaseViewModel {
                     favorite: true,
                     archived: false,
                     cascade: true) {
-                    favorits = Array(records.prefix(5)) // Display only 5
+                    favorits = Array(records.prefix(3)) // Display only 3
                 }
             }
         case .addNewEvent(trackedEntityId: let trackedEntityId):

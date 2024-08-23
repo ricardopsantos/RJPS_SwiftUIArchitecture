@@ -21,7 +21,7 @@ public struct TextButton: View {
     private let background: Color
     private let enabled: Bool
     private let accessibility: Accessibility
-
+    
     public init(
         onClick: @escaping () -> Void,
         text: String,
@@ -94,6 +94,7 @@ extension TextButton {
     VStack {
         ForEach(TextButton.Style.allCases, id: \.self) { style in
             HStack {
+                // Default
                 TextButton(
                     onClick: {},
                     text: "\(style)",
@@ -110,6 +111,16 @@ extension TextButton {
                     style: style,
                     background: .primaryColor,
                     enabled: false,
+                    accessibility: .undefined
+                )
+                // Destructive
+                TextButton(
+                    onClick: {},
+                    text: "\(style)",
+                    alignment: .center,
+                    style: style,
+                    background: .dangerColor,
+                    enabled: true,
                     accessibility: .undefined
                 )
             }

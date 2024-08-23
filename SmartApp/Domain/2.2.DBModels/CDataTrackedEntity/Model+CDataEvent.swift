@@ -15,7 +15,6 @@ public extension Model {
         public var id: String
         public var name: String
         public var info: String
-        public var color: UIColor
         public var archived: Bool
         public var favorite: Bool
         public var locationRelevant: Bool
@@ -26,7 +25,6 @@ public extension Model {
             id: String,
             name: String,
             info: String,
-            color: UIColor,
             archived: Bool,
             favorite: Bool,
             locationRelevant: Bool,
@@ -38,7 +36,6 @@ public extension Model {
             self.name = name
             self.info = info
             self.locationRelevant = locationRelevant
-            self.color = color
             self.archived = archived
             self.favorite = favorite
             self.category = category
@@ -53,8 +50,7 @@ public extension Model.TrackedEntity {
         Model.TrackedEntity(
             id: UUID().uuidString,
             name: String.randomWithSpaces(10),
-            info: String.randomWithSpaces(10),
-            color: UIColor.random,
+            info: String.randomWithSpaces(20),
             archived: false,
             favorite: true,
             locationRelevant: true,

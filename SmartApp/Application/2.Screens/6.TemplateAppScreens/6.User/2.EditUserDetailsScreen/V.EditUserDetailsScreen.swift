@@ -105,7 +105,7 @@ struct EditUserDetailsView: View {
                     }
                 )
                 CustomTitleAndCustomTextFieldV1(
-                    label: "Name".localizedMissing,
+                    title: "Name".localizedMissing,
                     placeholder: "NamePlaceHolder".localizedMissing,
                     inputText: $viewModel.name,
                     accessibility: .txtUserName
@@ -113,7 +113,7 @@ struct EditUserDetailsView: View {
                 .padding(.vertical, SizeNames.defaultMargin)
 
                 CustomTitleAndCustomTextFieldV1(
-                    label: "Email".localizedMissing,
+                    title: "Email".localizedMissing,
                     placeholder: "EmailPlaceHolder".localizedMissing,
                     inputText: $viewModel.email,
                     accessibility: .txtEmail
@@ -123,7 +123,7 @@ struct EditUserDetailsView: View {
                     .padding(.vertical, SizeNames.defaultMargin)
 
                 CustomTitleAndCustomTextFieldV1(
-                    label: "DateOfBirth".localizedMissing,
+                    title: "DateOfBirth".localizedMissing,
                     placeholder: "DateOfBirthPlaceHolder".localizedMissing,
                     inputText: .constant(viewModel.dateOfBirth.dateStyleShort),
                     accessibility: .undefined

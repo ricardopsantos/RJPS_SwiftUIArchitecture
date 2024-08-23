@@ -21,7 +21,6 @@ public extension CDataTrackedEntity {
             id: id ?? "",
             name: name ?? "",
             info: info ?? "",
-            color: UIColor.colorFromRGBString(color ?? ""),
             archived: archived,
             favorite: favorite,
             locationRelevant: locationRelevant,
@@ -33,7 +32,6 @@ public extension CDataTrackedEntity {
 
     /// Model -> DB
     func bindWith(model: Model.TrackedEntity) {
-        color = model.color.rgbString
         name = model.name
         info = model.info
         archived = model.archived

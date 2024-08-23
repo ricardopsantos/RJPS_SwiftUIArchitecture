@@ -71,9 +71,9 @@ struct SettingsScreen: View, ViewProtocol {
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
     @State private var selectedMode: Common.InterfaceStyle? = InterfaceStyleManager.current
-    // @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
 
     // MARK: - Auxiliar Attributes
+    private let cancelBag: CancelBag = .init()
     private let onShouldDisplayEditUserDetails: () -> Void
 
     // MARK: - Body & View

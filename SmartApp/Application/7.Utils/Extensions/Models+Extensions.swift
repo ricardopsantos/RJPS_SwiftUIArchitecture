@@ -12,7 +12,8 @@ import Domain
 
 public extension Model.TrackedEntity {
     var localizedEventName: String {
-        "Name: \(name)"
+        let prefix = favorite ? "⭐ " : ""
+        return "\(prefix)\(name) | \(category.localized)"
     }
 
     var localizedEventsCount: String {

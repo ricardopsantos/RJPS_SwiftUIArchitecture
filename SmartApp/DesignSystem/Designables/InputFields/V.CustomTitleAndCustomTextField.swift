@@ -11,20 +11,20 @@ import DevTools
 public struct CustomTitleAndCustomTextFieldV2: View {
     @State private var inputText: String = ""
 
-    private let label: String
+    private let title: String
     private let placeholder: String
     private let isSecured: Bool
     private let accessibility: Accessibility
     private let onTextChange: (String) -> Void
 
     public init(
-        label: String,
+        title: String,
         placeholder: String,
         isSecured: Bool = false,
         accessibility: Accessibility,
         onTextChange: @escaping (String) -> Void
     ) {
-        self.label = label
+        self.title = title
         self.placeholder = placeholder
         self.isSecured = isSecured
         self.accessibility = accessibility
@@ -33,7 +33,7 @@ public struct CustomTitleAndCustomTextFieldV2: View {
 
     public var body: some View {
         CustomTitleAndCustomTextFieldV1(
-            label: label,
+            title: title,
             placeholder: placeholder,
             inputText: $inputText,
             isSecured: isSecured,
@@ -50,20 +50,20 @@ public struct CustomTitleAndCustomTextFieldV1: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var inputText: String
 
-    private let label: String // Title value
+    private let title: String // Title value
     private let placeholder: String
     private let isSecured: Bool
     private let accessibility: Accessibility
 
     public init(
-        label: String,
+        title: String,
         placeholder: String,
         inputText: Binding<String>,
         isSecured: Bool = false,
         accessibility: Accessibility
     ) {
         self._inputText = inputText
-        self.label = label
+        self.title = title
         self.placeholder = placeholder
         self.accessibility = accessibility
         self.isSecured = isSecured
@@ -71,7 +71,7 @@ public struct CustomTitleAndCustomTextFieldV1: View {
 
     public var body: some View {
         VStack(alignment: .leading) {
-            Text(label)
+            Text(title)
                 .fontSemantic(.body)
                 .foregroundColor(.labelPrimary)
             CustomTextField(
@@ -94,12 +94,12 @@ public struct CustomTitleAndCustomTextFieldV1: View {
 #Preview {
     VStack {
         CustomTitleAndCustomTextFieldV1(
-            label: "label",
+            title: "title",
             placeholder: "placeholder",
             inputText: .constant("inputText"),
             accessibility: .undefined
         )
-        CustomTitleAndCustomTextFieldV2(label: "label",
+        CustomTitleAndCustomTextFieldV2(title: "title",
                                         placeholder: "placeholder",
                                         accessibility: .undefined) { newText in
             DevTools.Log.debug(newText, .generic)

@@ -105,7 +105,22 @@ struct EventDetailsView: View, ViewProtocol {
         ScrollView {
             VStack {
                 detailsView
-                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
+                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                Divider()
+                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                TextButton(
+                    onClick: {
+                        viewModel.send(.deleteTrackedEntity)
+                    },
+                    text: "Delete Event".localizedMissing,
+                    alignment: .center,
+                    style: .secondary,
+                    background: .dangerColor,
+                    accessibility: .undefined
+                )
+                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                Divider()
+                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
                 listView
             }
         }.padding(SizeNames.defaultMargin)
@@ -113,32 +128,31 @@ struct EventDetailsView: View, ViewProtocol {
 
     var detailsView: some View {
         VStack(spacing: SizeNames.defaultMarginSmall) {
-            TitleAndValueView(
-                title: "Name".localizedMissing,
-                value: viewModel.event?.name ?? "")
+            CustomTitleAndCustomTextFieldV2(title: "Name".localizedMissing,
+                                            placeholder: "Name".localizedMissing,
+                                            accessibility: .undefined) { newValue in
+                viewModel.send(.userDidChangedName(value: newValue))
+            }
+            CustomTitleAndCustomTextFieldV2(title: "Info".localizedMissing,
+                                            placeholder: "Info".localizedMissing,
+                                            accessibility: .undefined) { newValue in
+                viewModel.send(.userDidChangedInfo(value: newValue))
+            }
+
+            ToggleWithState(
+                title: "Favorite",
+                isOn: viewModel.event?.favorite ?? false,
+                onChanged: { newValue in
+                    viewModel.send(.userDidChangedFavorite(value: newValue))
+                })
                 .debugBordersDefault()
-            TitleAndValueView(
-                title: "Info".localizedMissing,
-                value: viewModel.event?.info ?? "")
-            .debugBordersDefault()
-
-            TitleAndValueView(
-                title: "Color".localizedMissing,
-                value: viewModel.event?.color.rgbString ?? "")
-            .debugBordersDefault()
-
-            TitleAndValueView(
-                title: "Sound".localizedMissing,
-                value: viewModel.event?.sound.name ?? "")
-            .debugBordersDefault()
-
+            
             ToggleWithState(
                 title: "Location relevant",
                 isOn: viewModel.event?.locationRelevant ?? false,
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedLocationRelevant(value: newValue))
                 })
-                .paddingRight(SizeNames.size_1.cgFloat)
                 .debugBordersDefault()
 
             // Picker with closure
@@ -154,6 +168,8 @@ struct EventDetailsView: View, ViewProtocol {
             .debugBordersDefault()
 
         }
+        .paddingRight(SizeNames.size_1.cgFloat)
+        .paddingLeft(SizeNames.size_1.cgFloat)
     }
 
     var listView: some View {
@@ -164,6 +180,7 @@ struct EventDetailsView: View, ViewProtocol {
                         ListItemView(
                             title: model.localizedListItemTitle,
                             subTitle: model.localizedListItemValue,
+                            systemImage: ("", .clear),
                             onTapGesture: {
                                 //     onSelected(model)
                             })

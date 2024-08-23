@@ -130,7 +130,7 @@ fileprivate extension PopulationStateView {
                 ListItemView(
                     title: item.title,
                     subTitle: item.subTitle,
-                    systemNameImage: "",
+                    systemImage: ("", .clear),
                     backgroundColor: ColorSemantic.backgroundTertiary.color,
                     onTapGesture: nil
                 )

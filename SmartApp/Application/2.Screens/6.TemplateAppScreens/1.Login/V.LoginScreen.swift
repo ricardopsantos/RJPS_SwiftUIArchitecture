@@ -59,10 +59,9 @@ struct LoginView: View, ViewProtocol {
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
     // @State var someVar = 0
-    // @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
 
     // MARK: - Auxiliar Attributes
-    // private let cancelBag: CancelBag = .init()
+    private let cancelBag: CancelBag = .init()
 
     // MARK: - Body & View
     var body: some View {
@@ -138,7 +137,7 @@ fileprivate extension LoginView {
 
     var emailField: some View {
         CustomTitleAndCustomTextFieldV1(
-            label: "Email".localized,
+            title: "Email".localized,
             placeholder: "EmailPlaceHolder".localized,
             inputText: $viewModel.email,
             isSecured: false,
@@ -148,7 +147,7 @@ fileprivate extension LoginView {
 
     var passwordField: some View {
         CustomTitleAndCustomTextFieldV1(
-            label: "Password".localized,
+            title: "Password".localized,
             placeholder: "Password".localized,
             inputText: $viewModel.password,
             isSecured: true,

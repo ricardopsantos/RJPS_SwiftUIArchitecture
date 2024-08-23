@@ -7,7 +7,7 @@ public struct ListItemView: View {
     @Environment(\.colorScheme) var colorScheme
     private let title: String
     private let subTitle: String
-    private let systemNameImage: String
+    private let systemImage: (name: String, color: Color)
     private let backgroundColor: Color
     private let cornerRadius: CGFloat
     private let shadowRadius: Double
@@ -18,7 +18,7 @@ public struct ListItemView: View {
     public init(
         title: String,
         subTitle: String,
-        systemNameImage: String = "info.circle",
+        systemImage: (name: String, color: Color) = ("info.circle", ColorSemantic.primary.color),
         backgroundColor: Color = .backgroundTertiary,
         cornerRadius: CGFloat = SizeNames.cornerRadius,
         shadowRadius: Double = 5.0,
@@ -26,7 +26,7 @@ public struct ListItemView: View {
     ) {
         self.title = title
         self.subTitle = subTitle
-        self.systemNameImage = systemNameImage
+        self.systemImage = systemImage
         self.backgroundColor = backgroundColor
         self.cornerRadius = cornerRadius
         self.shadowRadius = shadowRadius
@@ -85,16 +85,31 @@ public struct ListItemView: View {
             .multilineTextAlignment(.leading)
     }
 
+    let margin = SizeNames.size_3.cgFloat
     var accessoryImage: some View {
         Group {
-            if !systemNameImage.isEmpty {
-                Image(systemName: systemNameImage)
-                    .resizable()
-                    .frame(
-                        width: SizeNames.defaultMargin,
-                        height: SizeNames.defaultMargin
-                    )
-                    .foregroundColor(.primaryColor)
+            if !systemImage.name.isEmpty {
+                ZStack {
+                     Circle()
+                         .foregroundColor(systemImage.color.opacity(0.1))
+                         .frame(
+                             width: SizeNames.defaultMargin + margin,
+                             height: SizeNames.defaultMargin + margin
+                         ).overlay(
+                            Circle()
+                                .stroke(systemImage.color.opacity(0.5),
+                                        lineWidth: 1)
+                        )
+                     
+                     Image(systemName: systemImage.name)
+                         .resizable()
+                         .scaledToFit()
+                         .frame(
+                             maxWidth: SizeNames.defaultMargin - (margin / 2),
+                             maxHeight: SizeNames.defaultMargin - (margin / 2)
+                         )
+                         .foregroundColor(systemImage.color.opacity(0.75))
+                 }
             } else {
                 EmptyView()
             }
@@ -109,9 +124,9 @@ public struct ListItemView: View {
 #if canImport(SwiftUI) && DEBUG
 #Preview {
     VStack {
-        ListItemView(title: "title1", subTitle: "subTitle", systemNameImage: "info.circle", onTapGesture: {})
-        ListItemView(title: "title2", subTitle: "", systemNameImage: "info.circle", onTapGesture: {})
-        ListItemView(title: "title3", subTitle: "", systemNameImage: "", onTapGesture: {})
+        ListItemView(title: "title1", subTitle: "subTitle", systemImage: ("info.circle", .red), onTapGesture: {})
+        ListItemView(title: "title2", subTitle: "", systemImage: ("info.circle", .blue), onTapGesture: {})
+        ListItemView(title: "title3", subTitle: "", systemImage: ("", .clear), onTapGesture: {})
         Spacer()
     }
 }

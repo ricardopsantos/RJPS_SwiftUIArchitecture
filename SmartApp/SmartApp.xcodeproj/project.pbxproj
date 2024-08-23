@@ -1135,7 +1135,7 @@
 		CE9108BD9C5C9CE0977370F2 /* GenericChangesPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericChangesPublisher.swift; sourceTree = "<group>"; };
 		CF25B8E8319FADB2D8FD9C44 /* UIView+SubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+SubViews.swift"; sourceTree = "<group>"; };
 		CF5D27E7331876E8324571C9 /* incorrect.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = incorrect.caf; sourceTree = "<group>"; };
-		CF9D6C93CE5A73F4A17612DC /* SmartAppUnitTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SmartAppUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF9D6C93CE5A73F4A17612DC /* SmartAppUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartAppUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFBDACDBAABBA43D6E727E40 /* Graph.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Graph.json; sourceTree = "<group>"; };
 		CFCB1B30D9A58AFA7EB41C65 /* github.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = github.png; sourceTree = "<group>"; };
 		CFDA9EF825DA18F8FAB90681 /* GenericRequestWithCodableCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericRequestWithCodableCache.swift; sourceTree = "<group>"; };
@@ -1562,16 +1562,6 @@
 			path = SwiftUI;
 			sourceTree = "<group>";
 		};
-		31276FAC6EE2D6BE54F0A217 /* 4.HitHappensScreens */ = {
-			isa = PBXGroup;
-			children = (
-				F635E7A2C01E190D1545A2DD /* 1.FavoriteEvents */,
-				3D437677EAC86970B9F1A5B2 /* 2.EventsList */,
-				BC14A1E3758CEF77C231E4AA /* 3.EventDetails */,
-			);
-			path = 4.HitHappensScreens;
-			sourceTree = "<group>";
-		};
 		3141C35D5361995F6671152B /* View+Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -1647,13 +1637,13 @@
 			path = V2_CoreData;
 			sourceTree = "<group>";
 		};
-		3D437677EAC86970B9F1A5B2 /* 2.EventsList */ = {
+		3D437677EAC86970B9F1A5B2 /* 5.1.EventsList */ = {
 			isa = PBXGroup;
 			children = (
 				7CAD70F2EAC2E1D0A4B8DC41 /* V.EventsListView.swift */,
 				6BB7452A6F665B17F96710E6 /* VM.EventsListViewModel.swift */,
 			);
-			path = 2.EventsList;
+			path = 5.1.EventsList;
 			sourceTree = "<group>";
 		};
 		3D70FAE05B78EB2BEE488D36 /* 2.OnboardingScreen */ = {
@@ -2220,7 +2210,7 @@
 			path = 7.Utils;
 			sourceTree = "<group>";
 		};
-		832D96EA9A375B373BC52946 /* 4.TemplateAppScreens */ = {
+		832D96EA9A375B373BC52946 /* 6.TemplateAppScreens */ = {
 			isa = PBXGroup;
 			children = (
 				2D4E067C03A6764CAAF20703 /* 1.Login */,
@@ -2230,7 +2220,7 @@
 				69164DD8837BA1D3E76C9CE5 /* 5.USAPopulationStats */,
 				5A157DE97ED85D08F6FEB39D /* 6.User */,
 			);
-			path = 4.TemplateAppScreens;
+			path = 6.TemplateAppScreens;
 			sourceTree = "<group>";
 		};
 		836BFCB190C4BA02BE9043BC /* 4.Services */ = {
@@ -2595,13 +2585,13 @@
 			path = 3.Settings;
 			sourceTree = "<group>";
 		};
-		BC14A1E3758CEF77C231E4AA /* 3.EventDetails */ = {
+		BC14A1E3758CEF77C231E4AA /* 5.2.EventDetails */ = {
 			isa = PBXGroup;
 			children = (
 				B9E0447B9EDD201AA1DF23BB /* V.EventDetailsView.swift */,
 				CE045B81E8F7BD66E25AAB58 /* VM.EventDetailsViewModel.swift */,
 			);
-			path = 3.EventDetails;
+			path = 5.2.EventDetails;
 			sourceTree = "<group>";
 		};
 		BF907A55CA30A04B70CA46BD /* ValueTypes */ = {
@@ -2880,8 +2870,10 @@
 				90198AF406BA84D3B07020DA /* 1.Root */,
 				1880C4D2379870667B7CC75B /* 2.Splash */,
 				8DCE89E77406AD7381F0E22C /* 3.MainTab */,
-				31276FAC6EE2D6BE54F0A217 /* 4.HitHappensScreens */,
-				832D96EA9A375B373BC52946 /* 4.TemplateAppScreens */,
+				F635E7A2C01E190D1545A2DD /* 4.FavoriteEvents */,
+				3D437677EAC86970B9F1A5B2 /* 5.1.EventsList */,
+				BC14A1E3758CEF77C231E4AA /* 5.2.EventDetails */,
+				832D96EA9A375B373BC52946 /* 6.TemplateAppScreens */,
 				D55DB282E77E9F535E393B7D /* ScreenProtocols.swift */,
 			);
 			path = 2.Screens;
@@ -3018,13 +3010,13 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
-		F635E7A2C01E190D1545A2DD /* 1.FavoriteEvents */ = {
+		F635E7A2C01E190D1545A2DD /* 4.FavoriteEvents */ = {
 			isa = PBXGroup;
 			children = (
 				C82FEA025D33C3111A64E692 /* V.FavoriteEventsView.swift */,
 				E9C88954896203B42458BA38 /* VM.FavoriteEventsViewModel.swift */,
 			);
-			path = 1.FavoriteEvents;
+			path = 4.FavoriteEvents;
 			sourceTree = "<group>";
 		};
 		F6DBF12E0C6757A6A9FEB969 /* UIImage|UIImageView */ = {
@@ -3289,6 +3281,9 @@
 				LastUpgradeCheck = 1501;
 				TargetAttributes = {
 					5AAC81C2F85D7CDB5793F1A7 = {
+						TestTargetID = CD8F2FFD550D622D2C2B8BA9;
+					};
+					A3D315A882F4852842A3D0EA = {
 						TestTargetID = CD8F2FFD550D622D2C2B8BA9;
 					};
 					CD8F2FFD550D622D2C2B8BA9 = {
@@ -4318,7 +4313,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
 			};
 			name = "QA Debug";
 		};
@@ -4690,7 +4685,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
 			};
 			name = "Dev Debug";
 		};
@@ -4860,7 +4855,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
 			};
 			name = "Dev Release";
 		};
@@ -5103,7 +5098,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
 			};
 			name = "Production Debug";
 		};
@@ -5172,7 +5167,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
 			};
 			name = "Production Release";
 		};
@@ -5587,7 +5582,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ricardo.app.id.SmartAppUnitTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartApp.app/SmartApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart.Dev.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart.Dev";
 			};
 			name = "QA Release";
 		};

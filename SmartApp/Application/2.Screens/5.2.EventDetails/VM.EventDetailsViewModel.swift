@@ -35,8 +35,10 @@ extension EventDetailsViewModel {
         case userDidChangedSoundEffect(value: SoundEffect)
         case userDidChangedEventCategory(value: HitHappensEventCategory)
         case userDidChangedLocationRelevant(value: Bool)
+        case userDidChangedFavorite(value: Bool)
         case userDidChangedName(value: String)
         case userDidChangedInfo(value: String)
+        case deleteTrackedEntity
     }
 
     struct Dependencies {
@@ -58,9 +60,11 @@ class EventDetailsViewModel: BaseViewModel {
     // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
     private let dataBaseRepository: DataBaseRepositoryProtocol?
+    private let onRouteBack: () -> Void
     public init(dependencies: Dependencies) {
         self.dataBaseRepository = dependencies.dataBaseRepository
         self.event = dependencies.model.event
+        self.onRouteBack = dependencies.onRouteBack
         super.init()
         dependencies.dataBaseRepository.output([]).sink { [weak self] some in
             switch some {
@@ -68,13 +72,16 @@ class EventDetailsViewModel: BaseViewModel {
                 switch some {
                 case .databaseDidInsertedContentOn: break
                 case .databaseDidUpdatedContentOn: break
-                case .databaseDidDeletedContentOn: break
+                case .databaseDidDeletedContentOn(let table, let id):
+                    // Record deleted! Route back
+                    if table == "\(CDataTrackedEntity.self)", id == self?.event?.id {
+                        self?.onRouteBack()
+                    }
                 case .databaseDidChangedContentItemOn: break
                 case .databaseDidFinishChangeContentItemsOn(let table):
+                    // Data changed. Reload!
                     if table == "\(CDataTrackedEntity.self)" {
-                      //  Common.ExecutionControlManager.debounce(operationId: #function) {
-                            self?.send(.reload)
-                      //  }
+                        self?.send(.reload)
                     }
                 }
             }
@@ -128,6 +135,13 @@ class EventDetailsViewModel: BaseViewModel {
                 dataBaseRepository?.trackedEntityUpdate(
                     trackedEntity: trackedEntity)
             }
+        case .userDidChangedFavorite(value: let value):
+            Task { [weak self] in
+                guard let self = self, var trackedEntity = event else { return }
+                trackedEntity.favorite = value
+                dataBaseRepository?.trackedEntityUpdate(
+                    trackedEntity: trackedEntity)
+            }
         case .userDidChangedInfo(value: let value):
             Task { [weak self] in
                 guard let self = self, var trackedEntity = event else { return }
@@ -135,6 +149,12 @@ class EventDetailsViewModel: BaseViewModel {
                 dataBaseRepository?.trackedEntityUpdate(
                     trackedEntity: trackedEntity)
             }
+        case .deleteTrackedEntity:
+            Task { [weak self] in
+                guard let self = self, var trackedEntity = event else { return }
+                dataBaseRepository?.trackedEntityDelete(trackedEntity: trackedEntity)
+            }
+
         }
     }
 }

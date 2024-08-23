@@ -12,4 +12,10 @@ public enum HitHappensEventCategory: Int, CaseIterable, Hashable, Sendable {
     case lifestyle
     case professional
     case personal
+    case financial
+    case cultural
+    case entertainment
+    case social
+    case educational
+    case fitness
 }
