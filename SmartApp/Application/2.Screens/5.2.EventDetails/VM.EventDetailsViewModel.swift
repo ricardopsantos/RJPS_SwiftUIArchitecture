@@ -48,6 +48,7 @@ extension EventDetailsViewModel {
                 "DeleteTitle".localizedMissing
             }
         }
+
         var subTitle: String {
             switch self {
             case .delete:
@@ -105,6 +106,7 @@ class EventDetailsViewModel: BaseViewModel {
             }
         }
     }
+
     public init(dependencies: Dependencies) {
         self.dataBaseRepository = dependencies.dataBaseRepository
         self.event = dependencies.model.event
@@ -160,7 +162,7 @@ class EventDetailsViewModel: BaseViewModel {
                 alertModel = .init(type: .error, message: errorMessage)
                 ErrorsManager.handleError(message: "\(Self.self).\(action)", error: nil)
             }
-            
+
         case .userDidChangedSoundEffect(value: let value):
             value.play()
             Task { [weak self] in
@@ -228,7 +230,6 @@ class EventDetailsViewModel: BaseViewModel {
                     dataBaseRepository?.trackedEntityDelete(trackedEntity: trackedEntity)
                 }
             }
-
         }
     }
 }

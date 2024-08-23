@@ -39,7 +39,7 @@ struct EventDetailsViewCoordinator: View, ViewCoordinatorProtocol {
             }
         }
     }
-    
+
     @ViewBuilder
     func buildScreen(_ screen: AppScreen) -> some View {
         switch screen {
@@ -71,12 +71,12 @@ struct EventDetailsView: View, ViewProtocol {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onRouteBack = dependencies.onRouteBack
     }
-    
+
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
     private let onRouteBack: () -> Void
     @State var locationSwitchIsOn: Bool = false
-    
+
     // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
 
@@ -100,7 +100,7 @@ struct EventDetailsView: View, ViewProtocol {
                 viewModel.send(.didDisappear)
             }
     }
-    
+
     var content: some View {
         ZStack {
             ScrollView {
@@ -124,7 +124,7 @@ struct EventDetailsView: View, ViewProtocol {
             }
         }
     }
-    
+
     var detailsView: some View {
         LazyVStack(spacing: SizeNames.defaultMarginSmall) {
             CustomTitleAndCustomTextFieldV2(
@@ -139,29 +139,29 @@ struct EventDetailsView: View, ViewProtocol {
                 accessibility: .undefined) { newValue in
                     viewModel.send(.userDidChangedInfo(value: newValue))
                 }
-            
+
             ToggleWithBinding(
                 title: "Favorite".localizedMissing,
                 isOn: $viewModel.favorite,
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedFavorite(value: newValue))
                 })
-            .debugBordersDefault()
-            
+                .debugBordersDefault()
+
             ToggleWithState(
                 title: "Location relevant".localizedMissing,
                 isOn: viewModel.event?.locationRelevant ?? false,
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedLocationRelevant(value: newValue))
                 })
-            .debugBordersDefault()
-            
+                .debugBordersDefault()
+
             // Picker with closure
             CategoryPickerView(selected: (viewModel.event?.category ?? .none).localized) { newValue in
                 viewModel.send(.userDidChangedEventCategory(value: newValue))
             }
             .debugBordersDefault()
-            
+
             // Picker with binding
             SoundPickerView(selected: $viewModel.soundEffect) { newValue in
                 viewModel.send(.userDidChangedSoundEffect(value: newValue))
@@ -171,7 +171,7 @@ struct EventDetailsView: View, ViewProtocol {
         .paddingRight(SizeNames.size_1.cgFloat)
         .paddingLeft(SizeNames.size_1.cgFloat)
     }
-    
+
     var archivedAndDeleteView: some View {
         Group {
             ToggleWithState(
@@ -180,7 +180,7 @@ struct EventDetailsView: View, ViewProtocol {
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedArchived(value: newValue))
                 })
-            .debugBordersDefault()
+                .debugBordersDefault()
             TextButton(
                 onClick: {
                     viewModel.send(.deleteTrackedEntity(confirmed: false))
@@ -192,7 +192,7 @@ struct EventDetailsView: View, ViewProtocol {
                 accessibility: .undefined)
         }
     }
-    
+
     var listView: some View {
         Group {
             if let cascadeEvents = viewModel.cascadeEvents, !cascadeEvents.isEmpty {
@@ -205,8 +205,8 @@ struct EventDetailsView: View, ViewProtocol {
                             onTapGesture: {
                                 print("hadle")
                             })
-                        .debugBordersDefault()
-                        .listRowSeparator(.hidden)
+                            .debugBordersDefault()
+                            .listRowSeparator(.hidden)
                     }
                 }
             } else {
@@ -214,12 +214,11 @@ struct EventDetailsView: View, ViewProtocol {
             }
         }
     }
-    
+
     var confirmationSheet: some View {
         @State var isOpen = Binding<Bool>(
             get: { viewModel.confirmationSheetType != nil },
-            set: { if !$0 { viewModel.confirmationSheetType = nil } }
-        )
+            set: { if !$0 { viewModel.confirmationSheetType = nil } })
         return ConfirmationSheetV2(
             isOpen: isOpen,
             title: viewModel.confirmationSheetType!.title,
@@ -232,8 +231,7 @@ struct EventDetailsView: View, ViewProtocol {
                 case .delete:
                     viewModel.send(.deleteTrackedEntity(confirmed: true))
                 }
-            }
-        )
+            })
     }
 }
 
@@ -248,8 +246,8 @@ struct EventDetailsView: View, ViewProtocol {
             .random,
             .random
         ])), haveNavigationStack: false)
-    .environmentObject(AppStateViewModel.defaultForPreviews)
-    .environmentObject(ConfigurationViewModel.defaultForPreviews)
-    .environmentObject(AuthenticationViewModel.defaultForPreviews)
+        .environmentObject(AppStateViewModel.defaultForPreviews)
+        .environmentObject(ConfigurationViewModel.defaultForPreviews)
+        .environmentObject(AuthenticationViewModel.defaultForPreviews)
 }
 #endif

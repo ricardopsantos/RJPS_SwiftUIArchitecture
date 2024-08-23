@@ -45,16 +45,16 @@ struct FavoriteEventsViewCoordinator: View, ViewCoordinatorProtocol {
         case .favoriteEvents:
             let dependencies: FavoriteEventsViewModel.Dependencies = .init(
                 model: .init(), onCompletion: { _ in
+                }, onNewLog: { trackerLog in
+                    coordinator.sheetLink = .eventLogDetails(model: .init(trackedLog: trackerLog))
                 },
                 dataBaseRepository: configuration.dataBaseRepository)
             FavoriteEventsView(dependencies: dependencies)
         case .eventLogDetails(model: let model):
             let dependencies: EventLogDetailsViewModel.Dependencies = .init(
                 model: model, onCompletion: { _ in
-                    
-                }, onRouteBack: {
-                    
-                },
+
+                }, onRouteBack: {},
                 dataBaseRepository: configuration.dataBaseRepository)
             EventLogDetailsView(dependencies: dependencies)
         default:

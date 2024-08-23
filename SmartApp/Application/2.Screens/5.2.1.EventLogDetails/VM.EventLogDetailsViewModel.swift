@@ -101,13 +101,14 @@ class EventLogDetailsViewModel: BaseViewModel {
                     updateUI(event: unwrapped)
                 }
             }
-            
+
         case .userDidChangedNote(value: let value):
             Task { [weak self] in
                 guard let self = self, var trackedLog = trackedLog else { return }
                 trackedLog.note = value
-                dataBaseRepository?.trackedLogInsertOrUpdate(trackedLog: trackedLog,
-                                                             trackedEntityId: trackedLog.cascadeEntity?.id ?? "")
+                dataBaseRepository?.trackedLogInsertOrUpdate(
+                    trackedLog: trackedLog,
+                    trackedEntityId: trackedLog.cascadeEntity?.id ?? "")
             }
 
         case .delete:
@@ -137,7 +138,7 @@ fileprivate extension EventLogDetailsViewModel {
 #if canImport(SwiftUI) && DEBUG
 #Preview {
     EventLogDetailsViewCoordinator(
-        model: .init(trackedLog: .random))
+        model: .init(trackedLog: .random), haveNavigationStack: false)
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
 }

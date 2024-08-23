@@ -38,6 +38,7 @@ extension FavoriteEventsViewModel {
     struct Dependencies {
         let model: FavoriteEventsModel
         let onCompletion: (String) -> Void
+        let onNewLog: (Model.TrackedLog) -> Void
         let dataBaseRepository: DataBaseRepositoryProtocol
     }
 }
@@ -61,15 +62,21 @@ class FavoriteEventsViewModel: BaseViewModel {
             case .generic(let some):
                 switch some {
                 case .databaseDidInsertedContentOn(let table, let id):
-                    // Record deleted! Route back
+                    // New record added
                     if table == "\(CDataTrackedLog.self)" {
-                      //  self?.onRouteBack()
+                        if let trackedEntity = self?.dataBaseRepository?.trackedLogGet(trackedLogId: id, cascade: false) {
+                            Common_Utils.delay(Common.Constants.defaultAnimationsTime * 2) {
+                                // Small delay so that the UI counter animation is viewed
+                                dependencies.onNewLog(trackedEntity)
+                            }
+                        }
                     }
                 case .databaseDidUpdatedContentOn: break
                 case .databaseDidDeletedContentOn: break
                 case .databaseDidChangedContentItemOn: break
                 case .databaseDidFinishChangeContentItemsOn(let table):
                     if table == "\(CDataTrackedLog.self)" {
+                        // Record updated
                         Common.ExecutionControlManager.debounce(operationId: #function) {
                             self?.send(.loadFavorits)
                         }
@@ -82,7 +89,6 @@ class FavoriteEventsViewModel: BaseViewModel {
     func send(_ action: Actions) {
         switch action {
         case .didAppear:
-            dataBaseRepository?.trackedEntityInsert(trackedEntity: .random(cascadeEvents: [.random]))
             send(.loadFavorits)
         case .didDisappear: ()
         case .loadFavorits:

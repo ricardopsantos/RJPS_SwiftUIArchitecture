@@ -104,6 +104,7 @@ struct SettingsScreen: View, ViewProtocol {
     var content: some View {
         contentV2
     }
+
     var contentV2: some View {
         ZStack {
             VStack(spacing: SizeNames.defaultMargin) {
@@ -116,7 +117,7 @@ struct SettingsScreen: View, ViewProtocol {
             }
         }
     }
-    
+
     var contentV1: some View {
         ZStack {
             VStack(spacing: SizeNames.defaultMargin) {

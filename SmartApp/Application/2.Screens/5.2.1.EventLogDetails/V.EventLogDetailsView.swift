@@ -23,7 +23,7 @@ struct EventLogDetailsViewCoordinator: View, ViewCoordinatorProtocol {
     @EnvironmentObject var coordinatorTab2: RouterViewModel
     @Environment(\.dismiss) var dismiss
     let model: EventLogDetailsModel
-    private let haveNavigationStack: Bool = false
+    let haveNavigationStack: Bool
     // MARK: - Body & View
     var body: some View {
         if !haveNavigationStack {
@@ -39,7 +39,7 @@ struct EventLogDetailsViewCoordinator: View, ViewCoordinatorProtocol {
             }
         }
     }
-    
+
     @ViewBuilder
     func buildScreen(_ screen: AppScreen) -> some View {
         switch screen {
@@ -71,12 +71,12 @@ struct EventLogDetailsView: View, ViewProtocol {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
         self.onRouteBack = dependencies.onRouteBack
     }
-    
+
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
     private let onRouteBack: () -> Void
     @State var locationSwitchIsOn: Bool = false
-    
+
     // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
 
@@ -100,7 +100,7 @@ struct EventLogDetailsView: View, ViewProtocol {
                 viewModel.send(.didDisappear)
             }
     }
-    
+
     var content: some View {
         ScrollView {
             LazyVStack(spacing: SizeNames.defaultMarginSmall) {
@@ -134,9 +134,9 @@ struct EventLogDetailsView: View, ViewProtocol {
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    EventLogDetailsViewCoordinator(model: .init(trackedLog: .random))
-    .environmentObject(AppStateViewModel.defaultForPreviews)
-    .environmentObject(ConfigurationViewModel.defaultForPreviews)
-    .environmentObject(AuthenticationViewModel.defaultForPreviews)
+    EventLogDetailsViewCoordinator(model: .init(trackedLog: .random), haveNavigationStack: false)
+        .environmentObject(AppStateViewModel.defaultForPreviews)
+        .environmentObject(ConfigurationViewModel.defaultForPreviews)
+        .environmentObject(AuthenticationViewModel.defaultForPreviews)
 }
 #endif

@@ -49,6 +49,15 @@ public extension DataBaseRepository {
         trackedLogGet(trackedEntityId: nil, cascade: cascade)
     }
 
+    func trackedLogGet(trackedLogId: String?, cascade: Bool) -> Model.TrackedLog? {
+        guard let trackedLogId = trackedLogId, !trackedLogId.isEmpty else {
+            return nil
+        }
+        typealias DBEntity = CDataTrackedLog
+        let context = viewContext
+        return try? context.fetch(DBEntity.fetchRequestWith(id: trackedLogId)).first?.mapToModel(cascade: cascade)
+    }
+    
     func trackedLogGet(trackedEntityId: String?, cascade: Bool) -> [Model.TrackedLog] {
         typealias DBEntity = CDataTrackedLog
         let context = viewContext

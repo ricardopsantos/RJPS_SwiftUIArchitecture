@@ -138,9 +138,16 @@ struct MainTabView: View, ViewProtocol {
     @ViewBuilder
     func buildScreen(_ screen: AppScreen) -> some View {
         switch screen {
+        case .eventLogDetails(model: let model):
+            EventLogDetailsViewCoordinator(
+                model: model,
+                haveNavigationStack: false
+            )
+            .environmentObject(configuration)
+            .environmentObject(tab1Router)
         case .eventDetails(model: let model):
             EventDetailsViewCoordinator(
-                model: model, 
+                model: model,
                 haveNavigationStack: false
             )
             .environmentObject(configuration)

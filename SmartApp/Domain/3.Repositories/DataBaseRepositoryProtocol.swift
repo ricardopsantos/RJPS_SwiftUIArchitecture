@@ -36,6 +36,7 @@ public protocol DataBaseRepositoryProtocol {
     func trackedLogInsertOrUpdate(trackedLog: Model.TrackedLog, trackedEntityId: String)
     func trackedLogGetAll(cascade: Bool) -> [Model.TrackedLog]
     func trackedLogGet(trackedEntityId: String?, cascade: Bool) -> [Model.TrackedLog]
+    func trackedLogGet(trackedLogId: String?, cascade: Bool) -> Model.TrackedLog?
     func trackedLogDelete(trackedLogId: String)
     func trackedLogDelete(trackedEntityId: String)
 }
