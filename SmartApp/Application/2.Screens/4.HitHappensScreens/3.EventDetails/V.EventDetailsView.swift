@@ -75,6 +75,7 @@ struct EventDetailsView: View, ViewProtocol {
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
     private let onRouteBack: () -> Void
+    @State var locationSwitchIsOn: Bool = false
 
     // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
@@ -112,10 +113,46 @@ struct EventDetailsView: View, ViewProtocol {
 
     var detailsView: some View {
         VStack(spacing: SizeNames.defaultMarginSmall) {
-            TitleAndValueView(title: "Name", value: viewModel.event?.name ?? "")
-            TitleAndValueView(title: "Name", value: viewModel.event?.info ?? "")
-            TitleAndValueView(title: "Color", value: viewModel.event?.color.rgbString ?? "")
-            TitleAndValueView(title: "Sound", value: viewModel.event?.sound ?? "")
+            TitleAndValueView(
+                title: "Name".localizedMissing,
+                value: viewModel.event?.name ?? "")
+                .debugBordersDefault()
+            TitleAndValueView(
+                title: "Info".localizedMissing,
+                value: viewModel.event?.info ?? "")
+            .debugBordersDefault()
+
+            TitleAndValueView(
+                title: "Color".localizedMissing,
+                value: viewModel.event?.color.rgbString ?? "")
+            .debugBordersDefault()
+
+            TitleAndValueView(
+                title: "Sound".localizedMissing,
+                value: viewModel.event?.sound.name ?? "")
+            .debugBordersDefault()
+
+            ToggleWithState(
+                title: "Location relevant",
+                isOn: viewModel.event?.locationRelevant ?? false,
+                onChanged: { newValue in
+                    viewModel.send(.userDidChangedLocationRelevant(value: newValue))
+                })
+                .paddingRight(SizeNames.size_1.cgFloat)
+                .debugBordersDefault()
+
+            // Picker with closure
+            CategoryPickerView(selected: (viewModel.event?.category ?? .none).localized) { newValue in
+                viewModel.send(.userDidChangedEventCategory(value: newValue))
+            }
+            .debugBordersDefault()
+
+            // Picker with binding
+            SoundPickerView(selected: $viewModel.soundEffect) { newValue in
+                viewModel.send(.userDidChangedSoundEffect(value: newValue))
+            }
+            .debugBordersDefault()
+
         }
     }
 
@@ -125,8 +162,8 @@ struct EventDetailsView: View, ViewProtocol {
                 LazyVStack(spacing: SizeNames.defaultMarginSmall) {
                     ForEach(cascadeEvents, id: \.self) { model in
                         ListItemView(
-                            title: "title",
-                            subTitle: "subTitle",
+                            title: model.localizedListItemTitle,
+                            subTitle: model.localizedListItemValue,
                             onTapGesture: {
                                 //     onSelected(model)
                             })

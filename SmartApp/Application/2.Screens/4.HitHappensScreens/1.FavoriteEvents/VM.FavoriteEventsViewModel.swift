@@ -78,6 +78,7 @@ class FavoriteEventsViewModel: BaseViewModel {
     func send(_ action: Actions) {
         switch action {
         case .didAppear:
+            dataBaseRepository?.trackedEntityInsert(trackedEntity: .random(cascadeEvents: [.random]))
             send(.loadFavorits)
         case .didDisappear: ()
         case .loadFavorits:
@@ -87,7 +88,7 @@ class FavoriteEventsViewModel: BaseViewModel {
                     favorite: true,
                     archived: false,
                     cascade: true) {
-                    favorits = records
+                    favorits = Array(records.prefix(5)) // Display only 5
                 }
             }
         case .addNewEvent(trackedEntityId: let trackedEntityId):

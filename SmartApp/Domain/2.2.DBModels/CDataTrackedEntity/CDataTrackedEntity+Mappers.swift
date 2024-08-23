@@ -18,14 +18,15 @@ public extension CDataTrackedEntity {
             cascadeEvents = list.map { $0.mapToModel(cascade: false) }
         }
         return .init(
-            id: UUID(uuidString: id ?? "") ?? UUID(),
+            id: id ?? "",
             name: name ?? "",
             info: info ?? "",
             color: UIColor.colorFromRGBString(color ?? ""),
             archived: archived,
             favorite: favorite,
+            locationRelevant: locationRelevant,
             category: .init(rawValue: Int(categoryId)) ?? .none,
-            sound: sound ?? "",
+            sound: SoundEffect(rawValue: sound ?? "") ?? .none,
             cascadeEvents: cascadeEvents
         )
     }
@@ -38,6 +39,7 @@ public extension CDataTrackedEntity {
         archived = model.archived
         favorite = model.favorite
         categoryId = Int16(model.category.rawValue)
-        sound = model.sound
+        locationRelevant = model.locationRelevant
+        sound = model.sound.rawValue
     }
 }

@@ -16,7 +16,7 @@ public extension DataBaseRepository {
     // MARK: - Insert/Update
     //
     func trackedEntityInsertOrUpdate(trackedEntity: Model.TrackedEntity) -> String {
-        if trackedEntityGet(trackedEntityId: trackedEntity.id.uuidString, cascade: false) == nil {
+        if trackedEntityGet(trackedEntityId: trackedEntity.id, cascade: false) == nil {
             trackedEntityInsert(trackedEntity: trackedEntity)
         } else {
             trackedEntityUpdate(trackedEntity: trackedEntity)
@@ -46,7 +46,7 @@ public extension DataBaseRepository {
     func trackedEntityUpdate(trackedEntity: Model.TrackedEntity) -> String {
         typealias DBEntity = CDataTrackedEntity
         let context = viewContext
-        let instances = try? context.fetch(DBEntity.fetchRequestWith(id: trackedEntity.id.uuidString))
+        let instances = try? context.fetch(DBEntity.fetchRequestWith(id: trackedEntity.id))
         if let some = instances?.first {
             some.bindWith(model: trackedEntity)
             // Delete old events
@@ -63,7 +63,7 @@ public extension DataBaseRepository {
                 }
             }
             CommonCoreData.Utils.save(viewContext: context)
-            return trackedEntity.id.uuidString
+            return trackedEntity.id
         } else {
             return ""
         }
@@ -115,7 +115,7 @@ public extension DataBaseRepository {
     }
 
     func trackedEntityDelete(trackedEntity: Model.TrackedEntity) {
-        trackedEntityDelete(trackedEntityId: trackedEntity.id.uuidString)
+        trackedEntityDelete(trackedEntityId: trackedEntity.id)
     }
 
     func trackedEntityDeleteAll() {

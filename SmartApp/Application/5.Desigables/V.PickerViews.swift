@@ -12,6 +12,60 @@ import Core
 import DesignSystem
 import Common
 
+/// Picker with closure (example)
+public struct CategoryPickerView: View {
+    @Environment(\.colorScheme) var colorScheme
+    @State var selectedOption: String
+    private let onChange: (HitHappensEventCategory) -> Void
+    public init(
+        selected: String,
+        onChange: @escaping (HitHappensEventCategory) -> Void) {
+        self.selectedOption = selected
+        self.onChange = onChange
+    }
+
+    public var body: some View {
+        DefaultPickerView(
+            title: "Category".localizedMissing,
+            options: HitHappensEventCategory.allCases.map(\.localized),
+            selectedOption: $selectedOption)
+            .onChange(of: selectedOption) { newValue in
+                if let value = HitHappensEventCategory.allCases.filter({
+                    $0.localized == newValue
+                }).first {
+                    onChange(value)
+                }
+            }
+    }
+}
+
+/// Picker with binding (example)
+public struct SoundPickerView: View {
+    @Environment(\.colorScheme) var colorScheme
+    @Binding var selectedOption: String
+    private let onChange: (SoundEffect) -> Void
+    public init(
+        selected: Binding<String>,
+        onChange: @escaping (SoundEffect) -> Void) {
+        self._selectedOption = selected
+        self.onChange = onChange
+    }
+
+    public var body: some View {
+        DefaultPickerView(
+            title: "Sound effect".localizedMissing,
+            options: SoundEffect.allCases.map(\.name),
+            selectedOption: $selectedOption)
+            .onChange(of: selectedOption) { newValue in
+                if let value = SoundEffect.allCases.filter({
+                    $0.name == newValue
+                }).first {
+                    onChange(value)
+                }
+            }
+    }
+}
+
 public struct CountryPickerView: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var selected: String
@@ -91,6 +145,11 @@ public struct AppearancePickerView: View {
             selected: .constant("Portugal"))
         GenderPickerView(selected: .constant(.female))
         AppearancePickerView(selected: .constant(.dark))
+        CategoryPickerView(
+            selected: HitHappensEventCategory.none.localized,
+            onChange: { _ in
+
+            })
     }
 }
 #endif

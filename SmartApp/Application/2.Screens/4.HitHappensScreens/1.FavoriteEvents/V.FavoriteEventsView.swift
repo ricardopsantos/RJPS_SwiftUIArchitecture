@@ -90,19 +90,21 @@ struct FavoriteEventsView: View, ViewProtocol {
     }
 
     var content: some View {
-        VStack(spacing: SizeNames.defaultMarginSmall) {
-            ForEach(viewModel.favorits, id: \.self) { model in
-                CounterView(
-                    model: model,
-                    onChange: { number in
-                        Common_Logs.debug(number)
-                    },
-                    onTapGesture: {
-                        viewModel.send(.addNewEvent(trackedEntityId: model.id.uuidString))
-                    })
-                    .debugBordersDefault()
+        ScrollView {
+            LazyVStack(spacing: SizeNames.defaultMarginSmall) {
+                ForEach(viewModel.favorits, id: \.self) { model in
+                    CounterView(
+                        model: model,
+                        onChange: { number in
+                            Common_Logs.debug(number)
+                        },
+                        onTapGesture: {
+                            viewModel.send(.addNewEvent(trackedEntityId: model.id))
+                        })
+                        .debugBordersDefault()
+                }
+                .padding(.horizontal, SizeNames.defaultMargin)
             }
-            .padding(.horizontal, SizeNames.defaultMargin)
         }
     }
 }

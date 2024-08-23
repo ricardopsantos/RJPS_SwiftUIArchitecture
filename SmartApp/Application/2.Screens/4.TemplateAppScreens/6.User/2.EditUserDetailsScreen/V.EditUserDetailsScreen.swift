@@ -104,7 +104,7 @@ struct EditUserDetailsView: View {
                         dismiss()
                     }
                 )
-                CustomTitleAndCustomTextField(
+                CustomTitleAndCustomTextFieldV1(
                     label: "Name".localizedMissing,
                     placeholder: "NamePlaceHolder".localizedMissing,
                     inputText: $viewModel.name,
@@ -112,7 +112,7 @@ struct EditUserDetailsView: View {
                 )
                 .padding(.vertical, SizeNames.defaultMargin)
 
-                CustomTitleAndCustomTextField(
+                CustomTitleAndCustomTextFieldV1(
                     label: "Email".localizedMissing,
                     placeholder: "EmailPlaceHolder".localizedMissing,
                     inputText: $viewModel.email,
@@ -122,7 +122,7 @@ struct EditUserDetailsView: View {
                 GenderPickerView(selected: $viewModel.selectedGender)
                     .padding(.vertical, SizeNames.defaultMargin)
 
-                CustomTitleAndCustomTextField(
+                CustomTitleAndCustomTextFieldV1(
                     label: "DateOfBirth".localizedMissing,
                     placeholder: "DateOfBirthPlaceHolder".localizedMissing,
                     inputText: .constant(viewModel.dateOfBirth.dateStyleShort),

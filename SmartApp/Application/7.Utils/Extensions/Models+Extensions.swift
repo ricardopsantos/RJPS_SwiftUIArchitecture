@@ -20,3 +20,16 @@ public extension Model.TrackedEntity {
         return "Events: \(count.localeString)".localizedMissing
     }
 }
+
+public extension Model.TrackedLog {
+    var localizedListItemTitle: String {
+        var acc = ""
+        acc += "Note: ".localizedMissing + note + "\n"
+        acc += "Date: ".localizedMissing + recordDate.dateMediumTimeShort
+        return acc
+    }
+
+    var localizedListItemValue: String {
+        "Location: \(latitude)|\(longitude)"
+    }
+}

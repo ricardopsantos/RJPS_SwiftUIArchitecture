@@ -77,7 +77,7 @@ extension DataBaseRepository_Tests {
         let after = repository?.trackedEntityGetAll(favorite: nil, archived: nil, cascade: false).count ?? 0
 
         // Should have same id, one more event, and same cascade event count
-        XCTAssert(retrieved?.id.uuidString == trackedEntityId)
+        XCTAssert(retrieved?.id == trackedEntityId)
         XCTAssert(before + 1 == after)
         XCTAssert(retrieved?.cascadeEvents?.count ?? 0 == 3)
     }

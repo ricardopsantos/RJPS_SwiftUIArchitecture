@@ -7,6 +7,7 @@
         <attribute name="favorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="String" regularExpressionString="^.+$"/>
         <attribute name="info" optional="YES" attributeType="String"/>
+        <attribute name="locationRelevant" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String" regularExpressionString="^.+$"/>
         <attribute name="sound" attributeType="String"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDataTrackedLog" inverseName="relationship" inverseEntity="CDataTrackedLog"/>

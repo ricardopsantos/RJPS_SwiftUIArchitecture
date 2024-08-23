@@ -105,7 +105,7 @@ struct UserDetailsView: View {
     var content: some View {
         VStack {
             Header(text: "UserDetails".localizedMissing)
-            CustomTitleAndCustomTextField(
+            CustomTitleAndCustomTextFieldV1(
                 label: "Name".localizedMissing,
                 placeholder: "NamePlaceHolder".localizedMissing,
                 inputText: $name,
@@ -113,7 +113,7 @@ struct UserDetailsView: View {
             )
             .padding(.vertical, SizeNames.defaultMargin)
             GenderPickerView(selected: $selectedGender)
-            CustomTitleAndCustomTextField(
+            CustomTitleAndCustomTextFieldV1(
                 label: "DateOfBirth".localizedMissing,
                 placeholder: "DateOfBirthPlaceHolder".localizedMissing,
                 inputText: .constant(dateOfBirth.dateStyleShort),

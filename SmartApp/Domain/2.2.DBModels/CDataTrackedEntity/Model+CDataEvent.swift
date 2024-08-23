@@ -12,30 +12,32 @@ import Common
 
 public extension Model {
     struct TrackedEntity: Equatable, Hashable, Identifiable, Sendable {
-        public var id: UUID
+        public var id: String
         public var name: String
         public var info: String
         public var color: UIColor
         public var archived: Bool
         public var favorite: Bool
+        public var locationRelevant: Bool
         public var category: HitHappensEventCategory
-        public var sound: String
+        public var sound: SoundEffect
         public var cascadeEvents: [Model.TrackedLog]?
         public init(
-            id: UUID,
+            id: String,
             name: String,
             info: String,
             color: UIColor,
             archived: Bool,
             favorite: Bool,
+            locationRelevant: Bool,
             category: HitHappensEventCategory,
-            sound: String,
+            sound: SoundEffect,
             cascadeEvents: [Model.TrackedLog]?
         ) {
-            print("make id string")
             self.id = id
             self.name = name
             self.info = info
+            self.locationRelevant = locationRelevant
             self.color = color
             self.archived = archived
             self.favorite = favorite
@@ -49,14 +51,15 @@ public extension Model {
 public extension Model.TrackedEntity {
     static func random(cascadeEvents: [Model.TrackedLog]) -> Self {
         Model.TrackedEntity(
-            id: UUID(),
+            id: UUID().uuidString,
             name: String.randomWithSpaces(10),
             info: String.randomWithSpaces(10),
             color: UIColor.random,
             archived: false,
             favorite: true,
+            locationRelevant: true,
             category: .none,
-            sound: "",
+            sound: .incorrect,
             cascadeEvents: cascadeEvents
         )
     }

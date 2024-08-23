@@ -142,7 +142,7 @@ struct CounterView: View {
 
     public var body: some View {
         VStack(spacing: 0) {
-            SwiftUIUtils.RenderedView("\(Self.self).\(#function)", id: model.id.uuidString)
+            SwiftUIUtils.RenderedView("\(Self.self).\(#function)", id: model.id)
             HStack(spacing: 0) {
                 Text(model.name)
                     .fontSemantic(.largeTitle)

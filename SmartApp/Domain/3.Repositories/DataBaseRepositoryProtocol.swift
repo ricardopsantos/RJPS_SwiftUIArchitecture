@@ -22,11 +22,11 @@ public protocol DataBaseRepositoryProtocol {
     //
     // MARK: - TrackedEntity
     //
-    func trackedEntityInsertOrUpdate(trackedEntity: Model.TrackedEntity) -> String
-    func trackedEntityInsert(trackedEntity: Model.TrackedEntity) -> String
-    func trackedEntityUpdate(trackedEntity: Model.TrackedEntity) -> String
-    func trackedEntityGet(trackedEntityId: String, cascade: Bool) -> Model.TrackedEntity?
-    func trackedEntityGetAll(favorite: Bool?, archived: Bool?, cascade: Bool) -> [Model.TrackedEntity]
+    @discardableResult func trackedEntityInsertOrUpdate(trackedEntity: Model.TrackedEntity) -> String
+    @discardableResult func trackedEntityInsert(trackedEntity: Model.TrackedEntity) -> String
+    @discardableResult func trackedEntityUpdate(trackedEntity: Model.TrackedEntity) -> String
+    @discardableResult func trackedEntityGet(trackedEntityId: String, cascade: Bool) -> Model.TrackedEntity?
+    @discardableResult func trackedEntityGetAll(favorite: Bool?, archived: Bool?, cascade: Bool) -> [Model.TrackedEntity]
     func trackedEntityDelete(trackedEntityId: String)
     func trackedEntityDelete(trackedEntity: Model.TrackedEntity)
     func trackedEntityDeleteAll()

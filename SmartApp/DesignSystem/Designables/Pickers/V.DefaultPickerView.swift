@@ -10,24 +10,26 @@ import SwiftUI
 public struct DefaultPickerView: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var selectedOption: String
+    private let titleStyle: TextStyleTuple
     private let options: [String]
     private let title: String
     public init(
         title: String,
         options: [String],
-        selectedOption: Binding<String>
+        selectedOption: Binding<String>,
+        titleStyle: TextStyleTuple = (.bodyBold, .labelPrimary)
     ) {
         self._selectedOption = selectedOption
         self.title = title
         self.options = options
+        self.titleStyle = titleStyle
     }
 
     public var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 Text(title)
-                    .fontSemantic(.body)
-                    .foregroundColor(.labelPrimary)
+                    .applyStyle(titleStyle)
                 Spacer()
                 Picker("", selection: $selectedOption) {
                     ForEach(options, id: \.self) { option in
@@ -35,9 +37,8 @@ public struct DefaultPickerView: View {
                     }
                 }
                 .pickerStyle(DefaultPickerStyle())
-                Spacer()
             }
-        }
+        } // .debugBackground()
     }
 }
 
