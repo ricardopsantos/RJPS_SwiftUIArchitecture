@@ -58,23 +58,7 @@ class EventsListViewModel: BaseViewModel {
         self.dataBaseRepository = dependencies.dataBaseRepository
         self.message = dependencies.model.message
         super.init()
-        dependencies.dataBaseRepository.output([]).sink { [weak self] some in
-            switch some {
-            case .generic(let some):
-                switch some {
-                case .databaseDidInsertedContentOn: break
-                case .databaseDidUpdatedContentOn: break
-                case .databaseDidDeletedContentOn: break
-                case .databaseDidChangedContentItemOn: break
-                case .databaseDidFinishChangeContentItemsOn(let table):
-                    if table == "\(CDataTrackedLog.self)" {
-                        Common.ExecutionControlManager.debounce(operationId: #function) {
-                            self?.send(.loadEvents)
-                        }
-                    }
-                }
-            }
-        }.store(in: cancelBag)
+        self.startListeningDBChanges()
     }
 
     func send(_ action: Actions) {
@@ -101,7 +85,27 @@ class EventsListViewModel: BaseViewModel {
 // MARK: - Auxiliar
 //
 
-fileprivate extension EventsListViewModel {}
+fileprivate extension EventsListViewModel {
+    func startListeningDBChanges() {
+        dataBaseRepository?.output([]).sink { [weak self] some in
+            switch some {
+            case .generic(let some):
+                switch some {
+                case .databaseDidInsertedContentOn: break
+                case .databaseDidUpdatedContentOn: break
+                case .databaseDidDeletedContentOn: break
+                case .databaseDidChangedContentItemOn: break
+                case .databaseDidFinishChangeContentItemsOn(let table):
+                    if table == "\(CDataTrackedLog.self)" {
+                        Common.ExecutionControlManager.debounce(operationId: #function) { [weak self] in
+                            self?.send(.loadEvents)
+                        }
+                    }
+                }
+            }
+        }.store(in: cancelBag)
+    }
+}
 
 //
 // MARK: - Preview

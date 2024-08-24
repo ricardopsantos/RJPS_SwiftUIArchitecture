@@ -14,7 +14,7 @@ public extension Model.TrackedEntity {
     var localizedEventName: String {
         var prefix = ""
         if favorite {
-            prefix = "⭐ "
+            prefix = ""
         }
         if archived {
             prefix = "🔒 "
@@ -36,17 +36,23 @@ public extension Model.TrackedEntity {
 public extension Model.TrackedLog {
     var localizedListItemTitle: String {
         var acc = ""
-        if !note.isEmpty {
-            acc += "Note: ".localizedMissing + note + "\n"
+        if recordDate.wasLessThan(secondsAgo: 60) {
+            acc += recordDate.dateMediumTimeLong
+        } else {
+            acc += recordDate.dateMediumTimeShort
         }
-        acc += recordDate.dateMediumTimeShort
+
         return acc
     }
 
     var localizedListItemValue: String {
-        guard latitude != 0, longitude != 0 else {
-            return ""
+        var acc = ""
+        if !note.isEmpty {
+            acc += note
         }
-        return "Location: \(latitude)|\(longitude)"
+        if latitude != 0 && longitude != 0 {
+            acc += "\nLocation: \(latitude)|\(longitude)"
+        }
+        return acc
     }
 }

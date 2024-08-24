@@ -27,7 +27,7 @@ public struct TextButton: View {
 
     public init(
         onClick: @escaping () -> Void,
-        animatedClick: Bool = false,
+        animatedClick: Bool = true,
         text: String,
         alignment: Alignment = .center,
         style: Style = .primary,

@@ -13,7 +13,7 @@ import Common
 public extension CDataTrackedEntity {
     /// DB -> Model
     func mapToModel(cascade: Bool) -> Model.TrackedEntity {
-        var cascadeEvents: [Model.TrackedLog] = []
+        var cascadeEvents: [Model.TrackedLog]?
         if cascade, let list = events?.allObjects as? [CDataTrackedLog] {
             cascadeEvents = list.map { $0.mapToModel(cascade: false) }
         }
@@ -23,6 +23,7 @@ public extension CDataTrackedEntity {
             info: info ?? "",
             archived: archived,
             favorite: favorite,
+            autoPresentLog: autoPresentLog,
             locationRelevant: locationRelevant,
             category: .init(rawValue: Int(categoryId)) ?? .none,
             sound: SoundEffect(rawValue: sound ?? "") ?? .none,
@@ -37,6 +38,7 @@ public extension CDataTrackedEntity {
         archived = model.archived
         favorite = model.favorite
         categoryId = Int16(model.category.rawValue)
+        autoPresentLog = model.autoPresentLog
         locationRelevant = model.locationRelevant
         sound = model.sound.rawValue
     }

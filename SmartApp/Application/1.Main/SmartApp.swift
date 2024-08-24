@@ -30,7 +30,6 @@ struct SmartApp: App {
     let configuration: ConfigurationViewModel
     let appState: AppStateViewModel
     init() {
-        SetupManager.shared.setup()
         let userService = DependenciesManager.Services.userService
         let sampleService = DependenciesManager.Services.sampleService
         let userRepository = DependenciesManager.Repository.userRepository
@@ -38,7 +37,6 @@ struct SmartApp: App {
         let nonSecureAppPreferences = DependenciesManager.Repository.nonSecureAppPreferences
         let secureAppPreferences = DependenciesManager.Repository.secureAppPreferences
         let config: ConfigurationViewModel!
-
         let onTesting = UITestingManager.Options.onUITesting.enabled || Common_Utils.onUnitTests
         if onTesting {
             config = .init(
@@ -63,6 +61,7 @@ struct SmartApp: App {
             )
             self.configuration = config
         }
+        SetupManager.shared.setup(dataBaseRepository: dataBaseRepository)
         self.appState = .init()
     }
 

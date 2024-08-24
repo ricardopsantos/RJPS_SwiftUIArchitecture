@@ -68,12 +68,14 @@ extension EventDetailsViewModel {
         case userDidChangedEventCategory(value: HitHappensEventCategory)
         case userDidChangedLocationRelevant(value: Bool)
         case userDidChangedFavorite(value: Bool)
+        case userDidChangedAutoPresentLog(value: Bool)
         case userDidChangedArchived(value: Bool)
         case userDidChangedName(value: String)
         case userDidChangedInfo(value: String)
         case delete(confirmed: Bool)
         case usedDidTappedLogEvent(trackedLogId: String)
         case handleConfirmation
+        case addNew
     }
 
     struct Dependencies {
@@ -97,6 +99,7 @@ class EventDetailsViewModel: BaseViewModel {
     @Published var archived: Bool = false
     @Published var name: String = ""
     @Published var info: String = ""
+    @Published var autoPresentLog: Bool = false
     @Published var userMessage: (text: String, color: ColorSemantic) = ("", .clear)
 
     // MARK: - Auxiliar Attributes
@@ -112,34 +115,7 @@ class EventDetailsViewModel: BaseViewModel {
         self.onRouteBack = dependencies.onRouteBack
         self.onTrackedLogTapped = dependencies.onTrackedLogTapped
         super.init()
-        dependencies.dataBaseRepository.output([]).sink { [weak self] some in
-            switch some {
-            case .generic(let some):
-                switch some {
-                case .databaseDidInsertedContentOn: break
-                case .databaseDidUpdatedContentOn: break
-                case .databaseDidDeletedContentOn(let table, let id):
-                    // Record deleted! Route back
-                    if table == "\(CDataTrackedEntity.self)", id == self?.event?.id {
-                        self?.onRouteBack()
-                    }
-                case .databaseDidChangedContentItemOn: break
-                case .databaseDidFinishChangeContentItemsOn(let table):
-                    // Data changed. Reload!
-                    if table == "\(CDataTrackedEntity.self)" {
-                        Common.ExecutionControlManager.debounce(operationId: "\(Self.self)\(#function)") { [weak self] in
-                            self?.send(.reload)
-                            self?.userMessage = ("Updated (\(Date().timeStyleMedium))".localizedMissing, ColorSemantic.allCool)
-                        }
-                    }
-                    if table == "\(CDataTrackedLog.self)" {
-                        Common.ExecutionControlManager.debounce(operationId: "\(Self.self)\(#function)") { [weak self] in
-                            self?.send(.reload)
-                        }
-                    }
-                }
-            }
-        }.store(in: cancelBag)
+        self.startListeningDBChanges()
     }
 
     func send(_ action: Actions) {
@@ -162,6 +138,7 @@ class EventDetailsViewModel: BaseViewModel {
                 }
             }
         case .handleConfirmation:
+            displayUserMessage("")
             switch confirmationSheetType {
             case .delete:
                 send(.delete(confirmed: true))
@@ -172,6 +149,7 @@ class EventDetailsViewModel: BaseViewModel {
             }
 
         case .userDidChangedSoundEffect(value: let value):
+            displayUserMessage("")
             value.play()
             Task { [weak self] in
                 guard let self = self, var trackedEntity = event else { return }
@@ -180,6 +158,7 @@ class EventDetailsViewModel: BaseViewModel {
                     trackedEntity: trackedEntity)
             }
         case .userDidChangedEventCategory(value: let value):
+            displayUserMessage("")
             Task { [weak self] in
                 guard let self = self, var trackedEntity = event else { return }
                 trackedEntity.category = value
@@ -187,13 +166,18 @@ class EventDetailsViewModel: BaseViewModel {
                     trackedEntity: trackedEntity)
             }
         case .userDidChangedLocationRelevant(value: let value):
+            displayUserMessage("")
             Task { [weak self] in
                 guard let self = self, var trackedEntity = event else { return }
                 trackedEntity.locationRelevant = value
                 dataBaseRepository?.trackedEntityUpdate(
                     trackedEntity: trackedEntity)
+                if value {
+                    userMessage.text = "Every time the user add a new event, the event details screen will appear"
+                }
             }
         case .userDidChangedName(value: let value):
+            displayUserMessage("")
             Task { [weak self] in
                 guard let self = self, var trackedEntity = event else { return }
                 trackedEntity.name = value
@@ -201,6 +185,7 @@ class EventDetailsViewModel: BaseViewModel {
                     trackedEntity: trackedEntity)
             }
         case .userDidChangedArchived(value: let value):
+            displayUserMessage("")
             Task { [weak self] in
                 guard let self = self, var trackedEntity = event else { return }
                 trackedEntity.archived = value
@@ -210,8 +195,12 @@ class EventDetailsViewModel: BaseViewModel {
                 }
                 dataBaseRepository?.trackedEntityUpdate(
                     trackedEntity: trackedEntity)
+                if value {
+                    displayUserMessage("On the events list, this event will now appear on the last section".localizedMissing)
+                }
             }
         case .userDidChangedFavorite(value: let value):
+            displayUserMessage("")
             Task { [weak self] in
                 guard let self = self, var trackedEntity = event else { return }
                 trackedEntity.favorite = value
@@ -221,8 +210,22 @@ class EventDetailsViewModel: BaseViewModel {
                 }
                 dataBaseRepository?.trackedEntityUpdate(
                     trackedEntity: trackedEntity)
+                if value {
+                    displayUserMessage("On the events list, this event will now appear on the first section".localizedMissing)
+                }
+            }
+        case .userDidChangedAutoPresentLog(value: let value):
+            Task { [weak self] in
+                guard let self = self, var trackedEntity = event else { return }
+                trackedEntity.autoPresentLog = value
+                dataBaseRepository?.trackedEntityUpdate(
+                    trackedEntity: trackedEntity)
+                if value {
+                    displayUserMessage("Every time the user add a new event, the event details screen will appear".localizedMissing)
+                }
             }
         case .userDidChangedInfo(value: let value):
+            displayUserMessage("")
             Task { [weak self] in
                 guard let self = self, var trackedEntity = event else { return }
                 trackedEntity.info = value
@@ -230,6 +233,7 @@ class EventDetailsViewModel: BaseViewModel {
                     trackedEntity: trackedEntity)
             }
         case .delete(confirmed: let confirmed):
+            displayUserMessage("")
             if !confirmed {
                 confirmationSheetType = .delete
             } else {
@@ -239,11 +243,21 @@ class EventDetailsViewModel: BaseViewModel {
                 }
             }
         case .usedDidTappedLogEvent(trackedLogId: let trackedLogId):
+            displayUserMessage("")
             Task { [weak self] in
                 guard let self = self else { return }
                 if let rackedLog = dataBaseRepository?.trackedLogGet(trackedLogId: trackedLogId, cascade: true) {
                     onTrackedLogTapped(rackedLog)
                 }
+            }
+
+        case .addNew:
+            displayUserMessage("")
+            Task { [weak self] in
+                guard let self = self else { return }
+                let trackedEntityId = event?.id ?? ""
+                let event: Model.TrackedLog = .init(latitude: 0, longitude: 0, note: "")
+                dataBaseRepository?.trackedLogInsertOrUpdate(trackedLog: event, trackedEntityId: trackedEntityId)
             }
         }
     }
@@ -254,10 +268,15 @@ class EventDetailsViewModel: BaseViewModel {
 //
 
 fileprivate extension EventDetailsViewModel {
-    // @MainActor
+    func displayUserMessage(_ message: String) {
+        userMessage.text = message
+        userMessage.color = .allCool
+    }
     func updateUI(event model: Model.TrackedEntity) {
         event = model
-        cascadeEvents = model.cascadeEvents?.map {
+        cascadeEvents = model.cascadeEvents?
+            .sorted(by: { $0.recordDate > $1.recordDate })
+            .map {
             .init(
                 id: $0.id,
                 title: $0.localizedListItemTitle,
@@ -267,6 +286,37 @@ fileprivate extension EventDetailsViewModel {
         archived = model.archived
         name = model.name
         info = model.info
+        autoPresentLog = model.autoPresentLog
+    }
+    
+    func startListeningDBChanges() {
+        dataBaseRepository?.output([]).sink { [weak self] some in
+            switch some {
+            case .generic(let some):
+                switch some {
+                case .databaseDidInsertedContentOn: break
+                case .databaseDidUpdatedContentOn: break
+                case .databaseDidDeletedContentOn(let table, let id):
+                    // Record deleted! Route back
+                    if table == "\(CDataTrackedEntity.self)", id == self?.event?.id {
+                        self?.onRouteBack()
+                    }
+                case .databaseDidChangedContentItemOn: break
+                case .databaseDidFinishChangeContentItemsOn(let table):
+                    // Data changed. Reload!
+                    if table == "\(CDataTrackedEntity.self)" {
+                        Common.ExecutionControlManager.debounce(operationId: "\(Self.self)\(#function)") { [weak self] in
+                            self?.send(.reload)
+                        }
+                    }
+                    if table == "\(CDataTrackedLog.self)" {
+                        Common.ExecutionControlManager.debounce(operationId: "\(Self.self)\(#function)") { [weak self] in
+                            self?.send(.reload)
+                        }
+                    }
+                }
+            }
+        }.store(in: cancelBag)
     }
 }
 

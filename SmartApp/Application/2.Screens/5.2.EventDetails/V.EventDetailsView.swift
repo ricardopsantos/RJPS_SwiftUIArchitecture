@@ -122,6 +122,7 @@ struct EventDetailsView: View, ViewProtocol {
                     SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
                     Divider()
                     SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                    addNewView
                     listView
                 }
                 .paddingRight(SizeNames.size_1.cgFloat)
@@ -169,12 +170,19 @@ struct EventDetailsView: View, ViewProtocol {
                 })
 
             ToggleWithState(
-                title: "Location relevant".localizedMissing,
+                title: "Grab user location when add new event".localizedMissing,
                 isOn: viewModel.event?.locationRelevant ?? false,
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedLocationRelevant(value: newValue))
                 })
 
+            ToggleWithState(
+                title: "Automatically display details when add new event".localizedMissing,
+                isOn: viewModel.event?.autoPresentLog ?? false,
+                onChanged: { newValue in
+                    viewModel.send(.userDidChangedAutoPresentLog(value: newValue))
+                })
+            
             // Picker with closure
             CategoryPickerView(selected: (viewModel.event?.category ?? .none).localized) { newValue in
                 viewModel.send(.userDidChangedEventCategory(value: newValue))
@@ -189,6 +197,18 @@ struct EventDetailsView: View, ViewProtocol {
         .paddingLeft(SizeNames.size_1.cgFloat)
     }
 
+    var addNewView: some View {
+        TextButton(
+            onClick: {
+                viewModel.send(.addNew)
+            },
+            text: "Add new".localizedMissing,
+            alignment: .center,
+            style: .secondary,
+            background: .primary,
+            accessibility: .undefined)
+    }
+    
     var archivedAndDeleteView: some View {
         Group {
             ToggleWithState(

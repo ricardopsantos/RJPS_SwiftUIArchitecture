@@ -102,6 +102,13 @@ public extension Date {
         return formatter.string(from: self)
     }
 
+    var dateMediumTimeLong: String {
+        let formatter = Self.defaultDateFormatter
+        formatter.timeStyle = .long
+        formatter.dateStyle = .medium
+        return formatter.string(from: self)
+    }
+    
     var dateMediumTimeShort: String {
         let formatter = Self.defaultDateFormatter
         formatter.timeStyle = .short

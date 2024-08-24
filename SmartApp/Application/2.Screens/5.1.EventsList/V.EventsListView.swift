@@ -118,7 +118,7 @@ struct EventsListView: View, ViewProtocol {
                 buildList(events: sectionA)
                 Divider().padding(.vertical, SizeNames.defaultMarginSmall)
                 HStack(spacing: 0) {
-                    Text("Regular".localizedMissing)
+                    Text("Others".localizedMissing)
                         .textColor(ColorSemantic.labelPrimary.color)
                         .fontSemantic(.bodyBold)
                     Spacer()

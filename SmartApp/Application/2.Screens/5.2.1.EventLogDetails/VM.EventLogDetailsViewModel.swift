@@ -56,6 +56,7 @@ extension EventLogDetailsViewModel {
         case userDidChangedNote(value: String)
         case delete(confirmed: Bool)
         case handleConfirmation
+        case userDidChangedAutoPresentLog(value: Bool)
     }
 
     struct Dependencies {
@@ -75,7 +76,8 @@ class EventLogDetailsViewModel: BaseViewModel {
     @Published var confirmationSheetType: ConfirmationSheet?
     @Published var userMessage: (text: String, color: ColorSemantic) = ("", .clear)
     @Published var note: String = ""
-
+    @Published var autoPresentLog: Bool = false
+    
     // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
     private let dataBaseRepository: DataBaseRepositoryProtocol?
@@ -85,29 +87,7 @@ class EventLogDetailsViewModel: BaseViewModel {
         self.trackedLog = dependencies.model.trackedLog
         self.onRouteBack = dependencies.onRouteBack
         super.init()
-        dependencies.dataBaseRepository.output([]).sink { [weak self] some in
-            switch some {
-            case .generic(let some):
-                switch some {
-                case .databaseDidInsertedContentOn: break
-                case .databaseDidUpdatedContentOn(let table, let id):
-                    // Data changed. Reload!
-                    if table == "\(CDataTrackedLog.self)", id == self?.trackedLog?.id {
-                        Common.ExecutionControlManager.debounce(operationId: "\(Self.self)\(#function)") { [weak self] in
-                            self?.send(.reload)
-                            self?.userMessage = ("Updated\n\(Date().timeStyleMedium)".localizedMissing, ColorSemantic.allCool)
-                        }
-                    }
-                case .databaseDidDeletedContentOn(let table, let id):
-                    // Record deleted! Route back
-                    if table == "\(CDataTrackedLog.self)", id == self?.trackedLog?.id {
-                        self?.onRouteBack()
-                    }
-                case .databaseDidChangedContentItemOn: break
-                case .databaseDidFinishChangeContentItemsOn: break
-                }
-            }
-        }.store(in: cancelBag)
+        self.startListeningDBChanges()
     }
 
     func send(_ action: Actions) {
@@ -149,16 +129,24 @@ class EventLogDetailsViewModel: BaseViewModel {
                     trackedLog: trackedLog,
                     trackedEntityId: trackedLog.cascadeEntity?.id ?? "")
             }
-
+        case .userDidChangedAutoPresentLog(value: let value):
+            Task { [weak self] in
+                guard let self = self, let trackedEntityId = trackedLog?.cascadeEntity?.id else { return }
+                if var trackedEntity = dataBaseRepository?.trackedEntityGet(trackedEntityId: trackedEntityId, cascade: false) {
+                    trackedEntity.autoPresentLog = value
+                    dataBaseRepository?.trackedEntityUpdate(trackedEntity: trackedEntity)
+                }
+            }
         case .delete(confirmed: let confirmed):
             if !confirmed {
                 confirmationSheetType = .delete
             } else {
                 Task { [weak self] in
-                    guard let self = self, var trackedLog = trackedLog else { return }
+                    guard let self = self, let trackedLog = trackedLog else { return }
                     dataBaseRepository?.trackedLogDelete(trackedLogId: trackedLog.id)
                 }
             }
+
         }
     }
 }
@@ -168,10 +156,36 @@ class EventLogDetailsViewModel: BaseViewModel {
 //
 
 fileprivate extension EventLogDetailsViewModel {
-    // @MainActor
     func updateUI(event model: Model.TrackedLog) {
         trackedLog = model
         note = model.note
+        autoPresentLog = model.cascadeEntity?.autoPresentLog ?? false
+    }
+    
+    func startListeningDBChanges() {
+        dataBaseRepository?.output([]).sink { [weak self] some in
+            switch some {
+            case .generic(let some):
+                switch some {
+                case .databaseDidInsertedContentOn: break
+                case .databaseDidUpdatedContentOn(let table, let id):
+                    // Data changed. Reload!
+                    if table == "\(CDataTrackedLog.self)", id == self?.trackedLog?.id {
+                        Common.ExecutionControlManager.debounce(operationId: "\(Self.self)\(#function)") { [weak self] in
+                            self?.send(.reload)
+                            self?.userMessage = ("Updated\n\(Date().timeStyleMedium)".localizedMissing, ColorSemantic.allCool)
+                        }
+                    }
+                case .databaseDidDeletedContentOn(let table, let id):
+                    // Record deleted! Route back
+                    if table == "\(CDataTrackedLog.self)", id == self?.trackedLog?.id {
+                        self?.onRouteBack()
+                    }
+                case .databaseDidChangedContentItemOn: break
+                case .databaseDidFinishChangeContentItemsOn: break
+                }
+            }
+        }.store(in: cancelBag)
     }
 }
 

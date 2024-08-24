@@ -53,43 +53,13 @@ class FavoriteEventsViewModel: BaseViewModel {
     // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
     private let dataBaseRepository: DataBaseRepositoryProtocol?
+    private let onNewLog: (Model.TrackedLog) -> Void
     public init(dependencies: Dependencies) {
         self.dataBaseRepository = dependencies.dataBaseRepository
         self.favorits = dependencies.model.favorits
+        self.onNewLog = dependencies.onNewLog
         super.init()
-        dependencies.dataBaseRepository.output([]).sink { [weak self] some in
-            switch some {
-            case .generic(let some):
-                switch some {
-                case .databaseDidInsertedContentOn(let table, let id):
-                    // New record added
-                    if table == "\(CDataTrackedLog.self)" {
-                        if let trackedEntity = self?.dataBaseRepository?.trackedLogGet(trackedLogId: id, cascade: true) {
-                            Common_Utils.delay(Common.Constants.defaultAnimationsTime * 2) {
-                                // Small delay so that the UI counter animation is viewed
-                                dependencies.onNewLog(trackedEntity)
-                            }
-                        }
-                    }
-                case .databaseDidUpdatedContentOn: break
-                case .databaseDidDeletedContentOn(let table, let id):
-                    if table == "\(CDataTrackedLog.self)" {
-                        // Record deleted
-                        Common.ExecutionControlManager.debounce(operationId: #function) {
-                            self?.send(.loadFavorits)
-                        }
-                    }
-                case .databaseDidChangedContentItemOn: break
-                case .databaseDidFinishChangeContentItemsOn(let table):
-                    if table == "\(CDataTrackedLog.self)" {
-                        // Record updated
-                        Common.ExecutionControlManager.debounce(operationId: #function) {
-                            self?.send(.loadFavorits)
-                        }
-                    }
-                }
-            }
-        }.store(in: cancelBag)
+        self.startListeningDBChanges()
     }
 
     func send(_ action: Actions) {
@@ -122,10 +92,50 @@ class FavoriteEventsViewModel: BaseViewModel {
 }
 
 //
-// MARK: - Auxiliar
+// MARK: - Listen
 //
 
-fileprivate extension FavoriteEventsViewModel {}
+fileprivate extension FavoriteEventsViewModel {
+    func startListeningDBChanges() {
+        dataBaseRepository?.output([]).sink { [weak self] some in
+            switch some {
+            case .generic(let some):
+                switch some {
+                case .databaseDidInsertedContentOn(let table, let id):
+                    // New record added
+                    if table == "\(CDataTrackedLog.self)" {
+                        if let trackedEntity = self?.dataBaseRepository?.trackedLogGet(trackedLogId: id, cascade: true) {
+                            guard let cascadeEntity = trackedEntity.cascadeEntity,
+                                  cascadeEntity.autoPresentLog else {
+                                return
+                            }
+                            Common_Utils.delay(Common.Constants.defaultAnimationsTime * 2) { [weak self] in
+                                // Small delay so that the UI counter animation is viewed
+                                self?.onNewLog(trackedEntity)
+                            }
+                        }
+                    }
+                case .databaseDidUpdatedContentOn: break
+                case .databaseDidDeletedContentOn(let table, _):
+                    if table == "\(CDataTrackedLog.self)" {
+                        // Record deleted
+                        Common.ExecutionControlManager.debounce(operationId: #function) {
+                            self?.send(.loadFavorits)
+                        }
+                    }
+                case .databaseDidChangedContentItemOn: break
+                case .databaseDidFinishChangeContentItemsOn(let table):
+                    if table == "\(CDataTrackedLog.self)" {
+                        // Record updated
+                        Common.ExecutionControlManager.debounce(operationId: #function) {
+                            self?.send(.loadFavorits)
+                        }
+                    }
+                }
+            }
+        }.store(in: cancelBag)
+    }
+}
 
 //
 // MARK: - Preview

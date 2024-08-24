@@ -104,16 +104,24 @@ struct EventLogDetailsView: View, ViewProtocol {
     var content: some View {
         ZStack {
             ScrollView {
-                Header(text: "Event Log details")
+                Header(text: "Details")
                 LazyVStack(spacing: SizeNames.defaultMarginSmall) {
                     CustomTitleAndCustomTextFieldWithBinding(
                         title: "Note".localizedMissing,
-                        placeholder: "Note".localizedMissing,
+                        placeholder: "Add a note".localizedMissing,
                         inputText: $viewModel.note,
                         accessibility: .undefined) { newValue in
                             viewModel.send(.userDidChangedNote(value: newValue))
                         }
                     SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                    ToggleWithState(
+                        title: "Automatically display details when add new event".localizedMissing,
+                        isOn: viewModel.autoPresentLog,
+                        onChanged: { newValue in
+                            viewModel.send(.userDidChangedAutoPresentLog(value: newValue))
+                        })
+                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                    Divider()
                     TextButton(
                         onClick: {
                             viewModel.send(.delete(confirmed: false))
