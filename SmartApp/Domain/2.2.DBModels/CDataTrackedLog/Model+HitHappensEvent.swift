@@ -15,6 +15,7 @@ public extension Model {
         public var id: String
         public var latitude: Double
         public var longitude: Double
+        public var addressMin: String
         public var note: String
         public var recordDate: Date
         public var cascadeEntity: Model.TrackedEntity?
@@ -23,11 +24,13 @@ public extension Model {
             id: String = "",
             latitude: Double,
             longitude: Double,
+            addressMin: String,
             note: String,
             recordDate: Date = .now,
             cascadeEntity: Model.TrackedEntity? = nil
         ) {
             self.id = id
+            self.addressMin = addressMin
             self.latitude = latitude
             self.longitude = longitude
             self.note = note
@@ -43,9 +46,9 @@ public extension Model.TrackedLog {
             id: UUID().uuidString,
             latitude: 0,
             longitude: 0,
+            addressMin: "Address " + String.randomWithSpaces(10),
             note: String.randomWithSpaces(10),
             recordDate: Date.now,
-
             cascadeEntity: nil
         )
     }

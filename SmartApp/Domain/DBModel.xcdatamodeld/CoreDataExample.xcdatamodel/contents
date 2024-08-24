@@ -13,6 +13,7 @@
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDataTrackedLog" inverseName="relationship" inverseEntity="CDataTrackedLog"/>
     </entity>
     <entity name="CDataTrackedLog" representedClassName="CDataTrackedLog" syncable="YES" codeGenerationType="class">
+        <attribute name="addressMin" optional="YES" attributeType="String"/>
         <attribute name="id" attributeType="String" regularExpressionString="^.+$"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>

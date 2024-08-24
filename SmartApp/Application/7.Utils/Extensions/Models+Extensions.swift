@@ -13,13 +13,17 @@ import Domain
 public extension Model.TrackedEntity {
     var localizedEventName: String {
         var prefix = ""
+        if locationRelevant {
+            prefix += "📍 "
+        }
         if favorite {
-            prefix = ""
+            prefix += ""
         }
         if archived {
-            prefix = "🔒 "
+            prefix += "🔒 "
         }
-        let suffix = category == .none ? "" : " | \(category.localized)"
+        var suffix = ""
+        suffix += category == .none ? "" : " | \(category.localized)"
         return "\(prefix)\(name)\(suffix)"
     }
 
@@ -48,11 +52,12 @@ public extension Model.TrackedLog {
     var localizedListItemValue: String {
         var acc = ""
         if !note.isEmpty {
-            acc += note
+            acc += note + "\n"
         }
-        if latitude != 0 && longitude != 0 {
-            acc += "\nLocation: \(latitude)|\(longitude)"
+        if !addressMin.isEmpty {
+            acc += "Location: \(addressMin)"
         }
         return acc
     }
+
 }

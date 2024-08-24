@@ -61,7 +61,6 @@ class FavoriteEventsViewModel: BaseViewModel {
         super.init()
         self.startListeningDBChanges()
     }
-
     func send(_ action: Actions) {
         switch action {
         case .didAppear:
@@ -84,8 +83,22 @@ class FavoriteEventsViewModel: BaseViewModel {
                 if trackedEntityId.isEmpty {
                     trackedEntityId = favorits.first?.id.description ?? ""
                 }
-                let event: Model.TrackedLog = .init(latitude: 0, longitude: 0, note: "")
-                dataBaseRepository?.trackedLogInsertOrUpdate(trackedLog: event, trackedEntityId: trackedEntityId)
+                let locationRelevant = favorits.filter({ $0.id == trackedEntityId }).first?.locationRelevant ?? false
+                let location = Common.CoreLocationManager.shared.lastKnowLocation?.location.coordinate
+                if locationRelevant, let location = location {
+                    
+                    Common.CoreLocationManager.getAddressFrom(latitude: location.latitude,
+                                                              longitude: location.longitude) { [weak self] result in
+                        let event: Model.TrackedLog = .init(latitude: location.latitude,
+                                                            longitude: location.longitude,
+                                                            addressMin: result.addressMin,
+                                                            note: "")
+                        self?.dataBaseRepository?.trackedLogInsertOrUpdate(trackedLog: event, trackedEntityId: trackedEntityId)
+                    }
+                } else {
+                    let event: Model.TrackedLog = .init(latitude: 0, longitude: 0, addressMin: "", note: "")
+                    dataBaseRepository?.trackedLogInsertOrUpdate(trackedLog: event, trackedEntityId: trackedEntityId)
+                }
             }
         }
     }

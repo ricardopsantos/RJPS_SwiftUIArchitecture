@@ -21,6 +21,7 @@ public extension CDataTrackedLog {
             id: id ?? "",
             latitude: latitude,
             longitude: longitude,
+            addressMin: addressMin ?? "",
             note: note ?? "",
             recordDate: recordDate ?? .now,
             cascadeEntity: cascadeEntity
@@ -32,6 +33,7 @@ public extension CDataTrackedLog {
         latitude = model.latitude
         longitude = model.longitude
         note = model.note
+        addressMin = model.addressMin
         recordDate = model.recordDate
     }
 }

@@ -22,7 +22,7 @@ struct FavoriteEventsViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
     let haveNavigationStack: Bool
-
+    
     // MARK: - Body & View
     var body: some View {
         if haveNavigationStack {
@@ -38,7 +38,7 @@ struct FavoriteEventsViewCoordinator: View, ViewCoordinatorProtocol {
                 .fullScreenCover(item: $coordinator.coverLink, content: buildScreen)
         }
     }
-
+    
     @ViewBuilder
     func buildScreen(_ screen: AppScreen) -> some View {
         switch screen {
@@ -53,7 +53,7 @@ struct FavoriteEventsViewCoordinator: View, ViewCoordinatorProtocol {
         case .eventLogDetails(model: let model):
             let dependencies: EventLogDetailsViewModel.Dependencies = .init(
                 model: model, onCompletion: { _ in
-
+                    
                 }, onRouteBack: {},
                 dataBaseRepository: configuration.dataBaseRepository)
             EventLogDetailsView(dependencies: dependencies)
@@ -77,14 +77,15 @@ struct FavoriteEventsView: View, ViewProtocol {
         DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
     }
-
+    
     // MARK: - Usage Attributes
     @Environment(\.dismiss) var dismiss
     // @State var someVar = 0
-
+    
     // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
-
+    @StateObject var locationViewModel: Common.CoreLocationManagerViewModel = .shared
+    
     // MARK: - Body & View
     var body: some View {
         BaseView.withLoading(
@@ -101,9 +102,18 @@ struct FavoriteEventsView: View, ViewProtocol {
                 viewModel.send(.didAppear)
             }.onDisappear {
                 viewModel.send(.didDisappear)
+                locationViewModel.stop()
+            }
+            .onChange(of: viewModel.favorits) { _ in
+                let locationRelevant = !viewModel.favorits.filter({ $0.locationRelevant }).isEmpty
+                if locationRelevant {
+                    locationViewModel.start()
+                } else {
+                    locationViewModel.stop()
+                }
             }
     }
-
+    
     var content: some View {
         ScrollView {
             Header(text: "Favorite".localizedMissing)
@@ -123,6 +133,7 @@ struct FavoriteEventsView: View, ViewProtocol {
                 Spacer()
             }
         }
+        
     }
 }
 

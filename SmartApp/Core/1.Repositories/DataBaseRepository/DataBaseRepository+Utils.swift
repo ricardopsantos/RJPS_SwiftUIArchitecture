@@ -13,28 +13,32 @@ import CoreData
 public extension DataBaseRepository {
     
     func initDataBase() {
-     
-
         if trackedLogGetAll(cascade: false).count == 0 {
+            
             let coffeeEvents: [Model.TrackedLog] = [
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 47.6097,
+                      longitude: -122.3331,
+                      addressMin: "Starbucks, Seattle, WA",
                       note: "Starbucks",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 43.6532,
+                      longitude: -79.3832,
+                      addressMin: "Tim Hortons, Toronto, ON",
                       note: "Tim Hortons",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 42.3601,
+                      longitude: -71.0589,
+                      addressMin: "Dunkin', Boston, MA",
                       note: "Dunkin",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 51.5074,
+                      longitude: -0.1278,
+                      addressMin: "Costa Coffee, London, UK",
                       note: "Costa Coffee",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 34.0522,
+                      longitude: -118.2437,
+                      addressMin: "The Coffee Bean & Tea Leaf, Los Angeles, CA",
                       note: "The Coffee Bean & Tea Leaf",
                       recordDate: Date().add(days: -Int.random(in: 1...10)))
             ]
@@ -48,26 +52,31 @@ public extension DataBaseRepository {
                                                     category: .cultural,
                                                     sound: .boo1,
                                                     cascadeEvents: coffeeEvents)
-            
+
             let gymnasiumEvents: [Model.TrackedLog] = [
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 52.5200,
+                      longitude: 13.4050,
+                      addressMin: "Holmes Place, Berlin, Germany",
                       note: "Holmes Place",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 40.7128,
+                      longitude: -74.0060,
+                      addressMin: "Central Park, New York, NY",
                       note: "Outdoor",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 52.5200,
+                      longitude: 13.4050,
+                      addressMin: "Holmes Place, Berlin, Germany",
                       note: "Holmes Place",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 40.7128,
+                      longitude: -74.0060,
+                      addressMin: "Central Park, New York, NY",
                       note: "Outdoor",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 40.7128,
+                      longitude: -74.0060,
+                      addressMin: "Central Park, New York, NY",
                       note: "Outdoor",
                       recordDate: Date().add(days: -Int.random(in: 1...10)))
             ]
@@ -81,38 +90,45 @@ public extension DataBaseRepository {
                                                     category: .health,
                                                     sound: .cheer1,
                                                     cascadeEvents: gymnasiumEvents)
+
             let cinemaEvents: [Model.TrackedLog] = [
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 34.0522,
+                      longitude: -118.2437,
+                      addressMin: "AMC Theatres, Los Angeles, CA",
                       note: "Avengers: Endgame",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 33.7675,
+                      longitude: -84.4207,
+                      addressMin: "Regal Cinemas, Atlanta, GA",
                       note: "Jurassic World",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 40.7128,
+                      longitude: -74.0060,
+                      addressMin: "AMC Empire 25, New York, NY",
                       note: "The Dark Knight",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: -37.8136,
+                      longitude: 144.9631,
+                      addressMin: "Hoyts Cinema, Melbourne, Australia",
                       note: "Avatar",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 51.5074,
+                      longitude: -0.1278,
+                      addressMin: "Odeon Cinema, London, UK",
                       note: "Inception",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 35.6895,
+                      longitude: 139.6917,
+                      addressMin: "TOHO Cinemas, Tokyo, Japan",
                       note: "Black Panther",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 34.0522,
+                      longitude: -118.2437,
+                      addressMin: "AMC Theatres, Los Angeles, CA",
                       note: "Star Wars: The Force Awakens",
                       recordDate: Date().add(days: -Int.random(in: 1...10)))
             ]
 
-                
             let cinema: Model.TrackedEntity = .init(id: UUID().uuidString,
                                                     name: "Cinema",
                                                     info: "",
@@ -123,21 +139,25 @@ public extension DataBaseRepository {
                                                     category: .cultural,
                                                     sound: .cheer1,
                                                     cascadeEvents: cinemaEvents)
+
             let chessEvents: [Model.TrackedLog] = [
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 52.3740,
+                      longitude: 4.8897,
+                      addressMin: "Wijk aan Zee, Netherlands",
                       note: "Tata Steel Chess Tournament",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "Candidates Tournamen",
+                .init(latitude: 55.7558,
+                      longitude: 37.6176,
+                      addressMin: "Moscow, Russia",
+                      note: "Candidates Tournament",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 38.6270,
+                      longitude: -90.1994,
+                      addressMin: "St. Louis, MO",
                       note: "Sinquefield Cup",
                       recordDate: Date().add(days: -Int.random(in: 1...10)))
-                ]
-                
+            ]
+
             let chess: Model.TrackedEntity = .init(id: UUID().uuidString,
                                                     name: "Chess Tournaments",
                                                     info: "",
@@ -148,26 +168,31 @@ public extension DataBaseRepository {
                                                     category: .personal,
                                                     sound: .cheer1,
                                                     cascadeEvents: chessEvents)
-            
+
             let concertEvents: [Model.TrackedLog] = [
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 51.5074,
+                      longitude: -0.1278,
+                      addressMin: "Wembley Stadium, London, UK",
                       note: "Coldplay Live",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 40.7505,
+                      longitude: -73.9934,
+                      addressMin: "Madison Square Garden, New York, NY",
                       note: "Beyoncé Concert",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 51.5074,
+                      longitude: -0.1278,
+                      addressMin: "Wembley Stadium, London, UK",
                       note: "Ed Sheeran Tour",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 34.0522,
+                      longitude: -118.2437,
+                      addressMin: "Rose Bowl, Los Angeles, CA",
                       note: "Taylor Swift Concert",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
+                .init(latitude: 43.6532,
+                      longitude: -79.3832,
+                      addressMin: "Rogers Centre, Toronto, ON",
                       note: "The Weeknd Live",
                       recordDate: Date().add(days: -Int.random(in: 1...10)))
             ]
@@ -184,149 +209,43 @@ public extension DataBaseRepository {
                                                       cascadeEvents: concertEvents)
 
             let bookEvents: [Model.TrackedLog] = [
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "To Kill a Mockingbird",
+                .init(latitude: 33.4484,
+                      longitude: -112.0740,
+                      addressMin: "Phoenix Public Library, Phoenix, AZ",
+                      note: "Started reading 'The Catcher in the Rye'",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "1984 by George Orwell",
+                .init(latitude: 37.7749,
+                      longitude: -122.4194,
+                      addressMin: "City Lights Bookstore, San Francisco, CA",
+                      note: "Bought '1984' by George Orwell",
                       recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "The Great Gatsby",
-                      recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "Pride and Prejudice",
-                      recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "The Catcher in the Rye",
+                .init(latitude: 40.7128,
+                      longitude: -74.0060,
+                      addressMin: "The Strand, New York, NY",
+                      note: "Finished 'To Kill a Mockingbird'",
                       recordDate: Date().add(days: -Int.random(in: 1...10)))
             ]
 
             let books: Model.TrackedEntity = .init(id: UUID().uuidString,
-                                                   name: "Books Read",
-                                                   info: "Track your reading list",
-                                                   archived: false,
-                                                   favorite: false,
-                                                   autoPresentLog: true,
-                                                   locationRelevant: false,
-                                                   category: .personal,
-                                                   sound: .boo1,
-                                                   cascadeEvents: bookEvents)
-            let restaurantEvents: [Model.TrackedLog] = [
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "Joe's Diner",
-                      recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "Olive Garden",
-                      recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "The Cheesecake Factory",
-                      recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "Ruth's Chris Steak House",
-                      recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "Chipotle Mexican Grill",
-                      recordDate: Date().add(days: -Int.random(in: 1...10)))
-            ]
+                                                    name: "Books",
+                                                    info: "A list of books I am currently reading or have completed",
+                                                    archived: false,
+                                                    favorite: true,
+                                                    autoPresentLog: true,
+                                                    locationRelevant: false,
+                                                    category: .personal,
+                                                    sound: .cheer1,
+                                                    cascadeEvents: bookEvents)
 
-            let restaurants: Model.TrackedEntity = .init(id: UUID().uuidString,
-                                                         name: "Restaurants",
-                                                         info: "Track the places you eat",
-                                                         archived: false,
-                                                         favorite: false,
-                                                         autoPresentLog: true,
-                                                         locationRelevant: true,
-                                                         category: .cultural,
-                                                         sound: .cheer1,
-                                                         cascadeEvents: restaurantEvents)
-            let hikeEvents: [Model.TrackedLog] = [
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "Mountain Trail",
-                      recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "Forest Walk",
-                      recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "Lake Loop",
-                      recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "River Trail",
-                      recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "Desert Path",
-                      recordDate: Date().add(days: -Int.random(in: 1...10)))
-            ]
-
-            let hikes: Model.TrackedEntity = .init(id: UUID().uuidString,
-                                                   name: "Hikes",
-                                                   info: "Track your hiking adventures",
-                                                   archived: false,
-                                                   favorite: true,
-                                                   autoPresentLog: true,
-                                                   locationRelevant: true,
-                                                   category: .health,
-                                                   sound: .cheer1,
-                                                   cascadeEvents: hikeEvents)
-            let recipeEvents: [Model.TrackedLog] = [
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "Spaghetti Carbonara",
-                      recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "Chicken Tikka Masala",
-                      recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "Beef Stroganoff",
-                      recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "Vegetarian Lasagna",
-                      recordDate: Date().add(days: -Int.random(in: 1...10))),
-                .init(latitude: 0,
-                      longitude: 0,
-                      note: "Chocolate Cake",
-                      recordDate: Date().add(days: -Int.random(in: 1...10)))
-            ]
-
-            let recipes: Model.TrackedEntity = .init(id: UUID().uuidString,
-                                                     name: "Cooking Recipes",
-                                                     info: "Track the recipes you cook",
-                                                     archived: false,
-                                                     favorite: false,
-                                                     autoPresentLog: true,
-                                                     locationRelevant: false,
-                                                     category: .personal,
-                                                     sound: .boo1,
-                                                     cascadeEvents: recipeEvents)
-
-            trackedEntityInsert(trackedEntity: recipes)
-            trackedEntityInsert(trackedEntity: hikes)
-            trackedEntityInsert(trackedEntity: restaurants)
-            trackedEntityInsert(trackedEntity: books)
-            trackedEntityInsert(trackedEntity: concerts)
-            trackedEntityInsert(trackedEntity: coffee)
-            trackedEntityInsert(trackedEntity: cinema)
-            trackedEntityInsert(trackedEntity: chess)
-            trackedEntityInsert(trackedEntity: gymnasium)
+               trackedEntityInsert(trackedEntity: books)
+               trackedEntityInsert(trackedEntity: concerts)
+               trackedEntityInsert(trackedEntity: coffee)
+               trackedEntityInsert(trackedEntity: cinema)
+               trackedEntityInsert(trackedEntity: chess)
+               trackedEntityInsert(trackedEntity: gymnasium)
         }
     }
+
     
 }
 

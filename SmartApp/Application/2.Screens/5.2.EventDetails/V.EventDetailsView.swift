@@ -22,6 +22,7 @@ struct EventDetailsViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - Usage Attributes
     @EnvironmentObject var coordinatorTab2: RouterViewModel
     @Environment(\.dismiss) var dismiss
+    
     let model: EventDetailsModel
     let haveNavigationStack: Bool
     // MARK: - Body & View
@@ -88,6 +89,7 @@ struct EventDetailsView: View, ViewProtocol {
 
     // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
+    @StateObject var locationViewModel: Common.CoreLocationManagerViewModel = .shared
 
     // MARK: - Body & View
     var body: some View {
@@ -107,6 +109,13 @@ struct EventDetailsView: View, ViewProtocol {
                 viewModel.send(.didAppear)
             }.onDisappear {
                 viewModel.send(.didDisappear)
+            }
+            .onChange(of: viewModel.locationRelevant) { locationRelevant in
+                if locationRelevant {
+                    locationViewModel.start()
+                } else {
+                    locationViewModel.stop()
+                }
             }
     }
 
@@ -169,22 +178,22 @@ struct EventDetailsView: View, ViewProtocol {
                     viewModel.send(.userDidChangedFavorite(value: newValue))
                 })
 
-            ToggleWithState(
+            ToggleWithBinding(
                 title: "Grab user location when add new event".localizedMissing,
-                isOn: viewModel.event?.locationRelevant ?? false,
+                isOn: $viewModel.locationRelevant,
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedLocationRelevant(value: newValue))
                 })
 
-            ToggleWithState(
+            ToggleWithBinding(
                 title: "Automatically display details when add new event".localizedMissing,
-                isOn: viewModel.event?.autoPresentLog ?? false,
+                isOn: $viewModel.autoPresentLog,
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedAutoPresentLog(value: newValue))
                 })
             
             // Picker with closure
-            CategoryPickerView(selected: (viewModel.event?.category ?? .none).localized) { newValue in
+            CategoryPickerView(selected: viewModel.category) { newValue in
                 viewModel.send(.userDidChangedEventCategory(value: newValue))
             }
 
@@ -213,7 +222,7 @@ struct EventDetailsView: View, ViewProtocol {
         Group {
             ToggleWithState(
                 title: "Archived".localizedMissing,
-                isOn: viewModel.event?.archived ?? false,
+                isOn: viewModel.archived,
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedArchived(value: newValue))
                 })

@@ -79,6 +79,7 @@ struct EventLogDetailsView: View, ViewProtocol {
 
     // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
+    @StateObject var locationViewModel: Common.CoreLocationManagerViewModel = .shared
 
     // MARK: - Body & View
     var body: some View {

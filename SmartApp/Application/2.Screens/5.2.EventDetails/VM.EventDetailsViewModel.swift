@@ -19,12 +19,18 @@ import DesignSystem
 
 public struct CascadeEventListItem: Equatable, Hashable, Sendable {
     let id: String
+    let recordDate: Date
     let title: String
     let value: String
-    init(id: String, title: String, value: String) {
+    let latitude: Double?
+    let longitude: Double?
+    init(id: String, title: String, value: String, recordDate: Date, latitude: Double?, longitude: Double?) {
         self.title = title
         self.value = value
         self.id = id
+        self.recordDate = recordDate
+        self.latitude = latitude
+        self.longitude = longitude
     }
 }
 
@@ -92,14 +98,16 @@ extension EventDetailsViewModel {
 //
 class EventDetailsViewModel: BaseViewModel {
     // MARK: - Usage Attributes
-    @Published private(set) var event: Model.TrackedEntity?
+    private var event: Model.TrackedEntity?
     @Published private(set) var cascadeEvents: [CascadeEventListItem]?
     @Published var soundEffect: String = SoundEffect.none.name
+    @Published var category: String = HitHappensEventCategory.none.localized
     @Published var favorite: Bool = false
     @Published var archived: Bool = false
     @Published var name: String = ""
     @Published var info: String = ""
     @Published var autoPresentLog: Bool = false
+    @Published var locationRelevant: Bool = false
     @Published var userMessage: (text: String, color: ColorSemantic) = ("", .clear)
 
     // MARK: - Auxiliar Attributes
@@ -108,7 +116,7 @@ class EventDetailsViewModel: BaseViewModel {
     private let onRouteBack: () -> Void
     private let onTrackedLogTapped: (Model.TrackedLog) -> Void
     @Published var confirmationSheetType: ConfirmationSheet?
-
+    
     public init(dependencies: Dependencies) {
         self.dataBaseRepository = dependencies.dataBaseRepository
         self.event = dependencies.model.event
@@ -256,8 +264,22 @@ class EventDetailsViewModel: BaseViewModel {
             Task { [weak self] in
                 guard let self = self else { return }
                 let trackedEntityId = event?.id ?? ""
-                let event: Model.TrackedLog = .init(latitude: 0, longitude: 0, note: "")
-                dataBaseRepository?.trackedLogInsertOrUpdate(trackedLog: event, trackedEntityId: trackedEntityId)
+                let locationRelevant = event?.locationRelevant ?? false
+                let location = Common.CoreLocationManager.shared.lastKnowLocation?.location.coordinate
+                if locationRelevant, let location = location {
+                    
+                    Common.CoreLocationManager.getAddressFrom(latitude: location.latitude,
+                                                              longitude: location.longitude) { [weak self] result in
+                        let event: Model.TrackedLog = .init(latitude: location.latitude,
+                                                            longitude: location.longitude,
+                                                            addressMin: result.addressMin, 
+                                                            note: "")
+                        self?.dataBaseRepository?.trackedLogInsertOrUpdate(trackedLog: event, trackedEntityId: trackedEntityId)
+                    }
+                } else {
+                    let event: Model.TrackedLog = .init(latitude: 0, longitude: 0, addressMin: "", note: "")
+                    dataBaseRepository?.trackedLogInsertOrUpdate(trackedLog: event, trackedEntityId: trackedEntityId)
+                }
             }
         }
     }
@@ -277,16 +299,22 @@ fileprivate extension EventDetailsViewModel {
         cascadeEvents = model.cascadeEvents?
             .sorted(by: { $0.recordDate > $1.recordDate })
             .map {
-            .init(
-                id: $0.id,
-                title: $0.localizedListItemTitle,
-                value: $0.localizedListItemValue) }
+                .init(
+                    id: $0.id,
+                    title: $0.localizedListItemTitle,
+                    value: $0.localizedListItemValue,
+                    recordDate: $0.recordDate,
+                    latitude: $0.latitude,
+                    longitude: $0.longitude)
+            }
         soundEffect = model.sound.name
         favorite = model.favorite
         archived = model.archived
         name = model.name
         info = model.info
         autoPresentLog = model.autoPresentLog
+        locationRelevant = model.locationRelevant
+        category = model.category.localized
     }
     
     func startListeningDBChanges() {
