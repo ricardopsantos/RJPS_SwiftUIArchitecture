@@ -22,7 +22,7 @@ struct EventDetailsViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - Usage Attributes
     @EnvironmentObject var coordinatorTab2: RouterViewModel
     @Environment(\.dismiss) var dismiss
-    
+
     let model: EventDetailsModel
     let haveNavigationStack: Bool
     // MARK: - Body & View
@@ -122,16 +122,17 @@ struct EventDetailsView: View, ViewProtocol {
     var content: some View {
         ZStack {
             ScrollView {
-                LazyVStack(spacing: SizeNames.defaultMarginSmall) {
+                LazyVStack(spacing: 0) {
                     detailsView
-                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
                     Divider()
-                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
                     archivedAndDeleteView
-                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
                     Divider()
-                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
                     addNewView
+                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
                     listView
                 }
                 .paddingRight(SizeNames.size_1.cgFloat)
@@ -156,7 +157,7 @@ struct EventDetailsView: View, ViewProtocol {
     }
 
     var detailsView: some View {
-        LazyVStack(spacing: SizeNames.defaultMarginSmall) {
+        LazyVStack(spacing: 0) {
             CustomTitleAndCustomTextFieldWithBinding(
                 title: "Name".localizedMissing,
                 placeholder: "Name".localizedMissing,
@@ -164,6 +165,8 @@ struct EventDetailsView: View, ViewProtocol {
                 accessibility: .undefined) { newValue in
                     viewModel.send(.userDidChangedName(value: newValue))
                 }
+            
+            SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
             CustomTitleAndCustomTextFieldWithBinding(
                 title: "Info".localizedMissing,
                 placeholder: "Info".localizedMissing,
@@ -171,13 +174,16 @@ struct EventDetailsView: View, ViewProtocol {
                 accessibility: .undefined) { newValue in
                     viewModel.send(.userDidChangedInfo(value: newValue))
                 }
+            
+            SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
             ToggleWithBinding(
                 title: "Favorite".localizedMissing,
                 isOn: $viewModel.favorite,
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedFavorite(value: newValue))
                 })
-
+            
+            SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
             ToggleWithBinding(
                 title: "Grab user location when add new event".localizedMissing,
                 isOn: $viewModel.locationRelevant,
@@ -185,19 +191,12 @@ struct EventDetailsView: View, ViewProtocol {
                     viewModel.send(.userDidChangedLocationRelevant(value: newValue))
                 })
 
-            ToggleWithBinding(
-                title: "Automatically display details when add new event".localizedMissing,
-                isOn: $viewModel.autoPresentLog,
-                onChanged: { newValue in
-                    viewModel.send(.userDidChangedAutoPresentLog(value: newValue))
-                })
-            
-            // Picker with closure
+            SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
             CategoryPickerView(selected: viewModel.category) { newValue in
                 viewModel.send(.userDidChangedEventCategory(value: newValue))
             }
 
-            // Picker with binding
+            SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
             SoundPickerView(selected: $viewModel.soundEffect) { newValue in
                 viewModel.send(.userDidChangedSoundEffect(value: newValue))
             }
@@ -217,7 +216,7 @@ struct EventDetailsView: View, ViewProtocol {
             background: .primary,
             accessibility: .undefined)
     }
-    
+
     var archivedAndDeleteView: some View {
         Group {
             ToggleWithState(
@@ -226,6 +225,7 @@ struct EventDetailsView: View, ViewProtocol {
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedArchived(value: newValue))
                 })
+            SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
             TextButton(
                 onClick: {
                     viewModel.send(.delete(confirmed: false))
@@ -233,7 +233,7 @@ struct EventDetailsView: View, ViewProtocol {
                 text: "Delete Event".localizedMissing,
                 alignment: .center,
                 style: .secondary,
-                background: .dangerColor,
+                background: .danger,
                 accessibility: .undefined)
         }
     }
@@ -248,7 +248,6 @@ struct EventDetailsView: View, ViewProtocol {
                             subTitle: model.value,
                             systemImage: ("", .clear),
                             onTapGesture: {
-
                                 viewModel.send(.usedDidTappedLogEvent(trackedLogId: model.id))
                             })
                     }

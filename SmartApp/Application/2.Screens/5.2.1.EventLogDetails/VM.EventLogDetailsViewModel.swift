@@ -56,7 +56,6 @@ extension EventLogDetailsViewModel {
         case userDidChangedNote(value: String)
         case delete(confirmed: Bool)
         case handleConfirmation
-        case userDidChangedAutoPresentLog(value: Bool)
     }
 
     struct Dependencies {
@@ -76,8 +75,8 @@ class EventLogDetailsViewModel: BaseViewModel {
     @Published var confirmationSheetType: ConfirmationSheet?
     @Published var userMessage: (text: String, color: ColorSemantic) = ("", .clear)
     @Published var note: String = ""
-    @Published var autoPresentLog: Bool = false
-    
+    @Published var mapItems: [EventLogMap.ModelItem] = []
+
     // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
     private let dataBaseRepository: DataBaseRepositoryProtocol?
@@ -87,7 +86,7 @@ class EventLogDetailsViewModel: BaseViewModel {
         self.trackedLog = dependencies.model.trackedLog
         self.onRouteBack = dependencies.onRouteBack
         super.init()
-        self.startListeningDBChanges()
+        startListeningDBChanges()
     }
 
     func send(_ action: Actions) {
@@ -129,14 +128,7 @@ class EventLogDetailsViewModel: BaseViewModel {
                     trackedLog: trackedLog,
                     trackedEntityId: trackedLog.cascadeEntity?.id ?? "")
             }
-        case .userDidChangedAutoPresentLog(value: let value):
-            Task { [weak self] in
-                guard let self = self, let trackedEntityId = trackedLog?.cascadeEntity?.id else { return }
-                if var trackedEntity = dataBaseRepository?.trackedEntityGet(trackedEntityId: trackedEntityId, cascade: false) {
-                    trackedEntity.autoPresentLog = value
-                    dataBaseRepository?.trackedEntityUpdate(trackedEntity: trackedEntity)
-                }
-            }
+
         case .delete(confirmed: let confirmed):
             if !confirmed {
                 confirmationSheetType = .delete
@@ -146,7 +138,6 @@ class EventLogDetailsViewModel: BaseViewModel {
                     dataBaseRepository?.trackedLogDelete(trackedLogId: trackedLog.id)
                 }
             }
-
         }
     }
 }
@@ -159,9 +150,19 @@ fileprivate extension EventLogDetailsViewModel {
     func updateUI(event model: Model.TrackedLog) {
         trackedLog = model
         note = model.note
-        autoPresentLog = model.cascadeEntity?.autoPresentLog ?? false
+        if model.latitude != 0, model.longitude != 0, let cascadeEntity = model.cascadeEntity {
+            let category = cascadeEntity.category
+            mapItems = [.init(id: model.id,
+                            name: cascadeEntity.name,
+                            coordinate: .init(latitude: model.latitude,
+                                              longitude: model.longitude),
+                            onTap: {
+                
+            },
+                            category: category)]
+        }
     }
-    
+
     func startListeningDBChanges() {
         dataBaseRepository?.output([]).sink { [weak self] some in
             switch some {

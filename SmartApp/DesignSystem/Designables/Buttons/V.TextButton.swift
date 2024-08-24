@@ -21,7 +21,7 @@ public struct TextButton: View {
     private let text: String
     private let alignment: Alignment
     private let style: Style
-    private let background: Color
+    private let background: ColorSemantic
     private let enabled: Bool
     private let accessibility: Accessibility
 
@@ -31,7 +31,7 @@ public struct TextButton: View {
         text: String,
         alignment: Alignment = .center,
         style: Style = .primary,
-        background: Color = .primaryColor,
+        background: ColorSemantic = .primary,
         enabled: Bool = true,
         accessibility: Accessibility
     ) {
@@ -61,14 +61,20 @@ public struct TextButton: View {
             }
         }) {
             Text(text)
-                .fontSemantic(.body)
+                .fontSemantic(.bodyBold)
                 .doIf(enabled, transform: {
-                    $0.foregroundColorSemantic(.labelPrimary)
-                        .foregroundColor(style == .primary ? .labelPrimary : .labelSecondary)
+                    switch style {
+                    case .primary: $0.foregroundColorSemantic(.labelPrimary)
+                    case .secondary: $0.foregroundColorSemantic(background)
+                    case .textOnly: $0.foregroundColorSemantic(background)
+                    }
                 })
                 .doIf(!enabled, transform: {
-                    $0.foregroundColorSemantic(.labelSecondary)
-                        .foregroundColor(style == .primary ? .labelPrimary : .labelSecondary)
+                    switch style {
+                    case .primary: $0.foregroundColorSemantic(.labelSecondary)
+                    case .secondary: $0.foregroundColorSemantic(background)
+                    case .textOnly: $0.foregroundColorSemantic(background)
+                    }
                 })
                 .frame(maxWidth: .infinity, alignment: alignment)
                 .padding(SizeNames.defaultMarginSmall)
@@ -93,13 +99,13 @@ public struct TextButton: View {
 
 extension TextButton {
     var stroke: Color {
-        let color = (style == .secondary ? background : .clear)
+        let color = (style == .secondary ? background.color : .clear)
         return enabled ? color : color.opacity(0.3)
     }
 
     var backgroundColor: Color {
         switch style {
-        case .primary: enabled ? background : background.opacity(0.3)
+        case .primary: enabled ? background.color : background.color.opacity(0.3)
         case .textOnly, .secondary: Color.clear
         }
     }
@@ -120,7 +126,7 @@ extension TextButton {
                     text: "\(style)",
                     alignment: .center,
                     style: style,
-                    background: .primaryColor,
+                    background: .primary,
                     enabled: true,
                     accessibility: .undefined
                 )
@@ -129,7 +135,7 @@ extension TextButton {
                     text: "\(style)",
                     alignment: .center,
                     style: style,
-                    background: .primaryColor,
+                    background: .primary,
                     enabled: false,
                     accessibility: .undefined
                 )
@@ -139,7 +145,7 @@ extension TextButton {
                     text: "\(style)",
                     alignment: .center,
                     style: style,
-                    background: .dangerColor,
+                    background: .danger,
                     enabled: true,
                     accessibility: .undefined
                 )

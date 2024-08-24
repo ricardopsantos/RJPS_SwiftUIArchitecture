@@ -58,7 +58,7 @@ class EventsListViewModel: BaseViewModel {
         self.dataBaseRepository = dependencies.dataBaseRepository
         self.message = dependencies.model.message
         super.init()
-        self.startListeningDBChanges()
+        startListeningDBChanges()
     }
 
     func send(_ action: Actions) {

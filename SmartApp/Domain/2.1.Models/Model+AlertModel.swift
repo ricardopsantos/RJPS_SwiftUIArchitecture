@@ -32,7 +32,7 @@ public extension Model {
         public let date: Date
         public var onUserTapGesture: (() -> Void)? // Custom code to run when user tapped alert
         public var parentDismiss: (() -> Void)? // Inject code to dismiss alert externally (by parent view)
-
+        
         public func onTapGesture() {
             if let onUserTapGesture = onUserTapGesture {
                 onUserTapGesture()

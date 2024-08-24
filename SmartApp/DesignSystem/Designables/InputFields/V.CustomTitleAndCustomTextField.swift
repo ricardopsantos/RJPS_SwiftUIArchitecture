@@ -73,7 +73,7 @@ public struct CustomTitleAndCustomTextFieldWithBinding: View {
     public var body: some View {
         VStack(alignment: .leading) {
             Text(title)
-                .fontSemantic(.body)
+                .fontSemantic(.bodyBold)
                 .foregroundColor(.labelPrimary)
             CustomTextField(
                 inputText: $inputText,

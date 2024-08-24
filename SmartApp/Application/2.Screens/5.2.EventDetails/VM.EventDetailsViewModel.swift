@@ -68,7 +68,6 @@ extension EventDetailsViewModel {
         case userDidChangedEventCategory(value: HitHappensEventCategory)
         case userDidChangedLocationRelevant(value: Bool)
         case userDidChangedFavorite(value: Bool)
-        case userDidChangedAutoPresentLog(value: Bool)
         case userDidChangedArchived(value: Bool)
         case userDidChangedName(value: String)
         case userDidChangedInfo(value: String)
@@ -100,7 +99,6 @@ class EventDetailsViewModel: BaseViewModel {
     @Published var archived: Bool = false
     @Published var name: String = ""
     @Published var info: String = ""
-    @Published var autoPresentLog: Bool = false
     @Published var locationRelevant: Bool = false
     @Published var userMessage: (text: String, color: ColorSemantic) = ("", .clear)
 
@@ -110,14 +108,14 @@ class EventDetailsViewModel: BaseViewModel {
     private let onRouteBack: () -> Void
     private let onTrackedLogTapped: (Model.TrackedLog) -> Void
     @Published var confirmationSheetType: ConfirmationSheet?
-    
+
     public init(dependencies: Dependencies) {
         self.dataBaseRepository = dependencies.dataBaseRepository
         self.event = dependencies.model.event
         self.onRouteBack = dependencies.onRouteBack
         self.onTrackedLogTapped = dependencies.onTrackedLogTapped
         super.init()
-        self.startListeningDBChanges()
+        startListeningDBChanges()
     }
 
     func send(_ action: Actions) {
@@ -216,16 +214,7 @@ class EventDetailsViewModel: BaseViewModel {
                     displayUserMessage("On the events list, this event will now appear on the first section".localizedMissing)
                 }
             }
-        case .userDidChangedAutoPresentLog(value: let value):
-            Task { [weak self] in
-                guard let self = self, var trackedEntity = event else { return }
-                trackedEntity.autoPresentLog = value
-                dataBaseRepository?.trackedEntityUpdate(
-                    trackedEntity: trackedEntity)
-                if value {
-                    displayUserMessage("Every time the user add a new event, the event details screen will appear".localizedMissing)
-                }
-            }
+
         case .userDidChangedInfo(value: let value):
             displayUserMessage("")
             Task { [weak self] in
@@ -261,15 +250,17 @@ class EventDetailsViewModel: BaseViewModel {
                 let locationRelevant = event?.locationRelevant ?? false
                 let location = Common.CoreLocationManager.shared.lastKnowLocation?.location.coordinate
                 if locationRelevant, let location = location {
-                    
-                    Common.CoreLocationManager.getAddressFrom(latitude: location.latitude,
-                                                              longitude: location.longitude) { [weak self] result in
-                        let event: Model.TrackedLog = .init(latitude: location.latitude,
-                                                            longitude: location.longitude,
-                                                            addressMin: result.addressMin, 
-                                                            note: "")
-                        self?.dataBaseRepository?.trackedLogInsertOrUpdate(trackedLog: event, trackedEntityId: trackedEntityId)
-                    }
+                    Common.CoreLocationManager.getAddressFrom(
+                        latitude: location.latitude,
+                        longitude: location.longitude) { [weak self] result in
+                            let event: Model.TrackedLog = .init(
+                                latitude: location.latitude,
+                                longitude: location.longitude,
+                                addressMin: result.addressMin,
+
+                                note: "")
+                            self?.dataBaseRepository?.trackedLogInsertOrUpdate(trackedLog: event, trackedEntityId: trackedEntityId)
+                        }
                 } else {
                     let event: Model.TrackedLog = .init(latitude: 0, longitude: 0, addressMin: "", note: "")
                     dataBaseRepository?.trackedLogInsertOrUpdate(trackedLog: event, trackedEntityId: trackedEntityId)
@@ -288,13 +279,14 @@ fileprivate extension EventDetailsViewModel {
         userMessage.text = message
         userMessage.color = .allCool
     }
+
     func updateUI(event model: Model.TrackedEntity) {
         let count = model.cascadeEvents?.count ?? 0
         event = model
         cascadeEvents = model.cascadeEvents?
             .sorted(by: { $0.recordDate > $1.recordDate })
             .enumerated()
-            .map { (index, event) in
+            .map { index, event in
                 .init(
                     id: event.id,
                     title: "\(count - index). \(event.localizedListItemTitle)",
@@ -305,11 +297,10 @@ fileprivate extension EventDetailsViewModel {
         archived = model.archived
         name = model.name
         info = model.info
-        autoPresentLog = model.autoPresentLog
         locationRelevant = model.locationRelevant
         category = model.category.localized
     }
-    
+
     func startListeningDBChanges() {
         dataBaseRepository?.output([]).sink { [weak self] some in
             switch some {

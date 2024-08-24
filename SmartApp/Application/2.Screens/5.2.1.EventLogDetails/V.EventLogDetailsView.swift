@@ -106,7 +106,7 @@ struct EventLogDetailsView: View, ViewProtocol {
         ZStack {
             ScrollView {
                 Header(text: "Details")
-                LazyVStack(spacing: SizeNames.defaultMarginSmall) {
+                LazyVStack(spacing: 0) {
                     CustomTitleAndCustomTextFieldWithBinding(
                         title: "Note".localizedMissing,
                         placeholder: "Add a note".localizedMissing,
@@ -114,23 +114,18 @@ struct EventLogDetailsView: View, ViewProtocol {
                         accessibility: .undefined) { newValue in
                             viewModel.send(.userDidChangedNote(value: newValue))
                         }
-                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
-                    ToggleWithState(
-                        title: "Automatically display details when add new event".localizedMissing,
-                        isOn: viewModel.autoPresentLog,
-                        onChanged: { newValue in
-                            viewModel.send(.userDidChangedAutoPresentLog(value: newValue))
-                        })
-                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
-                    Divider()
+                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
+                    mapView
+                        .cornerRadius2(SizeNames.cornerRadius)
+                    SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
                     TextButton(
                         onClick: {
                             viewModel.send(.delete(confirmed: false))
                         },
-                        text: "Delete".localizedMissing,
+                        text: "Delete event".localizedMissing,
                         alignment: .center,
                         style: .secondary,
-                        background: .dangerColor,
+                        background: .danger,
                         accessibility: .undefined)
                     SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
                 }
@@ -177,6 +172,16 @@ struct EventLogDetailsView: View, ViewProtocol {
                 }
             })
     }
+    
+    @ViewBuilder
+    var mapView: some View {
+        if !viewModel.mapItems.isEmpty {
+            EventLogMap(items: $viewModel.mapItems)
+                .frame(screenWidth - (2 * SizeNames.defaultMargin))
+        } else {
+            EmptyView()
+        }
+    }
 }
 
 //
@@ -185,7 +190,8 @@ struct EventLogDetailsView: View, ViewProtocol {
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    EventLogDetailsViewCoordinator(model: .init(trackedLog: .random), haveNavigationStack: false)
+    EventLogDetailsViewCoordinator(model: .init(trackedLog: .random),
+                                   haveNavigationStack: false)
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
         .environmentObject(AuthenticationViewModel.defaultForPreviews)

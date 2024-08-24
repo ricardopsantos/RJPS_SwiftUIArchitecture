@@ -85,10 +85,15 @@ public struct ListItemView: View {
             .multilineTextAlignment(.leading)
     }
 
-    let margin = SizeNames.size_3.cgFloat
+    //let margin = SizeNames.size_3.cgFloat
+
     var accessoryImage: some View {
         Group {
             if !systemImage.name.isEmpty {
+                ListItemView.buildAccessoryImage(systemImage: systemImage.name,
+                                                 imageColor: systemImage.color,
+                                                 margin: SizeNames.size_3.cgFloat)
+                /*
                 ZStack {
                     Circle()
                         .foregroundColor(systemImage.color.opacity(0.1))
@@ -102,7 +107,6 @@ public struct ListItemView: View {
                                     lineWidth: 1
                                 )
                         )
-
                     Image(systemName: systemImage.name)
                         .resizable()
                         .scaledToFit()
@@ -111,10 +115,43 @@ public struct ListItemView: View {
                             maxHeight: SizeNames.defaultMargin - (margin / 2)
                         )
                         .foregroundColor(systemImage.color.opacity(0.75))
-                }
+                }*/
             } else {
                 EmptyView()
             }
+        }
+    }
+}
+
+//
+// MARK: - Auxiliar
+//
+
+public extension ListItemView {
+    static func buildAccessoryImage(systemImage: String, 
+                                    imageColor: Color,
+                                    margin: CGFloat) -> some View {
+        ZStack {
+            Circle()
+                .foregroundColor(imageColor.opacity(0.1))
+                .frame(
+                    width: SizeNames.defaultMargin + margin,
+                    height: SizeNames.defaultMargin + margin
+                ).overlay(
+                    Circle()
+                        .stroke(
+                            imageColor.opacity(0.5),
+                            lineWidth: 1
+                        )
+                )
+            Image(systemName: systemImage)
+                .resizable()
+                .scaledToFit()
+                .frame(
+                    maxWidth: SizeNames.defaultMargin - (margin / 2),
+                    maxHeight: SizeNames.defaultMargin - (margin / 2)
+                )
+                .foregroundColor(imageColor.opacity(0.75))
         }
     }
 }

@@ -59,8 +59,9 @@ class FavoriteEventsViewModel: BaseViewModel {
         self.favorits = dependencies.model.favorits
         self.onNewLog = dependencies.onNewLog
         super.init()
-        self.startListeningDBChanges()
+        startListeningDBChanges()
     }
+
     func send(_ action: Actions) {
         switch action {
         case .didAppear:
@@ -83,18 +84,19 @@ class FavoriteEventsViewModel: BaseViewModel {
                 if trackedEntityId.isEmpty {
                     trackedEntityId = favorits.first?.id.description ?? ""
                 }
-                let locationRelevant = favorits.filter({ $0.id == trackedEntityId }).first?.locationRelevant ?? false
+                let locationRelevant = favorits.filter { $0.id == trackedEntityId }.first?.locationRelevant ?? false
                 let location = Common.CoreLocationManager.shared.lastKnowLocation?.location.coordinate
                 if locationRelevant, let location = location {
-                    
-                    Common.CoreLocationManager.getAddressFrom(latitude: location.latitude,
-                                                              longitude: location.longitude) { [weak self] result in
-                        let event: Model.TrackedLog = .init(latitude: location.latitude,
-                                                            longitude: location.longitude,
-                                                            addressMin: result.addressMin,
-                                                            note: "")
-                        self?.dataBaseRepository?.trackedLogInsertOrUpdate(trackedLog: event, trackedEntityId: trackedEntityId)
-                    }
+                    Common.CoreLocationManager.getAddressFrom(
+                        latitude: location.latitude,
+                        longitude: location.longitude) { [weak self] result in
+                            let event: Model.TrackedLog = .init(
+                                latitude: location.latitude,
+                                longitude: location.longitude,
+                                addressMin: result.addressMin,
+                                note: "")
+                            self?.dataBaseRepository?.trackedLogInsertOrUpdate(trackedLog: event, trackedEntityId: trackedEntityId)
+                        }
                 } else {
                     let event: Model.TrackedLog = .init(latitude: 0, longitude: 0, addressMin: "", note: "")
                     dataBaseRepository?.trackedLogInsertOrUpdate(trackedLog: event, trackedEntityId: trackedEntityId)
@@ -118,13 +120,16 @@ fileprivate extension FavoriteEventsViewModel {
                     // New record added
                     if table == "\(CDataTrackedLog.self)" {
                         if let trackedEntity = self?.dataBaseRepository?.trackedLogGet(trackedLogId: id, cascade: true) {
-                            guard let cascadeEntity = trackedEntity.cascadeEntity,
-                                  cascadeEntity.autoPresentLog else {
-                                return
-                            }
-                            Common_Utils.delay(Common.Constants.defaultAnimationsTime * 2) { [weak self] in
+                            Common_Utils.delay(Common.Constants.defaultAnimationsTime) { [weak self] in
                                 // Small delay so that the UI counter animation is viewed
-                                self?.onNewLog(trackedEntity)
+                                self?.alertModel = .init(
+                                    type: .success,
+                                    message: "Event tracked!\nTap for edit/add details.",
+                                    onUserTapGesture: { [weak self] in
+                                        self?.onNewLog(trackedEntity)
+
+                                    }
+                                )
                             }
                         }
                     }

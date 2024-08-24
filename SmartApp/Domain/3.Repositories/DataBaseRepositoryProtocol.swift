@@ -23,7 +23,7 @@ public protocol DataBaseRepositoryProtocol {
     // MARK: - Utils
     //
     func initDataBase()
-    
+
     //
     // MARK: - TrackedEntity
     //

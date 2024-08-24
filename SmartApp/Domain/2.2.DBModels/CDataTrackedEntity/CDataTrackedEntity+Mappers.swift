@@ -23,7 +23,6 @@ public extension CDataTrackedEntity {
             info: info ?? "",
             archived: archived,
             favorite: favorite,
-            autoPresentLog: autoPresentLog,
             locationRelevant: locationRelevant,
             category: .init(rawValue: Int(categoryId)) ?? .none,
             sound: SoundEffect(rawValue: sound ?? "") ?? .none,
@@ -38,7 +37,6 @@ public extension CDataTrackedEntity {
         archived = model.archived
         favorite = model.favorite
         categoryId = Int16(model.category.rawValue)
-        autoPresentLog = model.autoPresentLog
         locationRelevant = model.locationRelevant
         sound = model.sound.rawValue
     }

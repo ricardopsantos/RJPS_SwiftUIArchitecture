@@ -25,7 +25,9 @@ extension BaseView {
                             baseColor.opacity(0.05) // If the background is not visible, we cant tap it
                                 .frame(minWidth: screenWidth)
                         ).onTapGesture {
-                            model.onTapGesture()
+                            if let parentDismiss = model.parentDismiss {
+                                parentDismiss()
+                            }
                         }
                 } else {
                     EmptyView()
@@ -52,6 +54,14 @@ extension BaseView {
                         $0.background(ColorSemantic.danger.color)
                     })
                     .cornerRadius(SizeNames.cornerRadius)
+                    .onTapGesture {
+                        if let onUserTapGesture = model?.onUserTapGesture {
+                            onUserTapGesture()
+                        }
+                        if let parentDismiss = model?.parentDismiss {
+                            parentDismiss()
+                        }
+                    }
                 Spacer()
             }
             .padding()

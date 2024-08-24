@@ -49,7 +49,7 @@ public extension DataBaseRepository {
         let instances = try? context.fetch(DBEntity.fetchRequestWith(id: trackedEntity.id))
         if let some = instances?.first {
             some.bindWith(model: trackedEntity)
-            
+
             // Delete/update current events. We ONLY do this, if we have cascadeEvents != nil.
             // (We could have fetched the `TrackedEntity` without the `cascade` option just to
             // update one property. Dont remove the type/cast

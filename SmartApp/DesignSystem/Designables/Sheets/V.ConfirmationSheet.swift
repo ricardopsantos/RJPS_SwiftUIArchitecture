@@ -102,7 +102,7 @@ public struct ConfirmationSheetV1: View {
                     },
                     text: leftText,
                     style: .secondary,
-                    background: .primaryColor,
+                    background: .primary,
                     accessibility: .confirmButton
                 )
                 TextButton(
@@ -112,7 +112,7 @@ public struct ConfirmationSheetV1: View {
                     },
                     text: rightText,
                     style: .primary,
-                    background: .primaryColor,
+                    background: .primary,
                     accessibility: .cancelButton
                 )
             }

@@ -54,7 +54,7 @@ struct TermsAndConditionsScreen: View {
                 TextButton(
                     onClick: { onNextPressed() },
                     text: "Next".localizedMissing,
-                    background: canGoNext() ? .primaryColor : .gray,
+                    background: canGoNext() ? .labelPrimary : .labelSecondary,
                     accessibility: .fwdButton
                 )
             }

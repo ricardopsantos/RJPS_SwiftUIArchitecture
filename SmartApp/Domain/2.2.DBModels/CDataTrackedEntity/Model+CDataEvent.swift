@@ -17,7 +17,6 @@ public extension Model {
         public var info: String
         public var archived: Bool
         public var favorite: Bool
-        public var autoPresentLog: Bool
         public var locationRelevant: Bool
         public var category: HitHappensEventCategory
         public var sound: SoundEffect
@@ -28,7 +27,6 @@ public extension Model {
             info: String,
             archived: Bool,
             favorite: Bool,
-            autoPresentLog: Bool,
             locationRelevant: Bool,
             category: HitHappensEventCategory,
             sound: SoundEffect,
@@ -43,20 +41,18 @@ public extension Model {
             self.category = category
             self.sound = sound
             self.cascadeEvents = cascadeEvents
-            self.autoPresentLog = autoPresentLog
         }
     }
 }
 
 public extension Model.TrackedEntity {
-    static func random(cascadeEvents: [Model.TrackedLog]) -> Self {
+    static func random(cascadeEvents: [Model.TrackedLog]?) -> Self {
         Model.TrackedEntity(
             id: UUID().uuidString,
             name: String.randomWithSpaces(10),
             info: String.randomWithSpaces(20),
             archived: Bool.random(),
             favorite: Bool.random(),
-            autoPresentLog: true,
             locationRelevant: Bool.random(),
             category: .none,
             sound: .incorrect,

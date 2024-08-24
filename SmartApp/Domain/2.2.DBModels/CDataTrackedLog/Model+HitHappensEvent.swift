@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import MapKit
 //
 import Common
 
@@ -20,6 +21,9 @@ public extension Model {
         public var recordDate: Date
         public var cascadeEntity: Model.TrackedEntity?
 
+        var haveLocation: Bool {
+            latitude != 0 && longitude != 0
+        }
         public init(
             id: String = "",
             latitude: Double,
@@ -44,12 +48,12 @@ public extension Model.TrackedLog {
     static var random: Self {
         Model.TrackedLog(
             id: UUID().uuidString,
-            latitude: 0,
-            longitude: 0,
+            latitude: CLLocationCoordinate2D.random.latitude,
+            longitude: CLLocationCoordinate2D.random.longitude,
             addressMin: "Address " + String.randomWithSpaces(10),
             note: String.randomWithSpaces(10),
             recordDate: Date.now,
-            cascadeEntity: nil
+            cascadeEntity: .random(cascadeEvents: nil)
         )
     }
 }

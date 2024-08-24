@@ -108,7 +108,7 @@ public extension Date {
         formatter.dateStyle = .medium
         return formatter.string(from: self)
     }
-    
+
     var dateMediumTimeShort: String {
         let formatter = Self.defaultDateFormatter
         formatter.timeStyle = .short

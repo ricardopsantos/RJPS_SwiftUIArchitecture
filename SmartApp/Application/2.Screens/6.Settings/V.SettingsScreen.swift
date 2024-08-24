@@ -198,7 +198,7 @@ fileprivate extension SettingsScreen {
                     },
                     text: "DeleteAccount".localizedMissing,
                     style: .secondary,
-                    background: .dangerColor,
+                    background: .danger,
                     accessibility: .deleteButton
                 )
             }
