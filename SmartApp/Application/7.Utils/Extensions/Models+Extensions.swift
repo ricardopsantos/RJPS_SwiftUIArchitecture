@@ -40,22 +40,17 @@ public extension Model.TrackedEntity {
 public extension Model.TrackedLog {
     var localizedListItemTitle: String {
         var acc = ""
-        if recordDate.wasLessThan(secondsAgo: 60) {
-            acc += recordDate.dateMediumTimeLong
-        } else {
-            acc += recordDate.dateMediumTimeShort
-        }
-
+        acc += recordDate.dateMediumTimeShort
         return acc
     }
 
     var localizedListItemValue: String {
         var acc = ""
         if !note.isEmpty {
-            acc += note + "\n"
+            acc += "◦ " + note + "\n"
         }
         if !addressMin.isEmpty {
-            acc += "Location: \(addressMin)"
+            acc += "◦ " + "\(addressMin)"
         }
         return acc
     }

@@ -19,18 +19,12 @@ import DesignSystem
 
 public struct CascadeEventListItem: Equatable, Hashable, Sendable {
     let id: String
-    let recordDate: Date
     let title: String
     let value: String
-    let latitude: Double?
-    let longitude: Double?
-    init(id: String, title: String, value: String, recordDate: Date, latitude: Double?, longitude: Double?) {
+    init(id: String, title: String, value: String) {
         self.title = title
         self.value = value
         self.id = id
-        self.recordDate = recordDate
-        self.latitude = latitude
-        self.longitude = longitude
     }
 }
 
@@ -295,17 +289,16 @@ fileprivate extension EventDetailsViewModel {
         userMessage.color = .allCool
     }
     func updateUI(event model: Model.TrackedEntity) {
+        let count = model.cascadeEvents?.count ?? 0
         event = model
         cascadeEvents = model.cascadeEvents?
-            .sorted(by: { $0.recordDate > $1.recordDate })
-            .map {
+            .sorted(by: { $0.recordDate > $1.recordDate })
+            .enumerated()
+            .map { (index, event) in
                 .init(
-                    id: $0.id,
-                    title: $0.localizedListItemTitle,
-                    value: $0.localizedListItemValue,
-                    recordDate: $0.recordDate,
-                    latitude: $0.latitude,
-                    longitude: $0.longitude)
+                    id: event.id,
+                    title: "\(count - index). \(event.localizedListItemTitle)",
+                    value: event.localizedListItemValue)
             }
         soundEffect = model.sound.name
         favorite = model.favorite
