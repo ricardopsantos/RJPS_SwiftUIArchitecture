@@ -35,7 +35,6 @@ struct RootViewCoordinator: View, ViewCoordinatorProtocol {
             RootView(dependencies: .init(
                 model: .init(
                     isAppStartCompleted: false,
-                    isUserDetailsFilled: nonSecureAppPreferences.isProfileComplete,
                     isTermsAndConditionsAccepted: nonSecureAppPreferences.isPrivacyPolicyAccepted,
                     isOnboardingCompleted: nonSecureAppPreferences.isOnboardingCompleted
                 ),
@@ -93,9 +92,8 @@ struct RootView: View, ViewProtocol {
             // swiftlint:enable redundant_discardable_let
         }
         buildScreen(root)
-            .onChange(of: viewModel.preferencesChanged) { _ in updateRoot() }
             .onChange(of: viewModel.isAppStartCompleted) { _ in updateRoot() }
-            .onChange(of: viewModel.isUserDetailsFilled) { _ in updateRoot() }
+            .onChange(of: viewModel.preferencesChanged) { _ in updateRoot() }
             .onChange(of: viewModel.isTermsAndConditionsAccepted) { _ in updateRoot() }
             .onChange(of: viewModel.isOnboardingCompleted) { _ in updateRoot() }
             .onChange(of: authenticationViewModel.isAuthenticated) { _ in updateRoot() }
@@ -112,12 +110,6 @@ struct RootView: View, ViewProtocol {
             MainTabViewCoordinator()
         case .login:
             LoginViewCoordinator()
-        case .userDetails:
-            UserDetailsViewCoordinator(
-                onCompletion: { _ in
-                    viewModel.send(action: .markUserDetailsCompleted)
-                }
-            )
         case .termsAndConditions:
             TermsAndConditionsScreen(onCompletion: { _ in viewModel.send(action: .termsAndConditionsAccepted) })
         case .onboarding:
@@ -152,9 +144,7 @@ fileprivate extension RootView {
             } else if !authenticationViewModel.isAuthenticated {
                 root = .login
             } else if authenticationViewModel.isAuthenticated {
-                if !viewModel.isUserDetailsFilled {
-                    root = .userDetails
-                } else if !viewModel.isTermsAndConditionsAccepted {
+                if !viewModel.isTermsAndConditionsAccepted {
                     root = .termsAndConditions
                 } else if !viewModel.isOnboardingCompleted {
                     root = .onboarding

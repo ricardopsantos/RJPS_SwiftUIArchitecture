@@ -85,11 +85,6 @@ extension NonSecureAppPreferences: NonSecureAppPreferencesProtocol {
         set { setBool(.isAuthenticated, newValue) }
     }
 
-    public var isProfileComplete: Bool {
-        get { defaults.bool(forKey: NonSecureAppPreferencesKey.isProfileComplete.rawValue) }
-        set { setBool(.isProfileComplete, newValue) }
-    }
-
     public var isPrivacyPolicyAccepted: Bool {
         get { defaults.bool(forKey: NonSecureAppPreferencesKey.isPrivacyPolicyAccepted.rawValue) }
         set { setBool(.isPrivacyPolicyAccepted, newValue) }

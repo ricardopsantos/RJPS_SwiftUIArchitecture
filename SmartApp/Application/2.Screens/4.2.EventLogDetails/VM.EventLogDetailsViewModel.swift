@@ -152,14 +152,14 @@ fileprivate extension EventLogDetailsViewModel {
         note = model.note
         if model.latitude != 0, model.longitude != 0, let cascadeEntity = model.cascadeEntity {
             let category = cascadeEntity.category
-            mapItems = [.init(id: model.id,
-                            name: cascadeEntity.name,
-                            coordinate: .init(latitude: model.latitude,
-                                              longitude: model.longitude),
-                            onTap: {
-                
-            },
-                            category: category)]
+            mapItems = [.init(
+                id: model.id,
+                name: cascadeEntity.name,
+                coordinate: .init(
+                    latitude: model.latitude,
+                    longitude: model.longitude),
+                onTap: {},
+                category: category)]
         }
     }
 

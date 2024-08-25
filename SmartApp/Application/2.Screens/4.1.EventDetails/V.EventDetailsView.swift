@@ -165,7 +165,7 @@ struct EventDetailsView: View, ViewProtocol {
                 accessibility: .undefined) { newValue in
                     viewModel.send(.userDidChangedName(value: newValue))
                 }
-            
+
             SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
             CustomTitleAndCustomTextFieldWithBinding(
                 title: "Info".localizedMissing,
@@ -174,7 +174,7 @@ struct EventDetailsView: View, ViewProtocol {
                 accessibility: .undefined) { newValue in
                     viewModel.send(.userDidChangedInfo(value: newValue))
                 }
-            
+
             SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
             ToggleWithBinding(
                 title: "Favorite".localizedMissing,
@@ -182,7 +182,7 @@ struct EventDetailsView: View, ViewProtocol {
                 onChanged: { newValue in
                     viewModel.send(.userDidChangedFavorite(value: newValue))
                 })
-            
+
             SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
             ToggleWithBinding(
                 title: "Grab user location when add new event".localizedMissing,
@@ -208,6 +208,10 @@ struct EventDetailsView: View, ViewProtocol {
     var addNewView: some View {
         TextButton(
             onClick: {
+                AnalyticsManager.shared.handleButtonClickEvent(
+                    buttonType: .primary,
+                    label: "Add new",
+                    sender: "\(Self.self)")
                 viewModel.send(.addNew)
             },
             text: "Add new".localizedMissing,
@@ -228,6 +232,10 @@ struct EventDetailsView: View, ViewProtocol {
             SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
             TextButton(
                 onClick: {
+                    AnalyticsManager.shared.handleButtonClickEvent(
+                        buttonType: .primary,
+                        label: "Delete",
+                        sender: "\(Self.self)")
                     viewModel.send(.delete(confirmed: false))
                 },
                 text: "Delete Event".localizedMissing,

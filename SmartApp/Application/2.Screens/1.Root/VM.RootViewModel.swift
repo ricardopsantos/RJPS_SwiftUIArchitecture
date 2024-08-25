@@ -14,18 +14,15 @@ import Core
 
 struct RootModel: Equatable, Hashable, Sendable {
     let isAppStartCompleted: Bool
-    let isUserDetailsFilled: Bool
     let isTermsAndConditionsAccepted: Bool
     let isOnboardingCompleted: Bool
 
     init(
         isAppStartCompleted: Bool = false,
-        isUserDetailsFilled: Bool = false,
         isTermsAndConditionsAccepted: Bool = false,
         isOnboardingCompleted: Bool = false
     ) {
         self.isAppStartCompleted = isAppStartCompleted
-        self.isUserDetailsFilled = isUserDetailsFilled
         self.isTermsAndConditionsAccepted = isTermsAndConditionsAccepted
         self.isOnboardingCompleted = isOnboardingCompleted
     }
@@ -34,8 +31,6 @@ struct RootModel: Equatable, Hashable, Sendable {
 extension RootViewModel {
     enum Actions {
         case start
-        // case markInitialScreenAsVisited
-        case markUserDetailsCompleted
         case termsAndConditionsAccepted
         case termsAndConditionsNotAccepted
         case onboardingCompleted
@@ -52,7 +47,6 @@ class RootViewModel: ObservableObject {
     // MARK: - Usage Attributes
     @Published private(set) var alertModel: Model.AlertModel?
     @Published private(set) var isAppStartCompleted: Bool = false
-    @Published private(set) var isUserDetailsFilled: Bool = false
     @Published private(set) var isTermsAndConditionsAccepted: Bool = false
     @Published private(set) var isOnboardingCompleted: Bool = false
     @Published private(set) var preferencesChanged: Date = .now
@@ -63,7 +57,6 @@ class RootViewModel: ObservableObject {
     public init(dependencies: Dependencies) {
         self.nonSecureAppPreferences = dependencies.nonSecureAppPreferences
         self.isAppStartCompleted = dependencies.model.isAppStartCompleted
-        self.isUserDetailsFilled = dependencies.model.isUserDetailsFilled
         self.isTermsAndConditionsAccepted = dependencies.model.isTermsAndConditionsAccepted
         self.isOnboardingCompleted = dependencies.model.isOnboardingCompleted
         dependencies.nonSecureAppPreferences.output([]).sinkToReceiveValue { [weak self] _ in
@@ -78,10 +71,6 @@ class RootViewModel: ObservableObject {
         case .start:
             guard !isAppStartCompleted else { return }
             isAppStartCompleted = true
-        case .markUserDetailsCompleted:
-            guard !isUserDetailsFilled else { return }
-            nonSecureAppPreferences?.isProfileComplete = true
-            isUserDetailsFilled = true
         case .termsAndConditionsAccepted:
             guard !isTermsAndConditionsAccepted else { return }
             nonSecureAppPreferences?.isPrivacyPolicyAccepted = true

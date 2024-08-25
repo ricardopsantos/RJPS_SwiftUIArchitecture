@@ -69,9 +69,12 @@ class ___Template___ViewModel: BaseViewModel {
             counter += 1
             message = "Counter: \(counter)"
         case .displayRandomError:
-            alertModel = .init(type: .error, 
-                               location: .top,
-                               message: String.randomWithSpaces(10))
+            alertModel = .init(
+                type: .error,
+
+                location: .top,
+                message: String.randomWithSpaces(10)
+            )
         }
     }
 }

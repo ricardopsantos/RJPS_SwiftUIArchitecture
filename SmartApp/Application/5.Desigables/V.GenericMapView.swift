@@ -28,32 +28,39 @@ public extension GenericMapView {
             imageColor: Color
         )
 
-        public init(id: String,
-                    name: String,
-                    coordinate: CLLocationCoordinate2D, 
-                    onTap: @escaping () -> Void,
-                    image: (systemName: String, backColor: Color, imageColor: Color)) {
+        public init(
+            id: String,
+            name: String,
+            coordinate: CLLocationCoordinate2D,
+
+            onTap: @escaping () -> Void,
+            image: (systemName: String, backColor: Color, imageColor: Color)
+        ) {
             self.id = id
             self.name = name
             self.coordinate = coordinate
             self.onTap = onTap
             self.image = image
         }
-        
-        public init(id: String,
-                    name: String,
-                    coordinate: CLLocationCoordinate2D,
-                    onTap: @escaping () -> Void,
-                    category: HitHappensEventCategory) {
+
+        public init(
+            id: String,
+            name: String,
+            coordinate: CLLocationCoordinate2D,
+            onTap: @escaping () -> Void,
+            category: HitHappensEventCategory
+        ) {
             self.id = id
             self.name = name
             self.coordinate = coordinate
             self.onTap = onTap
-            self.image = (category.systemImageName,
-                          ColorSemantic.backgroundPrimary.color,
-                          category.color)
+            self.image = (
+                category.systemImageName,
+                ColorSemantic.backgroundPrimary.color,
+                category.color
+            )
         }
-        
+
         static var random: Self {
             let cat: HitHappensEventCategory = .health
             return ModelItem(
@@ -102,9 +109,11 @@ public extension GenericMapView {
         Button(action: {
             item.onTap()
         }) {
-            ListItemView.buildAccessoryImage(systemImage: item.image.systemName,
-                                             imageColor: item.image.imageColor,
-                                             margin: margin)
+            ListItemView.buildAccessoryImage(
+                systemImage: item.image.systemName,
+                imageColor: item.image.imageColor,
+                margin: margin
+            )
             .background(item.image.backColor.opacity(0.75))
         }
         .background(Color.clear)
@@ -117,10 +126,7 @@ public extension GenericMapView {
 //
 // MARK: - Utils
 //
-public extension GenericMapView {
-
-}
-
+public extension GenericMapView {}
 
 //
 // MARK: - Preview

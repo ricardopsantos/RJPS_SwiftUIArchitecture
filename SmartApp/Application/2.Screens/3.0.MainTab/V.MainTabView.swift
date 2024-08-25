@@ -37,6 +37,7 @@ struct MainTabView: View, ViewProtocol {
     @StateObject var tab2Router = RouterViewModel()
     @StateObject var tab3Router = RouterViewModel()
     @StateObject var tab4Router = RouterViewModel()
+    @StateObject var tab5Router = RouterViewModel()
 
     // MARK: - Auxiliar Attributes
     // private let cancelBag: CancelBag = .init()
@@ -48,12 +49,63 @@ struct MainTabView: View, ViewProtocol {
 
     @ViewBuilder
     var content: some View {
-        Group {
-            switch selectedApp() {
-            case .hitHappens: contentHitHappensApp
-            case .template: contentTemplateApp
+        TabView(selection: selectedTab()) {
+            //
+            // Tab 1 - Favorits
+            //
+            NavigationStack(path: $tab1Router.navPath) {
+                FavoriteEventsViewCoordinator(haveNavigationStack: false)
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .environmentObject(tab1Router)
             }
-        }.onChange(of: tab1Router.navPath) { _ in
+            .tabItem { TabItemView(title: Tab.tab1.title, icon: Tab.tab1.icon) }
+            .tag(Tab.tab1)
+            //
+            // Tab 2 - Event as List
+            //
+            NavigationStack(path: $tab2Router.navPath) {
+                EventsListViewCoordinator(haveNavigationStack: false)
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .environmentObject(tab2Router)
+            }
+            .tabItem { TabItemView(title: Tab.tab2.title, icon: Tab.tab2.icon) }
+            .tag(Tab.tab2)
+            //
+            // Tab 3 - Event as Calendar
+            //
+            NavigationStack(path: $tab3Router.navPath) {
+                EventsCalendarViewCoordinator(haveNavigationStack: false)
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .environmentObject(tab3Router)
+            }
+            .tabItem { TabItemView(title: Tab.tab3.title, icon: Tab.tab3.icon) }
+            .tag(Tab.tab3)
+            //
+            // Tab 4 - Event as Map
+            //
+            NavigationStack(path: $tab4Router.navPath) {
+                EventsMapViewCoordinator(haveNavigationStack: false)
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .environmentObject(tab4Router)
+            }
+            .tabItem { TabItemView(title: Tab.tab4.title, icon: Tab.tab4.icon) }
+            .tag(Tab.tab4)
+            //
+            // Tab 5
+            //
+            NavigationStack(path: $tab5Router.navPath) {
+                SettingsViewCoordinator(haveNavigationStack: false)
+                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
+                    .environmentObject(tab5Router)
+            }
+            .tabItem { TabItemView(title: Tab.tab5.title, icon: Tab.tab5.icon) }
+            .tag(Tab.tab5)
+        }
+        .accentColor(.primaryColor)
+        .onAppear {
+            UITabBar.appearance().unselectedItemTintColor = ColorSemantic.backgroundTertiary.uiColor
+        }
+        .onChange(of: tab1Router.navPath) { _ in
             DevTools.Log.debug("tab1Router.navPath changed", .view)
         }.onChange(of: tab2Router.navPath) { _ in
             DevTools.Log.debug("tab2Router.navPath changed", .view)
@@ -61,87 +113,8 @@ struct MainTabView: View, ViewProtocol {
             DevTools.Log.debug("tab3Router.navPath changed", .view)
         }.onChange(of: tab4Router.navPath) { _ in
             DevTools.Log.debug("tab4Router.navPath changed", .view)
-        }
-    }
-
-    var contentHitHappensApp: some View {
-        TabView(selection: selectedTab()) {
-            //
-            // Tab 1
-            //
-            NavigationStack(path: $tab1Router.navPath) {
-                FavoriteEventsViewCoordinator(haveNavigationStack: false)
-                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                    .environmentObject(tab1Router)
-            }
-            .tabItem { TabItemView(title: Tab.tab1.title, icon: Tab.tab1.icone) }
-            .tag(Tab.tab1)
-            //
-            // Tab 2
-            //
-            NavigationStack(path: $tab2Router.navPath) {
-                EventsListViewCoordinator(haveNavigationStack: false)
-                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                    .environmentObject(tab2Router)
-            }
-            .tabItem { TabItemView(title: Tab.tab2.title, icon: Tab.tab2.icone) }
-            .tag(Tab.tab2)
-            //
-            // Tab 4
-            //
-            NavigationStack(path: $tab4Router.navPath) {
-                SettingsViewCoordinator(haveNavigationStack: false)
-                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                    .environmentObject(tab4Router)
-            }
-            .tabItem { TabItemView(title: Tab.tab4.title, icon: Tab.tab4.icone) }
-            .tag(Tab.tab4)
-        }
-        .accentColor(.primaryColor)
-        .onAppear {
-            UITabBar.appearance().unselectedItemTintColor = ColorSemantic.backgroundTertiary.uiColor
-        }
-    }
-
-    var contentTemplateApp: some View {
-        TabView(selection: selectedTab()) {
-            //
-            // Tab 2
-            //
-            NavigationStack(path: $tab2Router.navPath) {
-                PopulationNationViewCoordinator()
-                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                    .environmentObject(tab2Router)
-            }
-            .tabItem { TabItemView(title: Tab.tab2.title, icon: Tab.tab2.icone) }
-            .tag(Tab.tab2)
-            //
-            // Tab 3
-            //
-            NavigationStack(path: $tab3Router.navPath) {
-                ___Template___ViewCoordinator(
-                    haveNavigationStack: true,
-                    model: .init(message: "Hi")
-                )
-                .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                .environmentObject(tab3Router)
-            }
-            .tabItem { TabItemView(title: Tab.tab3.title, icon: Tab.tab3.icone) }
-            .tag(Tab.tab3)
-            //
-            // Tab 4
-            //
-            NavigationStack(path: $tab4Router.navPath) {
-                SettingsViewCoordinator(haveNavigationStack: false)
-                    .navigationDestination(for: AppScreen.self, destination: buildScreen)
-                    .environmentObject(tab4Router)
-            }
-            .tabItem { TabItemView(title: Tab.tab4.title, icon: Tab.tab4.icone) }
-            .tag(Tab.tab4)
-        }
-        .accentColor(.primaryColor)
-        .onAppear {
-            UITabBar.appearance().unselectedItemTintColor = ColorSemantic.backgroundTertiary.uiColor
+        }.onChange(of: tab5Router.navPath) { _ in
+            DevTools.Log.debug("tab5Router.navPath changed", .view)
         }
     }
 
@@ -159,13 +132,6 @@ struct MainTabView: View, ViewProtocol {
             EventDetailsViewCoordinator(
                 model: model,
                 haveNavigationStack: false
-            )
-            .environmentObject(configuration)
-            .environmentObject(tab2Router)
-        case .populationStates(year: let year, model: let model):
-            PopulationStateViewCoordinator(
-                year: year,
-                model: model
             )
             .environmentObject(configuration)
             .environmentObject(tab2Router)
@@ -203,6 +169,11 @@ extension MainTabView {
                     }
                 case .tab4:
                     if !tab4Router.navigateToRoot() {
+                        // Scroll up?
+                        DevTools.Log.debug("Should scroll up?", .view)
+                    }
+                case .tab5:
+                    if !tab5Router.navigateToRoot() {
                         // Scroll up?
                         DevTools.Log.debug("Should scroll up?", .view)
                     }

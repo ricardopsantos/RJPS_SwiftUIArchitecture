@@ -120,6 +120,10 @@ struct EventLogDetailsView: View, ViewProtocol {
                     SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
                     TextButton(
                         onClick: {
+                            AnalyticsManager.shared.handleButtonClickEvent(
+                                buttonType: .primary,
+                                label: "Delete",
+                                sender: "\(Self.self)")
                             viewModel.send(.delete(confirmed: false))
                         },
                         text: "Delete event".localizedMissing,
@@ -172,7 +176,7 @@ struct EventLogDetailsView: View, ViewProtocol {
                 }
             })
     }
-    
+
     @ViewBuilder
     var mapView: some View {
         if !viewModel.mapItems.isEmpty {
@@ -190,8 +194,9 @@ struct EventLogDetailsView: View, ViewProtocol {
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    EventLogDetailsViewCoordinator(model: .init(trackedLog: .random),
-                                   haveNavigationStack: false)
+    EventLogDetailsViewCoordinator(
+        model: .init(trackedLog: .random),
+        haveNavigationStack: false)
         .environmentObject(AppStateViewModel.defaultForPreviews)
         .environmentObject(ConfigurationViewModel.defaultForPreviews)
         .environmentObject(AuthenticationViewModel.defaultForPreviews)

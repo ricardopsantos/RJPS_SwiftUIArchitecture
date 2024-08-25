@@ -24,6 +24,7 @@ public extension Model {
         var haveLocation: Bool {
             latitude != 0 && longitude != 0
         }
+
         public init(
             id: String = "",
             latitude: Double,

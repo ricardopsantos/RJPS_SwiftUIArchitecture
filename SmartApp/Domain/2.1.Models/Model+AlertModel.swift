@@ -19,7 +19,7 @@ public extension Model.AlertModel {
         case bottom
         case middle
     }
-    
+
     enum AlertType: String, CaseIterable, Hashable, Codable {
         case information
         case success
@@ -39,7 +39,7 @@ public extension Model {
         public let date: Date
         public var onUserTapGesture: (() -> Void)? // Custom code to run when user tapped alert
         public var parentDismiss: (() -> Void)? // Inject code to dismiss alert externally (by parent view)
-        
+
         public func onTapGesture() {
             if let onUserTapGesture = onUserTapGesture {
                 onUserTapGesture()
@@ -65,7 +65,7 @@ public extension Model {
 extension Model.AlertModel: Equatable {
     public static func == (lhs: Model.AlertModel, rhs: Model.AlertModel) -> Bool {
         lhs.type == rhs.type &&
-        lhs.location == rhs.location &&
+            lhs.location == rhs.location &&
             lhs.message == rhs.message &&
             lhs.date == rhs.date &&
             lhs.onUserTapGesture.debugDescription == rhs.onUserTapGesture.debugDescription

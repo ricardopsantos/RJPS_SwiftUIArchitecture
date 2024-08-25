@@ -13,17 +13,19 @@ public enum Tab: String, CaseIterable, Equatable, Sendable {
     case tab2
     case tab3
     case tab4
+    case tab5
 
     public var title: String {
         rawValue.capitalised
     }
 
-    public var icone: String {
+    public var icon: String {
         switch self {
-        case .tab1: "1.circle.fill"
-        case .tab2: "2.circle.fill"
-        case .tab3: "3.circle.fill"
-        case .tab4: "4.circle.fill"
+        case .tab1: return "star.fill" // Favorites screen
+        case .tab2: return "list.bullet" // List screen
+        case .tab3: return "calendar" // Calendar screen
+        case .tab4: return "map" // Map screen
+        case .tab5: return "gearshape.fill" // App settings screen
         }
     }
 }

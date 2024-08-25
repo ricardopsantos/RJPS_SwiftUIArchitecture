@@ -17,6 +17,8 @@ public enum AppScreen: Hashable, Identifiable, Sendable {
     case root
     case mainApp // TabBar
     // HitHappens app
+    case calendar
+    case map
     case favoriteEvents
     case eventsList
     case eventDetails(model: EventDetailsModel)
@@ -27,11 +29,7 @@ public enum AppScreen: Hashable, Identifiable, Sendable {
     case login
     case onboarding
     case settings
-    case userDetails
-    case editUserDetails
     case termsAndConditions
-    case populationNation
-    case populationStates(year: String, model: [PopulationStateModel])
     public var id: String {
         String(describing: self)
     }

@@ -20,19 +20,21 @@ struct Day {
 }
 
 extension CalendarView {
-    struct Config {
+    enum Config {
         static let monthFont: FontSemantic = .headlineBold
         static let weekDaysFont: FontSemantic = .bodyBold
         static let daysFont: FontSemantic = .body
-        struct CurrentDay {
+        enum CurrentDay {
             static let textColor = ColorSemantic.labelPrimary.color
             static let cellBackgroundColor = ColorSemantic.primary.color
         }
-        struct CurrentMonth {
+
+        enum CurrentMonth {
             static let textColor = ColorSemantic.labelPrimary.color
             static let cellBackgroundColor = ColorSemantic.labelPrimaryInverted.color
         }
-        struct OtherMonths {
+
+        enum OtherMonths {
             static let textColor = ColorSemantic.labelSecondary.color
             static let cellBackgroundColor = ColorSemantic.labelSecondary.color.opacity(0.2)
         }
@@ -40,13 +42,14 @@ extension CalendarView {
 }
 
 struct DayView: View {
-    var unitDay: Int {
-        Calendar.current.component(.day, from: day.date)
-    }
+    @Environment(\.colorScheme) var colorScheme
     private let day: Day
     @Binding private var currentDate: Date
     @Binding private var selectedDay: Date?
     private let maxH: CGFloat = SizeNames.defaultMargin * 2
+    private var unitDay: Int {
+        Calendar.current.component(.day, from: day.date)
+    }
 
     public init(day: Day, currentDate: Binding<Date>, selectedDay: Binding<Date?>) {
         self.day = day
@@ -88,8 +91,8 @@ struct DayView: View {
                 CalendarView.Config.CurrentDay.cellBackgroundColor.opacity(0.5)
             } else {
                 day.isCurrentMonth ?
-                CalendarView.Config.CurrentMonth.cellBackgroundColor :
-                CalendarView.Config.OtherMonths.cellBackgroundColor
+                    CalendarView.Config.CurrentMonth.cellBackgroundColor :
+                    CalendarView.Config.OtherMonths.cellBackgroundColor
             }
         }
     }
@@ -105,15 +108,13 @@ struct DayView: View {
     }
 }
 
-
-
 struct CalendarHeaderView: View {
-    
+    @Environment(\.colorScheme) var colorScheme
     @Binding private var currentDate: Date
     public init(currentDate: Binding<Date>) {
         self._currentDate = currentDate
     }
-    
+
     var body: some View {
         HStack {
             Button(action: {
@@ -150,7 +151,8 @@ struct CalendarHeaderView: View {
 }
 
 struct DaysOfWeekView: View {
-    var daysOfWeek: [String] {
+    @Environment(\.colorScheme) var colorScheme
+    private var daysOfWeek: [String] {
         let formatter = DateFormatter()
         formatter.locale = Locale.current
         return formatter.shortWeekdaySymbols
@@ -169,6 +171,7 @@ struct DaysOfWeekView: View {
 }
 
 struct CalendarMonthlyView: View {
+    @Environment(\.colorScheme) var colorScheme
     @Binding private var currentDate: Date
     @Binding private var selectedDay: Date?
 
@@ -199,7 +202,7 @@ struct CalendarMonthlyView: View {
         let firstDayOfMonth = monthInterval.start
         let firstWeekdayOfMonth = calendar.component(.weekday, from: firstDayOfMonth)
 
-        let daysBefore = (firstWeekdayOfMonth + 5) % 7  // Days before the start of the month, adjusted for Monday
+        let daysBefore = (firstWeekdayOfMonth + 5) % 7 // Days before the start of the month, adjusted for Monday
 
         for i in 0..<42 {
             let dayOffset = i - daysBefore
@@ -207,18 +210,20 @@ struct CalendarMonthlyView: View {
             let isCurrentMonth = calendar.isDate(dayDate, equalTo: date, toGranularity: .month)
             let isPrevMonth = dayOffset < 0
             let isNextMonth = !isCurrentMonth && !isPrevMonth
-            days.append(Day(date: dayDate,
-                            isCurrentMonth: isCurrentMonth,
-                            isPrevMonth: isPrevMonth,
-                            isNextMonth: isNextMonth))
+            days.append(Day(
+                date: dayDate,
+                isCurrentMonth: isCurrentMonth,
+                isPrevMonth: isPrevMonth,
+                isNextMonth: isNextMonth
+            ))
         }
 
         return days
     }
 }
 
-
 struct CalendarView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State private var currentDate = Date()
     @State private var selectedDay: Date? = nil
 
@@ -235,7 +240,6 @@ struct CalendarView: View {
         }
     }
 }
-
 
 //
 // MARK: - Preview

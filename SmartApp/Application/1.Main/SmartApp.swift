@@ -67,14 +67,12 @@ struct SmartApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CalendarView()
-            /*
             RootViewCoordinator()
                 .onAppear(perform: {
                     InterfaceStyleManager.setup(nonSecureAppPreferences: configuration.nonSecureAppPreferences)
                 })
                 .environmentObject(appState)
-                .environmentObject(configuration)*/
+                .environmentObject(configuration)
         }
     }
 }

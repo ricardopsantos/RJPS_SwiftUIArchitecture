@@ -88,6 +88,7 @@ extension BaseView {
                     }
                 }
         }
+
         private var baseColor: Color {
             guard let type = model?.type else {
                 return Color.clear

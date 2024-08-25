@@ -128,9 +128,7 @@ fileprivate extension FavoriteEventsViewModel {
                                     message: "Event tracked!\nTap for edit/add details.",
                                     onUserTapGesture: { [weak self] in
                                         self?.onNewLog(trackedEntity)
-
-                                    }
-                                )
+                                    })
                             }
                         }
                     }
