@@ -14,6 +14,12 @@ import Common
 // MARK: - AlertType
 //
 public extension Model.AlertModel {
+    enum AlertLocation: String, CaseIterable, Hashable, Codable {
+        case top
+        case bottom
+        case middle
+    }
+    
     enum AlertType: String, CaseIterable, Hashable, Codable {
         case information
         case success
@@ -28,6 +34,7 @@ public extension Model.AlertModel {
 public extension Model {
     struct AlertModel {
         public let type: AlertType
+        public let location: AlertLocation
         public let message: String
         public let date: Date
         public var onUserTapGesture: (() -> Void)? // Custom code to run when user tapped alert
@@ -42,9 +49,10 @@ public extension Model {
             }
         }
 
-        public init(type: AlertType, message: String, onUserTapGesture: (() -> Void)? = nil) {
+        public init(type: AlertType, location: AlertLocation = .top, message: String, onUserTapGesture: (() -> Void)? = nil) {
             self.type = type
             self.message = message
+            self.location = location
             self.onUserTapGesture = onUserTapGesture
             self.date = .now
         }
@@ -57,6 +65,7 @@ public extension Model {
 extension Model.AlertModel: Equatable {
     public static func == (lhs: Model.AlertModel, rhs: Model.AlertModel) -> Bool {
         lhs.type == rhs.type &&
+        lhs.location == rhs.location &&
             lhs.message == rhs.message &&
             lhs.date == rhs.date &&
             lhs.onUserTapGesture.debugDescription == rhs.onUserTapGesture.debugDescription
@@ -78,14 +87,14 @@ public extension Model.AlertModel {
     }
 
     static var success: Self {
-        Model.AlertModel(type: .success, message: "Success", onUserTapGesture: nil)
+        Model.AlertModel(type: .success, location: .top, message: "Success", onUserTapGesture: nil)
     }
 
     static var tryAgainLatter: Self {
-        Model.AlertModel(type: .error, message: "Please try again latter", onUserTapGesture: nil)
+        Model.AlertModel(type: .error, location: .top, message: "Please try again latter", onUserTapGesture: nil)
     }
 
     static var noInternet: Self {
-        Model.AlertModel(type: .error, message: "No internet", onUserTapGesture: nil)
+        Model.AlertModel(type: .error, location: .top, message: "No internet", onUserTapGesture: nil)
     }
 }

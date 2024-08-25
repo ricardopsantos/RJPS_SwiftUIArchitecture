@@ -35,38 +35,59 @@ extension BaseView {
             }
         }
 
+        @ViewBuilder
         var content: some View {
+            let margin: CGFloat = SizeNames.defaultMargin * 3
             VStack(spacing: 0) {
-                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin * 3)
-                Text(model?.message ?? "")
-                    .fontSemantic(.bodyBold)
-                    .lineLimit(nil) // Unlimited lines
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true) // Prevents truncation
-                    .padding()
-                    .doIf(model?.type == .success, transform: {
-                        $0.background(ColorSemantic.allCool.color)
-                    })
-                    .doIf(model?.type == .warning, transform: {
-                        $0.background(ColorSemantic.warning.color)
-                    })
-                    .doIf(model?.type == .error, transform: {
-                        $0.background(ColorSemantic.danger.color)
-                    })
-                    .cornerRadius(SizeNames.cornerRadius)
-                    .onTapGesture {
-                        if let onUserTapGesture = model?.onUserTapGesture {
-                            onUserTapGesture()
-                        }
-                        if let parentDismiss = model?.parentDismiss {
-                            parentDismiss()
-                        }
+                switch model?.location ?? .top {
+                case .top:
+                    Group {
+                        SwiftUIUtils.FixedVerticalSpacer(height: margin)
+                        textView
+                        Spacer()
                     }
-                Spacer()
-            }
-            .padding()
+                case .middle:
+                    Group {
+                        Spacer()
+                        textView
+                        Spacer()
+                    }
+                case .bottom:
+                    Group {
+                        Spacer()
+                        textView
+                        SwiftUIUtils.FixedVerticalSpacer(height: margin * 2)
+                    }
+                }
+            }.padding()
         }
 
+        var textView: some View {
+            Text(model?.message ?? "")
+                .fontSemantic(.bodyBold)
+                .lineLimit(nil) // Unlimited lines
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true) // Prevents truncation
+                .padding()
+                .doIf(model?.type == .success, transform: {
+                    $0.background(ColorSemantic.allCool.color)
+                })
+                .doIf(model?.type == .warning, transform: {
+                    $0.background(ColorSemantic.warning.color)
+                })
+                .doIf(model?.type == .error, transform: {
+                    $0.background(ColorSemantic.danger.color)
+                })
+                .cornerRadius(SizeNames.cornerRadius)
+                .onTapGesture {
+                    if let onUserTapGesture = model?.onUserTapGesture {
+                        onUserTapGesture()
+                    }
+                    if let parentDismiss = model?.parentDismiss {
+                        parentDismiss()
+                    }
+                }
+        }
         private var baseColor: Color {
             guard let type = model?.type else {
                 return Color.clear

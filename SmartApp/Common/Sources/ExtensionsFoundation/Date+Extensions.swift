@@ -17,10 +17,18 @@ public extension TimeInterval {
 }
 
 public extension DateFormatter {
+    
+    static var monthAndYear: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = MainFormats.monthAndYear.rawValue
+        return formatter
+    }
+    
     enum MainFormats: String {
         case iso8601 = "yyyy-MM-dd'T'HH:mm:ssXXX" /// XXX: Time zone offset in the format ±HH:mm (e.g., +05:00)
         case iso8601UTC = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'" /// SSSSSS: Fractional seconds (microseconds, e.g., 123456),  'Z' indicating UTC time
         case iso8601Almost = "yyyy-MM-dd HH:mm:ss"
+        case monthAndYear = "MMMM yyyy"
         public var value: String {
             rawValue
         }

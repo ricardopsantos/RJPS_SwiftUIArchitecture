@@ -124,6 +124,7 @@ fileprivate extension FavoriteEventsViewModel {
                                 // Small delay so that the UI counter animation is viewed
                                 self?.alertModel = .init(
                                     type: .success,
+                                    location: .bottom,
                                     message: "Event tracked!\nTap for edit/add details.",
                                     onUserTapGesture: { [weak self] in
                                         self?.onNewLog(trackedEntity)

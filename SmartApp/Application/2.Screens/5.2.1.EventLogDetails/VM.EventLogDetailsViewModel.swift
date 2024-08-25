@@ -75,7 +75,7 @@ class EventLogDetailsViewModel: BaseViewModel {
     @Published var confirmationSheetType: ConfirmationSheet?
     @Published var userMessage: (text: String, color: ColorSemantic) = ("", .clear)
     @Published var note: String = ""
-    @Published var mapItems: [EventLogMap.ModelItem] = []
+    @Published var mapItems: [GenericMapView.ModelItem] = []
 
     // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()

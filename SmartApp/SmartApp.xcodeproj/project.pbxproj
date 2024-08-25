@@ -260,7 +260,7 @@
 		7BDCBC30ADB9864AF011AA4D /* ModelDto+EmployeeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B36EFD3B54DADFF9FD37C5 /* ModelDto+EmployeeRequest.swift */; };
 		7C4156F258EC8DF0BC379EE1 /* ApplicationLaunchPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA5513B284320FFEDDF1D61 /* ApplicationLaunchPerformanceTests.swift */; };
 		7C99C99C10B26EBF2C618C0B /* Data+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D764F307A7E94B192EB8B9F /* Data+Extentions.swift */; };
-		7CEB83A836371B2F84633BEE /* V.EventLogMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFC138986A715B9F80F7265 /* V.EventLogMap.swift */; };
+		7CEB83A836371B2F84633BEE /* V.GenericMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFC138986A715B9F80F7265 /* V.GenericMapView.swift */; };
 		7D238135366980F04809B233 /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC7D36654F44D16A89F89E8B /* DesignSystem.framework */; };
 		7D8848AB9333E6A7090243F1 /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 447A1E533E6C8E7F074162E0 /* NotoSans-Regular.ttf */; };
 		7E3328E56FC68604806A6A5B /* ThreadSafe<T>.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C285D0A3790B14FFCE84D7F /* ThreadSafe<T>.swift */; };
@@ -432,6 +432,7 @@
 		D5C275BFE0C5507EAF69FC15 /* CDataSong+NSFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B60ECBDBA1CE766E7EF32B7 /* CDataSong+NSFetchRequest.swift */; };
 		D77DFB82549FEC2F91AD6C44 /* LoginAndSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8869CC081A4CE3C6D6BAC /* LoginAndSessionTests.swift */; };
 		D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */; };
+		D7C95A9A2C7B63AF004C7ABE /* V.CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C95A992C7B63AF004C7ABE /* V.CalendarView.swift */; };
 		D88E49AE9344ADEC9BE1BBB6 /* DispatchQueueVsOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FF13C98F76F1A195728006 /* DispatchQueueVsOperationQueue.swift */; };
 		D8FC857887AF7D20A3D14826 /* ModelDtoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */; };
 		D9F004ECD5CB0FD2E87BD627 /* ModelDto+UpdateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7ADEDCA2B161252C22CB97 /* ModelDto+UpdateUserResponse.swift */; };
@@ -981,7 +982,7 @@
 		8C042C6DDB94FFB2797835CE /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		8C58D5A3A98F890FFBAE6590 /* production-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "production-debug.xcconfig"; sourceTree = "<group>"; };
 		8CF2E1738B8EEFC68425146C /* PreferenceKey.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PreferenceKey.md; sourceTree = "<group>"; };
-		8CFC138986A715B9F80F7265 /* V.EventLogMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.EventLogMap.swift; sourceTree = "<group>"; };
+		8CFC138986A715B9F80F7265 /* V.GenericMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.GenericMapView.swift; sourceTree = "<group>"; };
 		8E585F8841B4C961949D7BE3 /* fonts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fonts.png; sourceTree = "<group>"; };
 		8EAC3A53253CC761CB84FBA1 /* DataUSAServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUSAServiceProtocol.swift; sourceTree = "<group>"; };
 		8F46D531C6008FE1ED92A71B /* sadtrombone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sadtrombone.caf; sourceTree = "<group>"; };
@@ -1137,6 +1138,7 @@
 		D55DB282E77E9F535E393B7D /* ScreenProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenProtocols.swift; sourceTree = "<group>"; };
 		D610E9C15F645141AA91565A /* GoogleService-Info-com.ricardo.app.id.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info-com.ricardo.app.id.plist"; sourceTree = "<group>"; };
 		D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDtoProtocol.swift; sourceTree = "<group>"; };
+		D7C95A992C7B63AF004C7ABE /* V.CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.CalendarView.swift; sourceTree = "<group>"; };
 		D7F63A8944886705347BFA87 /* UIScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extensions.swift"; sourceTree = "<group>"; };
 		D970FE1EDEA881819AF775BA /* host.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = host.png; sourceTree = "<group>"; };
 		D9AE59B81096776D491A6ABE /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
@@ -2033,8 +2035,9 @@
 			isa = PBXGroup;
 			children = (
 				DEF485E5538A64F554CEC515 /* V.CounterView.swift */,
-				8CFC138986A715B9F80F7265 /* V.EventLogMap.swift */,
+				8CFC138986A715B9F80F7265 /* V.GenericMapView.swift */,
 				B04674AFFD3CC32DD318A629 /* V.PickerViews.swift */,
+				D7C95A992C7B63AF004C7ABE /* V.CalendarView.swift */,
 			);
 			path = 5.Desigables;
 			sourceTree = "<group>";
@@ -3565,7 +3568,7 @@
 				C5DCC69C473BC04A9FE3CF4D /* V.EditUserDetailsScreen.swift in Sources */,
 				A506F8D9DECA2DB687730E3D /* V.EventDetailsView.swift in Sources */,
 				362010CA6ABD7619B597CBC5 /* V.EventLogDetailsView.swift in Sources */,
-				7CEB83A836371B2F84633BEE /* V.EventLogMap.swift in Sources */,
+				7CEB83A836371B2F84633BEE /* V.GenericMapView.swift in Sources */,
 				F4A19E43CCF0803CBBE6B12E /* V.EventsListView.swift in Sources */,
 				1152D97B7755DD1C6D4DCB53 /* V.FavoriteEventsView.swift in Sources */,
 				0D5D1648CE9111E0580CF044 /* V.LoginScreen.swift in Sources */,
@@ -3580,6 +3583,7 @@
 				B57AE37173582A0B00F99879 /* V.TabItem.swift in Sources */,
 				783533A990CD6422DD59C8C7 /* V.TermsAndConditionsScreen.swift in Sources */,
 				3F507BD8AD8B44B35F3504C9 /* V.UserDetailsScreen.swift in Sources */,
+				D7C95A9A2C7B63AF004C7ABE /* V.CalendarView.swift in Sources */,
 				BEAC739170B9376E29EC6F9D /* V.___Template___View.swift in Sources */,
 				EB7EA4FF7DB552CFE1C571DD /* VM.EditUserDetailsViewModel.swift in Sources */,
 				095F997EF20CF24FCAF0F4F5 /* VM.EventDetailsViewModel.swift in Sources */,

@@ -120,7 +120,8 @@ class SettingsViewModel: BaseViewModel {
                 send(action: .deleteAccount)
             case nil:
                 let errorMessage = "No bottom sheet found"
-                alertModel = .init(type: .error, message: errorMessage)
+                alertModel = .init(type: .error, 
+                                   message: errorMessage)
                 ErrorsManager.handleError(message: "\(Self.self).\(action)", error: nil)
             }
         }

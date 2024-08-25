@@ -16,7 +16,7 @@ import Domain
 
 // https://medium.com/@davidhu-sg/mapkit-in-swiftui-79bcea6b76fc
 
-public extension EventLogMap {
+public extension GenericMapView {
     struct ModelItem: Identifiable {
         public let id: String
         public let name: String
@@ -67,7 +67,7 @@ public extension EventLogMap {
     }
 }
 
-public struct EventLogMap: View {
+public struct GenericMapView: View {
     @State private var region: MKCoordinateRegion = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
         span: MKCoordinateSpan(latitudeDelta: 0, longitudeDelta: 0)
@@ -94,7 +94,7 @@ public struct EventLogMap: View {
 //
 // MARK: - Auxiliar Views
 //
-public extension EventLogMap {
+public extension GenericMapView {
     @ViewBuilder
     func mapAnnotation(with item: ModelItem) -> some View {
         let margin: CGFloat = SizeNames.size_3.cgFloat
@@ -117,7 +117,7 @@ public extension EventLogMap {
 //
 // MARK: - Utils
 //
-public extension EventLogMap {
+public extension GenericMapView {
 
 }
 
@@ -128,7 +128,7 @@ public extension EventLogMap {
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    EventLogMap(items: .constant([
+    GenericMapView(items: .constant([
         .random,
         .random,
         .random,
