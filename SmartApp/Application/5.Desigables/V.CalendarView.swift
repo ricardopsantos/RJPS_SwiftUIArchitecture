@@ -19,62 +19,106 @@ struct Day {
     let isNextMonth: Bool
 }
 
+extension CalendarView {
+    struct Config {
+        static let monthFont: FontSemantic = .headlineBold
+        static let weekDaysFont: FontSemantic = .bodyBold
+        static let daysFont: FontSemantic = .body
+        struct CurrentDay {
+            static let textColor = ColorSemantic.labelPrimary.color
+            static let cellBackgroundColor = ColorSemantic.primary.color
+        }
+        struct CurrentMonth {
+            static let textColor = ColorSemantic.labelPrimary.color
+            static let cellBackgroundColor = ColorSemantic.labelPrimaryInverted.color
+        }
+        struct OtherMonths {
+            static let textColor = ColorSemantic.labelSecondary.color
+            static let cellBackgroundColor = ColorSemantic.labelSecondary.color.opacity(0.2)
+        }
+    }
+}
+
 struct DayView: View {
-    let day: Day
-    @Binding var currentDate: Date
-    let maxH: CGFloat = SizeNames.defaultMargin * 2
+    var unitDay: Int {
+        Calendar.current.component(.day, from: day.date)
+    }
+    private let day: Day
+    @Binding private var currentDate: Date
+    @Binding private var selectedDay: Date?
+    private let maxH: CGFloat = SizeNames.defaultMargin * 2
+
+    public init(day: Day, currentDate: Binding<Date>, selectedDay: Binding<Date?>) {
+        self.day = day
+        self._currentDate = currentDate
+        self._selectedDay = selectedDay
+    }
 
     var body: some View {
-        Text("\(Calendar.current.component(.day, from: day.date))")
+        Text("\(unitDay)")
+            .fontSemantic(CalendarView.Config.daysFont)
             .frame(maxWidth: .infinity, maxHeight: maxH)
             .background(backgroundColor())
-            .foregroundColor(foregroundColor() as? Color)
+            .foregroundColor(textColor())
             .onTapGesture {
                 withAnimation {
                     if day.isPrevMonth {
-                        currentDate = Calendar.current.date(byAdding: .month, value: -1, to: currentDate) ?? currentDate
+                        currentDate = currentDate.add(month: -1)
                     } else if day.isNextMonth {
-                        currentDate = Calendar.current.date(byAdding: .month, value: 1, to: currentDate) ?? currentDate
+                        currentDate = currentDate.add(month: 1)
+                    } else {
+                        if selectedDay == day.date {
+                            selectedDay = nil // Unselect if the same day is tapped
+                        } else {
+                            selectedDay = day.date
+                            currentDate = currentDate.set(day: unitDay)
+                        }
                     }
                 }
             }
             .cornerRadius2(day.date.isToday ? maxH / 2 : SizeNames.cornerRadius / 2)
     }
-    
+
     @ViewBuilder
     func backgroundColor() -> some View {
         Group {
             if day.date.isToday {
-                ColorSemantic.primary.color
+                CalendarView.Config.CurrentDay.cellBackgroundColor
+            } else if day.date == selectedDay {
+                CalendarView.Config.CurrentDay.cellBackgroundColor.opacity(0.5)
             } else {
                 day.isCurrentMonth ?
-                ColorSemantic.labelPrimaryInverted.color :
-                Color.gray.opacity(0.2)
+                CalendarView.Config.CurrentMonth.cellBackgroundColor :
+                CalendarView.Config.OtherMonths.cellBackgroundColor
             }
         }
     }
-    
-    @ViewBuilder
-    func foregroundColor() -> some View {
-        Group {
-            if day.date.isToday {
-                ColorSemantic.primary.color
-            } else {
-                day.isCurrentMonth ?
-                ColorSemantic.labelPrimary.color :
-                ColorSemantic.labelSecondary.color
-            }
+
+    func textColor() -> Color {
+        if day.date.isToday {
+            return CalendarView.Config.CurrentDay.textColor
+        } else {
+            return day.isCurrentMonth ?
+                CalendarView.Config.CurrentMonth.textColor :
+                CalendarView.Config.OtherMonths.textColor
         }
     }
 }
 
+
+
 struct CalendarHeaderView: View {
-    @Binding var currentDate: Date
+    
+    @Binding private var currentDate: Date
+    public init(currentDate: Binding<Date>) {
+        self._currentDate = currentDate
+    }
+    
     var body: some View {
         HStack {
             Button(action: {
                 withAnimation {
-                    currentDate = Calendar.current.date(byAdding: .month, value: -1, to: currentDate) ?? currentDate
+                    currentDate = currentDate.add(month: -1)
                 }
             }) {
                 Image(.back)
@@ -85,11 +129,12 @@ struct CalendarHeaderView: View {
             }
             Spacer()
             Text(currentDate, formatter: DateFormatter.monthAndYear)
-                .fontSemantic(.headline)
+                .fontSemantic(CalendarView.Config.monthFont)
+                .textColor(ColorSemantic.primary.color)
             Spacer()
             Button(action: {
                 withAnimation {
-                    currentDate = Calendar.current.date(byAdding: .month, value: 1, to: currentDate) ?? currentDate
+                    currentDate = currentDate.add(month: 1)
                 }
             }) {
                 Image(.back)
@@ -115,7 +160,7 @@ struct DaysOfWeekView: View {
         HStack {
             ForEach(daysOfWeek, id: \.self) { day in
                 Text(day)
-                    .fontSemantic(.callout)
+                    .fontSemantic(CalendarView.Config.weekDaysFont)
                     .textColor(ColorSemantic.labelPrimary.color)
                     .frame(maxWidth: .infinity)
             }
@@ -124,7 +169,14 @@ struct DaysOfWeekView: View {
 }
 
 struct CalendarMonthlyView: View {
-    @Binding var currentDate: Date
+    @Binding private var currentDate: Date
+    @Binding private var selectedDay: Date?
+
+    public init(currentDate: Binding<Date>, selectedDay: Binding<Date?>) {
+        self._currentDate = currentDate
+        self._selectedDay = selectedDay
+    }
+
     var body: some View {
         let days = generateDays(for: currentDate)
         VStack(spacing: SizeNames.defaultMarginSmall) {
@@ -132,7 +184,7 @@ struct CalendarMonthlyView: View {
                 HStack(spacing: SizeNames.defaultMarginSmall) {
                     ForEach(0..<7) { col in
                         let day = days[row * 7 + col]
-                        DayView(day: day, currentDate: $currentDate)
+                        DayView(day: day, currentDate: $currentDate, selectedDay: $selectedDay)
                     }
                 }
             }
@@ -155,7 +207,7 @@ struct CalendarMonthlyView: View {
             let isCurrentMonth = calendar.isDate(dayDate, equalTo: date, toGranularity: .month)
             let isPrevMonth = dayOffset < 0
             let isNextMonth = !isCurrentMonth && !isPrevMonth
-            days.append(Day(date: dayDate, 
+            days.append(Day(date: dayDate,
                             isCurrentMonth: isCurrentMonth,
                             isPrevMonth: isPrevMonth,
                             isNextMonth: isNextMonth))
@@ -165,20 +217,25 @@ struct CalendarMonthlyView: View {
     }
 }
 
+
 struct CalendarView: View {
     @State private var currentDate = Date()
+    @State private var selectedDay: Date? = nil
+
     var body: some View {
         VStack(spacing: SizeNames.defaultMarginSmall) {
             CalendarHeaderView(currentDate: $currentDate)
-              //  .background(Color.red)
             DaysOfWeekView()
-              //  .background(Color.blue)
-            CalendarMonthlyView(currentDate: $currentDate)
-              //  .background(Color.green)
+            CalendarMonthlyView(currentDate: $currentDate, selectedDay: $selectedDay)
             Spacer()
+        }.onChange(of: currentDate) { new in
+            print("New: \(currentDate)")
+        }.onChange(of: selectedDay) { new in
+            print("New: \(selectedDay)")
         }
     }
 }
+
 
 //
 // MARK: - Preview

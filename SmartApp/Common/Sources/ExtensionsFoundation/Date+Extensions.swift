@@ -165,6 +165,22 @@ public extension Date {
     func add(seconds: Int) -> Date { NSCalendar.current.date(byAdding: .second, value: seconds, to: self)! }
     func add(month: Int) -> Date { NSCalendar.current.date(byAdding: .month, value: month, to: self)! }
     func add(years: Int) -> Date { NSCalendar.current.date(byAdding: .year, value: years, to: self)! }
+    func set(month: Int) -> Date {
+        var components = Calendar.current.dateComponents([.year, .month, .day], from: self)
+        components.month = month
+        guard let newDate = Calendar.current.date(from: components) else {
+            return self
+        }
+        return newDate
+    }
+    func set(day: Int) -> Date {
+        var components = Calendar.current.dateComponents([.year, .month, .day], from: self)
+        components.day = day
+        guard let newDate = Calendar.current.date(from: components) else {
+            return self
+        }
+        return newDate
+    }
     func set(hour: Int) -> Date {
         Calendar.current.date(
             bySettingHour: hour >= 24 ? 0 : hour,
