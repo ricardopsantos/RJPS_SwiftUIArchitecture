@@ -12,7 +12,6 @@ import DevTools
 import Common
 import DesignSystem
 import Domain
-import DesignSystem
 
 //
 // MARK: - Coordinator

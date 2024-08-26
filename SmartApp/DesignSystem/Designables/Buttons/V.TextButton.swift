@@ -93,7 +93,7 @@ public struct TextButton: View {
         .animation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0.5), value: isPressed)
         .accessibilityIdentifier(accessibility.identifier)
         .buttonStyle(.plain)
-        .shadow(radius: SizeNames.defaultMarginSmall)
+        .shadow(radius: SizeNames.shadowRadiusRegular)
     }
 }
 

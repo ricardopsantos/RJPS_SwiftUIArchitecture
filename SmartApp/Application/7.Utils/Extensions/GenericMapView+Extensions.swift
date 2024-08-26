@@ -14,8 +14,7 @@ import DesignSystem
 import Common
 import Domain
 
-public extension GenericMapView.ModelItem { 
-    
+public extension GenericMapView.ModelItem {
     static func with(
         trackedLog: Model.TrackedLog,
         onTap: @escaping () -> Void

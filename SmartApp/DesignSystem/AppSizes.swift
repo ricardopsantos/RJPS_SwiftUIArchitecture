@@ -27,6 +27,9 @@ public enum SizeNames: Int, Codable, CaseIterable {
 
 public extension SizeNames {
     static var cornerRadius: CGFloat { 10 }
+    static var shadowRadiusRegular: CGFloat { 10 }
+    static var shadowRadiusSmall: CGFloat { shadowRadiusRegular / 2 }
+
     static var defaultMarginSmall: CGFloat { defaultMargin / 2 }
     static var defaultMargin: CGFloat { size_5.cgFloat }
     static var defaultMarginBig: CGFloat { defaultMargin * 2 }

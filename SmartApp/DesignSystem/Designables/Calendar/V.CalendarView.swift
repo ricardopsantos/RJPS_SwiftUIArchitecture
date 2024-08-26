@@ -11,15 +11,13 @@ import SwiftUI
 import DevTools
 import Common
 
-
 public extension CalendarView {
-    
     struct Day {
         public let date: Date
         public let isCurrentMonth: Bool
         public let isPrevMonth: Bool
         public let isNextMonth: Bool
-        
+
         public init(date: Date, isCurrentMonth: Bool, isPrevMonth: Bool, isNextMonth: Bool) {
             self.date = date
             self.isCurrentMonth = isCurrentMonth
@@ -28,7 +26,6 @@ public extension CalendarView {
         }
     }
 
-    
     enum Config {
         static let monthFont: FontSemantic = Header.defaultTitleFontSemantic
         static let weekDaysFont: FontSemantic = .bodyBold
@@ -167,7 +164,6 @@ public struct CalendarHeaderView: View {
                     .rotate(degrees: 180)
             }
         }
-        .padding(.vertical, SizeNames.defaultMargin)
     }
 }
 
@@ -203,7 +199,7 @@ public struct CalendarMonthlyView: View {
 
     public var body: some View {
         let days = generateDays(for: currentDate)
-        VStack(spacing: SizeNames.defaultMarginSmall) {
+        VStack(spacing: 0) {
             ForEach(0..<6) { row in
                 HStack(spacing: SizeNames.defaultMarginSmall) {
                     ForEach(0..<7) { col in
@@ -211,6 +207,7 @@ public struct CalendarMonthlyView: View {
                         DayView(day: day, currentDate: $currentDate, selectedDay: $selectedDay)
                     }
                 }
+                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
             }
         }
     }

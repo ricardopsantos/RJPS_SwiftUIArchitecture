@@ -40,7 +40,6 @@ public extension GenericMapView {
             self.onTap = onTap
             self.image = image
         }
-
     }
 }
 
@@ -51,21 +50,30 @@ public struct GenericMapView: View {
     )
     @Binding var items: [ModelItem]
     private let onRegionChanged: (MKCoordinateRegion) -> Void
+    @State private var userTrackingMode: MKUserTrackingMode = .follow
+    @State private var userLocation: CLLocationCoordinate2D?
+    @StateObject var locationViewModel: Common.CoreLocationManagerViewModel = .shared
+
     public init(items: Binding<[ModelItem]>, onRegionChanged: @escaping (MKCoordinateRegion) -> Void) {
         self.onRegionChanged = onRegionChanged
         self._items = items
     }
 
     public var body: some View {
-        Map(coordinateRegion: $region, annotationItems: items) { item in
-            MapAnnotation(coordinate: item.coordinate) {
-                mapAnnotation(with: item)
-            }
-        }
+        context
         .onChange(of: region) { new in
             onRegionChanged(new)
         }
+        .onChange(of: locationViewModel.coordinates) { coordinates in
+            if let coordinates = coordinates {
+                userLocation = .init(latitude: coordinates.latitude,
+                                     longitude: coordinates.longitude)
+            } else {
+                userLocation = nil
+            }
+        }
         .onAppear {
+            locationViewModel.start()
             if !items.isEmpty {
                 region = items.map(\.coordinate).regionToFitCoordinates()
             } else if let lastKnowLocation = Common.CoreLocationManager.shared.lastKnowLocation {
@@ -76,6 +84,41 @@ public struct GenericMapView: View {
                     ),
                     span: MKCoordinateSpan(latitudeDelta: 0.3, longitudeDelta: 0.3)
                 )
+            }
+        }.onDisappear {
+            locationViewModel.stop()
+        }
+    }
+    
+    public var context: some View {
+        ZStack {
+            Map(coordinateRegion: $region, annotationItems: items) { item in
+                MapAnnotation(coordinate: item.coordinate) {
+                    mapAnnotation(with: item)
+                }
+            }
+            .shadow(radius: SizeNames.shadowRadiusRegular)
+            .cornerRadius2(SizeNames.cornerRadius)
+            // New: Add button to recenter map to user's location
+            VStack(spacing: 0) {
+                Spacer()
+                HStack(spacing: 0) {
+                    Spacer()
+                    Button(action: {
+                        if let userLocation = userLocation {
+                            region.center = userLocation
+                        }
+                    }) {
+                        Image(systemName: "location.fill")
+                            .padding(SizeNames.size_3.cgFloat)
+                            .background(ColorSemantic.primary.color.opacity(0.7))
+                            .clipShape(Circle())
+                            .foregroundColor(.white)
+                            .shadow(radius: SizeNames.shadowRadiusRegular)
+                    }
+                    .paddingRight(SizeNames.defaultMargin)
+                    .paddingBottom(SizeNames.defaultMargin)
+                }
             }
         }
     }
@@ -117,9 +160,13 @@ public extension GenericMapView {}
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    GenericMapView(items: .constant([.init(id: "", name: "",
-                                           coordinate: .random,
-                                           onTap: { },
-                                           image: ("heart", .random, .random))]), onRegionChanged: { _ in })
+    GenericMapView(items: .constant([.init(
+        id: "",
+        name: "",
+        coordinate: .random,
+        onTap: {},
+        image: ("heart", .random, .random)
+    )]), onRegionChanged: { _ in })
+    .padding()
 }
 #endif

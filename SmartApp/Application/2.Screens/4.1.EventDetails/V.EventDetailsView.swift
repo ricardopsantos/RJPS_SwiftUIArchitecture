@@ -145,7 +145,7 @@ struct EventDetailsView: View, ViewProtocol {
                     .multilineTextAlignment(.center)
                     .textColor(viewModel.userMessage.color.color)
                     .fontSemantic(.body)
-                    .shadow(radius: SizeNames.defaultMarginSmall)
+                    .shadow(radius: SizeNames.shadowRadiusRegular)
                     .animation(.linear(duration: Common.Constants.defaultAnimationsTime), value: viewModel.userMessage.text)
                     .onTapGesture {
                         viewModel.userMessage.text = ""

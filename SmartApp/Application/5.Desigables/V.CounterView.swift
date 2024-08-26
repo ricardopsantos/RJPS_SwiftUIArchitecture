@@ -141,6 +141,47 @@ struct CounterView: View {
     }
 
     public var body: some View {
+        bodyV2
+            .onTapGesture {
+            onTapGesture()
+        }
+    }
+    
+    public var bodyV2: some View {
+        VStack(spacing: 0) {
+            SwiftUIUtils.RenderedView("\(Self.self).\(#function)", id: model.id)
+            NumberTransitionView(
+                digitIndex0: $digitIndex0,
+                digitIndex1: $digitIndex1,
+                digitIndex2: $digitIndex2,
+                onTapGesture: onTapGesture
+            )
+            .onChange(of: number) { _ in
+                digitIndex0 = Self.digitsArray(number: number)[0]
+                digitIndex1 = Self.digitsArray(number: number)[1]
+                digitIndex2 = Self.digitsArray(number: number)[2]
+                onChange(number)
+            }
+            Text(model.name)
+                .fontSemantic(.title2)
+                .textColor(ColorSemantic.labelPrimary.color)
+                .lineLimit(2)
+                .multilineTextAlignment(.center)
+            Group {
+                if !model.info.isEmpty {
+                    Text("("+model.info+")")
+                        .fontSemantic(.footnote)
+                        .textColor(ColorSemantic.labelSecondary.color)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.center)
+                } else {
+                    EmptyView()
+                }
+            }
+        }
+    }
+    
+    public var bodyV1: some View {
         VStack(spacing: 0) {
             SwiftUIUtils.RenderedView("\(Self.self).\(#function)", id: model.id)
             HStack(spacing: 0) {
@@ -161,12 +202,10 @@ struct CounterView: View {
                     digitIndex2 = Self.digitsArray(number: number)[2]
                     onChange(number)
                 }
-            }.onTapGesture {
-                onTapGesture()
             }
         }
     }
-
+    
     static func digitsArray(number: Int) -> [Int] {
         String(format: "%03d", number).compactMap(\.wholeNumberValue)
     }

@@ -21,7 +21,7 @@ public struct ListItemView: View {
         systemImage: (name: String, color: Color) = ("info.circle", ColorSemantic.primary.color),
         backgroundColor: Color = .backgroundTertiary,
         cornerRadius: CGFloat = SizeNames.cornerRadius,
-        shadowRadius: Double = 5.0,
+        shadowRadius: Double = SizeNames.shadowRadiusSmall,
         onTapGesture: (() -> Void)? = nil
     ) {
         self.title = title
@@ -167,7 +167,7 @@ public extension ListItemView {
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    VStack(spacing: 0) {
+    VStack(spacing: SizeNames.defaultMarginSmall) {
         ListItemView(title: "title1", subTitle: "subTitle", systemImage: ("info.circle", .red), onTapGesture: {})
         ListItemView(title: "title2", subTitle: "", systemImage: ("info.circle", .blue), onTapGesture: {})
         ListItemView(title: "title3", subTitle: "", systemImage: ("", .clear), onTapGesture: {})

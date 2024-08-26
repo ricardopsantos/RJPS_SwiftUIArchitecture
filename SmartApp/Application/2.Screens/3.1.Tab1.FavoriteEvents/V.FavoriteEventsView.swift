@@ -114,7 +114,8 @@ struct FavoriteEventsView: View, ViewProtocol {
 
     var content: some View {
         ScrollView {
-            Header(text: "Favorite".localizedMissing)
+            Header(text: "Favorites events".localizedMissing)
+            Spacer()
             LazyVStack(spacing: SizeNames.defaultMarginSmall) {
                 Spacer()
                 ForEach(viewModel.favorits, id: \.self) { model in

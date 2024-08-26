@@ -102,7 +102,7 @@ public extension DataBaseRepository {
             let gymnasium: Model.TrackedEntity = .init(
                 id: UUID().uuidString,
                 name: "Gymnasium",
-                info: "",
+                info: "My workouts list",
                 archived: false,
                 favorite: false,
                 locationRelevant: true,
@@ -166,7 +166,7 @@ public extension DataBaseRepository {
             let cinema: Model.TrackedEntity = .init(
                 id: UUID().uuidString,
                 name: "Cinema",
-                info: "",
+                info: "A list of movies I have saw",
                 archived: false,
                 favorite: false,
                 locationRelevant: true,
@@ -252,7 +252,7 @@ public extension DataBaseRepository {
             let concerts: Model.TrackedEntity = .init(
                 id: UUID().uuidString,
                 name: "Concerts",
-                info: "",
+                info: "A list of concerts I have saw",
                 archived: false,
                 favorite: true,
                 locationRelevant: true,
@@ -266,14 +266,14 @@ public extension DataBaseRepository {
                     latitude: 33.4484,
                     longitude: -112.0740,
                     addressMin: "Phoenix Public Library, Phoenix, AZ",
-                    note: "Started reading 'The Catcher in the Rye'",
+                    note: "Finished reading 'The Catcher in the Rye'",
                     recordDate: Date().add(days: -Int.random(in: 1...10))
                 ),
                 .init(
                     latitude: 37.7749,
                     longitude: -122.4194,
                     addressMin: "City Lights Bookstore, San Francisco, CA",
-                    note: "Bought '1984' by George Orwell",
+                    note: "Finished '1984' by George Orwell",
                     recordDate: Date().add(days: -Int.random(in: 1...10))
                 ),
                 .init(
@@ -288,7 +288,7 @@ public extension DataBaseRepository {
             let books: Model.TrackedEntity = .init(
                 id: UUID().uuidString,
                 name: "Books",
-                info: "A list of books I am currently reading or have completed",
+                info: "A list of books I have completed",
                 archived: false,
                 favorite: true,
                 locationRelevant: false,
