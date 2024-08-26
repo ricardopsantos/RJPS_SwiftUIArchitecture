@@ -105,8 +105,6 @@ struct EventsMapView: View, ViewProtocol {
     var content: some View {
         ScrollView {
             LazyVStack(spacing: 0) {
-//                Header(text: "Map".localizedMissing)
-//                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
                 GenericMapView(items: $viewModel.mapItems, onRegionChanged: { region in
                     viewModel.send(.loadEvents(region: region))
                 }).frame(screenSize.width - 2 * SizeNames.defaultMarginSmall)

@@ -83,9 +83,9 @@ class FavoriteEventsViewModel: BaseViewModel {
                     trackedEntityId = favorits.first?.id.description ?? ""
                 }
                 let locationRelevant = favorits.filter { $0.id == trackedEntityId }.first?.locationRelevant ?? false
-                let location = Common.CoreLocationManager.shared.lastKnowLocation?.location.coordinate
+                let location = Common.BasicLocationManagerViewModel.lastKnowLocation?.coordinates
                 if locationRelevant, let location = location {
-                    Common.CoreLocationManager.getAddressFrom(
+                    Common.LocationUtils.getAddressFrom(
                         latitude: location.latitude,
                         longitude: location.longitude) { [weak self] result in
                             let event: Model.TrackedLog = .init(

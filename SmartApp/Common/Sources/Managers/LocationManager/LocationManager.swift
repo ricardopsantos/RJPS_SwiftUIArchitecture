@@ -10,16 +10,63 @@ import Combine
 // swiftlint:disable logs_rule_1
 
 //
-// MARK: - CoreLocationManagerViewModel
+// MARK: - CoreLocationManagerV2ViewModel
 //
 
 public extension Common {
-    final class CoreLocationManagerViewModel: ObservableObject, Equatable {
+    final class BasicLocationManagerViewModel: NSObject, ObservableObject {
+        public struct Coordinate: Hashable, Equatable {
+            public let latitude: Double
+            public let longitude: Double
+        }
+
+        @Published public private(set) var coordinates: Coordinate?
+        public static var lastKnowLocation: (coordinates: Coordinate, date: Date)?
+        private let locationManager = CLLocationManager()
+        override public init() {
+            super.init()
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.requestWhenInUseAuthorization()
+        }
+
+        public func stop() {
+            Common_Logs.debug("\(Self.self) stoped")
+            locationManager.stopUpdatingLocation()
+        }
+
+        public func start() {
+            Common_Logs.debug("\(Self.self) started")
+            locationManager.startUpdatingLocation()
+        }
+    }
+}
+
+extension Common.BasicLocationManagerViewModel: CLLocationManagerDelegate {
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        coordinates = .init(
+            latitude: location.coordinate.latitude,
+            longitude: location.coordinate.longitude
+        )
+        if let coordinates = coordinates {
+            Common.BasicLocationManagerViewModel.lastKnowLocation = (coordinates, Date())
+        }
+    }
+}
+
+//
+// MARK: - CoreLocationManagerV1ViewModel
+//
+
+public extension Common {
+    final class SharedLocationManagerViewModel: ObservableObject, Equatable {
         public static func == (
-            lhs: Common.CoreLocationManagerViewModel,
-            rhs: Common.CoreLocationManagerViewModel
+            lhs: Common.SharedLocationManagerViewModel,
+            rhs: Common.SharedLocationManagerViewModel
         ) -> Bool {
-            lhs.coordinates == rhs.coordinates
+            lhs.coordinates == rhs.coordinates &&
+                lhs.locationIsAuthorized == rhs.locationIsAuthorized
         }
 
         public struct Coordinate: Hashable, Equatable {
@@ -29,12 +76,12 @@ public extension Common {
 
         private init() {}
 
-        public static var shared = CoreLocationManagerViewModel()
+        public static var shared = SharedLocationManagerViewModel()
         @Published public private(set) var locationIsAuthorized: Bool = true
-        @Published public private(set) var coordinates: CoreLocationManagerViewModel.Coordinate?
+        @Published public private(set) var coordinates: Coordinate?
         public func stop() {
             Common_Logs.debug("\(Self.self) stoped")
-            CoreLocationManager.shared.stopUpdatingLocation()
+            SharedLocationManager.shared.stopUpdatingLocation()
         }
 
         public func start() {
@@ -42,17 +89,20 @@ public extension Common {
             let onLocationLost = { [weak self] in
                 self?.coordinates = nil
             }
-            CoreLocationManager.shared.startUpdatingLocation { [weak self] in
-                self?.locationIsAuthorized = CoreLocationManager.shared.locationIsAuthorized
-            } onDidUpdateLocation: { [weak self] someLocation in
-                self?.locationIsAuthorized = CoreLocationManager.shared.locationIsAuthorized
-                if let someLocation {
-                    self?.coordinates = Coordinate(latitude: someLocation.coordinate.latitude, longitude: someLocation.coordinate.longitude)
+            SharedLocationManager.shared.startUpdatingLocation { [weak self] in
+                self?.locationIsAuthorized = SharedLocationManager.shared.locationIsAuthorized
+            } onDidUpdateLocation: { [weak self] location in
+                self?.locationIsAuthorized = SharedLocationManager.shared.locationIsAuthorized
+                if let location {
+                    self?.coordinates = Coordinate(
+                        latitude: location.coordinate.latitude,
+                        longitude: location.coordinate.longitude
+                    )
                 } else {
                     onLocationLost()
                 }
             } onLocationLost: { [weak self] in
-                self?.locationIsAuthorized = CoreLocationManager.shared.locationIsAuthorized
+                self?.locationIsAuthorized = SharedLocationManager.shared.locationIsAuthorized
                 onLocationLost()
             }
         }
@@ -64,8 +114,8 @@ public extension Common {
 //
 
 public extension Common {
-    class CoreLocationManager: NSObject {
-        public static var shared = CoreLocationManager()
+    class SharedLocationManager: NSObject {
+        public static var shared = SharedLocationManager()
         @PWThreadSafe private var locationManager: CLLocationManager?
         @PWThreadSafe private static var lastAuthorizationStatus: CLAuthorizationStatus?
         @PWThreadSafe private static var lastKnowLocation: (CLLocation, Date)?
@@ -79,7 +129,7 @@ public extension Common {
 // MARK: - Private
 //
 
-fileprivate extension Common.CoreLocationManager {
+fileprivate extension Common.SharedLocationManager {
     var isConfigured: Bool {
         if onDidUpdateLocation == nil || onLocationLost == nil || onLocationAuthorized == nil {
             return false
@@ -115,7 +165,7 @@ fileprivate extension Common.CoreLocationManager {
 // MARK: - Public
 //
 
-public extension Common.CoreLocationManager {
+public extension Common.SharedLocationManager {
     var lastKnowLocation: (location: CLLocation, date: Date)? {
         let result = Self.lastKnowLocation
         if result == nil, locationIsAuthorized, Common_Utils.onSimulator {
@@ -175,7 +225,7 @@ public extension Common.CoreLocationManager {
 // MARK: - CLLocationManagerDelegate
 //
 
-extension Common.CoreLocationManager: CLLocationManagerDelegate {
+extension Common.SharedLocationManager: CLLocationManagerDelegate {
     public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         let lastStatusWasAuthorized = Self.lastAuthorizationStatus?.locationIsAuthorized ?? false
         let newStatusIsAuthorized = status.locationIsAuthorized
@@ -226,9 +276,9 @@ extension CLAuthorizationStatus {
 //
 // MARK: - CLAuthorizationStatus extension
 //
-private extension Common.CoreLocationManager {
+private extension Common.SharedLocationManager {
     static func sampleUsage() {
-        Common.CoreLocationManager.shared.startUpdatingLocation {
+        Common.SharedLocationManager.shared.startUpdatingLocation {
             Common_Logs.debug("User location start updating")
         } onDidUpdateLocation: { location in
             if let location {

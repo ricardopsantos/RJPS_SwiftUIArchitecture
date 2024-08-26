@@ -143,10 +143,10 @@ struct CounterView: View {
     public var body: some View {
         bodyV2
             .onTapGesture {
-            onTapGesture()
-        }
+                onTapGesture()
+            }
     }
-    
+
     public var bodyV2: some View {
         VStack(spacing: 0) {
             SwiftUIUtils.RenderedView("\(Self.self).\(#function)", id: model.id)
@@ -169,7 +169,7 @@ struct CounterView: View {
                 .multilineTextAlignment(.center)
             Group {
                 if !model.info.isEmpty {
-                    Text("("+model.info+")")
+                    Text("(" + model.info + ")")
                         .fontSemantic(.footnote)
                         .textColor(ColorSemantic.labelSecondary.color)
                         .lineLimit(2)
@@ -180,7 +180,7 @@ struct CounterView: View {
             }
         }
     }
-    
+
     public var bodyV1: some View {
         VStack(spacing: 0) {
             SwiftUIUtils.RenderedView("\(Self.self).\(#function)", id: model.id)
@@ -205,7 +205,7 @@ struct CounterView: View {
             }
         }
     }
-    
+
     static func digitsArray(number: Int) -> [Int] {
         String(format: "%03d", number).compactMap(\.wholeNumberValue)
     }

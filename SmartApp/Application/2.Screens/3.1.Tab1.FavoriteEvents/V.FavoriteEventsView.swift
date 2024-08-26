@@ -81,7 +81,7 @@ struct FavoriteEventsView: View, ViewProtocol {
     // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
     private let cancelBag: CancelBag = .init()
-    @StateObject var locationViewModel: Common.CoreLocationManagerViewModel = .shared
+    @StateObject var locationViewModel: Common.BasicLocationManagerViewModel = .init()
 
     // MARK: - Body & View
     var body: some View {
@@ -106,7 +106,8 @@ struct FavoriteEventsView: View, ViewProtocol {
                 let locationRelevant = !viewModel.favorits.filter(\.locationRelevant).isEmpty
                 if locationRelevant {
                     locationViewModel.start()
-                } else {
+                }
+                else {
                     locationViewModel.stop()
                 }
             }

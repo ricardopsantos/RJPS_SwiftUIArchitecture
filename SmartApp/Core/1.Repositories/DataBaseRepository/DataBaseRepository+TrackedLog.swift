@@ -103,6 +103,8 @@ public extension DataBaseRepository {
         if let maxLongitude = maxLongitude {
             predicates.append(NSPredicate(format: "longitude <= %f", maxLongitude))
         }
+        predicates.append(NSPredicate(format: "longitude != %f", Double(0)))
+        predicates.append(NSPredicate(format: "latitude != %f", Double(0)))
         if !predicates.isEmpty {
             fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         }
