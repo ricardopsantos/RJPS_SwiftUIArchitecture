@@ -425,6 +425,8 @@
 		D5C275BFE0C5507EAF69FC15 /* CDataSong+NSFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B60ECBDBA1CE766E7EF32B7 /* CDataSong+NSFetchRequest.swift */; };
 		D77DFB82549FEC2F91AD6C44 /* LoginAndSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8869CC081A4CE3C6D6BAC /* LoginAndSessionTests.swift */; };
 		D788201DC937D7CE2C4118C5 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3005A989EBA3F790B2FC4 /* AnalyticsManager.swift */; };
+		D7DFD0C02C7C876B00414749 /* Modelsss.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DFD0BF2C7C876B00414749 /* Modelsss.swift */; };
+		D7DFD0C42C7C9D2A00414749 /* MKCoordinateRegion+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DFD0C32C7C9D2A00414749 /* MKCoordinateRegion+Extensions.swift */; };
 		D88E49AE9344ADEC9BE1BBB6 /* DispatchQueueVsOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FF13C98F76F1A195728006 /* DispatchQueueVsOperationQueue.swift */; };
 		D8FC857887AF7D20A3D14826 /* ModelDtoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */; };
 		D9F004ECD5CB0FD2E87BD627 /* ModelDto+UpdateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7ADEDCA2B161252C22CB97 /* ModelDto+UpdateUserResponse.swift */; };
@@ -1129,6 +1131,8 @@
 		D610E9C15F645141AA91565A /* GoogleService-Info-com.ricardo.app.id.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info-com.ricardo.app.id.plist"; sourceTree = "<group>"; };
 		D7505FC51EBEA0E48E01409B /* ModelDtoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDtoProtocol.swift; sourceTree = "<group>"; };
 		D756CA11A6D9CC74F396E78A /* V.EventDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.EventDetailsView.swift; sourceTree = "<group>"; };
+		D7DFD0BF2C7C876B00414749 /* Modelsss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modelsss.swift; sourceTree = "<group>"; };
+		D7DFD0C32C7C9D2A00414749 /* MKCoordinateRegion+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKCoordinateRegion+Extensions.swift"; sourceTree = "<group>"; };
 		D7F63A8944886705347BFA87 /* UIScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extensions.swift"; sourceTree = "<group>"; };
 		D970FE1EDEA881819AF775BA /* host.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = host.png; sourceTree = "<group>"; };
 		D9AE59B81096776D491A6ABE /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
@@ -1683,6 +1687,7 @@
 				BDC6699692B5BBEB0984FF37 /* UIWindow+Extensions.swift */,
 				5BB8C32602A7816AA1643F7B /* VoiceOver+Extensions.swift */,
 				74AC45E51431FE1B017533C3 /* WKWebView+Extensions.swift */,
+				D7DFD0C32C7C9D2A00414749 /* MKCoordinateRegion+Extensions.swift */,
 			);
 			path = ExtensionsUI;
 			sourceTree = "<group>";
@@ -2026,6 +2031,7 @@
 				DEF485E5538A64F554CEC515 /* V.CounterView.swift */,
 				954B074D6A32DF6119966074 /* V.GenericMapView.swift */,
 				B04674AFFD3CC32DD318A629 /* V.PickerViews.swift */,
+				D7DFD0BF2C7C876B00414749 /* Modelsss.swift */,
 			);
 			path = 5.Desigables;
 			sourceTree = "<group>";
@@ -3526,6 +3532,7 @@
 				27F59217A84A620EB4F33BB1 /* V.SettingsScreen.swift in Sources */,
 				7794E695BF399BD3F47E4F22 /* V.SplashScreen.swift in Sources */,
 				F7C366AF50D4E9F097FF5F4B /* V.TabItem.swift in Sources */,
+				D7DFD0C02C7C876B00414749 /* Modelsss.swift in Sources */,
 				73818B3770709E5D581190EE /* V.TermsAndConditionsScreen.swift in Sources */,
 				2D973FE8C06CC5FC11D09E07 /* V.___Template___View.swift in Sources */,
 				8C33C79388FFA2ABDE19BEBD /* VM.EventDetailsViewModel.swift in Sources */,
@@ -3729,6 +3736,7 @@
 				A4364CE7B9999F916C4B161B /* Response.swift in Sources */,
 				991F1306301AF2CC428AAE59 /* Result+Extensions.swift in Sources */,
 				F5A9C8464C9EB776823BED46 /* SCNNode+Extensions.swift in Sources */,
+				D7DFD0C42C7C9D2A00414749 /* MKCoordinateRegion+Extensions.swift in Sources */,
 				30D992FEDE012E2D48511309 /* SampleCounterDomain.swift in Sources */,
 				74F1D8FF4B402A7ADD74ECEC /* SampleCounterV1.swift in Sources */,
 				FC0D136D6D84096CA35F4D25 /* SampleCounterV2.swift in Sources */,

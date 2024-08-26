@@ -119,8 +119,10 @@ struct DayView: View {
 struct CalendarHeaderView: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding private var currentDate: Date
-    public init(currentDate: Binding<Date>) {
+    @Binding private var selectedDay: Date?
+    public init(currentDate: Binding<Date>, selectedDay: Binding<Date?>) {
         self._currentDate = currentDate
+        self._selectedDay = selectedDay
     }
 
     var body: some View {
@@ -128,6 +130,7 @@ struct CalendarHeaderView: View {
             Button(action: {
                 withAnimation {
                     currentDate = currentDate.add(month: -1)
+                    selectedDay = nil
                 }
             }) {
                 Image(.back)
@@ -144,6 +147,7 @@ struct CalendarHeaderView: View {
             Button(action: {
                 withAnimation {
                     currentDate = currentDate.add(month: 1)
+                    selectedDay = nil
                 }
             }) {
                 Image(.back)
@@ -250,15 +254,15 @@ struct CalendarView: View {
 
     var body: some View {
         VStack(spacing: SizeNames.defaultMarginSmall) {
-            CalendarHeaderView(currentDate: $currentDate)
+            CalendarHeaderView(currentDate: $currentDate, selectedDay: $selectedDay)
             DaysOfWeekView()
             CalendarMonthlyView(currentDate: $currentDate, selectedDay: $selectedDay)
             Spacer()
         }.onChange(of: currentDate) { new in
-            DevTools.Log.debug(.valueChanged("\(Self.self)", "currentDate", nil), .view)
+            DevTools.Log.debug(.valueChanged("\(Self.self)", "currentDate", new.description), .view)
             onSelectedMonth(new)
         }.onChange(of: selectedDay) { new in
-            DevTools.Log.debug(.valueChanged("\(Self.self)", "selectedDay", nil), .view)
+            DevTools.Log.debug(.valueChanged("\(Self.self)", "selectedDay", new?.description), .view)
             onSelectedDay(new)
         }
     }

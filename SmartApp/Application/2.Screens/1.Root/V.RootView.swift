@@ -17,7 +17,7 @@ struct RootViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var coordinator = RouterViewModel()
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
 
     // MARK: - Body & View
     var body: some View {
@@ -60,7 +60,7 @@ struct RootView: View, ViewProtocol {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
     }
 
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject private var authenticationViewModel: AuthenticationViewModel
     @State private var root: AppScreen = .splash {
@@ -75,9 +75,6 @@ struct RootView: View, ViewProtocol {
             )
         }
     }
-
-    // MARK: - Auxiliar Attributes
-    // private let cancelBag: CancelBag = .init()
 
     // MARK: - Body & View
     var body: some View {

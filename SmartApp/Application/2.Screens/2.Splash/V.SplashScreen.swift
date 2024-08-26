@@ -18,7 +18,7 @@ struct SplashViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var coordinator = RouterViewModel()
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     let onCompletion: () -> Void
 
     // MARK: - Body & View
@@ -59,11 +59,9 @@ struct SplashView: View, ViewProtocol {
         self.onCompletion = dependencies.onCompletion
     }
 
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
     @State private var logoOpacity: Double = 0
-
-    // MARK: - Auxiliar Attributes
     let onCompletion: () -> Void
 
     var body: some View {

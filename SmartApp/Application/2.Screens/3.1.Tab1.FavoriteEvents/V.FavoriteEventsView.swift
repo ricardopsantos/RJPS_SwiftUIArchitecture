@@ -19,7 +19,7 @@ struct FavoriteEventsViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var coordinator = RouterViewModel()
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
     let haveNavigationStack: Bool
 
@@ -78,11 +78,8 @@ struct FavoriteEventsView: View, ViewProtocol {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
     }
 
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
-    // @State var someVar = 0
-
-    // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
     @StateObject var locationViewModel: Common.CoreLocationManagerViewModel = .shared
 

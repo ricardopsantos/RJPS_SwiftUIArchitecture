@@ -32,7 +32,6 @@ public extension GenericMapView {
             id: String,
             name: String,
             coordinate: CLLocationCoordinate2D,
-
             onTap: @escaping () -> Void,
             image: (systemName: String, backColor: Color, imageColor: Color)
         ) {
@@ -79,8 +78,9 @@ public struct GenericMapView: View {
         span: MKCoordinateSpan(latitudeDelta: 0, longitudeDelta: 0)
     )
     @Binding var items: [ModelItem]
-    public init(items: Binding<[ModelItem]>) {
-        print(items)
+    private let onRegionChanged: (MKCoordinateRegion)->()
+    public init(items: Binding<[ModelItem]>, onRegionChanged: @escaping (MKCoordinateRegion)->()) {
+        self.onRegionChanged = onRegionChanged
         self._items = items
     }
 
@@ -90,7 +90,9 @@ public struct GenericMapView: View {
                 mapAnnotation(with: item)
             }
         }
-        .ignoresSafeArea()
+        .onChange(of: region) { new in
+            onRegionChanged(new)
+        }
         .onAppear {
             region = items.map(\.coordinate).regionToFitCoordinates()
         }
@@ -133,13 +135,6 @@ public extension GenericMapView {}
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    GenericMapView(items: .constant([
-        .random,
-        .random,
-        .random,
-        .random,
-        .random,
-        .random
-    ]))
+    GenericMapView(items: .constant([.random]), onRegionChanged: { _ in })
 }
 #endif

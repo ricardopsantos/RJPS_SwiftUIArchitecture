@@ -19,7 +19,7 @@ struct SettingsViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var coordinator = RouterViewModel()
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     let haveNavigationStack: Bool
     // MARK: - Body & View
     var body: some View {
@@ -70,11 +70,9 @@ struct SettingsScreen: View, ViewProtocol {
         self.onShouldDisplayEditUserDetails = dependencies.onShouldDisplayEditUserDetails
     }
 
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
     @State private var selectedMode: Common.InterfaceStyle? = InterfaceStyleManager.current
-
-    // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
     private let onShouldDisplayEditUserDetails: () -> Void
 
@@ -84,7 +82,7 @@ struct SettingsScreen: View, ViewProtocol {
             sender: "\(Self.self)",
             appScreen: .settings,
             navigationViewModel: .disabled,
-            ignoresSafeArea: false,
+            ignoresSafeArea: true,
             background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
@@ -99,11 +97,12 @@ struct SettingsScreen: View, ViewProtocol {
     }
 
     var content: some View {
-        VStack(spacing: SizeNames.defaultMargin) {
+        LazyVStack(spacing: 0) {
             Header(text: "Settings".localizedMissing)
+            SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
             AppearancePickerView(selected: $selectedMode)
             Spacer()
-        }.padding(SizeNames.defaultMargin)
+        }.paddingHorizontal(SizeNames.defaultMargin)
     }
 }
 

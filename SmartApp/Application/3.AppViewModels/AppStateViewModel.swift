@@ -15,11 +15,9 @@ import Common
 public final class AppStateViewModel: ObservableObject {
     // MARK: - Dependency Attributes
 
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @AppStorage(NonSecureAppPreferencesKey.userPIN.rawValue) public var userPIN: String = "22222"
     @PWUserDefaults(value: "", key: NonSecureAppPreferencesKey.userName.rawValue) var userName: String
-
-    // MARK: - Auxiliar Attributes
     private var cancelBag: CancelBag = .init()
 
     // MARK: - Constructor

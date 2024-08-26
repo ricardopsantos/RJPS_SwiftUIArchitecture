@@ -18,7 +18,7 @@ struct ___Template___ViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var coordinator = RouterViewModel()
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
     let haveNavigationStack: Bool
     let model: ___Template___Model
@@ -69,12 +69,8 @@ struct ___Template___View: View, ViewProtocol {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
     }
 
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
-    // @State var someVar = 0
-    // @StateObject var networkMonitorViewModel: Common.NetworkMonitorViewModel = .shared
-
-    // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
 
     // MARK: - Body & View

@@ -18,10 +18,8 @@ class AuthenticationViewModel: ObservableObject {
     private var nonSecureAppPreferences: NonSecureAppPreferencesProtocol
     private var userRepository: UserRepositoryProtocol
 
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Published var isAuthenticated = false
-
-    // MARK: - Auxiliar Attributes
     private var cancelBag: CancelBag = .init()
 
     // MARK: - Constructor

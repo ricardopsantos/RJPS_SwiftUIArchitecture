@@ -21,7 +21,7 @@ struct EventsListViewCoordinator: View, ViewCoordinatorProtocol {
     @EnvironmentObject var configuration: ConfigurationViewModel
     @EnvironmentObject var coordinatorTab2: RouterViewModel
     @StateObject var coordinator = RouterViewModel()
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
     let haveNavigationStack: Bool
     // MARK: - Body & View
@@ -74,11 +74,8 @@ struct EventsListView: View, ViewProtocol {
         self.onSelected = dependencies.onSelected
     }
 
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
-    // @State var someVar = 0
-
-    // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
     private let onSelected: (Model.TrackedEntity) -> Void
 

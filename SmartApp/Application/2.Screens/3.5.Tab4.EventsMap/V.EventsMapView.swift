@@ -21,7 +21,7 @@ struct EventsMapViewCoordinator: View, ViewCoordinatorProtocol {
     @EnvironmentObject var configuration: ConfigurationViewModel
     @EnvironmentObject var coordinatorTab4: RouterViewModel
     @StateObject var coordinator = RouterViewModel()
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
     let haveNavigationStack: Bool
     // MARK: - Body & View
@@ -45,10 +45,8 @@ struct EventsMapViewCoordinator: View, ViewCoordinatorProtocol {
         switch screen {
         case .map:
             let dependencies: EventsMapViewModel.Dependencies = .init(
-                model: .init(), onCompletion: { _ in
-                }, onSelected: { model in
-                    let detailsModel: EventDetailsModel = .init(event: model)
-                    coordinatorTab4.navigate(to: .eventDetails(model: detailsModel))
+                model: .init(), onTrackedLogTapped: { trackedLog in
+                    coordinator.sheetLink = .eventLogDetails(model: .init(trackedLog: trackedLog))
                 },
                 dataBaseRepository: configuration.dataBaseRepository)
             EventsMapView(dependencies: dependencies)
@@ -71,16 +69,11 @@ struct EventsMapView: View, ViewProtocol {
     public init(dependencies: EventsMapViewModel.Dependencies) {
         DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-        self.onSelected = dependencies.onSelected
     }
 
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
-    // @State var someVar = 0
-
-    // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
-    private let onSelected: (Model.TrackedEntity) -> Void
 
     // MARK: - Body & View
     var body: some View {
@@ -103,54 +96,54 @@ struct EventsMapView: View, ViewProtocol {
 
     @ViewBuilder
     var content: some View {
-        let sectionA = viewModel.events.filter(\.favorite)
-        let sectionB = viewModel.events.filter { !$0.favorite && !$0.archived }
-        let sectionC = viewModel.events.filter(\.archived)
         ScrollView {
             LazyVStack(spacing: 0) {
+                Header(text: "Map".localizedMissing)
+                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
                 GenericMapView(items: .constant([
                     .random
-                ])).frame(screenSize.width - 2 * SizeNames.defaultMarginSmall)
+                ]), onRegionChanged: { region in
+                    viewModel.send(.loadEvents(region:  region))
+                }).frame(screenSize.width - 2 * SizeNames.defaultMarginSmall)
                 Divider().padding(.vertical, SizeNames.defaultMarginSmall)
-                HStack(spacing: 0) {
-                    Text("Favorits".localizedMissing)
-                        .textColor(ColorSemantic.labelPrimary.color)
-                        .fontSemantic(.bodyBold)
-                    Spacer()
-                }
-                buildList(events: sectionA)
-                Divider().padding(.vertical, SizeNames.defaultMarginSmall)
-                HStack(spacing: 0) {
-                    Text("Others".localizedMissing)
-                        .textColor(ColorSemantic.labelPrimary.color)
-                        .fontSemantic(.bodyBold)
-                    Spacer()
-                }
-                buildList(events: sectionB)
-                Divider().padding(.vertical, SizeNames.defaultMarginSmall)
-                HStack(spacing: 0) {
-                    Text("Archived".localizedMissing)
-                        .textColor(ColorSemantic.labelSecondary.color)
-                        .fontSemantic(.bodyBold)
-                    Spacer()
-                }
-                buildList(events: sectionC)
-                    .opacity(0.5)
-                Spacer().padding(.vertical, SizeNames.defaultMarginSmall)
+                listTitle
+                listView
             }
         }
     }
 
-    @ViewBuilder
-    func buildList(events: [Model.TrackedEntity]) -> some View {
-        ForEach(events, id: \.self) { item in
-            ListItemView(
-                title: item.localizedEventName,
-                subTitle: item.localizedEventsCount,
-                systemImage: (item.category.systemImageName, item.category.color),
-                onTapGesture: {
-                    onSelected(item)
-                }).padding(.vertical, SizeNames.defaultMarginSmall / 2)
+    var listView: some View {
+        Group {
+            if let logs = viewModel.logs, !logs.isEmpty {
+                LazyVStack {
+                    ForEach(logs, id: \.self) { model in
+                        ListItemView(
+                            title: model.title,
+                            subTitle: model.value,
+                            systemImage: ("", .clear),
+                            onTapGesture: {
+                                viewModel.send(.usedDidTappedLogEvent(trackedLogId: model.id))
+                            })
+                    }
+                }
+            } else {
+                EmptyView()
+            }
+        }
+    }
+    
+    var listTitle: some View {
+        Group {
+            if let logs = viewModel.logs, !logs.isEmpty {
+                Text("\(logs.count) event(s) on region")
+                    .fontSemantic(.body)
+                    .textColor(ColorSemantic.labelPrimary.color)
+            }
+            else {
+                Text("No events on region".localizedMissing)
+                    .fontSemantic(.body)
+                    .textColor(ColorSemantic.labelPrimary.color)
+            }
         }
     }
 }

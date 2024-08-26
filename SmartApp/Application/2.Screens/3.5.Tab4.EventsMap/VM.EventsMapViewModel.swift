@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import MapKit
 //
 import Domain
 import Common
@@ -32,13 +33,13 @@ extension EventsMapViewModel {
     enum Actions {
         case didAppear
         case didDisappear
-        case loadEvents
+        case loadEvents(region: MKCoordinateRegion)
+        case usedDidTappedLogEvent(trackedLogId: String)
     }
 
     struct Dependencies {
         let model: EventsMapModel
-        let onCompletion: (String) -> Void
-        let onSelected: (Model.TrackedEntity) -> Void
+        let onTrackedLogTapped: (Model.TrackedLog) -> Void
         let dataBaseRepository: DataBaseRepositoryProtocol
     }
 }
@@ -47,34 +48,43 @@ extension EventsMapViewModel {
 // MARK: - ViewModel
 //
 class EventsMapViewModel: BaseViewModel {
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Published private(set) var message: String = ""
     @Published private(set) var events: [Model.TrackedEntity] = []
-
-    // MARK: - Auxiliar Attributes
+    @Published private(set) var logs: [CascadeEventListItem]?
     private let cancelBag = CancelBag()
     private let dataBaseRepository: DataBaseRepositoryProtocol?
+    private let onTrackedLogTapped: (Model.TrackedLog) -> Void
     public init(dependencies: Dependencies) {
         self.dataBaseRepository = dependencies.dataBaseRepository
         self.message = dependencies.model.message
+        self.onTrackedLogTapped = dependencies.onTrackedLogTapped
         super.init()
         startListeningDBChanges()
     }
 
     func send(_ action: Actions) {
         switch action {
-        case .didAppear:
-            send(.loadEvents)
+        case .didAppear: ()
         case .didDisappear: ()
-        case .loadEvents:
+        case .loadEvents(region: let region):
+            Common.ExecutionControlManager.debounce(operationId: "\(Self.self)|\(#function)") { [weak self] in
+                Task { [weak self] in
+                    guard let self = self else { return }
+                    if let records = self.dataBaseRepository?.trackedLogGetAll(minLatitude: region.latitudeMin,
+                                                                               maxLatitude: region.latitudeMax,
+                                                                               minLongitude: region.longitudeMin,
+                                                                               maxLongitude: region.longitudeMax,
+                                                                               cascade: true) {
+                        updateUI(logs: records)
+                    }
+                }
+            }
+        case .usedDidTappedLogEvent(trackedLogId: let trackedLogId):
             Task { [weak self] in
                 guard let self = self else { return }
-                if let records = dataBaseRepository?.trackedEntityGetAll(
-                    favorite: nil,
-                    archived: nil,
-                    cascade: true) {
-                    events = records
-                        .sorted(by: { $0.favorite != $1.favorite })
+                if let trackedLog = dataBaseRepository?.trackedLogGet(trackedLogId: trackedLogId, cascade: true) {
+                    onTrackedLogTapped(trackedLog)
                 }
             }
         }
@@ -86,6 +96,20 @@ class EventsMapViewModel: BaseViewModel {
 //
 
 fileprivate extension EventsMapViewModel {
+    
+    func updateUI(logs trackedLogs: [Model.TrackedLog]) {
+        let count = trackedLogs.count
+        logs = trackedLogs
+            .sorted(by: { $0.recordDate > $1.recordDate })
+            .enumerated()
+            .map { index, event in
+                    .init(
+                        id: event.id,
+                        title: "\(count - index). \(event.localizedListItemTitleV2(cascadeTrackedEntity: event.cascadeEntity))",
+                        value: event.localizedListItemValueV2)
+            }
+    }
+    
     func startListeningDBChanges() {
         dataBaseRepository?.output([]).sink { [weak self] some in
             switch some {
@@ -98,7 +122,7 @@ fileprivate extension EventsMapViewModel {
                 case .databaseDidFinishChangeContentItemsOn(let table):
                     if table == "\(CDataTrackedLog.self)" {
                         Common.ExecutionControlManager.debounce(operationId: #function) { [weak self] in
-                            self?.send(.loadEvents)
+                           // self?.send(.loadEvents)
                         }
                     }
                 }

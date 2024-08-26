@@ -84,7 +84,6 @@ public extension DataBaseRepository {
         maxLatitude: Double? = nil,
         minLongitude: Double? = nil,
         maxLongitude: Double? = nil,
-        date: Date? = nil,
         cascade: Bool
     ) -> [Model.TrackedLog] {
         typealias DBEntity = CDataTrackedLog
@@ -103,16 +102,6 @@ public extension DataBaseRepository {
         }
         if let maxLongitude = maxLongitude {
             predicates.append(NSPredicate(format: "longitude <= %f", maxLongitude))
-        }
-        if let date = date {
-            let calendar = Calendar.current
-            let startOfDay = calendar.startOfDay(for: date)
-            var dateComponents = DateComponents()
-            dateComponents.day = 1
-            dateComponents.second = -1
-            let endOfDay = calendar.date(byAdding: dateComponents, to: startOfDay)!
-
-            predicates.append(NSPredicate(format: "recordDate >= %@ AND recordDate <= %@", startOfDay as NSDate, endOfDay as NSDate))
         }
         if !predicates.isEmpty {
             fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)

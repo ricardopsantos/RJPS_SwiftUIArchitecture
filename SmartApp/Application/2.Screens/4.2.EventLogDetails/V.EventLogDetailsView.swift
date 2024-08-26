@@ -19,7 +19,7 @@ struct EventLogDetailsViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var coordinator = RouterViewModel()
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @EnvironmentObject var coordinatorTab2: RouterViewModel
     @Environment(\.dismiss) var dismiss
     let model: EventLogDetailsModel
@@ -72,12 +72,10 @@ struct EventLogDetailsView: View, ViewProtocol {
         self.onRouteBack = dependencies.onRouteBack
     }
 
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
     private let onRouteBack: () -> Void
     @State var locationSwitchIsOn: Bool = false
-
-    // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
     @StateObject var locationViewModel: Common.CoreLocationManagerViewModel = .shared
 
@@ -180,7 +178,7 @@ struct EventLogDetailsView: View, ViewProtocol {
     @ViewBuilder
     var mapView: some View {
         if !viewModel.mapItems.isEmpty {
-            GenericMapView(items: $viewModel.mapItems)
+            GenericMapView(items: $viewModel.mapItems, onRegionChanged: { _ in })
                 .frame(screenWidth - (2 * SizeNames.defaultMargin))
         } else {
             EmptyView()

@@ -47,11 +47,9 @@ extension EventsListViewModel {
 // MARK: - ViewModel
 //
 class EventsListViewModel: BaseViewModel {
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Published private(set) var message: String = ""
     @Published private(set) var events: [Model.TrackedEntity] = []
-
-    // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
     private let dataBaseRepository: DataBaseRepositoryProtocol?
     public init(dependencies: Dependencies) {

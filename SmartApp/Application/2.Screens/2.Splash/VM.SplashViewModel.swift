@@ -32,9 +32,7 @@ extension SplashViewModel {
 }
 
 class SplashViewModel: BaseViewModel {
-    // MARK: - Usage Attributes
-
-    // MARK: - Auxiliar Attributes
+    // MARK: - Usage/Auxiliar Attributes
     private var cancelBag = CancelBag()
     private var nonSecureAppPreferences: NonSecureAppPreferencesProtocol?
     public init(dependencies: Dependencies) {

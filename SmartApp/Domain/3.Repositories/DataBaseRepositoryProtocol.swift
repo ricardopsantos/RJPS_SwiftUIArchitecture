@@ -48,7 +48,6 @@ public protocol DataBaseRepositoryProtocol {
         maxLatitude: Double?,
         minLongitude: Double?,
         maxLongitude: Double?,
-        date: Date?,
         cascade: Bool
     ) -> [Model.TrackedLog]
     func trackedLogInsertOrUpdate(trackedLog: Model.TrackedLog, trackedEntityId: String)

@@ -36,10 +36,8 @@ extension MainTabViewModel {
 }
 
 class MainTabViewModel: BaseViewModel {
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Published var selectedTab: Tab = .tab1
-
-    // MARK: - Auxiliar Attributes
     public init(dependencies: Dependencies) {
         self.selectedTab = dependencies.model.selectedTab
     }

@@ -44,7 +44,6 @@ extension SettingsViewModel {
 
 class SettingsViewModel: BaseViewModel {
     // MARK: - View Usage Attributes
-    // MARK: - Auxiliar Attributes
     private var cancelBag = CancelBag()
     private let authenticationViewModel: AuthenticationViewModel?
     private let nonSecureAppPreferences: NonSecureAppPreferencesProtocol?

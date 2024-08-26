@@ -21,9 +21,7 @@ extension TermsAndConditionsViewModel {
 }
 
 class TermsAndConditionsViewModel: BaseViewModel {
-    // MARK: - Usage Attributes
-
-    // MARK: - Auxiliar Attributes
+    // MARK: - Usage/Auxiliar Attributes
     private let sampleService: SampleServiceProtocol?
     public init(sampleService: SampleServiceProtocol?) {
         self.sampleService = sampleService

@@ -90,9 +90,9 @@ extension EventDetailsViewModel {
 // MARK: - ViewModel
 //
 class EventDetailsViewModel: BaseViewModel {
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     private var event: Model.TrackedEntity?
-    @Published private(set) var cascadeEvents: [CascadeEventListItem]?
+    @Published private(set) var logs: [CascadeEventListItem]?
     @Published var soundEffect: String = SoundEffect.none.name
     @Published var category: String = HitHappensEventCategory.none.localized
     @Published var favorite: Bool = false
@@ -101,8 +101,6 @@ class EventDetailsViewModel: BaseViewModel {
     @Published var info: String = ""
     @Published var locationRelevant: Bool = false
     @Published var userMessage: (text: String, color: ColorSemantic) = ("", .clear)
-
-    // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
     private let dataBaseRepository: DataBaseRepositoryProtocol?
     private let onRouteBack: () -> Void
@@ -237,8 +235,8 @@ class EventDetailsViewModel: BaseViewModel {
             displayUserMessage("")
             Task { [weak self] in
                 guard let self = self else { return }
-                if let rackedLog = dataBaseRepository?.trackedLogGet(trackedLogId: trackedLogId, cascade: true) {
-                    onTrackedLogTapped(rackedLog)
+                if let trackedLog = dataBaseRepository?.trackedLogGet(trackedLogId: trackedLogId, cascade: true) {
+                    onTrackedLogTapped(trackedLog)
                 }
             }
 
@@ -283,14 +281,14 @@ fileprivate extension EventDetailsViewModel {
     func updateUI(event model: Model.TrackedEntity) {
         let count = model.cascadeEvents?.count ?? 0
         event = model
-        cascadeEvents = model.cascadeEvents?
+        logs = model.cascadeEvents?
             .sorted(by: { $0.recordDate > $1.recordDate })
             .enumerated()
             .map { index, event in
                 .init(
                     id: event.id,
-                    title: "\(count - index). \(event.localizedListItemTitle)",
-                    value: event.localizedListItemValue)
+                    title: "\(count - index). \(event.localizedListItemTitleV1)",
+                    value: event.localizedListItemValueV1)
             }
         soundEffect = model.sound.name
         favorite = model.favorite

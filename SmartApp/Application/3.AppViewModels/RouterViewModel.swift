@@ -12,13 +12,10 @@ import DevTools
 public final class RouterViewModel: ObservableObject {
     // MARK: - Dependency Attributes
 
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Published var navPath = NavigationPath()
     @Published var sheetLink: AppScreen?
     @Published var coverLink: AppScreen?
-
-    // MARK: - Auxiliar Attributes
-    // private var cancelBag: CancelBag = .init()
 
     // MARK: - Constructor
 

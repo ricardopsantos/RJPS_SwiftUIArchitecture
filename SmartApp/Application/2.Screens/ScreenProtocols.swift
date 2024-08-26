@@ -32,12 +32,11 @@ protocol ViewProtocol {
          _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
      }
 
-     // MARK: - Usage Attributes
+     // MARK: - Usage/Auxiliar Attributes
      @Environment(\.dismiss) var dismiss
      @State private var animatedGradient = true
-
-     // MARK: - Auxiliar Attributes
      let cancelBag = CancelBag()
+
      var body: some View {
          BaseView {
              content

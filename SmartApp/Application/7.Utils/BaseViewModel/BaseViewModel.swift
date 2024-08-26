@@ -14,7 +14,7 @@ import DevTools
 
 @MainActor
 public class BaseViewModel: ObservableObject {
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Published var loadingModel: Model.LoadingModel?
     @Published var alertModel: Model.AlertModel? {
         didSet {

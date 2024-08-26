@@ -47,10 +47,8 @@ extension FavoriteEventsViewModel {
 // MARK: - ViewModel
 //
 class FavoriteEventsViewModel: BaseViewModel {
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Published private(set) var favorits: [Model.TrackedEntity] = []
-
-    // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
     private let dataBaseRepository: DataBaseRepositoryProtocol?
     private let onNewLog: (Model.TrackedLog) -> Void

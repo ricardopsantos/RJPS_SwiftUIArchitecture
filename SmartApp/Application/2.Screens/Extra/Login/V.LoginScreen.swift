@@ -18,7 +18,7 @@ struct LoginViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var coordinator = RouterViewModel()
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
 
     // MARK: - Body & View
     var body: some View {
@@ -56,11 +56,8 @@ struct LoginView: View, ViewProtocol {
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
     }
 
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
-    // @State var someVar = 0
-
-    // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
 
     // MARK: - Body & View

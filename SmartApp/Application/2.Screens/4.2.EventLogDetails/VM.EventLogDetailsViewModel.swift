@@ -70,14 +70,12 @@ extension EventLogDetailsViewModel {
 // MARK: - ViewModel
 //
 class EventLogDetailsViewModel: BaseViewModel {
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Published private(set) var trackedLog: Model.TrackedLog?
     @Published var confirmationSheetType: ConfirmationSheet?
     @Published var userMessage: (text: String, color: ColorSemantic) = ("", .clear)
     @Published var note: String = ""
     @Published var mapItems: [GenericMapView.ModelItem] = []
-
-    // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
     private let dataBaseRepository: DataBaseRepositoryProtocol?
     private let onRouteBack: () -> Void

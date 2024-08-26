@@ -49,11 +49,9 @@ extension ___Template___ViewModel {
 // MARK: - ViewModel
 //
 class ___Template___ViewModel: BaseViewModel {
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Published private(set) var message: String = ""
     @Published var counter: Int = 0
-
-    // MARK: - Auxiliar Attributes
     private let sampleService: SampleServiceProtocol?
     public init(dependencies: Dependencies) {
         self.sampleService = dependencies.sampleService

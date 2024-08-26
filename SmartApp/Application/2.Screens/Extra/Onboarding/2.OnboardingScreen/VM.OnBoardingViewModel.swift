@@ -25,9 +25,7 @@ extension OnboardingViewModel {
 }
 
 class OnboardingViewModel: BaseViewModel {
-    // MARK: - Usage Attributes
-
-    // MARK: - Auxiliar Attributes
+    // MARK: - Usage/Auxiliar Attributes
     private let sampleService: SampleServiceProtocol?
     public init(sampleService: SampleServiceProtocol?) {
         self.sampleService = sampleService

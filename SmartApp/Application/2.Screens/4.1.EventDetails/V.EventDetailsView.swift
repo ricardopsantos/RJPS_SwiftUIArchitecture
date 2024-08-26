@@ -19,12 +19,12 @@ struct EventDetailsViewCoordinator: View, ViewCoordinatorProtocol {
     // MARK: - ViewCoordinatorProtocol
     @EnvironmentObject var configuration: ConfigurationViewModel
     @StateObject var coordinator = RouterViewModel()
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @EnvironmentObject var coordinatorTab2: RouterViewModel
     @Environment(\.dismiss) var dismiss
-
     let model: EventDetailsModel
     let haveNavigationStack: Bool
+    
     // MARK: - Body & View
     var body: some View {
         if !haveNavigationStack {
@@ -82,12 +82,10 @@ struct EventDetailsView: View, ViewProtocol {
         self.onRouteBack = dependencies.onRouteBack
     }
 
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
     private let onRouteBack: () -> Void
     @State var locationSwitchIsOn: Bool = false
-
-    // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
     @StateObject var locationViewModel: Common.CoreLocationManagerViewModel = .shared
 
@@ -249,9 +247,9 @@ struct EventDetailsView: View, ViewProtocol {
 
     var listView: some View {
         Group {
-            if let cascadeEvents = viewModel.cascadeEvents, !cascadeEvents.isEmpty {
+            if let logs = viewModel.logs, !logs.isEmpty {
                 LazyVStack {
-                    ForEach(cascadeEvents, id: \.self) { model in
+                    ForEach(logs, id: \.self) { model in
                         ListItemView(
                             title: model.title,
                             subTitle: model.value,

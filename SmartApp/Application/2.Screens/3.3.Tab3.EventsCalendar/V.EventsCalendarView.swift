@@ -21,7 +21,7 @@ struct EventsCalendarViewCoordinator: View, ViewCoordinatorProtocol {
     @EnvironmentObject var configuration: ConfigurationViewModel
     @EnvironmentObject var coordinatorTab3: RouterViewModel
     @StateObject var coordinator = RouterViewModel()
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
     let haveNavigationStack: Bool
     // MARK: - Body & View
@@ -45,9 +45,8 @@ struct EventsCalendarViewCoordinator: View, ViewCoordinatorProtocol {
         switch screen {
         case .calendar:
             let dependencies: EventsCalendarViewModel.Dependencies = .init(
-                model: .init(), onSelected: { model in
-                    let detailsModel: EventDetailsModel = .init(event: model)
-                    coordinatorTab3.navigate(to: .eventDetails(model: detailsModel))
+                model: .init(), onTrackedLogTapped: { trackedLog in
+                    coordinator.sheetLink = .eventLogDetails(model: .init(trackedLog: trackedLog))
                 },
                 dataBaseRepository: configuration.dataBaseRepository)
             EventsCalendarView(dependencies: dependencies)
@@ -70,16 +69,11 @@ struct EventsCalendarView: View, ViewProtocol {
     public init(dependencies: EventsCalendarViewModel.Dependencies) {
         DevTools.Log.debug(.viewInit("\(Self.self)"), .view)
         _viewModel = StateObject(wrappedValue: .init(dependencies: dependencies))
-        self.onSelected = dependencies.onSelected
     }
 
-    // MARK: - Usage Attributes
+    // MARK: - Usage/Auxiliar Attributes
     @Environment(\.dismiss) var dismiss
-    // @State var someVar = 0
-
-    // MARK: - Auxiliar Attributes
     private let cancelBag: CancelBag = .init()
-    private let onSelected: (Model.TrackedEntity) -> Void
 
     // MARK: - Body & View
     var body: some View {
@@ -102,60 +96,69 @@ struct EventsCalendarView: View, ViewProtocol {
 
     @ViewBuilder
     var content: some View {
-        let sectionA = viewModel.events.filter(\.favorite)
-        let sectionB = viewModel.events.filter { !$0.favorite && !$0.archived }
-        let sectionC = viewModel.events.filter(\.archived)
         ScrollView {
             LazyVStack(spacing: 0) {
                 CalendarView(
-                    currentDate: .constant(Date()),
+                    currentDate: $viewModel.selectedMonth,
                     selectedDay: $viewModel.selectedDay,
                     onSelectedDay: { day in
-                        viewModel.send(.loadEventsForDay(value: day))
+                        viewModel.send(.loadEvents(fullMonth: false, value: day))
                     },
                     onSelectedMonth: { month in
-                        viewModel.send(.loadEventForMonth(value: month))
+                            viewModel.send(.loadEvents(fullMonth: true, value: month))
                     })
                 Divider().padding(.vertical, SizeNames.defaultMarginSmall)
-                HStack(spacing: 0) {
-                    Text("Favorits".localizedMissing)
-                        .textColor(ColorSemantic.labelPrimary.color)
-                        .fontSemantic(.bodyBold)
-                    Spacer()
-                }
-                buildList(events: sectionA)
-                Divider().padding(.vertical, SizeNames.defaultMarginSmall)
-                HStack(spacing: 0) {
-                    Text("Others".localizedMissing)
-                        .textColor(ColorSemantic.labelPrimary.color)
-                        .fontSemantic(.bodyBold)
-                    Spacer()
-                }
-                buildList(events: sectionB)
-                Divider().padding(.vertical, SizeNames.defaultMarginSmall)
-                HStack(spacing: 0) {
-                    Text("Archived".localizedMissing)
-                        .textColor(ColorSemantic.labelSecondary.color)
-                        .fontSemantic(.bodyBold)
-                    Spacer()
-                }
-                buildList(events: sectionC)
-                    .opacity(0.5)
-                Spacer().padding(.vertical, SizeNames.defaultMarginSmall)
+                listTitle
+                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+                listView
             }
         }
     }
-
-    @ViewBuilder
-    func buildList(events: [Model.TrackedEntity]) -> some View {
-        ForEach(events, id: \.self) { item in
-            ListItemView(
-                title: item.localizedEventName,
-                subTitle: item.localizedEventsCount,
-                systemImage: (item.category.systemImageName, item.category.color),
-                onTapGesture: {
-                    onSelected(item)
-                }).padding(.vertical, SizeNames.defaultMarginSmall / 2)
+    
+    var listTitle: some View {
+        Group {
+            if let logs = viewModel.logs, !logs.isEmpty {
+                if let selectedDay = viewModel.selectedDay {
+                    Text("\(logs.count) event(s) on \(selectedDay.dateStyleShort)")
+                        .fontSemantic(.body)
+                        .textColor(ColorSemantic.labelPrimary.color)
+                } else {
+                    Text("\(logs.count) event(s) on \(viewModel.selectedMonth.monthAndYear)".localizedMissing)
+                        .fontSemantic(.body)
+                        .textColor(ColorSemantic.labelPrimary.color)
+                }
+            }
+            else {
+                if let selectedDay = viewModel.selectedDay {
+                    Text("No events for \(selectedDay.dateStyleShort)".localizedMissing)
+                        .fontSemantic(.body)
+                        .textColor(ColorSemantic.labelPrimary.color)
+                } else  {
+                    Text("No events for \(viewModel.selectedMonth.monthAndYear)".localizedMissing)
+                        .fontSemantic(.body)
+                        .textColor(ColorSemantic.labelPrimary.color)
+                }
+            }
+        }
+    }
+    
+    var listView: some View {
+        Group {
+            if let logs = viewModel.logs, !logs.isEmpty {
+                LazyVStack {
+                    ForEach(logs, id: \.self) { model in
+                        ListItemView(
+                            title: model.title,
+                            subTitle: model.value,
+                            systemImage: ("", .clear),
+                            onTapGesture: {
+                                viewModel.send(.usedDidTappedLogEvent(trackedLogId: model.id))
+                            })
+                    }
+                }
+            } else {
+                EmptyView()
+            }
         }
     }
 }

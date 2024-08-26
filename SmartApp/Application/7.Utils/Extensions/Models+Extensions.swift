@@ -24,7 +24,7 @@ public extension Model.TrackedEntity {
         }
         var suffix = ""
         suffix += category == .none ? "" : " | \(category.localized)"
-        return "\(prefix)\(name)\(suffix)"
+        return "\(prefix)\(name)\(suffix)".dropLastIf("\n")
     }
 
     var localizedEventsCount: String {
@@ -38,13 +38,14 @@ public extension Model.TrackedEntity {
 }
 
 public extension Model.TrackedLog {
-    var localizedListItemTitle: String {
+    
+    var localizedListItemTitleV1: String {
         var acc = ""
         acc += recordDate.dateMediumTimeShort
-        return acc
+        return acc.dropLastIf("\n")
     }
 
-    var localizedListItemValue: String {
+    var localizedListItemValueV1: String {
         var acc = ""
         if !note.isEmpty {
             acc += "◦ " + note + "\n"
@@ -52,6 +53,27 @@ public extension Model.TrackedLog {
         if !addressMin.isEmpty {
             acc += "◦ " + "\(addressMin)"
         }
-        return acc
+        return acc.dropLastIf("\n")
+    }
+    
+    func localizedListItemTitleV2(cascadeTrackedEntity: Model.TrackedEntity?) -> String {
+        if let cascadeTrackedEntity = cascadeTrackedEntity {
+            var suffix = ""
+            suffix += cascadeTrackedEntity.category == .none ? "" : " | \(cascadeTrackedEntity.category.localized)"
+            return "\(cascadeTrackedEntity.name)\(suffix)"
+        }
+        return ""
+    }
+    
+    var localizedListItemValueV2: String {
+        var acc = ""
+        acc += "◦ " + recordDate.dateMediumTimeShort + "\n"
+        if !note.isEmpty {
+            acc += "◦ " + note + "\n"
+        }
+        if !addressMin.isEmpty {
+            acc += "◦ " + "\(addressMin)"
+        }
+        return acc.dropLastIf("\n")
     }
 }
