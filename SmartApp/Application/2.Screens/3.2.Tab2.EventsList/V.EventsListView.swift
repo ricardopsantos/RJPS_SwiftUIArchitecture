@@ -86,9 +86,9 @@ struct EventsListView: View, ViewProtocol {
     var body: some View {
         BaseView.withLoading(
             sender: "\(Self.self)",
-            appScreen: .templateWith(model: .init()),
+            appScreen: .eventsList,
             navigationViewModel: .disabled,
-            ignoresSafeArea: true,
+            ignoresSafeArea: false,
             background: .linear,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
@@ -108,7 +108,7 @@ struct EventsListView: View, ViewProtocol {
         let sectionC = viewModel.events.filter(\.archived)
         ScrollView {
             Header(text: "Events".localizedMissing)
-            LazyVStack {
+            LazyVStack(spacing: 0) {
                 HStack(spacing: 0) {
                     Text("Favorits".localizedMissing)
                         .textColor(ColorSemantic.labelPrimary.color)
@@ -133,9 +133,9 @@ struct EventsListView: View, ViewProtocol {
                 }
                 buildList(events: sectionC)
                     .opacity(0.5)
-                Spacer().padding(.horizontal, SizeNames.defaultMargin)
+                Spacer().padding(.vertical, SizeNames.defaultMargin)
             }
-            .padding(SizeNames.defaultMargin)
+            // .padding(SizeNames.defaultMargin)
         }
     }
 
@@ -149,24 +149,8 @@ struct EventsListView: View, ViewProtocol {
                 onTapGesture: {
                     onSelected(item)
                 })
-                .swipeActions {
-                    Button(role: .destructive) {
-                        if let index = events.firstIndex(of: item) {
-                            //  items.remove(at: index)
-                            print("item")
-                        }
-                    } label: {
-                        Label("Delete", systemImage: "trash")
-                    }
-                }
+                .paddingVertical(SizeNames.defaultMarginSmall / 2)
         }
-    }
-}
-
-fileprivate extension EventsListView {
-    @ViewBuilder
-    var routingView: some View {
-        EmptyView()
     }
 }
 

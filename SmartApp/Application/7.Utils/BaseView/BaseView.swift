@@ -22,7 +22,7 @@ enum BaseView {
         sender: String,
         appScreen: AppScreen,
         navigationViewModel: BaseView.NavigationViewModel?,
-        ignoresSafeArea: Bool = false,
+        ignoresSafeArea: Bool,
         dismissKeyboardOnTap: Bool = false,
         background: BackgroundView.Background,
         displayRenderedView: Bool = Common_Utils.onSimulator,
@@ -51,6 +51,9 @@ enum BaseView {
                         }
                     }
                 content()
+                    .doIf(!ignoresSafeArea, transform: {
+                        $0.padding(.all) // This will ensure the content stays within the safe area
+                    })
             }
             .doIf(dismissKeyboardOnTap, transform: {
                 $0.onTapDismissKeyboard()
@@ -148,7 +151,7 @@ struct TestView: View {
             sender: "sender",
             appScreen: .na,
             navigationViewModel: .disabled,
-            ignoresSafeArea: true,
+            ignoresSafeArea: false,
             background: .gradient,
             loadingModel: loadingModel,
             alertModel: alertModel,

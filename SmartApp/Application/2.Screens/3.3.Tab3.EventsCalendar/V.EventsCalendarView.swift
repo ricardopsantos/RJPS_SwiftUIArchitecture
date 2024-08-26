@@ -45,8 +45,7 @@ struct EventsCalendarViewCoordinator: View, ViewCoordinatorProtocol {
         switch screen {
         case .calendar:
             let dependencies: EventsCalendarViewModel.Dependencies = .init(
-                model: .init(), onCompletion: { _ in
-                }, onSelected: { model in
+                model: .init(), onSelected: { model in
                     let detailsModel: EventDetailsModel = .init(event: model)
                     coordinatorTab3.navigate(to: .eventDetails(model: detailsModel))
                 },
@@ -86,9 +85,9 @@ struct EventsCalendarView: View, ViewProtocol {
     var body: some View {
         BaseView.withLoading(
             sender: "\(Self.self)",
-            appScreen: .templateWith(model: .init()),
+            appScreen: .calendar,
             navigationViewModel: .disabled,
-            ignoresSafeArea: true,
+            ignoresSafeArea: false,
             background: .linear,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
@@ -106,12 +105,45 @@ struct EventsCalendarView: View, ViewProtocol {
         let sectionA = viewModel.events.filter(\.favorite)
         let sectionB = viewModel.events.filter { !$0.favorite && !$0.archived }
         let sectionC = viewModel.events.filter(\.archived)
-        VStack(spacing: 0) {
-            Header(text: "Calendar".localizedMissing)
-            CalendarView()
-            buildList(events: sectionA)
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                CalendarView(
+                    currentDate: .constant(Date()),
+                    selectedDay: $viewModel.selectedDay,
+                    onSelectedDay: { day in
+                        viewModel.send(.loadEventsForDay(value: day))
+                    },
+                    onSelectedMonth: { month in
+                        viewModel.send(.loadEventForMonth(value: month))
+                    })
+                Divider().padding(.vertical, SizeNames.defaultMarginSmall)
+                HStack(spacing: 0) {
+                    Text("Favorits".localizedMissing)
+                        .textColor(ColorSemantic.labelPrimary.color)
+                        .fontSemantic(.bodyBold)
+                    Spacer()
+                }
+                buildList(events: sectionA)
+                Divider().padding(.vertical, SizeNames.defaultMarginSmall)
+                HStack(spacing: 0) {
+                    Text("Others".localizedMissing)
+                        .textColor(ColorSemantic.labelPrimary.color)
+                        .fontSemantic(.bodyBold)
+                    Spacer()
+                }
+                buildList(events: sectionB)
+                Divider().padding(.vertical, SizeNames.defaultMarginSmall)
+                HStack(spacing: 0) {
+                    Text("Archived".localizedMissing)
+                        .textColor(ColorSemantic.labelSecondary.color)
+                        .fontSemantic(.bodyBold)
+                    Spacer()
+                }
+                buildList(events: sectionC)
+                    .opacity(0.5)
+                Spacer().padding(.vertical, SizeNames.defaultMarginSmall)
+            }
         }
-        .padding(SizeNames.defaultMargin)
     }
 
     @ViewBuilder
@@ -123,25 +155,8 @@ struct EventsCalendarView: View, ViewProtocol {
                 systemImage: (item.category.systemImageName, item.category.color),
                 onTapGesture: {
                     onSelected(item)
-                })
-                .swipeActions {
-                    Button(role: .destructive) {
-                        if let index = events.firstIndex(of: item) {
-                            //  items.remove(at: index)
-                            print("item")
-                        }
-                    } label: {
-                        Label("Delete", systemImage: "trash")
-                    }
-                }
+                }).padding(.vertical, SizeNames.defaultMarginSmall / 2)
         }
-    }
-}
-
-fileprivate extension EventsCalendarView {
-    @ViewBuilder
-    var routingView: some View {
-        EmptyView()
     }
 }
 

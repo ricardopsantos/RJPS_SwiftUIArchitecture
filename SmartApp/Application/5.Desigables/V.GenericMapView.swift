@@ -62,8 +62,7 @@ public extension GenericMapView {
         }
 
         static var random: Self {
-            let cat: HitHappensEventCategory = .health
-            return ModelItem(
+            ModelItem(
                 id: UUID().uuidString,
                 name: String.random(10),
                 coordinate: .random,

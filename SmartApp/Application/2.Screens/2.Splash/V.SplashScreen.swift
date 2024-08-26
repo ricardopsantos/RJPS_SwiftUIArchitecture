@@ -71,6 +71,7 @@ struct SplashView: View, ViewProtocol {
             sender: "\(Self.self)",
             appScreen: .splash,
             navigationViewModel: .disabled,
+            ignoresSafeArea: true,
             background: .uiColor(UIColor.colorFromRGBString("239,239,235")),
             loadingModel: nil,
             alertModel: nil,

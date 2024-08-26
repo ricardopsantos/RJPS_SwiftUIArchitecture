@@ -58,6 +58,72 @@ public extension DataBaseRepository {
         return try? context.fetch(DBEntity.fetchRequestWith(id: trackedLogId)).first?.mapToModel(cascade: cascade)
     }
 
+    func trackedLogGetAll(
+        min: Date,
+        maxDate: Date,
+        cascade: Bool
+    ) -> [Model.TrackedLog] {
+        typealias DBEntity = CDataTrackedLog
+        let context = viewContext
+
+        let fetchRequest = DBEntity.fetchRequest()
+        var predicates: [NSPredicate] = []
+        predicates.append(NSPredicate(format: "recordDate >= %@ AND recordDate <= %@", min as NSDate, maxDate as NSDate))
+        if !predicates.isEmpty {
+            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        }
+        let instances = try? context.fetch(fetchRequest)
+        guard let entities = instances else {
+            return []
+        }
+        return entities.map { $0.mapToModel(cascade: cascade) }
+    }
+
+    func trackedLogGetAll(
+        minLatitude: Double? = nil,
+        maxLatitude: Double? = nil,
+        minLongitude: Double? = nil,
+        maxLongitude: Double? = nil,
+        date: Date? = nil,
+        cascade: Bool
+    ) -> [Model.TrackedLog] {
+        typealias DBEntity = CDataTrackedLog
+        let context = viewContext
+
+        let fetchRequest = DBEntity.fetchRequest()
+        var predicates: [NSPredicate] = []
+        if let minLatitude = minLatitude {
+            predicates.append(NSPredicate(format: "latitude >= %f", minLatitude))
+        }
+        if let maxLatitude = maxLatitude {
+            predicates.append(NSPredicate(format: "latitude <= %f", maxLatitude))
+        }
+        if let minLongitude = minLongitude {
+            predicates.append(NSPredicate(format: "longitude >= %f", minLongitude))
+        }
+        if let maxLongitude = maxLongitude {
+            predicates.append(NSPredicate(format: "longitude <= %f", maxLongitude))
+        }
+        if let date = date {
+            let calendar = Calendar.current
+            let startOfDay = calendar.startOfDay(for: date)
+            var dateComponents = DateComponents()
+            dateComponents.day = 1
+            dateComponents.second = -1
+            let endOfDay = calendar.date(byAdding: dateComponents, to: startOfDay)!
+
+            predicates.append(NSPredicate(format: "recordDate >= %@ AND recordDate <= %@", startOfDay as NSDate, endOfDay as NSDate))
+        }
+        if !predicates.isEmpty {
+            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        }
+        let instances = try? context.fetch(fetchRequest)
+        guard let entities = instances else {
+            return []
+        }
+        return entities.map { $0.mapToModel(cascade: cascade) }
+    }
+
     func trackedLogGet(trackedEntityId: String?, cascade: Bool) -> [Model.TrackedLog] {
         typealias DBEntity = CDataTrackedLog
         let context = viewContext

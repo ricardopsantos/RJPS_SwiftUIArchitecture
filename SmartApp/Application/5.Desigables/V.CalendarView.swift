@@ -21,7 +21,7 @@ struct Day {
 
 extension CalendarView {
     enum Config {
-        static let monthFont: FontSemantic = .headlineBold
+        static let monthFont: FontSemantic = Header.defaultTitleFontSemantic
         static let weekDaysFont: FontSemantic = .bodyBold
         static let daysFont: FontSemantic = .body
         enum CurrentDay {
@@ -46,7 +46,14 @@ struct DayView: View {
     private let day: Day
     @Binding private var currentDate: Date
     @Binding private var selectedDay: Date?
-    private let maxH: CGFloat = SizeNames.defaultMargin * 2
+    private var cellHeight: CGFloat {
+        (
+            screenWidth
+                - 2 * SizeNames.defaultMargin // Side Margin
+                - 6 * SizeNames.defaultMarginSmall // Inner Space
+        ) / 7.0 // Days on a row
+    }
+
     private var unitDay: Int {
         Calendar.current.component(.day, from: day.date)
     }
@@ -60,7 +67,8 @@ struct DayView: View {
     var body: some View {
         Text("\(unitDay)")
             .fontSemantic(CalendarView.Config.daysFont)
-            .frame(maxWidth: .infinity, maxHeight: maxH)
+            .frame(height: cellHeight)
+            .frame(maxWidth: .infinity)
             .background(backgroundColor())
             .foregroundColor(textColor())
             .onTapGesture {
@@ -79,7 +87,7 @@ struct DayView: View {
                     }
                 }
             }
-            .cornerRadius2(day.date.isToday ? maxH / 2 : SizeNames.cornerRadius / 2)
+            .cornerRadius2(day.date.isToday ? cellHeight / 2 : SizeNames.cornerRadius / 2)
     }
 
     @ViewBuilder
@@ -224,8 +232,21 @@ struct CalendarMonthlyView: View {
 
 struct CalendarView: View {
     @Environment(\.colorScheme) var colorScheme
-    @State private var currentDate = Date()
-    @State private var selectedDay: Date? = nil
+    @Binding private var currentDate: Date
+    @Binding private var selectedDay: Date?
+    private let onSelectedDay: (Date?) -> Void
+    private let onSelectedMonth: (Date) -> Void
+    public init(
+        currentDate: Binding<Date>,
+        selectedDay: Binding<Date?>,
+        onSelectedDay: @escaping (Date?) -> Void,
+        onSelectedMonth: @escaping (Date) -> Void
+    ) {
+        self._currentDate = currentDate
+        self._selectedDay = selectedDay
+        self.onSelectedDay = onSelectedDay
+        self.onSelectedMonth = onSelectedMonth
+    }
 
     var body: some View {
         VStack(spacing: SizeNames.defaultMarginSmall) {
@@ -234,9 +255,11 @@ struct CalendarView: View {
             CalendarMonthlyView(currentDate: $currentDate, selectedDay: $selectedDay)
             Spacer()
         }.onChange(of: currentDate) { new in
-            print("New: \(currentDate)")
+            DevTools.Log.debug(.valueChanged("\(Self.self)", "currentDate", nil), .view)
+            onSelectedMonth(new)
         }.onChange(of: selectedDay) { new in
-            print("New: \(selectedDay)")
+            DevTools.Log.debug(.valueChanged("\(Self.self)", "selectedDay", nil), .view)
+            onSelectedDay(new)
         }
     }
 }
@@ -247,6 +270,12 @@ struct CalendarView: View {
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    CalendarView()
+    CalendarView(
+        currentDate: .constant(Date()),
+        selectedDay: .constant(nil),
+        onSelectedDay: { _ in },
+        onSelectedMonth: { _ in }
+    )
+    .paddingHorizontal(SizeNames.defaultMargin)
 }
 #endif

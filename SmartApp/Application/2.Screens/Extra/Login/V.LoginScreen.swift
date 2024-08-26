@@ -69,6 +69,7 @@ struct LoginView: View, ViewProtocol {
             sender: "\(Self.self)",
             appScreen: .login,
             navigationViewModel: .disabled,
+            ignoresSafeArea: false,
             background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,

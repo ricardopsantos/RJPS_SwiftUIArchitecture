@@ -32,12 +32,12 @@ extension EventsCalendarViewModel {
     enum Actions {
         case didAppear
         case didDisappear
-        case loadEvents
+        case loadEventsForDay(value: Date?)
+        case loadEventForMonth(value: Date)
     }
 
     struct Dependencies {
         let model: EventsCalendarModel
-        let onCompletion: (String) -> Void
         let onSelected: (Model.TrackedEntity) -> Void
         let dataBaseRepository: DataBaseRepositoryProtocol
     }
@@ -50,6 +50,9 @@ class EventsCalendarViewModel: BaseViewModel {
     // MARK: - Usage Attributes
     @Published private(set) var message: String = ""
     @Published private(set) var events: [Model.TrackedEntity] = []
+    @Published private(set) var eventsLogs: [Model.TrackedLog] = []
+    @Published var selectedDay: Date?
+    @Published var selectedMonth: Date = Date()
 
     // MARK: - Auxiliar Attributes
     private let cancelBag = CancelBag()
@@ -64,17 +67,33 @@ class EventsCalendarViewModel: BaseViewModel {
     func send(_ action: Actions) {
         switch action {
         case .didAppear:
-            send(.loadEvents)
+            send(.loadEventForMonth(value: selectedMonth))
         case .didDisappear: ()
-        case .loadEvents:
+        case .loadEventsForDay(value: let value):
+            guard let value = value else {
+                // No day, or un-selected day? Load for month
+                send(.loadEventForMonth(value: selectedMonth))
+                return
+            }
             Task { [weak self] in
                 guard let self = self else { return }
-                if let records = dataBaseRepository?.trackedEntityGetAll(
-                    favorite: nil,
-                    archived: nil,
-                    cascade: true) {
-                    events = records
-                        .sorted(by: { $0.favorite != $1.favorite })
+                let min = value.beginningOfDay ?? Date()
+                let max = value.endOfDay ?? Date()
+                if let records = dataBaseRepository?.trackedLogGetAll(min: min, maxDate: max, cascade: true)
+                {
+                    eventsLogs = records
+                    print(records.count)
+                }
+            }
+        case .loadEventForMonth(value: let value):
+            Task { [weak self] in
+                guard let self = self else { return }
+                let min = value.beginningOfMonth ?? Date()
+                let max = value.endOfMonth ?? Date()
+                if let records = dataBaseRepository?.trackedLogGetAll(min: min, maxDate: max, cascade: true)
+                {
+                    eventsLogs = records
+                    print(records.count)
                 }
             }
         }
@@ -98,7 +117,7 @@ fileprivate extension EventsCalendarViewModel {
                 case .databaseDidFinishChangeContentItemsOn(let table):
                     if table == "\(CDataTrackedLog.self)" {
                         Common.ExecutionControlManager.debounce(operationId: #function) { [weak self] in
-                            self?.send(.loadEvents)
+                            //    self?.send(.loadEvents)
                         }
                     }
                 }

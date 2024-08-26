@@ -90,9 +90,9 @@ struct FavoriteEventsView: View, ViewProtocol {
     var body: some View {
         BaseView.withLoading(
             sender: "\(Self.self)",
-            appScreen: .templateWith(model: .init()),
+            appScreen: .favoriteEvents,
             navigationViewModel: .disabled,
-            ignoresSafeArea: true,
+            ignoresSafeArea: false,
             background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
@@ -105,6 +105,7 @@ struct FavoriteEventsView: View, ViewProtocol {
                 locationViewModel.stop()
             }
             .onChange(of: viewModel.favorits) { _ in
+                DevTools.Log.debug(.valueChanged("\(Self.self)", "favorits", nil), .view)
                 let locationRelevant = !viewModel.favorits.filter(\.locationRelevant).isEmpty
                 if locationRelevant {
                     locationViewModel.start()
@@ -133,13 +134,6 @@ struct FavoriteEventsView: View, ViewProtocol {
                 Spacer()
             }
         }
-    }
-}
-
-fileprivate extension FavoriteEventsView {
-    @ViewBuilder
-    var routingView: some View {
-        EmptyView()
     }
 }
 

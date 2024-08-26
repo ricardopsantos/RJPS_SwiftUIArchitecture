@@ -86,9 +86,9 @@ struct EventsMapView: View, ViewProtocol {
     var body: some View {
         BaseView.withLoading(
             sender: "\(Self.self)",
-            appScreen: .templateWith(model: .init()),
+            appScreen: .map,
             navigationViewModel: .disabled,
-            ignoresSafeArea: true,
+            ignoresSafeArea: false,
             background: .linear,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
@@ -106,9 +106,38 @@ struct EventsMapView: View, ViewProtocol {
         let sectionA = viewModel.events.filter(\.favorite)
         let sectionB = viewModel.events.filter { !$0.favorite && !$0.archived }
         let sectionC = viewModel.events.filter(\.archived)
-        LazyVStack(spacing: 0) {
-            GenericMapView(items: .constant([.random]))
-            buildList(events: sectionA)
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                GenericMapView(items: .constant([
+                    .random
+                ])).frame(screenSize.width - 2 * SizeNames.defaultMarginSmall)
+                Divider().padding(.vertical, SizeNames.defaultMarginSmall)
+                HStack(spacing: 0) {
+                    Text("Favorits".localizedMissing)
+                        .textColor(ColorSemantic.labelPrimary.color)
+                        .fontSemantic(.bodyBold)
+                    Spacer()
+                }
+                buildList(events: sectionA)
+                Divider().padding(.vertical, SizeNames.defaultMarginSmall)
+                HStack(spacing: 0) {
+                    Text("Others".localizedMissing)
+                        .textColor(ColorSemantic.labelPrimary.color)
+                        .fontSemantic(.bodyBold)
+                    Spacer()
+                }
+                buildList(events: sectionB)
+                Divider().padding(.vertical, SizeNames.defaultMarginSmall)
+                HStack(spacing: 0) {
+                    Text("Archived".localizedMissing)
+                        .textColor(ColorSemantic.labelSecondary.color)
+                        .fontSemantic(.bodyBold)
+                    Spacer()
+                }
+                buildList(events: sectionC)
+                    .opacity(0.5)
+                Spacer().padding(.vertical, SizeNames.defaultMarginSmall)
+            }
         }
     }
 
@@ -121,25 +150,8 @@ struct EventsMapView: View, ViewProtocol {
                 systemImage: (item.category.systemImageName, item.category.color),
                 onTapGesture: {
                     onSelected(item)
-                })
-                .swipeActions {
-                    Button(role: .destructive) {
-                        if let index = events.firstIndex(of: item) {
-                            //  items.remove(at: index)
-                            print("item")
-                        }
-                    } label: {
-                        Label("Delete", systemImage: "trash")
-                    }
-                }
+                }).padding(.vertical, SizeNames.defaultMarginSmall / 2)
         }
-    }
-}
-
-fileprivate extension EventsMapView {
-    @ViewBuilder
-    var routingView: some View {
-        EmptyView()
     }
 }
 

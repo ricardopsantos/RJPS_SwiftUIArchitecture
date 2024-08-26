@@ -11,8 +11,8 @@ import Common
 
 public extension Header {
     static var defaultColor: UIColor { ColorSemantic.primary.uiColor }
-    static var defaultTitleFont: Font { FontSemantic.headline.font }
-    static var defaultLargeTitleFont: Font { FontSemantic.title2.font }
+    static var defaultTitleFontSemantic: FontSemantic { .headlineBold }
+    static var defaultTitleFont: Font { defaultTitleFontSemantic.font }
 }
 
 public struct Header: View {

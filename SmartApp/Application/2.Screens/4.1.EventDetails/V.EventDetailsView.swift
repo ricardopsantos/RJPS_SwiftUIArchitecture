@@ -95,11 +95,11 @@ struct EventDetailsView: View, ViewProtocol {
     var body: some View {
         BaseView.withLoading(
             sender: "\(Self.self)",
-            appScreen: .templateWith(model: .init()),
+            appScreen: .eventDetails(model: .init(event: .random(cascadeEvents: []))),
             navigationViewModel: .custom(onBackButtonTap: {
                 onRouteBack()
             }, title: "Event Details".localizedMissing),
-            ignoresSafeArea: true,
+            ignoresSafeArea: false,
             background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,
@@ -111,6 +111,7 @@ struct EventDetailsView: View, ViewProtocol {
                 viewModel.send(.didDisappear)
             }
             .onChange(of: viewModel.locationRelevant) { locationRelevant in
+                DevTools.Log.debug(.valueChanged("\(Self.self)", "locationRelevant", nil), .view)
                 if locationRelevant {
                     locationViewModel.start()
                 } else {

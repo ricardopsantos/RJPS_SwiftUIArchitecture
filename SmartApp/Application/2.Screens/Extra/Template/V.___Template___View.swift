@@ -83,7 +83,7 @@ struct ___Template___View: View, ViewProtocol {
             sender: "\(Self.self)",
             appScreen: .templateWith(model: .init()),
             navigationViewModel: .disabled,
-            ignoresSafeArea: true,
+            ignoresSafeArea: false,
             background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,

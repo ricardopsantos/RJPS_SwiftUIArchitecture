@@ -85,11 +85,11 @@ struct EventLogDetailsView: View, ViewProtocol {
     var body: some View {
         BaseView.withLoading(
             sender: "\(Self.self)",
-            appScreen: .templateWith(model: .init()),
+            appScreen: .eventLogDetails(model: .init(trackedLog: .random)),
             navigationViewModel: .custom(onBackButtonTap: {
                 onRouteBack()
             }, title: "Event Details".localizedMissing),
-            ignoresSafeArea: true,
+            ignoresSafeArea: false,
             background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,

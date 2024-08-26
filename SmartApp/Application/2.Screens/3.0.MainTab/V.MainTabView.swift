@@ -106,15 +106,15 @@ struct MainTabView: View, ViewProtocol {
             UITabBar.appearance().unselectedItemTintColor = ColorSemantic.backgroundTertiary.uiColor
         }
         .onChange(of: tab1Router.navPath) { _ in
-            DevTools.Log.debug("tab1Router.navPath changed", .view)
+            DevTools.Log.debug(.valueChanged("\(Self.self)", "tab1Router", nil), .view)
         }.onChange(of: tab2Router.navPath) { _ in
-            DevTools.Log.debug("tab2Router.navPath changed", .view)
+            DevTools.Log.debug(.valueChanged("\(Self.self)", "tab2Router", nil), .view)
         }.onChange(of: tab3Router.navPath) { _ in
-            DevTools.Log.debug("tab3Router.navPath changed", .view)
+            DevTools.Log.debug(.valueChanged("\(Self.self)", "tab3Router", nil), .view)
         }.onChange(of: tab4Router.navPath) { _ in
-            DevTools.Log.debug("tab4Router.navPath changed", .view)
+            DevTools.Log.debug(.valueChanged("\(Self.self)", "tab4Router", nil), .view)
         }.onChange(of: tab5Router.navPath) { _ in
-            DevTools.Log.debug("tab5Router.navPath changed", .view)
+            DevTools.Log.debug(.valueChanged("\(Self.self)", "tab5Router", nil), .view)
         }
     }
 

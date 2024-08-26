@@ -84,6 +84,7 @@ struct SettingsScreen: View, ViewProtocol {
             sender: "\(Self.self)",
             appScreen: .settings,
             navigationViewModel: .disabled,
+            ignoresSafeArea: false,
             background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,

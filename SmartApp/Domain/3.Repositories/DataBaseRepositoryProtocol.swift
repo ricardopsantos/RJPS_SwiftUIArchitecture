@@ -38,6 +38,19 @@ public protocol DataBaseRepositoryProtocol {
     //
     // MARK: - TrackedLog
     //
+    func trackedLogGetAll(
+        min: Date,
+        maxDate: Date,
+        cascade: Bool
+    ) -> [Model.TrackedLog]
+    func trackedLogGetAll(
+        minLatitude: Double?,
+        maxLatitude: Double?,
+        minLongitude: Double?,
+        maxLongitude: Double?,
+        date: Date?,
+        cascade: Bool
+    ) -> [Model.TrackedLog]
     func trackedLogInsertOrUpdate(trackedLog: Model.TrackedLog, trackedEntityId: String)
     func trackedLogGetAll(cascade: Bool) -> [Model.TrackedLog]
     func trackedLogGet(trackedEntityId: String?, cascade: Bool) -> [Model.TrackedLog]

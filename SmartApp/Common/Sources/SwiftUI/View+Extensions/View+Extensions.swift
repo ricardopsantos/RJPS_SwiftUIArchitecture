@@ -12,6 +12,16 @@ import SwiftUI
 
 public extension View {
     // A view that pads this view using the specified edge insets with specified amount of padding.
+    func paddingHorizontal(_ value: CGFloat) -> some View {
+        padding(.leading, value)
+            .padding(.trailing, value)
+    }
+
+    func paddingVertical(_ value: CGFloat) -> some View {
+        padding(.top, value)
+            .padding(.bottom, value)
+    }
+
     func paddingLeft(_ value: CGFloat) -> some View { padding(.leading, value) }
     func paddingRight(_ value: CGFloat) -> some View { padding(.trailing, value) }
     func paddingBottom(_ value: CGFloat) -> some View { padding(.bottom, value) }

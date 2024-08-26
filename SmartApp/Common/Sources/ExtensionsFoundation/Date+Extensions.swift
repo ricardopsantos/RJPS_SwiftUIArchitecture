@@ -209,19 +209,38 @@ public extension Date {
         )!
     }
 
-    var beginningOfDay: Date {
+    var beginningOfDay: Date? {
         let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month, .day], from: self)
-        return calendar.date(from: components)!
+        return calendar.startOfDay(for: self)
     }
 
-    var endOfDay: Date {
+    var endOfDay: Date? {
         let calendar = Calendar.current
-        var components = calendar.dateComponents([.year, .month, .day], from: self)
-        components.hour = 23
-        components.minute = 59
-        components.second = 59
-        return calendar.date(from: components)!
+        var components = DateComponents()
+        components.day = 1
+        components.second = -1
+        if let beginningOfDay = beginningOfDay {
+            return calendar.date(byAdding: components, to: beginningOfDay)
+        } else {
+            return nil
+        }
+    }
+
+    var beginningOfMonth: Date? {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month], from: self)
+        return calendar.date(from: components)
+    }
+
+    var endOfMonth: Date? {
+        let calendar = Calendar.current
+        if let startOfMonth = beginningOfMonth {
+            var components = DateComponents()
+            components.month = 1
+            components.second = -1
+            return calendar.date(byAdding: components, to: startOfMonth)
+        }
+        return nil
     }
 
     func isBiggerThan(_ dateToCompare: Date) -> Bool {

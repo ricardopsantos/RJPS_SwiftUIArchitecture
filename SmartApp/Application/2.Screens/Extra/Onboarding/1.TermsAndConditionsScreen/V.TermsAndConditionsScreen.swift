@@ -29,6 +29,7 @@ struct TermsAndConditionsScreen: View {
             sender: "\(Self.self)",
             appScreen: .termsAndConditions,
             navigationViewModel: .disabled,
+            ignoresSafeArea: false,
             background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,

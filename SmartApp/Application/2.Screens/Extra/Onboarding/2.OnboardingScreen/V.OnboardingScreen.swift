@@ -34,6 +34,7 @@ struct OnboardingScreen: View {
             sender: "\(Self.self)",
             appScreen: .onboarding,
             navigationViewModel: .disabled,
+            ignoresSafeArea: false,
             background: .defaultBackground,
             loadingModel: viewModel.loadingModel,
             alertModel: viewModel.alertModel,

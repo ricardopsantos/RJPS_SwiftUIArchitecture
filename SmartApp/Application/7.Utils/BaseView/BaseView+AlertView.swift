@@ -110,7 +110,7 @@ struct AlertModelTestView: View {
             sender: "\(Self.self)",
             appScreen: .na,
             navigationViewModel: .disabled,
-            ignoresSafeArea: true,
+            ignoresSafeArea: false,
             background: .gradient,
             loadingModel: .notLoading,
             alertModel: alertModel,
