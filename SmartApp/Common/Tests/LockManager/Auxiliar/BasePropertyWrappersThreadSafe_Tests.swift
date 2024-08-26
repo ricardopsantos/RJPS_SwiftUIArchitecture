@@ -97,7 +97,6 @@ class BasePropertyWrappersThreadSafe_Tests: XCTestCase {
         }
         // Allow some time for the concurrent operations to finish
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-            print(testInstance.value)
             XCTAssert(testInstance.value == iterations)
             expectation.fulfill()
         }

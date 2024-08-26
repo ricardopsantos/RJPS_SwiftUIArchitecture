@@ -203,7 +203,6 @@ final class UnfairLockManager_Tests: XCTestCase {
 
         // Allow some time for the concurrent operations to finish
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-            print(successCount, failureCount)
             XCTAssertEqual(successCount + failureCount, iterations) // FAILS ("9860") is not equal to ("10000")
             XCTAssertGreaterThan(successCount, 0)
             expectation.fulfill()

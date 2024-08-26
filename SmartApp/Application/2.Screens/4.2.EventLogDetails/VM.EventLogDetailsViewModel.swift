@@ -150,7 +150,7 @@ fileprivate extension EventLogDetailsViewModel {
         note = model.note
         if model.latitude != 0, model.longitude != 0, let cascadeEntity = model.cascadeEntity {
             let category = cascadeEntity.category
-            mapItems = [.init(
+            mapItems = [GenericMapView.ModelItem.with(
                 id: model.id,
                 name: cascadeEntity.name,
                 coordinate: .init(

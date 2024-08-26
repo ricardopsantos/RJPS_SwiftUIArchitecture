@@ -85,11 +85,11 @@ public extension CommonLearnings.AsyncAwaitMainActorView {
             do {
                 let accounts = try await loader.load()
                 Task { @MainActor in
-                    print("updating")
+                    // ("updating")
                     self.accounts = accounts
                     message = nil
                 }
-                print("returning")
+                // ("returning")
             } catch {
                 Task { @MainActor in
                     message = "Unable to load"

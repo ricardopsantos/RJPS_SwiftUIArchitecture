@@ -72,7 +72,7 @@ class FavoriteEventsViewModel: BaseViewModel {
                     favorite: true,
                     archived: false,
                     cascade: true) {
-                    favorits = Array(records.prefix(3)) // Display only 3
+                    favorits = records//Array(records.prefix(3)) // Display only 3
                 }
             }
         case .addNewEvent(trackedEntityId: let trackedEntityId):
@@ -134,7 +134,7 @@ fileprivate extension FavoriteEventsViewModel {
                 case .databaseDidDeletedContentOn(let table, _):
                     if table == "\(CDataTrackedLog.self)" {
                         // Record deleted
-                        Common.ExecutionControlManager.debounce(operationId: #function) {
+                        Common.ExecutionControlManager.debounce(operationId: "\(Self.self)|\(#function)") { [weak self] in
                             self?.send(.loadFavorits)
                         }
                     }
@@ -142,7 +142,7 @@ fileprivate extension FavoriteEventsViewModel {
                 case .databaseDidFinishChangeContentItemsOn(let table):
                     if table == "\(CDataTrackedLog.self)" {
                         // Record updated
-                        Common.ExecutionControlManager.debounce(operationId: #function) {
+                        Common.ExecutionControlManager.debounce(operationId: "\(Self.self)|\(#function)") { [weak self] in
                             self?.send(.loadFavorits)
                         }
                     }

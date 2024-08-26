@@ -70,9 +70,7 @@ class EventsCalendarViewModel: BaseViewModel {
             send(.loadEvents(fullMonth: true, value: Date()))
         case .didDisappear: ()
         case .loadEvents(fullMonth: let fullMonth, let value):
-            print("WANNA RUN!")
             Common.ExecutionControlManager.debounce(operationId: "\(Self.self)|\(#function)") { [weak self] in
-                print("WILL RUN!")
                 Task { [weak self] in
                     guard let self = self else { return }
                     let min: Date!
@@ -105,20 +103,19 @@ class EventsCalendarViewModel: BaseViewModel {
 //
 
 fileprivate extension EventsCalendarViewModel {
-    
     func updateUI(logs trackedLogs: [Model.TrackedLog]) {
         let count = trackedLogs.count
         logs = trackedLogs
             .sorted(by: { $0.recordDate > $1.recordDate })
             .enumerated()
             .map { index, event in
-                    .init(
-                        id: event.id,
-                        title: "\(count - index). \(event.localizedListItemTitleV2(cascadeTrackedEntity: event.cascadeEntity))",
-                        value: event.localizedListItemValueV2)
+                .init(
+                    id: event.id,
+                    title: "\(count - index). \(event.localizedListItemTitleV2(cascadeTrackedEntity: event.cascadeEntity))",
+                    value: event.localizedListItemValueV2)
             }
     }
-    
+
     func startListeningDBChanges() {
         dataBaseRepository?.output([]).sink { [weak self] some in
             switch some {
@@ -130,8 +127,8 @@ fileprivate extension EventsCalendarViewModel {
                 case .databaseDidChangedContentItemOn: break
                 case .databaseDidFinishChangeContentItemsOn(let table):
                     if table == "\(CDataTrackedLog.self)" {
-                        Common.ExecutionControlManager.debounce(operationId: #function) { [weak self] in
-                            //self?.send(.loadEvents)
+                        Common.ExecutionControlManager.debounce(operationId: "\(Self.self)|\(#function)") { [weak self] in
+                            // self?.send(.loadEvents)
                         }
                     }
                 }

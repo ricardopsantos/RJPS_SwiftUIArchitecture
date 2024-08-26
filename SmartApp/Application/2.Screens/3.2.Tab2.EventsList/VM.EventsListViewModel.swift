@@ -95,7 +95,7 @@ fileprivate extension EventsListViewModel {
                 case .databaseDidChangedContentItemOn: break
                 case .databaseDidFinishChangeContentItemsOn(let table):
                     if table == "\(CDataTrackedLog.self)" {
-                        Common.ExecutionControlManager.debounce(operationId: #function) { [weak self] in
+                        Common.ExecutionControlManager.debounce(operationId: "\(Self.self)|\(#function)") { [weak self] in
                             self?.send(.loadEvents)
                         }
                     }

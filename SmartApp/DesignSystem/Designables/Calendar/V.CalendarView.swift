@@ -9,17 +9,26 @@ import Foundation
 import SwiftUI
 //
 import DevTools
-import DesignSystem
 import Common
 
-struct Day {
-    let date: Date
-    let isCurrentMonth: Bool
-    let isPrevMonth: Bool
-    let isNextMonth: Bool
-}
 
-extension CalendarView {
+public extension CalendarView {
+    
+    struct Day {
+        public let date: Date
+        public let isCurrentMonth: Bool
+        public let isPrevMonth: Bool
+        public let isNextMonth: Bool
+        
+        public init(date: Date, isCurrentMonth: Bool, isPrevMonth: Bool, isNextMonth: Bool) {
+            self.date = date
+            self.isCurrentMonth = isCurrentMonth
+            self.isPrevMonth = isPrevMonth
+            self.isNextMonth = isNextMonth
+        }
+    }
+
+    
     enum Config {
         static let monthFont: FontSemantic = Header.defaultTitleFontSemantic
         static let weekDaysFont: FontSemantic = .bodyBold
@@ -41,9 +50,9 @@ extension CalendarView {
     }
 }
 
-struct DayView: View {
+public struct DayView: View {
     @Environment(\.colorScheme) var colorScheme
-    private let day: Day
+    private let day: CalendarView.Day
     @Binding private var currentDate: Date
     @Binding private var selectedDay: Date?
     private var cellHeight: CGFloat {
@@ -58,13 +67,13 @@ struct DayView: View {
         Calendar.current.component(.day, from: day.date)
     }
 
-    public init(day: Day, currentDate: Binding<Date>, selectedDay: Binding<Date?>) {
+    public init(day: CalendarView.Day, currentDate: Binding<Date>, selectedDay: Binding<Date?>) {
         self.day = day
         self._currentDate = currentDate
         self._selectedDay = selectedDay
     }
 
-    var body: some View {
+    public var body: some View {
         Text("\(unitDay)")
             .fontSemantic(CalendarView.Config.daysFont)
             .frame(height: cellHeight)
@@ -116,7 +125,7 @@ struct DayView: View {
     }
 }
 
-struct CalendarHeaderView: View {
+public struct CalendarHeaderView: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding private var currentDate: Date
     @Binding private var selectedDay: Date?
@@ -125,7 +134,7 @@ struct CalendarHeaderView: View {
         self._selectedDay = selectedDay
     }
 
-    var body: some View {
+    public var body: some View {
         HStack {
             Button(action: {
                 withAnimation {
@@ -133,7 +142,7 @@ struct CalendarHeaderView: View {
                     selectedDay = nil
                 }
             }) {
-                Image(.back)
+                Image("back")
                     .resizable()
                     .scaledToFit()
                     .frame(width: SizeNames.defaultMargin * 1.5)
@@ -150,7 +159,7 @@ struct CalendarHeaderView: View {
                     selectedDay = nil
                 }
             }) {
-                Image(.back)
+                Image("back")
                     .resizable()
                     .scaledToFit()
                     .frame(width: SizeNames.defaultMargin * 1.5)
@@ -162,7 +171,7 @@ struct CalendarHeaderView: View {
     }
 }
 
-struct DaysOfWeekView: View {
+public struct DaysOfWeekView: View {
     @Environment(\.colorScheme) var colorScheme
     private var daysOfWeek: [String] {
         let formatter = DateFormatter()
@@ -170,7 +179,7 @@ struct DaysOfWeekView: View {
         return formatter.shortWeekdaySymbols
     }
 
-    var body: some View {
+    public var body: some View {
         HStack {
             ForEach(daysOfWeek, id: \.self) { day in
                 Text(day)
@@ -182,7 +191,7 @@ struct DaysOfWeekView: View {
     }
 }
 
-struct CalendarMonthlyView: View {
+public struct CalendarMonthlyView: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding private var currentDate: Date
     @Binding private var selectedDay: Date?
@@ -192,7 +201,7 @@ struct CalendarMonthlyView: View {
         self._selectedDay = selectedDay
     }
 
-    var body: some View {
+    public var body: some View {
         let days = generateDays(for: currentDate)
         VStack(spacing: SizeNames.defaultMarginSmall) {
             ForEach(0..<6) { row in
@@ -206,9 +215,9 @@ struct CalendarMonthlyView: View {
         }
     }
 
-    func generateDays(for date: Date) -> [Day] {
+    func generateDays(for date: Date) -> [CalendarView.Day] {
         let calendar = Calendar.current
-        var days = [Day]()
+        var days = [CalendarView.Day]()
 
         guard let monthInterval = calendar.dateInterval(of: .month, for: date) else { return [] }
         let firstDayOfMonth = monthInterval.start
@@ -222,7 +231,7 @@ struct CalendarMonthlyView: View {
             let isCurrentMonth = calendar.isDate(dayDate, equalTo: date, toGranularity: .month)
             let isPrevMonth = dayOffset < 0
             let isNextMonth = !isCurrentMonth && !isPrevMonth
-            days.append(Day(
+            days.append(.init(
                 date: dayDate,
                 isCurrentMonth: isCurrentMonth,
                 isPrevMonth: isPrevMonth,
@@ -234,7 +243,7 @@ struct CalendarMonthlyView: View {
     }
 }
 
-struct CalendarView: View {
+public struct CalendarView: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding private var currentDate: Date
     @Binding private var selectedDay: Date?
@@ -252,7 +261,7 @@ struct CalendarView: View {
         self.onSelectedMonth = onSelectedMonth
     }
 
-    var body: some View {
+    public var body: some View {
         VStack(spacing: SizeNames.defaultMarginSmall) {
             CalendarHeaderView(currentDate: $currentDate, selectedDay: $selectedDay)
             DaysOfWeekView()

@@ -11,7 +11,6 @@ import MapKit
 import CoreLocation
 //
 import Common
-import DesignSystem
 import Domain
 
 // https://medium.com/@davidhu-sg/mapkit-in-swiftui-79bcea6b76fc
@@ -42,33 +41,6 @@ public extension GenericMapView {
             self.image = image
         }
 
-        public init(
-            id: String,
-            name: String,
-            coordinate: CLLocationCoordinate2D,
-            onTap: @escaping () -> Void,
-            category: HitHappensEventCategory
-        ) {
-            self.id = id
-            self.name = name
-            self.coordinate = coordinate
-            self.onTap = onTap
-            self.image = (
-                category.systemImageName,
-                ColorSemantic.backgroundPrimary.color,
-                category.color
-            )
-        }
-
-        static var random: Self {
-            ModelItem(
-                id: UUID().uuidString,
-                name: String.random(10),
-                coordinate: .random,
-                onTap: {},
-                category: .fitness
-            )
-        }
     }
 }
 
@@ -78,8 +50,8 @@ public struct GenericMapView: View {
         span: MKCoordinateSpan(latitudeDelta: 0, longitudeDelta: 0)
     )
     @Binding var items: [ModelItem]
-    private let onRegionChanged: (MKCoordinateRegion)->()
-    public init(items: Binding<[ModelItem]>, onRegionChanged: @escaping (MKCoordinateRegion)->()) {
+    private let onRegionChanged: (MKCoordinateRegion) -> Void
+    public init(items: Binding<[ModelItem]>, onRegionChanged: @escaping (MKCoordinateRegion) -> Void) {
         self.onRegionChanged = onRegionChanged
         self._items = items
     }
@@ -94,7 +66,17 @@ public struct GenericMapView: View {
             onRegionChanged(new)
         }
         .onAppear {
-            region = items.map(\.coordinate).regionToFitCoordinates()
+            if !items.isEmpty {
+                region = items.map(\.coordinate).regionToFitCoordinates()
+            } else if let lastKnowLocation = Common.CoreLocationManager.shared.lastKnowLocation {
+                region = MKCoordinateRegion(
+                    center: .init(
+                        latitude: lastKnowLocation.location.coordinate.latitude,
+                        longitude: lastKnowLocation.location.coordinate.longitude
+                    ),
+                    span: MKCoordinateSpan(latitudeDelta: 0.3, longitudeDelta: 0.3)
+                )
+            }
         }
     }
 }
@@ -135,6 +117,9 @@ public extension GenericMapView {}
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    GenericMapView(items: .constant([.random]), onRegionChanged: { _ in })
+    GenericMapView(items: .constant([.init(id: "", name: "",
+                                           coordinate: .random,
+                                           onTap: { },
+                                           image: ("heart", .random, .random))]), onRegionChanged: { _ in })
 }
 #endif

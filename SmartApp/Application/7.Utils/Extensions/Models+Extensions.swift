@@ -38,7 +38,6 @@ public extension Model.TrackedEntity {
 }
 
 public extension Model.TrackedLog {
-    
     var localizedListItemTitleV1: String {
         var acc = ""
         acc += recordDate.dateMediumTimeShort
@@ -55,7 +54,7 @@ public extension Model.TrackedLog {
         }
         return acc.dropLastIf("\n")
     }
-    
+
     func localizedListItemTitleV2(cascadeTrackedEntity: Model.TrackedEntity?) -> String {
         if let cascadeTrackedEntity = cascadeTrackedEntity {
             var suffix = ""
@@ -64,7 +63,7 @@ public extension Model.TrackedLog {
         }
         return ""
     }
-    
+
     var localizedListItemValueV2: String {
         var acc = ""
         acc += "◦ " + recordDate.dateMediumTimeShort + "\n"

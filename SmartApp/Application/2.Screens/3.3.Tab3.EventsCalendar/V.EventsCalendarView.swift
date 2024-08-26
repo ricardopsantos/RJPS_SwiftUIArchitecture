@@ -12,6 +12,7 @@ import DevTools
 import Common
 import DesignSystem
 import Domain
+import DesignSystem
 
 //
 // MARK: - Coordinator
@@ -50,6 +51,13 @@ struct EventsCalendarViewCoordinator: View, ViewCoordinatorProtocol {
                 },
                 dataBaseRepository: configuration.dataBaseRepository)
             EventsCalendarView(dependencies: dependencies)
+        case .eventLogDetails(model: let model):
+            let dependencies: EventLogDetailsViewModel.Dependencies = .init(
+                model: model, onCompletion: { _ in }, onRouteBack: {
+                    coordinatorTab3.navigateBack()
+                },
+                dataBaseRepository: configuration.dataBaseRepository)
+            EventLogDetailsView(dependencies: dependencies)
         default:
             EmptyView().onAppear(perform: {
                 DevTools.assert(false, message: "Not predicted \(screen)")
@@ -105,7 +113,7 @@ struct EventsCalendarView: View, ViewProtocol {
                         viewModel.send(.loadEvents(fullMonth: false, value: day))
                     },
                     onSelectedMonth: { month in
-                            viewModel.send(.loadEvents(fullMonth: true, value: month))
+                        viewModel.send(.loadEvents(fullMonth: true, value: month))
                     })
                 Divider().padding(.vertical, SizeNames.defaultMarginSmall)
                 listTitle
@@ -114,7 +122,7 @@ struct EventsCalendarView: View, ViewProtocol {
             }
         }
     }
-    
+
     var listTitle: some View {
         Group {
             if let logs = viewModel.logs, !logs.isEmpty {
@@ -127,13 +135,12 @@ struct EventsCalendarView: View, ViewProtocol {
                         .fontSemantic(.body)
                         .textColor(ColorSemantic.labelPrimary.color)
                 }
-            }
-            else {
+            } else {
                 if let selectedDay = viewModel.selectedDay {
                     Text("No events for \(selectedDay.dateStyleShort)".localizedMissing)
                         .fontSemantic(.body)
                         .textColor(ColorSemantic.labelPrimary.color)
-                } else  {
+                } else {
                     Text("No events for \(viewModel.selectedMonth.monthAndYear)".localizedMissing)
                         .fontSemantic(.body)
                         .textColor(ColorSemantic.labelPrimary.color)
@@ -141,7 +148,7 @@ struct EventsCalendarView: View, ViewProtocol {
             }
         }
     }
-    
+
     var listView: some View {
         Group {
             if let logs = viewModel.logs, !logs.isEmpty {

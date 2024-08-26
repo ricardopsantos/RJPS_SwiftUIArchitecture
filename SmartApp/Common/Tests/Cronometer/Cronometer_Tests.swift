@@ -30,7 +30,6 @@ final class Cronometer_Tests: XCTestCase {
         Common_CronometerManager.startTimerWith()
         sleep(operationTime)
         let value = Common_CronometerManager.timeElapsed() ?? 0
-        print("#value: ", value)
         let maxBond = Double(operationTime) * maxDeviation
         let minBond = Double(operationTime) * (1 - (maxDeviation - 1))
         XCTAssert(value < maxBond && value > minBond)

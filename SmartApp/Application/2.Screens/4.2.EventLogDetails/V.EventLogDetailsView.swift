@@ -178,7 +178,7 @@ struct EventLogDetailsView: View, ViewProtocol {
     @ViewBuilder
     var mapView: some View {
         if !viewModel.mapItems.isEmpty {
-            GenericMapView(items: $viewModel.mapItems, onRegionChanged: { _ in })
+            GenericMapView(items: $viewModel.mapItems, onRegionChanged: { _ in })
                 .frame(screenWidth - (2 * SizeNames.defaultMargin))
         } else {
             EmptyView()

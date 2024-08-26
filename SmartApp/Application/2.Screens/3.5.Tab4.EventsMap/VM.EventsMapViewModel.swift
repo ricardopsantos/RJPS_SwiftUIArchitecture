@@ -12,6 +12,7 @@ import MapKit
 import Domain
 import Common
 import Core
+import DesignSystem
 
 //
 // MARK: - Model
@@ -50,8 +51,9 @@ extension EventsMapViewModel {
 class EventsMapViewModel: BaseViewModel {
     // MARK: - Usage/Auxiliar Attributes
     @Published private(set) var message: String = ""
-    @Published private(set) var events: [Model.TrackedEntity] = []
+    @Published var mapItems: [GenericMapView.ModelItem] = []
     @Published private(set) var logs: [CascadeEventListItem]?
+    private var lastRegion: MKCoordinateRegion?
     private let cancelBag = CancelBag()
     private let dataBaseRepository: DataBaseRepositoryProtocol?
     private let onTrackedLogTapped: (Model.TrackedLog) -> Void
@@ -69,13 +71,15 @@ class EventsMapViewModel: BaseViewModel {
         case .didDisappear: ()
         case .loadEvents(region: let region):
             Common.ExecutionControlManager.debounce(operationId: "\(Self.self)|\(#function)") { [weak self] in
+                self?.lastRegion = region
                 Task { [weak self] in
                     guard let self = self else { return }
-                    if let records = self.dataBaseRepository?.trackedLogGetAll(minLatitude: region.latitudeMin,
-                                                                               maxLatitude: region.latitudeMax,
-                                                                               minLongitude: region.longitudeMin,
-                                                                               maxLongitude: region.longitudeMax,
-                                                                               cascade: true) {
+                    if let records = self.dataBaseRepository?.trackedLogGetAll(
+                        minLatitude: region.latitudeMin,
+                        maxLatitude: region.latitudeMax,
+                        minLongitude: region.longitudeMin,
+                        maxLongitude: region.longitudeMax,
+                        cascade: true) {
                         updateUI(logs: records)
                     }
                 }
@@ -96,20 +100,20 @@ class EventsMapViewModel: BaseViewModel {
 //
 
 fileprivate extension EventsMapViewModel {
-    
     func updateUI(logs trackedLogs: [Model.TrackedLog]) {
         let count = trackedLogs.count
         logs = trackedLogs
             .sorted(by: { $0.recordDate > $1.recordDate })
             .enumerated()
             .map { index, event in
-                    .init(
-                        id: event.id,
-                        title: "\(count - index). \(event.localizedListItemTitleV2(cascadeTrackedEntity: event.cascadeEntity))",
-                        value: event.localizedListItemValueV2)
+                .init(
+                    id: event.id,
+                    title: "\(count - index). \(event.localizedListItemTitleV2(cascadeTrackedEntity: event.cascadeEntity))",
+                    value: event.localizedListItemValueV2)
             }
+        mapItems = trackedLogs.map { .with(trackedLog: $0, onTap: {}) }
     }
-    
+
     func startListeningDBChanges() {
         dataBaseRepository?.output([]).sink { [weak self] some in
             switch some {
@@ -121,8 +125,10 @@ fileprivate extension EventsMapViewModel {
                 case .databaseDidChangedContentItemOn: break
                 case .databaseDidFinishChangeContentItemsOn(let table):
                     if table == "\(CDataTrackedLog.self)" {
-                        Common.ExecutionControlManager.debounce(operationId: #function) { [weak self] in
-                           // self?.send(.loadEvents)
+                        Common.ExecutionControlManager.debounce(operationId: "\(Self.self)|\(#function)") { [weak self] in
+                            if let lastRegion = self?.lastRegion {
+                                self?.send(.loadEvents(region: lastRegion))
+                            }
                         }
                     }
                 }

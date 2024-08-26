@@ -26,8 +26,6 @@ public class BaseViewModel: ObservableObject {
                 alertModel.parentDismiss = { [weak self] in
                     self?.alertModel = nil
                 }
-
-                print("Is not dismissing on the tap")
                 // Set the alertModel back with the updated onDismiss
                 self.alertModel = alertModel
                 return

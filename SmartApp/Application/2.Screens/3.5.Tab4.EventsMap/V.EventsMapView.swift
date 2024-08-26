@@ -50,6 +50,13 @@ struct EventsMapViewCoordinator: View, ViewCoordinatorProtocol {
                 },
                 dataBaseRepository: configuration.dataBaseRepository)
             EventsMapView(dependencies: dependencies)
+        case .eventLogDetails(model: let model):
+            let dependencies: EventLogDetailsViewModel.Dependencies = .init(
+                model: model, onCompletion: { _ in }, onRouteBack: {
+                    coordinatorTab4.navigateBack()
+                },
+                dataBaseRepository: configuration.dataBaseRepository)
+            EventLogDetailsView(dependencies: dependencies)
         default:
             EmptyView().onAppear(perform: {
                 DevTools.assert(false, message: "Not predicted \(screen)")
@@ -100,12 +107,11 @@ struct EventsMapView: View, ViewProtocol {
             LazyVStack(spacing: 0) {
                 Header(text: "Map".localizedMissing)
                 SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
-                GenericMapView(items: .constant([
-                    .random
-                ]), onRegionChanged: { region in
-                    viewModel.send(.loadEvents(region:  region))
+                GenericMapView(items: $viewModel.mapItems, onRegionChanged: { region in
+                    viewModel.send(.loadEvents(region: region))
                 }).frame(screenSize.width - 2 * SizeNames.defaultMarginSmall)
                 Divider().padding(.vertical, SizeNames.defaultMarginSmall)
+                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
                 listTitle
                 listView
             }
@@ -131,15 +137,14 @@ struct EventsMapView: View, ViewProtocol {
             }
         }
     }
-    
+
     var listTitle: some View {
         Group {
             if let logs = viewModel.logs, !logs.isEmpty {
                 Text("\(logs.count) event(s) on region")
                     .fontSemantic(.body)
                     .textColor(ColorSemantic.labelPrimary.color)
-            }
-            else {
+            } else {
                 Text("No events on region".localizedMissing)
                     .fontSemantic(.body)
                     .textColor(ColorSemantic.labelPrimary.color)

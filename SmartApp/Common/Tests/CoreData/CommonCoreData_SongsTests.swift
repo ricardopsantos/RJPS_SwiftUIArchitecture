@@ -186,7 +186,6 @@ extension CommonCoreData_SongsTests {
             saveRandomCDataSinger(songs: 1000) // Save a singer with 1000 songs
         }
 
-        print(bd.allSongs().count)
         XCTAssert(bd.allSingers().count == 1 * 10)
         XCTAssert(bd.allSongs().count == 1000 * 10)
     }

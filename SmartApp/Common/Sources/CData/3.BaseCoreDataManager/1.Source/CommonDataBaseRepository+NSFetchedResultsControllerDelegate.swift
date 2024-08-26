@@ -37,8 +37,21 @@ extension CommonBaseCoreDataManager: NSFetchedResultsControllerDelegate {
         } else {
             /// `<CDataCRUDEntity: 0x60000211c280>` --> `CDataCRUDEntity`
             dbModelName = "\(anObject.self)".dropFirstIf("<").split(by: ":").first
-            ["id", "identifier", "key"].forEach { key in
-                if let some = (anObject as AnyObject).value(forKey: "id"), !"\(some)".isEmpty {
+            [
+                "id",
+                "identifier",
+                "key",
+                "uid",
+                "guid",
+                "record_id",
+                "object_id",
+                "entity_id",
+                "recordId",
+                "objectId",
+                "entityId"
+            ].forEach { key in
+                // Try to find the id
+                if id == nil, let some = (anObject as AnyObject).value(forKey: key), !"\(some)".isEmpty {
                     id = "\(some)"
                 }
             }
@@ -66,7 +79,7 @@ extension CommonBaseCoreDataManager: NSFetchedResultsControllerDelegate {
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         var dbModelName: String?
         fetchedResultsController.forEach { key, value in
-            if controller == value {
+            if dbModelName == nil, controller == value {
                 dbModelName = key
             }
         }

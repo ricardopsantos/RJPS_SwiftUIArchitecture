@@ -120,7 +120,7 @@ public extension Common.CoreLocationManager {
         let result = Self.lastKnowLocation
         if result == nil, locationIsAuthorized, Common_Utils.onSimulator {
             // On simulator, if the developer forgot to turn on location, will return nil.
-            let random = CLLocationCoordinate2D.random
+            let random = CLLocationCoordinate2D.lisbon
             Common_Logs.warning("Turn on 'Simulator Location' for simulator! Returned random value...")
             return (.init(latitude: random.latitude, longitude: random.longitude), .now)
         }

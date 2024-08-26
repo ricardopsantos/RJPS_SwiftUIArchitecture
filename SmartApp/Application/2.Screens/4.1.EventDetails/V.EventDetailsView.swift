@@ -24,7 +24,7 @@ struct EventDetailsViewCoordinator: View, ViewCoordinatorProtocol {
     @Environment(\.dismiss) var dismiss
     let model: EventDetailsModel
     let haveNavigationStack: Bool
-    
+
     // MARK: - Body & View
     var body: some View {
         if !haveNavigationStack {
@@ -55,7 +55,7 @@ struct EventDetailsViewCoordinator: View, ViewCoordinatorProtocol {
             EventDetailsView(dependencies: dependencies)
         case .eventLogDetails(model: let model):
             let dependencies: EventLogDetailsViewModel.Dependencies = .init(
-                model: model, onCompletion: { model in
+                model: model, onCompletion: { _ in
 
                 }, onRouteBack: {},
                 dataBaseRepository: configuration.dataBaseRepository)

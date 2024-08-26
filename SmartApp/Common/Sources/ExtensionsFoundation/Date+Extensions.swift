@@ -101,7 +101,7 @@ public extension Date {
         formatter.dateStyle = .none
         return formatter.string(from: self)
     }
-    
+
     var monthAndYear: String {
         let formatter = DateFormatter.monthAndYear
         return formatter.string(from: self)
