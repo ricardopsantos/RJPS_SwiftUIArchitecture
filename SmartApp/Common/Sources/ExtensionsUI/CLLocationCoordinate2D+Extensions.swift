@@ -88,13 +88,13 @@ public extension CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: newLatitude, longitude: newLongitude)
     }
 
-    static func regionToFitCoordinates(coordinates: [CLLocationCoordinate2D]) -> MKCoordinateRegion {
-        coordinates.regionToFitCoordinates()
+    static func regionToFitCoordinates(coordinates: [CLLocationCoordinate2D], extraDelta: Double = 0.3) -> MKCoordinateRegion {
+        coordinates.regionToFitCoordinates(extraDelta: extraDelta)
     }
 }
 
 public extension Array where Element == CLLocationCoordinate2D {
-    func regionToFitCoordinates() -> MKCoordinateRegion {
+    func regionToFitCoordinates(extraDelta: Double = 0.3) -> MKCoordinateRegion {
         guard !isEmpty else {
             return MKCoordinateRegion()
         }
@@ -113,12 +113,8 @@ public extension Array where Element == CLLocationCoordinate2D {
 
         var latitudeDelta = maxLat - minLat
         var longitudeDelta = maxLon - minLon
-        if latitudeDelta == 0 {
-            latitudeDelta = 0.3
-        }
-        if longitudeDelta == 0 {
-            longitudeDelta = 0.3
-        }
+        latitudeDelta += extraDelta // Extra delta to have a bit of margin
+        longitudeDelta += extraDelta // Extra delta to have a bit of margin
         let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
         let center = CLLocationCoordinate2D(latitude: (minLat + maxLat) / 2, longitude: (minLon + maxLon) / 2)
         return MKCoordinateRegion(center: center, span: span)

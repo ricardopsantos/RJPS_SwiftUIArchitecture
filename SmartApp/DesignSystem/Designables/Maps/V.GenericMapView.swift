@@ -61,9 +61,10 @@ public struct GenericMapView: View {
     @Binding var items: [ModelItem]
     @State private var userTrackingMode: MKUserTrackingMode = .follow
     @State private var userLocation: CLLocationCoordinate2D?
-    @State var shouldDisplayUserLocation: Bool = false
-    @State var shouldDisplayEventsLocation: Bool = true
+    @State var shouldDisplayUserLocation: Bool = true
+    @State var shouldDisplayEventsLocation: Bool = false
     @StateObject var locationViewModel: Common.SharedLocationManagerViewModel = .shared
+    @State private var isUserInteracting = false
     private let onRegionChanged: (MKCoordinateRegion) -> Void
     public init(items: Binding<[ModelItem]>, onRegionChanged: @escaping (MKCoordinateRegion) -> Void) {
         self.onRegionChanged = onRegionChanged
@@ -72,11 +73,22 @@ public struct GenericMapView: View {
 
     public var body: some View {
         content
+            .onAppear {
+                locationViewModel.start(sender: "\(Self.self)")
+                updateRegionToFitCoordinates()
+            }.onDisappear {
+                locationViewModel.stop(sender: "\(Self.self)")
+            }
             .onChange(of: items) { _ in
                 //    updateRegion()
             }
             .onChange(of: region) { new in
                 onRegionChanged(new)
+                if isUserInteracting {
+                    // User changed region. Turn off action buttons
+                    shouldDisplayUserLocation = false
+                    shouldDisplayEventsLocation = false
+                }
             }
             .onChange(of: locationViewModel.coordinates) { location in
                 if let location = location {
@@ -84,17 +96,13 @@ public struct GenericMapView: View {
                         latitude: location.latitude,
                         longitude: location.longitude
                     )
-                } else {
-                    userLocation = nil
+                    if shouldDisplayUserLocation, !shouldDisplayEventsLocation {
+                        // Just displaying user and user changed location. Update region
+                        withAnimation {
+                            updateRegionToFitCoordinates()
+                        }
+                    }
                 }
-            }
-            .onAppear {
-                locationViewModel.start()
-                Common_Utils.delay {
-                    updateRegion()
-                }
-            }.onDisappear {
-                locationViewModel.stop()
             }
     }
 
@@ -108,92 +116,82 @@ public struct GenericMapView: View {
     public var mapView: some View {
         Map(coordinateRegion: $region, annotationItems: items) { item in
             MapAnnotation(coordinate: item.coordinate) {
-                mapAnnotation(with: item)
+                annotationView(with: item)
             }
-        }
+        }.gesture(
+            DragGesture()
+                .onChanged { _ in
+                    isUserInteracting = true
+                }
+                .onEnded { _ in
+                    isUserInteracting = false
+                }
+        )
     }
 
+    @ViewBuilder
     public var actionBottonView: some View {
-        // New: Add button to recenter map on available points
-        HStack {
+        let allEventsRegion = Button(action: {
+            shouldDisplayEventsLocation.toggle()
+            withAnimation {
+                updateRegionToFitCoordinates()
+            }
+        }) {
+            Image(systemName: "list.bullet")
+                .frame(SizeNames.defaultMargin)
+                .padding(SizeNames.size_3.cgFloat)
+                .doIf(shouldDisplayEventsLocation, transform: {
+                    $0.background(ColorSemantic.primary.color.opacity(1))
+                })
+                .doIf(!shouldDisplayEventsLocation, transform: {
+                    $0.background(ColorSemantic.backgroundTertiary.color.opacity(0.66))
+                })
+                .clipShape(Circle())
+                .foregroundColor(.white)
+                .shadow(radius: SizeNames.shadowRadiusRegular)
+        }
+        .paddingBottom(SizeNames.defaultMargin)
+        .paddingRight(SizeNames.defaultMargin)
+        let userRegion = Button(action: {
+            shouldDisplayUserLocation.toggle()
+            withAnimation {
+                updateRegionToFitCoordinates()
+            }
+        }) {
+            Image(systemName: "location.fill")
+                .frame(SizeNames.defaultMargin)
+                .padding(SizeNames.size_3.cgFloat)
+                .doIf(shouldDisplayUserLocation, transform: {
+                    $0.background(ColorSemantic.primary.color.opacity(1))
+                })
+                .doIf(!shouldDisplayUserLocation, transform: {
+                    $0.background(ColorSemantic.backgroundTertiary.color.opacity(0.66))
+                })
+                .clipShape(Circle())
+                .foregroundColor(.white)
+                .shadow(radius: SizeNames.shadowRadiusRegular)
+        }
+        .paddingRight(SizeNames.defaultMargin)
+        .paddingBottom(SizeNames.defaultMargin)
+        HStack(spacing: 0) {
             Spacer()
             VStack(alignment: .leading, spacing: 0, content: {
                 Spacer()
-                Button(action: {
-                    withAnimation {
-                        shouldDisplayEventsLocation.toggle()
-                        updateRegion()
-                    }
-                }) {
-                    Image(systemName: "list.bullet")
-                        .frame(SizeNames.defaultMargin)
-                        .padding(SizeNames.size_3.cgFloat)
-                        .doIf(shouldDisplayEventsLocation, transform: {
-                            $0.background(ColorSemantic.primary.color.opacity(1))
-                        })
-                        .doIf(!shouldDisplayEventsLocation, transform: {
-                            $0.background(ColorSemantic.backgroundTertiary.color.opacity(0.66))
-                        })
-                        .clipShape(Circle())
-                        .foregroundColor(.white)
-                        .shadow(radius: SizeNames.shadowRadiusRegular)
+                allEventsRegion
+                if locationViewModel.locationIsAuthorized {
+                    userRegion
                 }
-                .paddingBottom(SizeNames.defaultMargin)
-                .paddingRight(SizeNames.defaultMargin)
-                Button(action: {
-                    withAnimation {
-                        shouldDisplayUserLocation.toggle()
-                        updateRegion()
-                    }
-                }) {
-                    Image(systemName: "location.fill")
-                        .frame(SizeNames.defaultMargin)
-                        .padding(SizeNames.size_3.cgFloat)
-                        .doIf(shouldDisplayUserLocation, transform: {
-                            $0.background(ColorSemantic.primary.color.opacity(1))
-                        })
-                        .doIf(!shouldDisplayUserLocation, transform: {
-                            $0.background(ColorSemantic.backgroundTertiary.color.opacity(0.66))
-                        })
-                        .clipShape(Circle())
-                        .foregroundColor(.white)
-                        .shadow(radius: SizeNames.shadowRadiusRegular)
-                }
-                .paddingRight(SizeNames.defaultMargin)
-                .paddingBottom(SizeNames.defaultMargin)
             })
         }
     }
 }
 
 //
-// MARK: - Auxiliar
+// MARK: - Auxiliar Views
 //
 public extension GenericMapView {
-    func updateRegion() {
-        var coordinates: [CLLocationCoordinate2D] = []
-        if shouldDisplayUserLocation, let userLocation = userLocation {
-            coordinates.append(userLocation)
-        }
-        if shouldDisplayEventsLocation {
-            let validItems = items.map(\.coordinate)
-                .filter { $0.latitude != 0 && $0.longitude != 0 }
-            coordinates.append(contentsOf: validItems)
-        }
-        if !coordinates.isEmpty {
-            region = coordinates.regionToFitCoordinates()
-        } else {
-            // No coordinates! Center on user...
-            if let userLocation {
-                region = [userLocation].regionToFitCoordinates()
-            } else {
-                region = CLLocationCoordinate2D.europeanCapitals.regionToFitCoordinates()
-            }
-        }
-    }
-
     @ViewBuilder
-    func mapAnnotation(with item: ModelItem) -> some View {
+    func annotationView(with item: ModelItem) -> some View {
         let margin: CGFloat = SizeNames.size_3.cgFloat
         let size: CGFloat = SizeNames.defaultMargin + margin
         Button(action: {
@@ -214,6 +212,49 @@ public extension GenericMapView {
 }
 
 //
+// MARK: - Auxiliar
+//
+public extension GenericMapView {
+    var failSafeUserLocation: CLLocationCoordinate2D? {
+        if let userLocation = userLocation {
+            return userLocation
+        } else if let coordinates = locationViewModel.coordinates {
+            return .init(latitude: coordinates.latitude, longitude: coordinates.longitude)
+        }
+        return nil
+    }
+
+    func updateRegionToFitCoordinates() {
+        guard shouldDisplayUserLocation || shouldDisplayEventsLocation else {
+            return
+        }
+        var meanFullCoordinates: [CLLocationCoordinate2D] = []
+        if shouldDisplayUserLocation,
+           locationViewModel.locationIsAuthorized,
+           let userLocation = failSafeUserLocation {
+            meanFullCoordinates.append(userLocation)
+        }
+        if shouldDisplayEventsLocation {
+            let validItems = items.map(\.coordinate)
+                .filter { $0.latitude != 0 && $0.longitude != 0 }
+            meanFullCoordinates.append(contentsOf: validItems)
+        }
+        if !meanFullCoordinates.isEmpty {
+            region = meanFullCoordinates.regionToFitCoordinates()
+        } else {
+            // No coordinates! Center on user...
+            if let userLocation = failSafeUserLocation {
+                region = [userLocation].regionToFitCoordinates()
+            } else if region.center.latitude == 0, region.center.longitude == 0 {
+                // No coordinates and we failed to get the user position.
+                // If we arrive here and the center of the map is on the ocean, center it on Europe
+                region = CLLocationCoordinate2D.europeanCapitals.regionToFitCoordinates()
+            }
+        }
+    }
+}
+
+//
 // MARK: - Utils
 //
 public extension GenericMapView {}
@@ -224,29 +265,33 @@ public extension GenericMapView {}
 
 #if canImport(SwiftUI) && DEBUG
 #Preview {
-    GenericMapView(items: .constant([
-        .init(
-            id: "",
-            name: "1",
-            coordinate: .random,
-            onTap: {},
-            image: ("heart", .random, .random)
-        ),
-        .init(
-            id: "",
-            name: "2",
-            coordinate: .random,
-            onTap: {},
-            image: ("heart", .random, .random)
-        ),
-        .init(
-            id: "",
-            name: "3",
-            coordinate: .random,
-            onTap: {},
-            image: ("heart", .random, .random)
-        )
-    ]), onRegionChanged: { _ in })
-        .padding()
+    VStack {
+        GenericMapView(items: .constant([
+            .init(
+                id: "",
+                name: "1",
+                coordinate: .random,
+                onTap: {},
+                image: ("heart", .random, .random)
+            ),
+            .init(
+                id: "",
+                name: "2",
+                coordinate: .random,
+                onTap: {},
+                image: ("heart", .random, .random)
+            ),
+            .init(
+                id: "",
+                name: "3",
+                coordinate: .random,
+                onTap: {},
+                image: ("heart", .random, .random)
+            )
+        ]), onRegionChanged: { _ in })
+            .frame(maxHeight: screenHeight / 3)
+        Spacer()
+    }
+    .padding()
 }
 #endif

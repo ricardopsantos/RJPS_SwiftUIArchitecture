@@ -77,7 +77,7 @@ struct EventLogDetailsView: View, ViewProtocol {
     private let onRouteBack: () -> Void
     @State var locationSwitchIsOn: Bool = false
     private let cancelBag: CancelBag = .init()
-    @StateObject var locationViewModel: Common.BasicLocationManagerViewModel = .init()
+    @StateObject var locationViewModel: Common.SharedLocationManagerViewModel = .shared
 
     // MARK: - Body & View
     var body: some View {

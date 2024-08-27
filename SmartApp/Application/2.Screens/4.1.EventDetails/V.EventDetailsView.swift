@@ -87,7 +87,7 @@ struct EventDetailsView: View, ViewProtocol {
     private let onRouteBack: () -> Void
     @State var locationSwitchIsOn: Bool = false
     private let cancelBag: CancelBag = .init()
-    @StateObject var locationViewModel: Common.BasicLocationManagerViewModel = .init()
+    @StateObject var locationViewModel: Common.SharedLocationManagerViewModel = .shared
 
     // MARK: - Body & View
     var body: some View {
@@ -111,10 +111,10 @@ struct EventDetailsView: View, ViewProtocol {
             .onChange(of: viewModel.locationRelevant) { locationRelevant in
                 DevTools.Log.debug(.valueChanged("\(Self.self)", "locationRelevant", nil), .view)
                 if locationRelevant {
-                    locationViewModel.start()
+                    locationViewModel.start(sender: "\(Self.self)")
                 }
                 else {
-                    locationViewModel.stop()
+                    locationViewModel.stop(sender: "\(Self.self)")
                 }
             }
     }

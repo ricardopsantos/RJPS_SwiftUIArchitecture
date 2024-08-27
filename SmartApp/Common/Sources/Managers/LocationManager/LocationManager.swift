@@ -74,20 +74,31 @@ public extension Common {
             public let longitude: Double
         }
 
-        private init() {}
-
         public static var shared = SharedLocationManagerViewModel()
+        private init() {}
         @Published public private(set) var locationIsAuthorized: Bool = true
         @Published public private(set) var coordinates: Coordinate?
-        public func stop() {
-            Common_Logs.debug("\(Self.self) stoped")
-            SharedLocationManager.shared.stopUpdatingLocation()
+        @PWThreadSafe private var refCount: [String: Bool] = [:]
+        public func stop(sender: String) {
+            if refCount[sender] != nil {
+                refCount[sender] = false
+            }
+            if refCount.allSatisfy(\.value) {
+                Common_Logs.debug("\(Self.self) stoped")
+                SharedLocationManager.shared.stopUpdatingLocation()
+            } else {
+                let sendersUsing = refCount.filter(\.value).map(\.key)
+                Common_Logs.debug("\(Self.self) stop by [\(sender)] ignored. On use by \(sendersUsing)")
+            }
         }
 
-        public func start() {
+        public func start(sender: String) {
             Common_Logs.debug("\(Self.self) started")
             let onLocationLost = { [weak self] in
                 self?.coordinates = nil
+            }
+            if refCount[sender] == nil {
+                refCount[sender] = true
             }
             SharedLocationManager.shared.startUpdatingLocation { [weak self] in
                 self?.locationIsAuthorized = SharedLocationManager.shared.locationIsAuthorized
@@ -167,14 +178,7 @@ fileprivate extension Common.SharedLocationManager {
 
 public extension Common.SharedLocationManager {
     var lastKnowLocation: (location: CLLocation, date: Date)? {
-        let result = Self.lastKnowLocation
-        if result == nil, locationIsAuthorized, Common_Utils.onSimulator {
-            // On simulator, if the developer forgot to turn on location, will return nil.
-            let random = CLLocationCoordinate2D.lisbon
-            Common_Logs.warning("Turn on 'Simulator Location' for simulator! Returned random value...")
-            return (.init(latitude: random.latitude, longitude: random.longitude), .now)
-        }
-        return result
+        Self.lastKnowLocation
     }
 
     var locationIsExplicitlyDenied: Bool {
