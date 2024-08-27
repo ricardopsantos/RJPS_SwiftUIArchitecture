@@ -53,6 +53,7 @@ class EventsCalendarViewModel: BaseViewModel {
     @Published private(set) var logs: [CascadeEventListItem]?
     @Published var selectedDay: Date?
     @Published var selectedMonth: Date = .now
+    @Published var eventsForDay: [Date: [Color]] = [:]
     private let cancelBag = CancelBag()
     private let dataBaseRepository: DataBaseRepositoryProtocol?
     private let onTrackedLogTapped: (Model.TrackedLog) -> Void
@@ -114,6 +115,21 @@ fileprivate extension EventsCalendarViewModel {
                     title: "\(count - index). \(event.localizedListItemTitleV2(cascadeTrackedEntity: event.cascadeEntity))",
                     value: event.localizedListItemValueV2)
             }
+        var eventsForDayAcc: [Date: [Color]] = [:]
+        trackedLogs.forEach { log in
+            let key = log.recordDate.middleOfDay
+            let color = log.cascadeEntity?.category.color
+            if let key = key, let color = color {
+                if eventsForDayAcc[key] == nil {
+                    eventsForDayAcc[key] = [color]
+                } else {
+                    var colors: [Color] = (eventsForDayAcc[key] ?? [])
+                    colors.append(color)
+                    eventsForDayAcc[key] = colors
+                }
+            }
+        }
+        eventsForDay = eventsForDayAcc
     }
 
     func startListeningDBChanges() {

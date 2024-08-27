@@ -107,7 +107,8 @@ struct EventsCalendarView: View, ViewProtocol {
             LazyVStack(spacing: 0) {
                 CalendarView(
                     currentDate: $viewModel.selectedMonth,
-                    selectedDay: $viewModel.selectedDay,
+                    selectedDay: $viewModel.selectedDay, 
+                    eventsForDay: $viewModel.eventsForDay,
                     onSelectedDay: { day in
                         viewModel.send(.loadEvents(fullMonth: false, value: day))
                     },

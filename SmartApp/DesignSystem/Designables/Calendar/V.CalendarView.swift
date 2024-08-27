@@ -12,20 +12,6 @@ import DevTools
 import Common
 
 public extension CalendarView {
-    struct Day {
-        public let date: Date
-        public let isCurrentMonth: Bool
-        public let isPrevMonth: Bool
-        public let isNextMonth: Bool
-
-        public init(date: Date, isCurrentMonth: Bool, isPrevMonth: Bool, isNextMonth: Bool) {
-            self.date = date
-            self.isCurrentMonth = isCurrentMonth
-            self.isPrevMonth = isPrevMonth
-            self.isNextMonth = isNextMonth
-        }
-    }
-
     enum Config {
         static let monthFont: FontSemantic = Header.defaultTitleFontSemantic
         static let weekDaysFont: FontSemantic = .bodyBold
@@ -47,9 +33,28 @@ public extension CalendarView {
     }
 }
 
+public extension CalendarView {
+    struct DayModel {
+        public let date: Date
+        public let isCurrentMonth: Bool
+        public let isPrevMonth: Bool
+        public let isNextMonth: Bool
+        public let events: [Color]
+
+        public init(date: Date, isCurrentMonth: Bool, isPrevMonth: Bool, isNextMonth: Bool, events: [Color]) {
+            self.date = date
+            self.isCurrentMonth = isCurrentMonth
+            self.isPrevMonth = isPrevMonth
+            self.isNextMonth = isNextMonth
+            self.events = Array(Set(events)) // Remove duplicated
+        }
+    }
+}
+
+
 public struct DayView: View {
     @Environment(\.colorScheme) var colorScheme
-    private let day: CalendarView.Day
+    private let day: CalendarView.DayModel
     @Binding private var currentDate: Date
     @Binding private var selectedDay: Date?
     private var cellHeight: CGFloat {
@@ -64,35 +69,61 @@ public struct DayView: View {
         Calendar.current.component(.day, from: day.date)
     }
 
-    public init(day: CalendarView.Day, currentDate: Binding<Date>, selectedDay: Binding<Date?>) {
+    public init(day: CalendarView.DayModel, currentDate: Binding<Date>, selectedDay: Binding<Date?>) {
         self.day = day
         self._currentDate = currentDate
         self._selectedDay = selectedDay
     }
 
     public var body: some View {
+        ZStack {
+            dayView
+                .onTapGesture {
+                    withAnimation {
+                        if day.isPrevMonth {
+                            currentDate = currentDate.add(month: -1)
+                        } else if day.isNextMonth {
+                            currentDate = currentDate.add(month: 1)
+                        } else {
+                            if selectedDay == day.date {
+                                selectedDay = nil // Unselect if the same day is tapped
+                            } else {
+                                selectedDay = day.date
+                                currentDate = currentDate.set(day: unitDay)
+                            }
+                        }
+                    }
+                }
+            eventsView
+        }
+        .frame(height: cellHeight)
+        .frame(maxWidth: .infinity)
+    }
+    
+    @ViewBuilder
+    var eventsView: some View {
+        if day.events.isEmpty {
+            EmptyView()
+        } else {
+            VStack(spacing: 0) {
+                Spacer()
+                LinearGradient(gradient: Gradient(colors: day.events),
+                               startPoint: .leading,
+                               endPoint: .trailing)
+                .frame(height: 6)
+                .cornerRadius2(3)
+                .opacity(0.5)
+            }
+        }
+    }
+    
+    var dayView: some View {
         Text("\(unitDay)")
             .fontSemantic(CalendarView.Config.daysFont)
             .frame(height: cellHeight)
             .frame(maxWidth: .infinity)
             .background(backgroundColor())
             .foregroundColor(textColor())
-            .onTapGesture {
-                withAnimation {
-                    if day.isPrevMonth {
-                        currentDate = currentDate.add(month: -1)
-                    } else if day.isNextMonth {
-                        currentDate = currentDate.add(month: 1)
-                    } else {
-                        if selectedDay == day.date {
-                            selectedDay = nil // Unselect if the same day is tapped
-                        } else {
-                            selectedDay = day.date
-                            currentDate = currentDate.set(day: unitDay)
-                        }
-                    }
-                }
-            }
             .cornerRadius2(day.date.isToday ? cellHeight / 2 : SizeNames.cornerRadius / 2)
     }
 
@@ -191,78 +222,87 @@ public struct CalendarMonthlyView: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding private var currentDate: Date
     @Binding private var selectedDay: Date?
+    @Binding private var eventsForDay: [Date: [Color]] // New Binding variable
 
-    public init(currentDate: Binding<Date>, selectedDay: Binding<Date?>) {
+    public init(currentDate: Binding<Date>, selectedDay: Binding<Date?>, eventsForDay: Binding<[Date: [Color]]>) {
         self._currentDate = currentDate
         self._selectedDay = selectedDay
+        self._eventsForDay = eventsForDay
     }
 
     public var body: some View {
-        let days = generateDays(for: currentDate)
-        VStack(spacing: 0) {
-            ForEach(0..<6) { row in
-                HStack(spacing: SizeNames.defaultMarginSmall) {
-                    ForEach(0..<7) { col in
-                        let day = days[row * 7 + col]
-                        DayView(day: day, currentDate: $currentDate, selectedDay: $selectedDay)
-                    }
-                }
-                SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+         let days = generateDays(for: currentDate)
+         VStack(spacing: 0) {
+             ForEach(0..<6) { row in
+                 HStack(spacing: SizeNames.defaultMarginSmall) {
+                     ForEach(0..<7) { col in
+                         let day = days[row * 7 + col]
+                         DayView(day: day, currentDate: $currentDate, selectedDay: $selectedDay)
+                     }
+                 }
+                 SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
+             }
+         }
+     }
+
+    func generateDays(for date: Date) -> [CalendarView.DayModel] {
+            let calendar = Calendar.current
+            var days = [CalendarView.DayModel]()
+
+            guard let monthInterval = calendar.dateInterval(of: .month, for: date) else { return [] }
+            let firstDayOfMonth = monthInterval.start
+            let firstWeekdayOfMonth = calendar.component(.weekday, from: firstDayOfMonth)
+
+            let daysBefore = (firstWeekdayOfMonth + 5) % 7 // Days before the start of the month, adjusted for Monday
+
+            for i in 0..<42 {
+                let dayOffset = i - daysBefore
+                let dayDate = calendar.date(byAdding: .day, value: dayOffset, to: firstDayOfMonth)!
+                let isCurrentMonth = calendar.isDate(dayDate, equalTo: date, toGranularity: .month)
+                let isPrevMonth = dayOffset < 0
+                let isNextMonth = !isCurrentMonth && !isPrevMonth
+
+                let associated = eventsForDay.filter({ $0.key.isSame(day: dayDate) }).first?.value ?? []
+                // Get the events for this date from the dateDic dictionary
+                days.append(.init(
+                    date: dayDate,
+                    isCurrentMonth: isCurrentMonth,
+                    isPrevMonth: isPrevMonth,
+                    isNextMonth: isNextMonth,
+                    events: associated
+                ))
             }
+
+            return days
         }
-    }
-
-    func generateDays(for date: Date) -> [CalendarView.Day] {
-        let calendar = Calendar.current
-        var days = [CalendarView.Day]()
-
-        guard let monthInterval = calendar.dateInterval(of: .month, for: date) else { return [] }
-        let firstDayOfMonth = monthInterval.start
-        let firstWeekdayOfMonth = calendar.component(.weekday, from: firstDayOfMonth)
-
-        let daysBefore = (firstWeekdayOfMonth + 5) % 7 // Days before the start of the month, adjusted for Monday
-
-        for i in 0..<42 {
-            let dayOffset = i - daysBefore
-            let dayDate = calendar.date(byAdding: .day, value: dayOffset, to: firstDayOfMonth)!
-            let isCurrentMonth = calendar.isDate(dayDate, equalTo: date, toGranularity: .month)
-            let isPrevMonth = dayOffset < 0
-            let isNextMonth = !isCurrentMonth && !isPrevMonth
-            days.append(.init(
-                date: dayDate,
-                isCurrentMonth: isCurrentMonth,
-                isPrevMonth: isPrevMonth,
-                isNextMonth: isNextMonth
-            ))
-        }
-
-        return days
-    }
 }
 
 public struct CalendarView: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding private var currentDate: Date
     @Binding private var selectedDay: Date?
+    @Binding private var eventsForDay: [Date: [Color]]
     private let onSelectedDay: (Date?) -> Void
     private let onSelectedMonth: (Date) -> Void
     public init(
-        currentDate: Binding<Date>,
-        selectedDay: Binding<Date?>,
-        onSelectedDay: @escaping (Date?) -> Void,
-        onSelectedMonth: @escaping (Date) -> Void
-    ) {
-        self._currentDate = currentDate
-        self._selectedDay = selectedDay
-        self.onSelectedDay = onSelectedDay
-        self.onSelectedMonth = onSelectedMonth
-    }
+         currentDate: Binding<Date>,
+         selectedDay: Binding<Date?>,
+         eventsForDay: Binding<[Date: [Color]]>,
+         onSelectedDay: @escaping (Date?) -> Void,
+         onSelectedMonth: @escaping (Date) -> Void
+     ) {
+         self._currentDate = currentDate
+         self._selectedDay = selectedDay
+         self._eventsForDay = eventsForDay
+         self.onSelectedDay = onSelectedDay
+         self.onSelectedMonth = onSelectedMonth
+     }
 
     public var body: some View {
         VStack(spacing: SizeNames.defaultMarginSmall) {
             CalendarHeaderView(currentDate: $currentDate, selectedDay: $selectedDay)
             DaysOfWeekView()
-            CalendarMonthlyView(currentDate: $currentDate, selectedDay: $selectedDay)
+            CalendarMonthlyView(currentDate: $currentDate, selectedDay: $selectedDay, eventsForDay: $eventsForDay)
             Spacer()
         }.onChange(of: currentDate) { new in
             DevTools.Log.debug(.valueChanged("\(Self.self)", "currentDate", new.description), .view)
@@ -282,7 +322,17 @@ public struct CalendarView: View {
 #Preview {
     CalendarView(
         currentDate: .constant(Date()),
-        selectedDay: .constant(nil),
+        selectedDay: .constant(nil), 
+        eventsForDay: .constant(
+            [
+                Date().add(days: -11): [.red],
+                Date().add(days: 10): [.red, .blue],
+             Date().add(days: -10): [.orange, .green, .orange, .green],
+             Date().add(days: -5): [.orange, .green, .orange, .green],
+             Date().add(days: -5): [.orange, .green],
+             Date(): [.random, .random]
+            ]
+        ),
         onSelectedDay: { _ in },
         onSelectedMonth: { _ in }
     )

@@ -149,6 +149,9 @@ public extension Date {
         return formatter.string(from: self)
     }
 
+    func isSame(day date: Date) -> Bool {
+        day == date.day && month == date.month && year == date.year
+    }
     var isToday: Bool { day == Date.userDate.day && month == Date.userDate.month && year == Date.userDate.year }
     var isYesterday: Bool {
         let yesterday = Date.userDate.add(days: -1)
@@ -219,6 +222,11 @@ public extension Date {
         return calendar.startOfDay(for: self)
     }
 
+    var middleOfDay: Date? {
+        let calendar = Calendar.current
+        return calendar.date(bySettingHour: 12, minute: 0, second: 0, of: self)
+    }
+    
     var endOfDay: Date? {
         let calendar = Calendar.current
         var components = DateComponents()

@@ -59,7 +59,6 @@ public struct GenericMapView: View {
         span: MKCoordinateSpan(latitudeDelta: 0, longitudeDelta: 0)
     )
     @Binding var items: [ModelItem]
-    @State private var userTrackingMode: MKUserTrackingMode = .follow
     @State private var userLocation: CLLocationCoordinate2D?
     @State var shouldDisplayUserLocation: Bool = true
     @State var shouldDisplayEventsLocation: Bool = false
@@ -75,12 +74,16 @@ public struct GenericMapView: View {
         content
             .onAppear {
                 locationViewModel.start(sender: "\(Self.self)")
+                shouldDisplayUserLocation = locationViewModel.locationIsAuthorized
                 updateRegionToFitCoordinates()
             }.onDisappear {
                 locationViewModel.stop(sender: "\(Self.self)")
             }
             .onChange(of: items) { _ in
-                //    updateRegion()
+                if shouldDisplayEventsLocation, items.isEmpty {
+                    // No items, so no need on this being on
+                    shouldDisplayEventsLocation = false
+                }
             }
             .onChange(of: region) { new in
                 onRegionChanged(new)
@@ -150,6 +153,7 @@ public struct GenericMapView: View {
                 .foregroundColor(.white)
                 .shadow(radius: SizeNames.shadowRadiusRegular)
         }
+        .userInteractionEnabled(!items.isEmpty)
         .paddingBottom(SizeNames.defaultMargin)
         .paddingRight(SizeNames.defaultMargin)
         let userRegion = Button(action: {
@@ -171,6 +175,7 @@ public struct GenericMapView: View {
                 .foregroundColor(.white)
                 .shadow(radius: SizeNames.shadowRadiusRegular)
         }
+        .userInteractionEnabled(locationViewModel.locationIsAuthorized)
         .paddingRight(SizeNames.defaultMargin)
         .paddingBottom(SizeNames.defaultMargin)
         HStack(spacing: 0) {
