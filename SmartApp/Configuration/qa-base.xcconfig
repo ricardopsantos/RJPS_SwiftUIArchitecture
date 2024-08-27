@@ -7,7 +7,8 @@
 
 BUILD_USER = $(USER)
 PRODUCT_NAME = Smart.QA
-PRODUCT_BUNDLE_IDENTIFIER = qa.com.ricardo.app.id
+PRODUCT_BUNDLE_IDENTIFIER = qa.hit.happens.app.id
+//PRODUCT_BUNDLE_IDENTIFIER = dev.com.ricardo.app.id
 TARGET_ENVIRONMENT = qa
 //ENABLE_BITCODE = YES
 

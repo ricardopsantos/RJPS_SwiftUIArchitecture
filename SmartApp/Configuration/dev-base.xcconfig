@@ -7,7 +7,8 @@
 
 BUILD_USER = $(USER)
 PRODUCT_NAME = Smart.Dev
-PRODUCT_BUNDLE_IDENTIFIER = dev.com.ricardo.app.id
+PRODUCT_BUNDLE_IDENTIFIER = dev.hit.happens.app.id
+//PRODUCT_BUNDLE_IDENTIFIER = dev.com.ricardo.app.id
 TARGET_ENVIRONMENT = dev
 //ENABLE_BITCODE = YES
 

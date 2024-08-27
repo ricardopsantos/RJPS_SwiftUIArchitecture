@@ -56,9 +56,9 @@
 		0B3E16AC9D807430E463C499 /* Common.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18E237663C47BB81482983EC /* Common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0BF3F834BE566999FFD7A629 /* Combine+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88C6295403E6DA1AED6D352 /* Combine+UIKit.swift */; };
 		0C6E59FDDA732CF148BA3BFF /* PreferenceKey.md in Resources */ = {isa = PBXBuildFile; fileRef = 8CF2E1738B8EEFC68425146C /* PreferenceKey.md */; };
-		0E631307F67F3510B0B0BB08 /* SmartApp.app in Frameworks */ = {isa = PBXBuildFile; fileRef = 2799BBAA57DA4E5F3A8AEA82 /* SmartApp.app */; };
+		0E631307F67F3510B0B0BB08 /* Smart.Dev.app in Frameworks */ = {isa = PBXBuildFile; fileRef = 2799BBAA57DA4E5F3A8AEA82 /* Smart.Dev.app */; };
 		0F26BF993F6A78291397208C /* DevTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4FA46294AA76564590851E /* DevTools.framework */; };
-		0FAE766250ED4869B9257182 /* SmartApp.app in Frameworks */ = {isa = PBXBuildFile; fileRef = 2799BBAA57DA4E5F3A8AEA82 /* SmartApp.app */; };
+		0FAE766250ED4869B9257182 /* Smart.Dev.app in Frameworks */ = {isa = PBXBuildFile; fileRef = 2799BBAA57DA4E5F3A8AEA82 /* Smart.Dev.app */; };
 		108DADBB17D6AA95AF5FEAD6 /* Model+HitHappensEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3476DE80C2B7CE9A63E734 /* Model+HitHappensEvent.swift */; };
 		108FD00F89045EFDBED7C37E /* E.HitHappensEventCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEDDC4AA308F61131A51EAB /* E.HitHappensEventCategory.swift */; };
 		110BBF9AB478BEF47D925A0C /* JSONDecoder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9A8D9023611A9F1AE80966 /* JSONDecoder+Extensions.swift */; };
@@ -315,7 +315,6 @@
 		92E54CEC083F5A70D72ECC7B /* NeumorphicButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA4E4F4D323FA4B61083BD4 /* NeumorphicButton.swift */; };
 		94B782716C117CBF9B8D623E /* 1.NetworkAgentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965F627D549D028A01382AFA /* 1.NetworkAgentProtocol.swift */; };
 		94F901D4AED0937C1B93AFE2 /* E.Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A8D8A0E154B1642DA5A5B6 /* E.Tab.swift */; };
-		9504059F1AFF82ACF6263AA9 /* GoogleService-Info-mock.com.ricardo.app.id.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13CFA2AB4D5FD254EFA43A34 /* GoogleService-Info-mock.com.ricardo.app.id.plist */; };
 		950499FBF34E2E487AAF4D45 /* V.DefaultSegmentedPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D511D4EA6A26E85EADD4CB5 /* V.DefaultSegmentedPickerView.swift */; };
 		9519D08826002DCD6BF79F4D /* E.HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF8434FCD66FD393A2CA927 /* E.HttpMethod.swift */; };
 		95D070E014A67CC0EFB176E7 /* CacheManagerForCodableDBRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D8EF662666A53FB0F3968 /* CacheManagerForCodableDBRepository.swift */; };
@@ -732,7 +731,6 @@
 		10EA4DEFAF1D8E741C520B9B /* DBVersion1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DBVersion1.xcdatamodel; sourceTree = "<group>"; };
 		12CCB3B23B3463BC52EF3457 /* View+BorderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+BorderModifier.swift"; sourceTree = "<group>"; };
 		139B4C77884AA238FA355F93 /* UITestingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestingManager.swift; sourceTree = "<group>"; };
-		13CFA2AB4D5FD254EFA43A34 /* GoogleService-Info-mock.com.ricardo.app.id.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info-mock.com.ricardo.app.id.plist"; sourceTree = "<group>"; };
 		14B5589A727F86FE0EB879A2 /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
 		14E9E77CBCB289260F99F61F /* UITextField+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
 		150AEB9E22D77F94AB4E8D80 /* 3.AuthenticationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3.AuthenticationHandler.swift; sourceTree = "<group>"; };
@@ -766,7 +764,7 @@
 		25FAE6F8946B2E531CBC6F92 /* UISearchTextField+CombineCompatible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchTextField+CombineCompatible.swift"; sourceTree = "<group>"; };
 		266EC51DA1C2D7D4514D130C /* EmployeeServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeServiceProtocol.swift; sourceTree = "<group>"; };
 		2736D4E62D95E295A67997C2 /* CDataTrackedLog+Mappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDataTrackedLog+Mappers.swift"; sourceTree = "<group>"; };
-		2799BBAA57DA4E5F3A8AEA82 /* SmartApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; name = SmartApp.app; path = Smart.Dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2799BBAA57DA4E5F3A8AEA82 /* Smart.Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Smart.Dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		279B76239CB42DF131B51430 /* ProjectedOnChange<T>.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProjectedOnChange<T>.swift"; sourceTree = "<group>"; };
 		296583003B92FC71408EF133 /* APIEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoints.swift; sourceTree = "<group>"; };
 		29B370CCC590C7DED474751D /* Common.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Common.png; sourceTree = "<group>"; };
@@ -1215,7 +1213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1272564510C0AA8383E4DE1D /* XCTest.framework in Frameworks */,
-				0FAE766250ED4869B9257182 /* SmartApp.app in Frameworks */,
+				0FAE766250ED4869B9257182 /* Smart.Dev.app in Frameworks */,
 				CFF46A92243D386CAABB45A2 /* Nimble in Frameworks */,
 				BFE383E24FFCA211A28AAF03 /* ViewInspector in Frameworks */,
 			);
@@ -1245,7 +1243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				91B161188A256CEF7C969FD4 /* XCTest.framework in Frameworks */,
-				0E631307F67F3510B0B0BB08 /* SmartApp.app in Frameworks */,
+				0E631307F67F3510B0B0BB08 /* Smart.Dev.app in Frameworks */,
 				75D05F94F2E94C17AAAA8185 /* Nimble in Frameworks */,
 				A34FE9DCCD379A45982C989A /* ViewInspector in Frameworks */,
 			);
@@ -1561,7 +1559,6 @@
 				7FFA3FD226F5FF1DCA61401F /* 7.Utils */,
 				D610E9C15F645141AA91565A /* GoogleService-Info-com.ricardo.app.id.plist */,
 				AF30ED1D16A288AA48D508C0 /* GoogleService-Info-dev.com.ricardo.app.id.plist */,
-				13CFA2AB4D5FD254EFA43A34 /* GoogleService-Info-mock.com.ricardo.app.id.plist */,
 				4B9E32E0C65AB1EF92D0360F /* GoogleService-Info-qa.com.ricardo.app.id.plist */,
 				0483728CE05056112AD3A293 /* Info.plist */,
 				E30942FC2D62DBD57C5A685B /* SmartApp-Bridging-Header.h */,
@@ -2097,7 +2094,7 @@
 				BC7D36654F44D16A89F89E8B /* DesignSystem.framework */,
 				EE4FA46294AA76564590851E /* DevTools.framework */,
 				A9C05DE96EC10976152DACA0 /* Domain.framework */,
-				2799BBAA57DA4E5F3A8AEA82 /* SmartApp.app */,
+				2799BBAA57DA4E5F3A8AEA82 /* Smart.Dev.app */,
 				1D491B8DF3A6299EE6ACD7D6 /* SmartAppUITests.xctest */,
 				CF9D6C93CE5A73F4A17612DC /* SmartAppUnitTests.xctest */,
 			);
@@ -3171,7 +3168,7 @@
 				9663D32F56CD258A64E62FB0 /* FirebaseAppCheck */,
 			);
 			productName = SmartApp;
-			productReference = 2799BBAA57DA4E5F3A8AEA82 /* SmartApp.app */;
+			productReference = 2799BBAA57DA4E5F3A8AEA82 /* Smart.Dev.app */;
 			productType = "com.apple.product-type.application";
 		};
 		DA0D2184433DF9DBE66547AE /* DesignSystem */ = {
@@ -3274,7 +3271,6 @@
 				B24A4971ACE35BAF89485324 /* CoveredByYourGrace.ttf in Resources */,
 				A4C2F6504D24093F10CC3E99 /* GoogleService-Info-com.ricardo.app.id.plist in Resources */,
 				1313F0181AA3F6BC74799970 /* GoogleService-Info-dev.com.ricardo.app.id.plist in Resources */,
-				9504059F1AFF82ACF6263AA9 /* GoogleService-Info-mock.com.ricardo.app.id.plist in Resources */,
 				146BE8D033F402E29908F912 /* GoogleService-Info-qa.com.ricardo.app.id.plist in Resources */,
 				A32A947B85B9332A304F8969 /* HelveticaNeueLTCom-Bd.ttf in Resources */,
 				1194FBBCF4434ED192C5CF35 /* HelveticaNeueLTComBdCn.ttf in Resources */,

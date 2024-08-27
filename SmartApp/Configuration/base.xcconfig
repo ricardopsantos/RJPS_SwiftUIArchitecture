@@ -6,14 +6,13 @@
 #include "./product-version.xcconfig"
 #include "./pods"
 
-//OTHER_LDFLAGS = $(inherited) -ObjC -framework "AFNetworking" -framework "Foundation" -framework "JSONModel" -framework "ReactiveObjC" -framework "TspEdgeIOVSDK"
-//OTHER_LDFLAGS = $(inherited) -ObjC
+//OTHER_LDFLAGS = $(inherited) -ObjC -framework "AFNetworking"
 
 //
 // Search paths
 //
 
-//FRAMEWORK_SEARCH_PATHS                         = $(inherited) $(PROJECT_DIR)/Carthage/Build/iOS
+//FRAMEWORK_SEARCH_PATHS                           = $(inherited) $(PROJECT_DIR)/Carthage/Build/iOS
 //SOME_FRAMEWORK_SEARCH_PATH[sdk=iphoneos*]        = $(PROJECT_DIR)/SDKs/SomeFramework/iphoneos
 //SOME_FRAMEWORK_SEARCH_PATH[sdk=iphonesimulator*] = $(PROJECT_DIR)/SDKs/SomeFramework/iphonesimulator
 FRAMEWORK_SEARCH_PATHS = $(inherited)

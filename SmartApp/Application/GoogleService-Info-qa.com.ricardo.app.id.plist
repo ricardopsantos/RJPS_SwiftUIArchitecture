@@ -3,32 +3,32 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>538993473201-mm89kuda5t93a0hfnj2ah2d76itmclka.apps.googleusercontent.com</string>
+	<string>value</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.538993473201-mm89kuda5t93a0hfnj2ah2d76itmclka</string>
+	<string>value</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAge_RhYFC2xdna-IkqHP4IdvL0sqdimSg</string>
+	<string>value</string>
 	<key>GCM_SENDER_ID</key>
-	<string>538993473201</string>
+	<string>value</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.ricardo.smart.app.id</string>
+	<string>value</string>
 	<key>PROJECT_ID</key>
-	<string>smartapp-a2f63</string>
+	<string>value</string>
 	<key>STORAGE_BUCKET</key>
-	<string>smartapp-a2f63.appspot.com</string>
+	<string>value</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:538993473201:ios:5a08bff1fb23d9c0d11490</string>
+	<string>value</string>
 </dict>
 </plist>
