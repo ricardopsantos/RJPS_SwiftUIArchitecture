@@ -6,7 +6,8 @@
 # Other folders
 #
 
-_Documents/GitIgnored/*
+SmartApp/_Documents/GitIgnored/*
+SmartApp/GoogleService*.plist
 
 #
 # Build generated

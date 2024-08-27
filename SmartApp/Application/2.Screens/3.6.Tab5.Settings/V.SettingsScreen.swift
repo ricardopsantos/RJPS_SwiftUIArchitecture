@@ -97,11 +97,15 @@ struct SettingsScreen: View, ViewProtocol {
     }
 
     var content: some View {
-        LazyVStack(spacing: 0) {
+        VStack(spacing: 0) {
             Header(text: "Settings".localizedMissing)
             SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
             AppearancePickerView(selected: $selectedMode)
             Spacer()
+            Text("App version: \(Common.AppInfo.version)")
+                .fontSemantic(.callout)
+                .foregroundColorSemantic(.labelPrimary)
+            SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMargin)
         }.paddingHorizontal(SizeNames.defaultMargin)
     }
 }

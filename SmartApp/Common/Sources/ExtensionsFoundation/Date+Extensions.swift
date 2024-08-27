@@ -152,10 +152,10 @@ public extension Date {
     func isSame(day date: Date) -> Bool {
         day == date.day && month == date.month && year == date.year
     }
-    var isToday: Bool { day == Date.userDate.day && month == Date.userDate.month && year == Date.userDate.year }
+    var isToday: Bool { isSame(day: Date.userDate) }
     var isYesterday: Bool {
         let yesterday = Date.userDate.add(days: -1)
-        return day == yesterday.day && month == yesterday.month && year == yesterday.year
+        return isSame(day: yesterday)
     }
 
     var seconds: Int { ((Calendar.current as NSCalendar).components([.second], from: self).second)! }

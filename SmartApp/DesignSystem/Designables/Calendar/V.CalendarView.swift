@@ -17,18 +17,19 @@ public extension CalendarView {
         static let weekDaysFont: FontSemantic = .bodyBold
         static let daysFont: FontSemantic = .body
         enum CurrentDay {
+            static let currentDayShapeIsCircle = false
             static let textColor = ColorSemantic.labelPrimary.color
             static let cellBackgroundColor = ColorSemantic.primary.color
         }
 
         enum CurrentMonth {
             static let textColor = ColorSemantic.labelPrimary.color
-            static let cellBackgroundColor = ColorSemantic.labelPrimaryInverted.color
+            static let cellBackgroundColor = ColorSemantic.primary.color.opacity(0.1)
         }
 
         enum OtherMonths {
             static let textColor = ColorSemantic.labelSecondary.color
-            static let cellBackgroundColor = ColorSemantic.labelSecondary.color.opacity(0.2)
+            static let cellBackgroundColor = ColorSemantic.labelSecondary.color.opacity(0.1)
         }
     }
 }
@@ -124,7 +125,12 @@ public struct DayView: View {
             .frame(maxWidth: .infinity)
             .background(backgroundColor())
             .foregroundColor(textColor())
-            .cornerRadius2(day.date.isToday ? cellHeight / 2 : SizeNames.cornerRadius / 2)
+            .doIf(CalendarView.Config.CurrentDay.currentDayShapeIsCircle, transform: {
+                $0.cornerRadius2(day.date.isToday ? cellHeight / 2 : SizeNames.cornerRadius / 2)
+            })
+            .doIf(!CalendarView.Config.CurrentDay.currentDayShapeIsCircle, transform: {
+                $0.cornerRadius2(SizeNames.cornerRadius / 2)
+            })
     }
 
     @ViewBuilder
@@ -235,9 +241,16 @@ public struct CalendarMonthlyView: View {
          VStack(spacing: 0) {
              ForEach(0..<6) { row in
                  HStack(spacing: SizeNames.defaultMarginSmall) {
-                     ForEach(0..<7) { col in
-                         let day = days[row * 7 + col]
-                         DayView(day: day, currentDate: $currentDate, selectedDay: $selectedDay)
+                     let allDays = (0..<7).map({ days[row * 7 + $0] })
+                     let someDaysAreCurrentMonth = !allDays.filter({ $0.isCurrentMonth }).isEmpty
+                     if someDaysAreCurrentMonth {
+                         ForEach(0..<7) { col in
+                             let day = days[row * 7 + col]
+                             DayView(day: day, currentDate: $currentDate, selectedDay: $selectedDay)
+                         }
+                     } else {
+                         // Don't display full rows that have only days from other month
+                         EmptyView()
                      }
                  }
                  SwiftUIUtils.FixedVerticalSpacer(height: SizeNames.defaultMarginSmall)
@@ -322,15 +335,13 @@ public struct CalendarView: View {
 #Preview {
     CalendarView(
         currentDate: .constant(Date()),
-        selectedDay: .constant(nil), 
+        selectedDay: .constant(Date()), 
         eventsForDay: .constant(
             [
-                Date().add(days: -11): [.red],
-                Date().add(days: 10): [.red, .blue],
-             Date().add(days: -10): [.orange, .green, .orange, .green],
-             Date().add(days: -5): [.orange, .green, .orange, .green],
-             Date().add(days: -5): [.orange, .green],
-             Date(): [.random, .random]
+                Date().add(days: -12): [.red, .blue, .green],
+                Date().add(days: -11): [.red, .blue],
+                Date().add(days: -10): [.red],
+             Date(): [.red]
             ]
         ),
         onSelectedDay: { _ in },

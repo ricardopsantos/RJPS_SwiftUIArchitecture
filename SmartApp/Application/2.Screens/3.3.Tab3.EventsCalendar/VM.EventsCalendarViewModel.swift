@@ -84,7 +84,7 @@ class EventsCalendarViewModel: BaseViewModel {
                         max = value?.endOfMonth ?? selectedMonth.endOfMonth
                     }
                     if let records = self.dataBaseRepository?.trackedLogGetAll(min: min, maxDate: max, cascade: true) {
-                        updateUI(logs: records)
+                        updateUI(logs: records, canUpdateEventsForDay: fullMonth)
                     }
                 }
             }
@@ -104,7 +104,7 @@ class EventsCalendarViewModel: BaseViewModel {
 //
 
 fileprivate extension EventsCalendarViewModel {
-    func updateUI(logs trackedLogs: [Model.TrackedLog]) {
+    func updateUI(logs trackedLogs: [Model.TrackedLog], canUpdateEventsForDay: Bool) {
         let count = trackedLogs.count
         logs = trackedLogs
             .sorted(by: { $0.recordDate > $1.recordDate })
@@ -115,21 +115,23 @@ fileprivate extension EventsCalendarViewModel {
                     title: "\(count - index). \(event.localizedListItemTitleV2(cascadeTrackedEntity: event.cascadeEntity))",
                     value: event.localizedListItemValueV2)
             }
-        var eventsForDayAcc: [Date: [Color]] = [:]
-        trackedLogs.forEach { log in
-            let key = log.recordDate.middleOfDay
-            let color = log.cascadeEntity?.category.color
-            if let key = key, let color = color {
-                if eventsForDayAcc[key] == nil {
-                    eventsForDayAcc[key] = [color]
-                } else {
-                    var colors: [Color] = (eventsForDayAcc[key] ?? [])
-                    colors.append(color)
-                    eventsForDayAcc[key] = colors
+        if canUpdateEventsForDay {
+            var eventsForDayAcc: [Date: [Color]] = [:]
+            trackedLogs.forEach { log in
+                let key = log.recordDate.middleOfDay
+                let color = log.cascadeEntity?.category.color
+                if let key = key, let color = color {
+                    if eventsForDayAcc[key] == nil {
+                        eventsForDayAcc[key] = [color]
+                    } else {
+                        var colors: [Color] = (eventsForDayAcc[key] ?? [])
+                        colors.append(color)
+                        eventsForDayAcc[key] = colors
+                    }
                 }
             }
+            eventsForDay = eventsForDayAcc
         }
-        eventsForDay = eventsForDayAcc
     }
 
     func startListeningDBChanges() {
