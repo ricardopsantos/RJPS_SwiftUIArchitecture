@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseAnalytics
+import Firebase
 //
 import DevTools
 
@@ -54,6 +55,9 @@ class AnalyticsManager {
     private init() {}
 
     func handleScreenIn(appScreen: AppScreen) {
+        guard FirebaseApp.configIsValidAndAvailable else {
+            return
+        }
         let parameters: [String: Any] = [
             AnalyticsParameterScreenName: appScreen.id.description
         ]
@@ -65,6 +69,9 @@ class AnalyticsManager {
         properties: [String: Any] = [:],
         sender: String
     ) {
+        guard FirebaseApp.configIsValidAndAvailable else {
+            return
+        }
         var newProperties = properties
         newProperties["sender"] = sender
         let baseEvent = BaseEvent(eventType: eventType, eventProperties: properties)
@@ -76,6 +83,9 @@ class AnalyticsManager {
         sender: String,
         properties: [String: Any] = [:]
     ) {
+        guard FirebaseApp.configIsValidAndAvailable else {
+            return
+        }
         DevTools.assert(!label.isEmpty, message: "Empty label")
         DevTools.assert(!sender.isEmpty, message: "Empty sender")
         var newProperties = properties
@@ -89,6 +99,9 @@ class AnalyticsManager {
         sender: String,
         properties: [String: Any] = [:]
     ) {
+        guard FirebaseApp.configIsValidAndAvailable else {
+            return
+        }
         DevTools.assert(!label.isEmpty, message: "Empty label")
         DevTools.assert(!sender.isEmpty, message: "Empty sender")
         var newProperties = properties
@@ -103,6 +116,9 @@ class AnalyticsManager {
         sender: String,
         properties: [String: Any] = [:]
     ) {
+        guard FirebaseApp.configIsValidAndAvailable else {
+            return
+        }
         DevTools.assert(!label.isEmpty, message: "Empty label")
         DevTools.assert(!sender.isEmpty, message: "Empty sender")
         var newProperties = properties
@@ -121,6 +137,9 @@ class AnalyticsManager {
 
 private extension AnalyticsManager {
     func handle(baseEvent: BaseEvent) {
+        guard FirebaseApp.configIsValidAndAvailable else {
+            return
+        }
         DevTools.Log.debug(.log("\(AnalyticsManager.self) : \(baseEvent.eventType)"), .business)
         Analytics.logEvent(baseEvent.eventType.rawValue, parameters: baseEvent.eventProperties)
     }
